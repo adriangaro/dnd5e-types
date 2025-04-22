@@ -1,0 +1,9 @@
+dnd5e/**/*
+!dnd5e/**/
+!dnd5e/**/*.d.mts
+repomix*
+plan.txt
+node_modules
+.idea
+.vscode
+dist
