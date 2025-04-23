@@ -342,7 +342,7 @@ export declare class ItemDataModel<
   /**
      * Modes that can be used when making an attack with this item.
      */
-  get attackModes(): FormSelectOption[];
+  get attackModes(): dnd5e.types.FormSelectOption[];
 
   /**
    * Set of abilities that can automatically be associated with this item.

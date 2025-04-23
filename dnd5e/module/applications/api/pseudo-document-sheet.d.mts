@@ -5,10 +5,10 @@ import Application5e from "./application.mjs";
  * Default sheet for activities.
  */
 declare class PseudoDocumentSheet<
-  Document extends PseudoDocumentMixin.MixinClass<Item.Implementation, any>,
-  RenderContext extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
-  Configuration extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
-  RenderOptions extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
+  Document extends PseudoDocumentMixin.MixinClass,
+  RenderContext extends fvttUtils.AnyObject = {},
+  Configuration extends fvttUtils.AnyObject = {},
+  RenderOptions extends fvttUtils.AnyObject = {},
 > extends Application5e<
   PseudoDocumentSheet.RenderContext<Document, PseudoDocumentSheet.Configuration<Configuration>, RenderContext>,
   PseudoDocumentSheet.Configuration<Configuration>,
@@ -93,7 +93,7 @@ declare class PseudoDocumentSheet<
 declare namespace PseudoDocumentSheet {
   type Any = PseudoDocumentSheet<any, any, any, any>
   type RenderContext<
-    Document extends PseudoDocumentMixin.MixinClass<Item.Implementation, any>,
+    Document extends PseudoDocumentMixin.MixinClass,
     Cfg extends Configuration<any>,
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<

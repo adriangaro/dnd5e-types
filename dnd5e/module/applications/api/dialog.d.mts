@@ -4,9 +4,9 @@ import Application5e from "./application.mjs";
  * Application for creating dnd5e dialogs.
  */
 declare class Dialog5e<
-  RenderContext extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
-  Configuration extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
-  RenderOptions extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
+  RenderContext extends fvttUtils.AnyObject = {},
+  Configuration extends fvttUtils.AnyObject = {},
+  RenderOptions extends fvttUtils.AnyObject = {},
 > extends Application5e<
   Dialog5e.RenderContext<RenderContext>,
   Dialog5e.Configuration<Configuration>,

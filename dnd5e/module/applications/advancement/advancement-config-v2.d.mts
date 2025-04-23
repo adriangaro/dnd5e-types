@@ -6,9 +6,9 @@ import PseudoDocumentSheet from "../api/pseudo-document-sheet.mjs";
  */
 declare class AdvancementConfig<
   Document extends dnd5e.documents.advancement.Advancement<any, any>,
-  RenderContext extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
-  Configuration extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
-  RenderOptions extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
+  RenderContext extends fvttUtils.AnyObject = {},
+  Configuration extends fvttUtils.AnyObject = {},
+  RenderOptions extends fvttUtils.AnyObject = {},
 > extends PseudoDocumentSheet<
   Document,
   AdvancementConfig.RenderContext<Document, RenderContext>,

@@ -316,7 +316,7 @@ declare class NPCData extends CreatureTemplate.mixin()<
 
   /**
    * Spend a legendary resistance to change a failed saving throw into a success.
-   * @param {ChatMessage5e} message  The chat message containing the failed save.
+   * @param {ChatMessage.Implementation} message  The chat message containing the failed save.
    */
   resistSave(message: ChatMessage.Implementation): Promise<void>
 

@@ -1,3 +1,4 @@
+import type Proficiency from "@dnd5e/module/documents/actor/proficiency.mjs";
 import type { ActorDataModel } from "../../abstract.d.mts";
 import FormulaField from "../../fields/formula-field.mjs";
 import MappingField from "../../fields/mapping-field.mjs";
@@ -21,7 +22,7 @@ declare function makeAttackBonuses<
 >(schemaOptions?: Options): AttackBonusesDataSchemaField<Options>
 
 type SpellLevelKeyActor = (
-  'pact' | `spell${Exclude<dnd5e.types.SpellLevel.TypeKey, '0'>}`
+  'pact' | `spell${Exclude<dnd5e.types.Spellcasting.Level.TypeKey, '0'>}`
 )
 
 type SkillField = RollConfigField<{
@@ -278,43 +279,6 @@ declare global {
       }
     }
 
-    namespace SpellLevel {
-      // --- Base Definitions ---
-      interface DefaultSpellLevels {
-        '0': true; // Cantrip
-        '1': true; // 1st Level
-        '2': true; // 2nd Level
-        '3': true; // 3rd Level
-        '4': true; // 4th Level
-        '5': true; // 5th Level
-        '6': true; // 6th Level
-        '7': true; // 7th Level
-        '8': true; // 8th Level
-        '9': true; // 9th Level
-      }
-
-      /**
-       * Override interface for declaration merging.
-       * Add custom spell levels (e.g., for epic levels) here.
-       * @example
-       * declare global {
-       * namespace dnd5e.types.SpellLevel {
-       * interface OverrideTypes {
-       * '10': true // 10th Level (Epic)
-       * }
-       * }
-       * }
-       */
-      interface OverrideTypes extends Record<string, boolean | never> { }
-
-      // --- Derived Types ---
-      type Types = dnd5e.types.MergeOverrideDefinition<
-        DefaultSpellLevels,
-        OverrideTypes
-      >;
-      type TypeKey = dnd5e.types.ExtractKeys<Types>;
-    }
-
     namespace ToolGroup {
       // --- Base Definitions ---
       interface DefaultToolGroupTypes {
@@ -425,9 +389,6 @@ declare global {
     interface DND5EConfig {
       skills: {
         [K in dnd5e.types.Skill.TypeKey]: dnd5e.types.Skill.SkillTypeConfig
-      },
-      spellLevels: {
-        [K in dnd5e.types.SpellLevel.TypeKey]: string
       },
       tools: {
         [K in dnd5e.types.Tool.TypeKey]: dnd5e.types.Tool.ToolTypeConfig<K>

@@ -7,6 +7,7 @@ import * as _canvas from "@dnd5e/module/canvas/_module.mjs";
 
 import * as _fvttUtils from 'fvtt-types/utils';
 
+import '@dnd5e/module/types/_module.mjs';
 
 declare global {
   export import fvttUtils = _fvttUtils;
@@ -14,6 +15,15 @@ declare global {
   namespace dnd5e {
     namespace types {
       export import canvas = _canvas;
+      export interface FormSelectOption {
+        value: string;
+        label: string;
+        group?: string;
+        disabled?: boolean;
+        selected?: boolean;
+        rule?: boolean;
+      }
+
       export type BasicRollOptions = {
         target?: number | undefined;
       }
@@ -102,7 +112,7 @@ declare global {
 
       export type BasicRollMessageConfiguration = {
         create?: boolean | undefined;
-        document?: ChatMessage5e;
+        document?: ChatMessage.Implementation;
         rollMode?: string | undefined;
         data?: object;
       }

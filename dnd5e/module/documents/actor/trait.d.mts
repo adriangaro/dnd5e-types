@@ -88,7 +88,7 @@ export declare function mixedChoices(keys: Set<string>): Promise<SelectChoices.I
 * @param options.indexOnly If true, only index data is returned (synchronous if cached).
 * @param options.fullItem If true (and indexOnly is false), the full Item document is returned (always async).
 * @returns Depending on options:
-* - Full Item document (`Promise<Item5e | undefined>`).
+* - Full Item document (`Promise<Item.Implementation | undefined>`).
 * - Extended index data (`Promise<object | undefined>` or `object | undefined` if cached).
 * - Basic index data (`object | undefined`, synchronous).
 */

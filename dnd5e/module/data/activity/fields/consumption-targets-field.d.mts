@@ -38,7 +38,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
   /**
    * List of valid targets within the current context.
    */
-  get validTargets(): FormSelectOption[] | null
+  get validTargets(): dnd5e.types.FormSelectOption[] | null
 
   /* -------------------------------------------- */
   /*  Consumption                                 */
@@ -243,7 +243,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static validAttributeTargets(
     this: ConsumptionTargetData
-  ): FormSelectOption[]
+  ): dnd5e.types.FormSelectOption[]
 
   /* -------------------------------------------- */
 
@@ -252,7 +252,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static validHitDiceTargets(
     this: ConsumptionTargetData
-  ): FormSelectOption[]
+  ): dnd5e.types.FormSelectOption[]
 
   /* -------------------------------------------- */
 
@@ -261,7 +261,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static validItemUsesTargets(
     this: ConsumptionTargetData
-  ): FormSelectOption[]
+  ): dnd5e.types.FormSelectOption[]
 
   /* -------------------------------------------- */
 
@@ -270,7 +270,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static validMaterialTargets(
     this: ConsumptionTargetData
-  ): FormSelectOption[]
+  ): dnd5e.types.FormSelectOption[]
 
   /* -------------------------------------------- */
 
@@ -279,7 +279,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static validSpellSlotsTargets(
     this: ConsumptionTargetData
-  ): FormSelectOption[]
+  ): dnd5e.types.FormSelectOption[]
 
   /* -------------------------------------------- */
   /*  Helpers                                     */
@@ -405,7 +405,7 @@ declare namespace ConsumptionTargetsField {
 
   export type ConsumptionValidTargetsFunction = (
     this: ConsumptionTargetData
-  ) => FormSelectOption[]
+  ) => dnd5e.types.FormSelectOption[]
 
 }
 

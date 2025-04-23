@@ -18,7 +18,7 @@ declare class SpellcastingField<
   const PersistedType extends fvttUtils.AnyObject | null | undefined = SpellcastingField.PersistedType<
     Schema, Options
   >
-> extends  foundry.data.fields.SchemaField<
+> extends foundry.data.fields.SchemaField<
   SpellcastingField.GetSchema<Schema>,
   Options,
   AssignmentType,
@@ -31,12 +31,12 @@ declare class SpellcastingField<
 
 declare namespace SpellcastingField {
   type BaseFields = {
-    progression: foundry.data.fields.StringField<{
+    progression: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Spellcasting.Progression.TypeKey, {
       initial: "none",
       blank: false,
       label: "DND5E.SpellProgression"
     }>,
-    ability: foundry.data.fields.StringField<{ label: "DND5E.SpellAbility" }>,
+    ability: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey, { label: "DND5E.SpellAbility" }>,
     preparation: foundry.data.fields.SchemaField<{
       formula: FormulaField<{ label: "DND5E.SpellPreparation.Formula" }>
     }>
@@ -102,7 +102,7 @@ declare namespace SpellcastingField {
 declare global {
   namespace dnd5e.types {
     namespace Spellcasting {
-      interface DefaultSpellcastingTypes {
+      interface DefaultSpellcastingTypes extends Record<string, Progression.TypeKey | boolean> {
         leveled: 'artificer' | 'full' | 'half' | 'third';
         pact: true;
       }
@@ -120,7 +120,7 @@ declare global {
        * }
        */
       // Defined with `never` key to prevent accidental merging in standard setups.
-      interface OverrideTypes extends Record<string, string | boolean | never> { }
+      interface OverrideTypes extends Record<string, Progression.TypeKey | boolean | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<
@@ -132,7 +132,7 @@ declare global {
       type SpellCastingConfig<T extends TypeKey> = {
         img?: string,
         label: string,
-        progression: Types[T] extends string ? Record<
+        progression: Types[T] extends T ? undefined : Types[T] extends string ? Record<
           Types[T],
           {
             label: string,
@@ -142,6 +142,221 @@ declare global {
         > : undefined,
         shortRest?: boolean
       }
+
+      namespace Progression {
+        interface DefaultProgressionTypes {
+          artificer: true
+          full: true
+          half: true
+          third: true
+          pact: true,
+          none: true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom currency types and their conversion rate relative to the base unit (GP=1).
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Spellcasting.Progression {
+         * interface OverrideTypes {
+         * "quarter": true
+         * }
+         * }
+         * }
+         */
+        // Defined with `never` key to prevent accidental merging in standard setups.
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultProgressionTypes,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
+
+      namespace PreparationModes {
+        interface DefaultPreparationModesTypes {
+          always: true,
+          atwill: true,
+          innate: true,
+          pact: true,
+          prepared: true,
+          ritual: true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom currency types and their conversion rate relative to the base unit (GP=1).
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Spellcasting.PreparationModes {
+         * interface OverrideTypes {
+         * "psionic": true
+         * }
+         * }
+         * }
+         */
+        // Defined with `never` key to prevent accidental merging in standard setups.
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultPreparationModesTypes,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+        type SpellPreparationModeConfig = {
+          label: string,
+          upcast?: boolean,
+          prepares?: boolean,
+          cantrips?: boolean,
+          order?: number
+        }
+      }
+
+      namespace ListType {
+        interface DefaultListTypes {
+          class: true,
+          subclass: true,
+          background: true,
+          race: true,
+          other: true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom currency types and their conversion rate relative to the base unit (GP=1).
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Spellcasting.DefaultListTypes {
+         * interface OverrideTypes {
+         * "rune": true
+         * }
+         * }
+         * }
+         */
+        // Defined with `never` key to prevent accidental merging in standard setups.
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultListTypes,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
+
+      namespace Level {
+        // --- Base Definitions ---
+        interface DefaultSpellLevels {
+          '0': true; // Cantrip
+          '1': true; // 1st Level
+          '2': true; // 2nd Level
+          '3': true; // 3rd Level
+          '4': true; // 4th Level
+          '5': true; // 5th Level
+          '6': true; // 6th Level
+          '7': true; // 7th Level
+          '8': true; // 8th Level
+          '9': true; // 9th Level
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom spell levels (e.g., for epic levels) here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Spellcasting.Level {
+         * interface OverrideTypes {
+         * '10': true // 10th Level (Epic)
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultSpellLevels,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
+
+      namespace Scaling {
+        // --- Base Definitions ---
+        interface DefaultScalingTypes {
+          cantrip: true,
+          none: true,
+          level: true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom spell levels (e.g., for epic levels) here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Spellcasting.Scaling {
+         * interface OverrideTypes {
+         * 'charLevel': true
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultScalingTypes,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
+
+      namespace School {
+        // --- Base Definitions ---
+        interface DefaultSchoolTypes {
+          abj: true,
+          con: true,
+          div: true,
+          enc: true,
+          evo: true,
+          ill: true,
+          nec: true,
+          trs: true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom spell levels (e.g., for epic levels) here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Spellcasting.School {
+         * interface OverrideTypes {
+         * 'psionics': true
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultSchoolTypes,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+        type SpellSchoolConfig = {
+          icon?: string,
+          fullKey: string,
+          reference?: string,
+          label: string,
+        }
+      }
     }
   }
 
@@ -149,6 +364,24 @@ declare global {
     spellcastingTypes: {
       [K in dnd5e.types.Spellcasting.TypeKey]: dnd5e.types.Spellcasting.SpellCastingConfig<K>
     }
+    spellProgression: {
+      [K in dnd5e.types.Spellcasting.Progression.TypeKey]: string
+    }
+    spellPreparationModes: {
+      [K in dnd5e.types.Spellcasting.PreparationModes.TypeKey]: dnd5e.types.Spellcasting.PreparationModes.SpellPreparationModeConfig
+    }
+    spellListTypes: {
+      [K in dnd5e.types.Spellcasting.ListType.TypeKey]: string
+    },
+    spellLevels: {
+      [K in dnd5e.types.Spellcasting.Level.TypeKey]: string
+    },
+    spellScalingModes: {
+      [K in dnd5e.types.Spellcasting.Scaling.TypeKey]: string
+    },
+    spellSchools: {
+      [K in dnd5e.types.Spellcasting.School.TypeKey]: dnd5e.types.Spellcasting.School.SpellSchoolConfig
+    },
   }
 }
 

@@ -52,12 +52,13 @@ declare class AdvancementFlow<
   protected override _updateObject(event: Event, formData?: object): Promise<void>
 }
 
+declare class AnyAdvancementFlow extends AdvancementFlow<dnd5e.documents.advancement.Advancement<any, any>> {
+  constructor(...args: never);
+}
+
 declare namespace AdvancementFlow {
-  type Any = AdvancementFlow<any>
-  interface AnyConstructor extends fvttUtils.Identity<typeof AdvancementFlow> {
-    new (...args: never): Any;
-  }
-  
+  interface Any extends AnyAdvancementFlow {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyAdvancementFlow> {}
 }
 
 export default AdvancementFlow

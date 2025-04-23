@@ -5,18 +5,14 @@ type DamageDataSchema<Types extends string = dnd5e.types.Damage.TypeKey> = {
   denomination: foundry.data.fields.NumberField<{ min: 0, integer: true }>,
   bonus: dnd5e.dataModels.fields.FormulaField,
   types: foundry.data.fields.SetField<
-    foundry.data.fields.StringField,
-    {},
-    Types,
-    Types,
-    Types
+    dnd5e.types.fields.RestrictedStringField<Types>
   >,
   custom: foundry.data.fields.SchemaField<{
     enabled: foundry.data.fields.BooleanField,
     formula: dnd5e.dataModels.fields.FormulaField
   }>,
   scaling: foundry.data.fields.SchemaField<{
-    mode: foundry.data.fields.StringField,
+    mode: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Spellcasting.Scaling.TypeKey>,
     number: foundry.data.fields.NumberField<{ initial: 1, min: 0, integer: true }>,
     formula: dnd5e.dataModels.fields.FormulaField
   }>
@@ -24,12 +20,12 @@ type DamageDataSchema<Types extends string = dnd5e.types.Damage.TypeKey> = {
 
 declare class DamageField<
   Types extends string = dnd5e.types.Damage.TypeKey,
-  Options extends DamageField.Options = DamageField.DefaultOptions,
-  AssignmentType = DamageField.AssignmentType<Types, Options>,
-  InitializedType = DamageField.InitializedType<Types, Options>,
-  PersistedType extends fvttUtils.AnyObject | null | undefined = DamageField.PersistedType<Types, Options>,
+  Options extends DamageField.Options<Types> = DamageField.DefaultOptions,
+  AssignmentType = DamageField.AssignmentType<typeof DamageData<Types>, Options>,
+  InitializedType = DamageField.InitializedType<typeof DamageData<Types>, Options>,
+  PersistedType extends fvttUtils.AnyObject | null | undefined = DamageField.PersistedType<typeof DamageData<Types>, Options>,
 > extends foundry.data.fields.EmbeddedDataField<
-  typeof DamageData,
+  typeof DamageData<Types>,
   Options,
   AssignmentType,
   InitializedType,
@@ -39,48 +35,23 @@ declare class DamageField<
 }
 
 declare namespace DamageField {
-  type Options = foundry.data.fields.EmbeddedDataField.Options<typeof DamageData>;
+  type Options<Types extends string> = foundry.data.fields.EmbeddedDataField.Options<typeof DamageData<Types>>;
   export import DefaultOptions = foundry.data.fields.EmbeddedDataField.DefaultOptions;
-  type AssignmentType<
-    Types extends string,
-    Opts extends Options,
-  > = foundry.data.fields.DataField.DerivedAssignmentType<
-    foundry.data.fields.SchemaField.AssignmentData<DamageDataSchema<Types>>,
-    fvttUtils.SimpleMerge<
-      DefaultOptions,
-      Opts
-    >
-  >;
-  type InitializedType<
-    Types extends string,
-    Opts extends Options,
-  > = foundry.data.fields.DataField.DerivedInitializedType<
-    foundry.data.fields.SchemaField.InitializedData<DamageDataSchema<Types>>,
-    fvttUtils.SimpleMerge<
-      DefaultOptions,
-      Opts
-    >
-  >;
-  type PersistedType<
-    Types extends string,
-    Opts extends Options,
-  > = foundry.data.fields.DataField.DerivedInitializedType<
-    foundry.data.fields.SchemaField.PersistedData<DamageDataSchema<Types>>,
-    fvttUtils.SimpleMerge<
-      DefaultOptions,
-      Opts
-    >
-  >;
+  export import AssignmentType = foundry.data.fields.EmbeddedDataField.AssignmentType;
+  export import InitializedType = foundry.data.fields.EmbeddedDataField.InitializedType;
+  export import PersistedType = foundry.data.fields.EmbeddedDataField.PersistedType;
+
+  type Data<Types extends string = dnd5e.types.Damage.TypeKey> = InitializedType<typeof DamageData<Types>, {required : true}>
 }
 
 export default DamageField;
-
+type d = DamageField.Data<dnd5e.types.Damage.TypeKey>['denomination']
 
 export class DamageData<
   Types extends string = dnd5e.types.Damage.TypeKey
 > extends foundry.abstract.DataModel<
   DamageDataSchema<Types>,
-  Item.Implementation
+  any
 > {
 
 
@@ -173,6 +144,8 @@ declare global {
         /** Indicates if the damage type is typically affected by non-magical physical resistance/immunity */
         isPhysical?: boolean; // Usually true for bludgeoning, piercing, slashing
       }
+
+      type Data<Type extends string = TypeKey> = DamageData<Type>
     }
 
     namespace Healing {

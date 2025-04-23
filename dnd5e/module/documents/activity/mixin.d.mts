@@ -107,13 +107,13 @@ declare class _ActivityMixin {
 
   getContextMenuOptions(): ContextMenuEntry[]
 
-  #onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage5e): Promise<void>
-  _onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage5e): Promise<void>
+  #onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>
+  _onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>
 
-  static onContextMenu(item: Item5e, target: HTMLElement): void
+  static onContextMenu(item: Item.Implementation, target: HTMLElement): void
 
-  #consumeResource(event: PointerEvent, target: HTMLElement, message: ChatMessage5e): Promise<void>
-  #refundResource(event: PointerEvent, target: HTMLElement, message: ChatMessage5e): Promise<void>
+  #consumeResource(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>
+  #refundResource(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>
 
   #placeTemplate(): Promise<MeasuredTemplateDocument.Implementation[]>
 
@@ -273,7 +273,7 @@ declare global {
   namespace dnd5e.types {
     namespace Activity {
       export import Mixin = ActivityMixin
-      interface DefaultActivityTypes extends Record<string, typeof foundry.abstract.DataModel<any, any>> {
+      interface DefaultActivityTypes extends Record<string, foundry.abstract.DataModel.AnyConstructor> {
         attack: typeof AttackActivity;
         cast: typeof CastActivity;
         check: typeof CheckActivity;
@@ -286,7 +286,7 @@ declare global {
         utility: typeof UtilityActivity;
       }
     
-      interface OverrideTypes extends Record<string, typeof foundry.abstract.DataModel<any, any> | never> {
+      interface OverrideTypes extends Record<string, foundry.abstract.DataModel.AnyConstructor | never> {
     
       }
     
@@ -343,7 +343,7 @@ declare global {
         targetRequiresEmbedded?: boolean
         validTargets?: (
           this: dnd5e.dataModels.activity.ConsumptionTargetData,
-        ) => FormSelectOption[]
+        ) => dnd5e.types.FormSelectOption[]
       }
 
     }

@@ -183,7 +183,6 @@ declare global {
         }>;
       };
     }
-
     interface DND5EConfig {
       abilities: {
         [K in dnd5e.types.Ability.TypeKey]: dnd5e.types.Ability.AbilityTypeConfig<K>

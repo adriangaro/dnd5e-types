@@ -7,7 +7,7 @@ import SourceField from "../../shared/source-field.mjs";
  *
  * @mixin
  */
-declare class ItemDescriptionTemplate<Type extends Item.SubType = Item.SubType> extends SystemDataModel<{
+declare class ItemDescriptionTemplate<Type extends Item.ConfiguredSubTypes = Item.ConfiguredSubTypes> extends SystemDataModel<{
   description: foundry.data.fields.SchemaField<{
     value: foundry.data.fields.HTMLField<{required: true, nullable: true, label: "DND5E.Description"}>,
     chat: foundry.data.fields.HTMLField<{required: true, nullable: true, label: "DND5E.DescriptionChat"}>
@@ -311,7 +311,7 @@ declare global {
        * Maps item subtypes to the union of their valid property keys.
        * This allows configuration or validation based on item type.
        */
-      interface ValidPropertyMap extends Record<Item.SubType, string> {
+      interface ValidPropertyMap extends Record<Item.ConfiguredSubTypes, string | never> {
         consumable: ItemProperties.Consumable.TypeKey;
         container: ItemProperties.Container.TypeKey;
         equipment: ItemProperties.Equipment.TypeKey; 
@@ -319,15 +319,29 @@ declare global {
         loot: ItemProperties.Loot.TypeKey;
         spell: ItemProperties.Spell.TypeKey;
         tool: ItemProperties.Tool.TypeKey;
-        weapon: ItemProperties.Weapon.TypeKey;
-        class: never; // Example: Class items might not have these kinds of properties
+        weapon: ItemProperties.Weapon.TypeKey; 
+        // Example: Class items might not have these kinds of properties,
+        class: never;
+        background: never,
+        subclass: never,
+        base: never,
+        facility: never
       }
 
+      type TypeKey = fvttUtils.UnionToIntersection<{
+        [K in Item.ConfiguredSubTypes]: Record<
+          K, 
+          string extends fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K] ? never : fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K]
+        >
+      }[Item.ConfiguredSubTypes]>[Item.ConfiguredSubTypes]
     }
 
     interface DND5EConfig {
       validProperties: {
-        [K in Item.SubType]: fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K]
+        [K in Item.ConfiguredSubTypes]: Set<fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K]>
+      }
+      itemProperties:{
+        [K in dnd5e.types.ItemProperties.TypeKey]: string
       }
     }
   }

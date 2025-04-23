@@ -74,7 +74,7 @@ declare global {
         spell: typeof SpellData,
         subclass: typeof SubclassData,
         tool: typeof ToolData,
-        weapon: typeof WeaponData
+        weapon: typeof WeaponData,
       }
     }
   }
@@ -82,6 +82,6 @@ declare global {
 
 declare module "fvtt-types/configuration" {
   interface DataModelConfig {
-    Item: dnd5e.types.DataModelConfig.Item,
+    Item:  fvttUtils.InterfaceToObject<dnd5e.types.DataModelConfig.Item>,
   }
 }

@@ -28,7 +28,7 @@ declare class UsesField<
 
   static prepareData(this: BaseActivityData | ItemDataModel, rollData: object, labels?: object): void
 
-  static get rechargeOptions(): FormSelectOption[]
+  static get rechargeOptions(): dnd5e.types.FormSelectOption[]
   /**
     * Create a label for uses data that matches the style seen on NPC stat blocks. Complex recovery data might result
     * in no label being generated if it doesn't represent recovery that can be normally found on a NPC.
@@ -100,7 +100,7 @@ declare namespace UsesField {
     {
       recovery: {
         recharge?: {
-          options: FormSelectOption[]
+          options: dnd5e.types.FormSelectOption[]
         }
       }[],
       rollRecharge: typeof UsesField['rollRecharge']

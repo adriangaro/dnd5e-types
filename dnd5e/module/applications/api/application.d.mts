@@ -19,24 +19,24 @@ declare class Application5e<
 
 
 declare namespace Application5e {
-  type RenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type RenderContext<Ctx extends fvttUtils.AnyObject = {}> = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
     ApplicationV2Mixin.RenderContext,
     Ctx
-  >
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  >>
+  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
       foundry.applications.api.ApplicationV2.Configuration,
       ApplicationV2Mixin.Configuration
     >,
     Cfg
-  > & foundry.applications.api.ApplicationV2.Configuration
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  > & foundry.applications.api.ApplicationV2.Configuration>
+  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
       foundry.applications.api.ApplicationV2.RenderOptions,
       ApplicationV2Mixin.RenderOptions
     >,
     Opt
-  > & foundry.applications.api.ApplicationV2.RenderOptions
+  > & foundry.applications.api.ApplicationV2.RenderOptions>
 }
 
 export default Application5e

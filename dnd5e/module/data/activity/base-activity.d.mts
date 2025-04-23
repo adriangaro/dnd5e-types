@@ -1,5 +1,3 @@
-import simplifyRollFormula from "../../dice/simplify-roll-formula.mjs";
-import { safePropertyExists, staticID } from "../../utils.mjs";
 import FormulaField from "../fields/formula-field.mjs";
 import ActivationField from "../shared/activation-field.mjs";
 import DurationField from "../shared/duration-field.mjs";
@@ -9,28 +7,27 @@ import UsesField from "../shared/uses-field.mjs";
 import AppliedEffectField from "./fields/applied-effect-field.mjs";
 import ConsumptionTargetsField from "./fields/consumption-targets-field.mjs";
 
-
 /**
  * Data for effects that can be applied.
- *
- * @typedef {object} EffectApplicationData
- * @property {string} _id  ID of the effect to apply.
  */
+export interface EffectApplicationData {
+  _id: string
+}
 
 /**
  * Data model for activities.
  */
-export default class BaseActivityData<
+declare class BaseActivityData<
   Schema extends foundry.data.fields.DataSchema = {}
 > extends foundry.abstract.DataModel<
   dnd5e.types.MergeSchemas<
     {
       _id: foundry.data.fields.DocumentIdField<{ initial: () => string }>,
-      type: foundry.data.fields.StringField<
+      type: dnd5e.types.fields.RestrictedStringField<
+        dnd5e.types.Activity.TypeKey,
         {
-          blank: false, required: true, readOnly: true, initial: () => string
-        },
-        dnd5e.types.Activity.TypeKey, dnd5e.types.Activity.TypeKey, dnd5e.types.Activity.TypeKey
+          blank: false, required: true, readOnly: true, initial: () => dnd5e.types.Activity.TypeKey
+        }
       >,
       name: foundry.data.fields.StringField<{ initial: undefined }>,
       img: foundry.data.fields.FilePathField<{ initial: undefined, categories: ["IMAGE"], base64: false }>,
@@ -65,7 +62,7 @@ export default class BaseActivityData<
     },
     Schema
   >,
-  Item.Implementation
+  any
 > {
   labels: Record<
     string,
@@ -177,8 +174,8 @@ export default class BaseActivityData<
   /**
    * Migrate data from the item to a newly created activity.
    */
-  static createInitialActivity(source: Item.Implementation['_source'], options?: { 
-      offset: number
+  static createInitialActivity(source: Item.Implementation['_source'], options?: {
+    offset: number
   })
 
   /* -------------------------------------------- */
@@ -193,7 +190,7 @@ export default class BaseActivityData<
   /**
    * Fetch data from the item source and transform it into an activity's consumption object.
    */
-  static transformConsumptionData(source: Item.Implementation['_source'], options: object):  BaseActivityData['consumption']
+  static transformConsumptionData(source: Item.Implementation['_source'], options: object): BaseActivityData['consumption']
 
   /* -------------------------------------------- */
 
@@ -264,16 +261,16 @@ export default class BaseActivityData<
   /**
    * Prepare data related to this activity.
    */
-  prepareData() {
-    this.name = this.name || game.i18n.localize(this.metadata?.title);
-    this.img = this.img || this.metadata?.img;
-    this.labels ??= {};
-    const addBaseIndices = data => data?.forEach((d, idx) => Object.defineProperty(d, "_index", { value: idx }));
-    addBaseIndices(this.consumption?.targets);
-    addBaseIndices(this.damage?.parts);
-    addBaseIndices(this.effects);
-    addBaseIndices(this.uses?.recovery);
-  }
+  // prepareData() {
+  //   this.name = this.name || game.i18n.localize(this.metadata?.title);
+  //   this.img = this.img || this.metadata?.img;
+  //   this.labels ??= {};
+  //   const addBaseIndices = data => data?.forEach((d, idx) => Object.defineProperty(d, "_index", { value: idx }));
+  //   addBaseIndices(this.consumption?.targets);
+  //   addBaseIndices(this.damage?.parts);
+  //   addBaseIndices(this.effects);
+  //   addBaseIndices(this.uses?.recovery);
+  // }
 
   /* -------------------------------------------- */
 
@@ -281,97 +278,59 @@ export default class BaseActivityData<
    * Perform final preparation after containing item is prepared.
    * @param {object} [rollData]  Deterministic roll data from the activity.
    */
-  prepareFinalData(rollData) {
-    rollData ??= this.getRollData({ deterministic: true });
+  // prepareFinalData(rollData) {
+  //   rollData ??= this.getRollData({ deterministic: true });
 
-    if (this.activation) this._setOverride("activation");
-    if (this.duration) this._setOverride("duration");
-    if (this.range) this._setOverride("range");
-    if (this.target) this._setOverride("target");
+  //   if (this.activation) this._setOverride("activation");
+  //   if (this.duration) this._setOverride("duration");
+  //   if (this.range) this._setOverride("range");
+  //   if (this.target) this._setOverride("target");
 
-    Object.defineProperty(this, "_inferredSource", {
-      value: Object.freeze(this.toObject(false)),
-      configurable: false,
-      enumerable: false,
-      writable: false
-    });
+  //   Object.defineProperty(this, "_inferredSource", {
+  //     value: Object.freeze(this.toObject(false)),
+  //     configurable: false,
+  //     enumerable: false,
+  //     writable: false
+  //   });
 
-    if (this.activation) ActivationField.prepareData.call(this, rollData, this.labels);
-    if (this.duration) DurationField.prepareData.call(this, rollData, this.labels);
-    if (this.range) RangeField.prepareData.call(this, rollData, this.labels);
-    if (this.target) TargetField.prepareData.call(this, rollData, this.labels);
-    if (this.uses) UsesField.prepareData.call(this, rollData, this.labels);
+  //   if (this.activation) ActivationField.prepareData.call(this, rollData, this.labels);
+  //   if (this.duration) DurationField.prepareData.call(this, rollData, this.labels);
+  //   if (this.range) RangeField.prepareData.call(this, rollData, this.labels);
+  //   if (this.target) TargetField.prepareData.call(this, rollData, this.labels);
+  //   if (this.uses) UsesField.prepareData.call(this, rollData, this.labels);
 
-    const actor = this.item.actor;
-    if (!actor || !("consumption" in this)) return;
-    for (const target of this.consumption.targets) {
-      if (!["itemUses", "material"].includes(target.type) || !target.target) continue;
+  //   const actor = this.item.actor;
+  //   if (!actor || !("consumption" in this)) return;
+  //   for (const target of this.consumption.targets) {
+  //     if (!["itemUses", "material"].includes(target.type) || !target.target) continue;
 
-      // Re-link UUIDs in consumption fields to explicit items on the actor
-      if (target.target.includes(".")) {
-        const item = actor.sourcedItems?.get(target.target, { legacy: false })?.first();
-        if (item) target.target = item.id;
-      }
+  //     // Re-link UUIDs in consumption fields to explicit items on the actor
+  //     if (target.target.includes(".")) {
+  //       const item = actor.sourcedItems?.get(target.target, { legacy: false })?.first();
+  //       if (item) target.target = item.id;
+  //     }
 
-      // If targeted item isn't found, display preparation warning
-      if (!actor.items.get(target.target)) {
-        const message = game.i18n.format("DND5E.CONSUMPTION.Warning.MissingItem", {
-          activity: this.name, item: this.item.name
-        });
-        actor._preparationWarnings.push({ message, link: this.uuid, type: "warning" });
-      }
-    }
-  }
+  //     // If targeted item isn't found, display preparation warning
+  //     if (!actor.items.get(target.target)) {
+  //       const message = game.i18n.format("DND5E.CONSUMPTION.Warning.MissingItem", {
+  //         activity: this.name, item: this.item.name
+  //       });
+  //       actor._preparationWarnings.push({ message, link: this.uuid, type: "warning" });
+  //     }
+  //   }
+  // }
 
   /* -------------------------------------------- */
 
   /**
    * Prepare the label for a compiled and simplified damage formula.
-   * @param {DamageData[]} parts  Damage parts to create labels for.
-   * @param {object} rollData     Deterministic roll data from the item.
    */
-  prepareDamageLabel(parts, rollData) {
-    this.labels.damage = parts.map((part, index) => {
-      let formula;
-      try {
-        formula = part.formula;
-        if (part.base) {
-          if (this.item.system.magicAvailable) formula += ` + ${this.item.system.magicalBonus ?? 0}`;
-          if ((this.item.type === "weapon") && !/@mod\b/.test(formula)) formula += " + @mod";
-        }
-        if (!index && this.item.system.damageBonus) formula += ` + ${this.item.system.damageBonus}`;
-        const roll = new CONFIG.Dice.BasicRoll(formula, rollData);
-        roll.simplify();
-        formula = simplifyRollFormula(roll.formula, { preserveFlavor: true });
-      } catch (err) {
-        console.warn(`Unable to simplify formula for ${this.name} in item ${this.item.name}${this.actor ? ` on ${this.actor.name} (${this.actor.id})` : ""
-          } (${this.uuid})`, err);
-      }
-
-      let label = formula;
-      if (part.types.size) {
-        label = `${formula} ${game.i18n.getListFormatter({ type: "conjunction" }).format(
-          Array.from(part.types)
-            .map(p => CONFIG.DND5E.damageTypes[p]?.label ?? CONFIG.DND5E.healingTypes[p]?.label)
-            .filter(t => t)
-        )}`;
-      }
-
-      return { formula, damageType: part.types.size === 1 ? part.types.first() : null, label, base: part.base };
-    });
+  prepareDamageLabel(parts: dnd5e.types.Damage.Data[], rollData: ReturnType<dnd5e.types.GetKey<this, 'getRollData'>>): {
+    formula: string,
+    damageType: dnd5e.types.Damage.TypeKey | null,
+    label: string,
+    base: object
   }
-
-  /* -------------------------------------------- */
-  /*  Socket Event Handlers                       */
-  /* -------------------------------------------- */
-
-  /**
-   * Perform preliminary operations before an Activity is created.
-   * @param {object} data     The initial data object provided to the document creation request.
-   * @returns {boolean|void}  A return value of false indicates the creation operation should be cancelled.
-   * @protected
-   */
-  _preCreate(data) { }
 
   /* -------------------------------------------- */
   /*  Helpers                                     */
@@ -379,34 +338,15 @@ export default class BaseActivityData<
 
   /**
    * Retrieve the action type reflecting changes based on the provided attack mode.
-   * @param {string} [attackMode=""]
-   * @returns {string}
    */
-  getActionType(attackMode = "") {
-    let actionType = this.actionType;
-    if ((actionType === "mwak") && (attackMode?.startsWith("thrown") || (attackMode === "ranged"))) return "rwak";
-    return actionType;
-  }
+  getActionType(attackMode?: string): "mwak" | "rwak" | "msak" | "rsak"
 
   /* -------------------------------------------- */
 
   /**
    * Get the roll parts used to create the damage rolls.
-   * @param {Partial<DamageRollProcessConfiguration>} [config={}]
-   * @returns {DamageRollProcessConfiguration}
    */
-  getDamageConfig(config = {}) {
-    if (!this.damage?.parts) return foundry.utils.mergeObject({ rolls: [] }, config);
-
-    const rollConfig = foundry.utils.deepClone(config);
-    const rollData = this.getRollData();
-    rollConfig.rolls = this.damage.parts
-      .map((d, index) => this._processDamagePart(d, rollConfig, rollData, index))
-      .filter(d => d.parts.length)
-      .concat(config.rolls ?? []);
-
-    return rollConfig;
-  }
+  getDamageConfig(config?: Partial<dnd5e.types.DamageRollProcessConfiguration>): dnd5e.types.DamageRollProcessConfiguration
 
   /* -------------------------------------------- */
 
@@ -419,48 +359,16 @@ export default class BaseActivityData<
    * @returns {DamageRollConfiguration}
    * @protected
    */
-  _processDamagePart(damage, rollConfig, rollData, index = 0) {
-    const scaledFormula = damage.scaledFormula(rollConfig.scaling ?? rollData.scaling);
-    const parts = scaledFormula ? [scaledFormula] : [];
-    const data = { ...rollData };
-
-    if (index === 0) {
-      const actionType = this.getActionType(rollConfig.attackMode);
-      const bonus = foundry.utils.getProperty(this.actor ?? {}, `system.bonuses.${actionType}.damage`);
-      if (bonus && !/^0+$/.test(bonus)) parts.push(bonus);
-      if (this.item.system.damageBonus) parts.push(String(this.item.system.damageBonus));
-    }
-
-    const lastType = this.item.getFlag("dnd5e", `last.${this.id}.damageType.${index}`);
-
-    return {
-      data, parts,
-      options: {
-        type: (damage.types.has(lastType) ? lastType : null) ?? damage.types.first(),
-        types: Array.from(damage.types),
-        properties: Array.from(this.item.system.properties ?? [])
-          .filter(p => CONFIG.DND5E.itemProperties[p]?.isPhysical)
-      }
-    };
-  }
+  _processDamagePart(damage: dnd5e.types.Damage.Data, rollConfig: Partial<dnd5e.types.DamageRollProcessConfiguration>, rollData: ReturnType<dnd5e.types.GetKey<this, 'getRollData'>>, index?: number): dnd5e.types.DamageRollConfiguration
 
   /* -------------------------------------------- */
 
   /**
    * Add an `canOverride` property to the provided object and, if `override` is `false`, replace the data on the
    * activity with data from the item.
-   * @param {string} keyPath  Path of the property to set on the activity.
    * @internal
    */
-  _setOverride(keyPath) {
-    const obj = foundry.utils.getProperty(this, keyPath);
-    Object.defineProperty(obj, "canOverride", {
-      value: safePropertyExists(this.item.system, keyPath),
-      configurable: true,
-      enumerable: false
-    });
-    if (obj.canOverride && !obj.override) {
-      foundry.utils.mergeObject(obj, foundry.utils.getProperty(this.item.system, keyPath));
-    }
-  }
+  _setOverride(keyPath: string)
 }
+
+export default BaseActivityData;

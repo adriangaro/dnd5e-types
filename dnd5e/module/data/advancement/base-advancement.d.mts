@@ -31,7 +31,7 @@ declare class BaseAdvancement<
     },
     undefined | "primary" | "secondary", undefined | "primary" | "secondary", undefined | "primary" | "secondary"
   >
-}, Item.Implementation> {
+}, any> {
   /**
    * Name of this advancement type that will be stored in config and used for lookups.
    */

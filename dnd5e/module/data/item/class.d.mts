@@ -16,8 +16,9 @@ export default class ClassData extends ItemDataModel.mixin(
       levels: foundry.data.fields.NumberField<{ required: true, nullable: false, integer: true, min: 0, initial: 1 }>,
       primaryAbility: foundry.data.fields.SchemaField<{
         value: foundry.data.fields.SetField<foundry.data.fields.StringField<
-          foundry.data.fields.StringField.DefaultOptions,
-          dnd5e.types.Ability.TypeKey, dnd5e.types.Ability.TypeKey, dnd5e.types.Ability.TypeKey
+          {
+            choices: dnd5e.types.Ability.TypeKey[]
+          },
         >>,
         all: foundry.data.fields.BooleanField<{ initial: true }>
       }>,

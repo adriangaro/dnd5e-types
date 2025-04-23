@@ -33,6 +33,6 @@ declare global {
 
 declare module "fvtt-types/configuration" {
   interface DataModelConfig {
-    Actor: dnd5e.types.DataModelConfig.Actor,
+    Actor: fvttUtils.InterfaceToObject<dnd5e.types.DataModelConfig.Actor>,
   }
 }

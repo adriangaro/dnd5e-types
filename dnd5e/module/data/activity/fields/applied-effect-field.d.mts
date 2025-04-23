@@ -40,7 +40,7 @@ declare namespace AppliedEffectField {
   > = fvttUtils.Merge<
     foundry.data.fields.SchemaField.Internal.InitializedType<Fields, Opts>,
     {
-      effect: ActiveEffect.Implementation
+      effect: fvttUtils.Defer<ActiveEffect.Implementation>
     }
   >
   export import PersistedType = foundry.data.fields.SchemaField.Internal.PersistedType

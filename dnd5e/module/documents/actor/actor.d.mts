@@ -9,7 +9,7 @@ import { createRollLabel } from "../../enrichers.mjs";
 import parseUuid from "../../parse-uuid.mjs";
 import { convertTime, defaultUnits, formatNumber, formatTime, simplifyBonus, staticID } from "../../utils.mjs";
 import ActiveEffect5e from "../active-effect.mjs";
-import Item5e from "../item.mjs";
+import Item.Implementation from "../item.mjs";
 import SystemDocumentMixin from "../mixins/document.mjs";
 import Proficiency from "./proficiency.mjs";
 import SelectChoices from "./select-choices.mjs";
@@ -24,14 +24,14 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * Cached spellcasting classes.
-   * @type {Record<string, Item5e>}
+   * @type {Record<string, Item.Implementation>}
    * @private
    */
   _spellcastingClasses;
 
   /**
    * Mapping of item compendium source UUIDs to the items.
-   * @type {Map<string, Item5e>}
+   * @type {Map<string, Item.Implementation>}
    */
   sourcedItems = this.sourcedItems;
 
@@ -59,7 +59,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * A mapping of classes belonging to this Actor.
-   * @type {Record<string, Item5e>}
+   * @type {Record<string, Item.Implementation>}
    */
   get classes() {
     if ( this._classes !== undefined ) return this._classes;
@@ -84,7 +84,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * Get all classes which have spellcasting ability.
-   * @type {Record<string, Item5e>}
+   * @type {Record<string, Item.Implementation>}
    */
   get spellcastingClasses() {
     if ( this._spellcastingClasses !== undefined ) return this._spellcastingClasses;
@@ -108,7 +108,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * The Actor's currently equipped armor, if any.
-   * @type {Item5e|null}
+   * @type {Item.Implementation|null}
    */
   get armor() {
     return this.system.attributes?.ac?.equippedArmor ?? null;
@@ -118,7 +118,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * The Actor's currently equipped shield, if any.
-   * @type {Item5e|null}
+   * @type {Item.Implementation|null}
    */
   get shield() {
     return this.system.attributes?.ac?.equippedShield ?? null;
@@ -128,7 +128,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * The items this actor is concentrating on, and the relevant effects.
-   * @type {{items: Set<Item5e>, effects: Set<ActiveEffect5e>}}
+   * @type {{items: Set<Item.Implementation>, effects: Set<ActiveEffect5e>}}
    */
   get concentration() {
     const concentration = {
@@ -395,7 +395,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
   /**
    * Contribute to the actor's spellcasting progression.
    * @param {object} progression                             Spellcasting progression data. *Will be mutated.*
-   * @param {Item5e} cls                                     Class for whom this progression is being computed.
+   * @param {Item.Implementation} cls                                     Class for whom this progression is being computed.
    * @param {object} [config={}]
    * @param {Actor5e|null} [config.actor]                    Actor for whom the data is being prepared.
    * @param {SpellcastingDescription} [config.spellcasting]  Spellcasting descriptive object.
@@ -410,7 +410,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
      * The actual hook names include the spellcasting type (e.g. `dnd5e.computeLeveledProgression`).
      * @param {object} progression                    Spellcasting progression data. *Will be mutated.*
      * @param {Actor5e|null} [actor]                  Actor for whom the data is being prepared.
-     * @param {Item5e} cls                            Class for whom this progression is being computed.
+     * @param {Item.Implementation} cls                            Class for whom this progression is being computed.
      * @param {SpellcastingDescription} spellcasting  Spellcasting descriptive object.
      * @param {number} count                          Number of classes with this type of spellcasting.
      * @returns {boolean}  Explicitly return false to prevent default progression from being calculated.
@@ -434,7 +434,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
    * Contribute to the actor's spellcasting progression for a class with leveled spellcasting.
    * @param {object} progression                    Spellcasting progression data. *Will be mutated.*
    * @param {Actor5e} actor                         Actor for whom the data is being prepared.
-   * @param {Item5e} cls                            Class for whom this progression is being computed.
+   * @param {Item.Implementation} cls                            Class for whom this progression is being computed.
    * @param {SpellcastingDescription} spellcasting  Spellcasting descriptive object.
    * @param {number} count                          Number of classes with this type of spellcasting.
    */
@@ -455,7 +455,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
    * Contribute to the actor's spellcasting progression for a class with pact spellcasting.
    * @param {object} progression                    Spellcasting progression data. *Will be mutated.*
    * @param {Actor5e} actor                         Actor for whom the data is being prepared.
-   * @param {Item5e} cls                            Class for whom this progression is being computed.
+   * @param {Item.Implementation} cls                            Class for whom this progression is being computed.
    * @param {SpellcastingDescription} spellcasting  Spellcasting descriptive object.
    * @param {number} count                          Number of classes with this type of spellcasting.
    */
@@ -925,7 +925,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
      * @function dnd5e.preBeginConcentrating
      * @memberof hookEvents
      * @param {Actor5e} actor         The actor initiating concentration.
-     * @param {Item5e} item           The item that will be concentrated on.
+     * @param {Item.Implementation} item           The item that will be concentrated on.
      * @param {object} effectData     Data used to create the ActiveEffect.
      * @param {Activity} activity     The activity that triggered the concentration.
      * @returns {boolean}             Explicitly return false to prevent the effect from being created.
@@ -939,7 +939,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
      * @function dnd5e.createConcentrating
      * @memberof hookEvents
      * @param {Actor5e} actor             The actor initiating concentration.
-     * @param {Item5e} item               The item that is being concentrated on.
+     * @param {Item.Implementation} item               The item that is being concentrated on.
      * @param {ActiveEffect5e} effect     The created ActiveEffect instance.
      * @param {Activity} activity         The activity that triggered the concentration.
      */
@@ -952,7 +952,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * End concentration on an item.
-   * @param {Item5e|ActiveEffect5e|string} [target]    An item or effect to end concentration on, or id of an effect.
+   * @param {Item.Implementation|ActiveEffect5e|string} [target]    An item or effect to end concentration on, or id of an effect.
    *                                                   If not provided, all maintained effects are removed.
    * @returns {Promise<ActiveEffect5e[]>}              A promise that resolves to the deleted effects.
    */
@@ -969,7 +969,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
     if ( foundry.utils.getType(target) === "string" ) effect = effects.find(e => e.id === target);
     else if ( target instanceof ActiveEffect5e ) effect = effects.has(target) ? target : null;
-    else if ( target instanceof Item5e ) {
+    else if ( target instanceof Item.Implementation ) {
       effect = effects.find(e => {
         const data = e.getFlag("dnd5e", "item") ?? {};
         return (data.id === target._id) || (data.data?._id === target._id);
@@ -1008,7 +1008,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
    * @param {object} [options]
    * @param {number} [options.dc]         The target value of the saving throw.
    * @param {string} [options.ability]    An ability to use instead of the default.
-   * @returns {Promise<ChatMessage5e>}    A promise that resolves to the created chat message.
+   * @returns {Promise<ChatMessage.Implementation>}    A promise that resolves to the created chat message.
    */
   async challengeConcentration({ dc=10, ability=null }={}) {
     const isConcentrating = this.concentration.effects.size > 0;
@@ -1122,7 +1122,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
    * @typedef {D20RollProcessConfiguration} SkillToolRollProcessConfiguration
    * @property {string} [ability]  The ability to be rolled with the skill.
    * @property {string} [bonus]    Additional bonus term added to the check.
-   * @property {Item5e} [item]     Tool item used for rolling.
+   * @property {Item.Implementation} [item]     Tool item used for rolling.
    * @property {string} [skill]    The skill to roll.
    * @property {string} [tool]     The tool to roll.
    */
@@ -1674,7 +1674,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
      * @memberof hookEvents
      * @param {D20Roll[]} rolls                  The resulting rolls.
      * @param {object} data
-     * @param {ChatMessage5e|void} data.message  The created results chat message.
+     * @param {ChatMessage.Implementation|void} data.message  The created results chat message.
      * @param {Actor5e} data.subject             Actor for which the death saving throw has been rolled.
      */
     Hooks.callAll("dnd5e.postRollDeathSave", rolls, { message: resultsMessage, subject: this });
@@ -2108,7 +2108,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
 
   /**
    * Roll hit points for a specific class as part of a level-up workflow.
-   * @param {Item5e} item                         The class item whose hit dice to roll.
+   * @param {Item.Implementation} item                         The class item whose hit dice to roll.
    * @param {object} options
    * @param {boolean} [options.chatMessage=true]  Display the chat message for this roll.
    * @returns {Promise<Roll>}                     The completed roll.
@@ -2134,7 +2134,7 @@ declare class Actor5e extends SystemDocumentMixin(Actor) {
      * @function dnd5e.preRollClassHitPoints
      * @memberof hookEvents
      * @param {Actor5e} actor            Actor for which the hit points are being rolled.
-     * @param {Item5e} item              The class item whose hit dice will be rolled.
+     * @param {Item.Implementation} item              The class item whose hit dice will be rolled.
      * @param {object} rollData
      * @param {string} rollData.formula  The string formula to parse.
      * @param {object} rollData.data     The data object against which to parse attributes within the formula.
@@ -3559,7 +3559,7 @@ export default Actor5e
 /* -------------------------------------------- */
 
 /**
- * @extends {Map<string, Set<Item5e>>}
+ * @extends {Map<string, Set<Item.Implementation>>}
  */
 class SourcedItemsMap extends Map {
   /** @inheritDoc */

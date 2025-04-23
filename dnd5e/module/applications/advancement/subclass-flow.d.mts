@@ -10,7 +10,6 @@ export default class SubclassFlow extends AdvancementFlow<
 
   /**
    * Cached subclass dropped onto the advancement.
-   * @type {Item5e|false}
    */
   subclass: Item.OfType<'subclass'> | null;
 

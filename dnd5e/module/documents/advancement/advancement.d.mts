@@ -17,7 +17,7 @@ declare class AdvancementError extends Error {
 declare class Advancement<
   ConfigurationData extends AdvancementDataField.ConcreteDataModelConstructor | never,
   ValueData extends AdvancementDataField.ConcreteDataModelConstructor | never
-> extends BaseAdvancement<
+> extends PseudoDocumentMixin(BaseAdvancement)<
   ConfigurationData,
   ValueData
 > {
