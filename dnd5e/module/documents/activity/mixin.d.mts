@@ -1,4 +1,4 @@
-import SystemDataModel from '@dnd5e/module/data/abstract.mjs';
+import type BaseActivityData from '@dnd5e/module/data/activity/base-activity.mjs';
 import PseudoDocumentMixin from '../mixins/pseudo-document.mjs';
 
 import { default as AttackActivity } from "./attack.mjs";
@@ -273,7 +273,7 @@ declare global {
   namespace dnd5e.types {
     namespace Activity {
       export import Mixin = ActivityMixin
-      interface DefaultActivityTypes extends Record<string, foundry.abstract.DataModel.AnyConstructor> {
+      interface DefaultActivityTypes extends Record<string, BaseActivityData.AnyConstructor> {
         attack: typeof AttackActivity;
         cast: typeof CastActivity;
         check: typeof CheckActivity;
@@ -286,7 +286,7 @@ declare global {
         utility: typeof UtilityActivity;
       }
     
-      interface OverrideTypes extends Record<string, foundry.abstract.DataModel.AnyConstructor | never> {
+      interface OverrideTypes extends Record<string, BaseActivityData.AnyConstructor | never> {
     
       }
     

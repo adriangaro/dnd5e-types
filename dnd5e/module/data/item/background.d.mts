@@ -38,7 +38,6 @@ declare class BackgroundData extends ItemDataModel.mixin(
   >;
 }
 
-type d = BackgroundData['advancement']
 
 export default BackgroundData;
 

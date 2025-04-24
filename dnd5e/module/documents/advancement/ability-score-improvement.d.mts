@@ -44,4 +44,3 @@ declare class AbilityScoreImprovementAdvancement extends Advancement<
   /* -------------------------------------------- */
 }
 export default AbilityScoreImprovementAdvancement
-type a = AbilityScoreImprovementAdvancement['configuration']

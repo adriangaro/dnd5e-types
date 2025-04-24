@@ -1,57 +1,8 @@
-interface _InternalResolvedSchemaInterface extends foundry.abstract.TypeDataModel.AnyConstructor {
-  new <
-    Schema extends foundry.data.fields.DataSchema,
-    Parent extends foundry.abstract.Document.Any,
-    _ComputedInstance extends foundry.abstract.TypeDataModel<Schema, Parent>
-  >(
-    ...args: ConstructorParameters<typeof foundry.abstract.TypeDataModel<Schema, Parent>>
-
-    // Note(LukeAbby): This seemingly redundant `DataModel<Schema, Parent>` is to
-    // Ensure that TypeScript allows overriding `protected` methods in subclasses.
-    // See: https://gist.github.com/LukeAbby/b9fd57eeba778a25297721e88b3e6bdd
-  ): foundry.abstract.TypeDataModel<Schema, Parent> & _ComputedInstance & {
-    /**
-       * The source data object for this DataModel instance.
-       * Once constructed, the source object is sealed such that no keys may be added nor removed.
-       */
-    readonly _source: Readonly<foundry.data.fields.SchemaField.PersistedData<Schema>>;
-
-    /**
-     * Define the data schema for this document instance.
-     */
-    get schema(): foundry.data.fields.SchemaField<Schema, fvttUtils.EmptyObject>;
-  };
-}
-
-declare const _InternalResolvedSchemaConst: _InternalResolvedSchemaInterface;
-
-// @ts-expect-error Ignore the error, this is a workaround for a dynamic class.
-declare class _InternalResolvedSchema<
-  Schema extends foundry.data.fields.DataSchema,
-  Parent extends foundry.abstract.Document.Any,
-  InstanceMembers,
-  // This does not work if inlined. It's weird to put it here but it works.
-  _ComputedInstance extends foundry.abstract.TypeDataModel<Schema, Parent> = fvttUtils.SimpleMerge<
-    foundry.data.fields.SchemaField.InitializedData<Schema>,
-    // The merge is written this way because properties in the data model _cannot_ be allowed to be overridden by the base or derived data.
-    // In theory this could be allowed but it causes a few difficulties.
-    // The fundamental issue is that allowing this would cause subclasses to no longer guaranteed to be valid subtypes.
-    // A particularly thorny but not fully fundamental issue is that it also causes difficulties with `this` inside of classes generic over `BaseData`.
-    foundry.abstract.TypeDataModel<Schema, Parent> &
-    InstanceMembers
-  >,
-> extends _InternalResolvedSchemaConst<Schema, Parent, _ComputedInstance> { }
-
-declare class ResolvedSchemaAndTypeDataModel<
-  Schema extends foundry.data.fields.DataSchema,
-  InstanceMembers
-> extends _InternalResolvedSchema<Schema, any, InstanceMembers> {
-}
-
+import type Proficiency from "../documents/actor/proficiency.d.mts";
 
 declare class SystemDataModel<
   Schema extends foundry.data.fields.DataSchema,
-> extends ResolvedSchemaAndTypeDataModel<Schema, {}> {
+> extends foundry.abstract.TypeDataModel<Schema, foundry.abstract.Document.Any> {
 
   static mixin<
     This extends fvttUtils.AnyConcreteConstructor,

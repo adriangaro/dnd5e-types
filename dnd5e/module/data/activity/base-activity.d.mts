@@ -371,4 +371,13 @@ declare class BaseActivityData<
   _setOverride(keyPath: string)
 }
 
+declare class AnyBaseActivityData extends BaseActivityData<any> {
+  constructor(...args: never)
+}
+
+declare namespace BaseActivityData {
+  interface Any extends AnyBaseActivityData {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyBaseActivityData> {}
+}
+
 export default BaseActivityData;

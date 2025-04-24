@@ -159,7 +159,7 @@ declare class Advancement<
   /**
    * Construct context menu options for this Activity.
    */
-  getContextMenuOptions(): ContextMenuEntry[]
+  getContextMenuOptions(): ContextMenu.Entry[]
 
   /* -------------------------------------------- */
 

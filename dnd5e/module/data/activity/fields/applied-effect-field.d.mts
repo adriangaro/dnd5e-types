@@ -30,6 +30,7 @@ declare class AppliedEffectField<
 }
 
 
+
 declare namespace AppliedEffectField {
   export import Options = foundry.data.fields.SchemaField.Options
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
@@ -40,7 +41,7 @@ declare namespace AppliedEffectField {
   > = fvttUtils.Merge<
     foundry.data.fields.SchemaField.Internal.InitializedType<Fields, Opts>,
     {
-      effect: fvttUtils.Defer<ActiveEffect.Implementation>
+      effect: ActiveEffect.Implementation
     }
   >
   export import PersistedType = foundry.data.fields.SchemaField.Internal.PersistedType

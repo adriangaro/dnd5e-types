@@ -1,4 +1,4 @@
-
+type AnyApplication = Application | foundry.applications.api.ApplicationV2
 
 declare class PseudoDocument {
   /** @privateRemarks All mixin classses should accept anything for its constructor. */
@@ -23,8 +23,8 @@ declare class PseudoDocument {
   get relativeID(): string;
   get uuid(): string;
 
-  get item(): Item.Implementation;
-  get actor(): Actor.Implementation;
+  get item(): fvttUtils.Defer<Item.Implementation>;
+  get actor(): Actor.Implementation | null;
 
   get sheet(): AnyApplication;
   render(options: foundry.applications.api.ApplicationV2.RenderOptions);
@@ -49,12 +49,6 @@ declare class PseudoDocument {
 }
 
 declare namespace PseudoDocument {
-  export type ConcreteDataModelConstructor =
-      // 1. Must be a concrete constructor
-      fvttUtils.AnyConcreteConstructor &
-      // 3. Must produce instances assignable to DataModel
-      (new (...args: any) => foundry.abstract.DataModel.Any);
-
   interface Metadata {
     name: string,
     label: string

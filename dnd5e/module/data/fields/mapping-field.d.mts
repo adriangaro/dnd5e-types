@@ -1,18 +1,18 @@
 declare class MappingField<
   const ElementFieldType extends foundry.data.fields.DataField.Any,
-  const KeyType extends string = string,
+  const TypeKey extends string = string,
   const Options extends MappingField.AnyOptions = MappingField.DefaultOptions<
     MappingField.AssignmentElementType<ElementFieldType>
   >,
   const AssignmentElementType = MappingField.AssignmentElementType<ElementFieldType>,
   const InitializedElementType = MappingField.InitializedElementType<ElementFieldType>,
-  const AssignmentType = MappingField.AssignmentType<AssignmentElementType, KeyType, Options>,
-  const InitializedType = MappingField.InitializedType<AssignmentElementType, InitializedElementType, KeyType, Options>,
+  const AssignmentType = MappingField.AssignmentType<AssignmentElementType, TypeKey, Options>,
+  const InitializedType = MappingField.InitializedType<AssignmentElementType, InitializedElementType, TypeKey, Options>,
   const PersistedElementType = MappingField.PersistedElementType<ElementFieldType>,
-  const PersistedType extends Record<KeyType, PersistedElementType> | null | undefined = MappingField.PersistedType<
+  const PersistedType extends Record<TypeKey, PersistedElementType> | null | undefined = MappingField.PersistedType<
     AssignmentElementType,
     PersistedElementType,
-    KeyType,
+    TypeKey,
     Options
   >,
 > extends foundry.data.fields.ObjectField<
@@ -22,16 +22,18 @@ declare class MappingField<
   PersistedType
 > {
   model: ElementFieldType
-  _getInitialValueForKey(key: KeyType, object: object): AssignmentElementType
+  constructor(model: ElementFieldType, options: Options)
+
+  _getInitialValueForKey(key: TypeKey, object: object): AssignmentElementType
   _validateValues(value: object, options: object): Record<string, Error>
 }
 
 declare namespace MappingField {
   type Options<
     AssignmentElementType,
-    KeyType extends string = string
+    TypeKey extends string = string
   > = fvttUtils.SimpleMerge<
-    foundry.data.fields.DataField.Options<BaseAssignmentType<AssignmentElementType, KeyType>>,
+    foundry.data.fields.DataField.Options<BaseAssignmentType<AssignmentElementType, TypeKey>>,
     {
       initialKeys?: string[] | null,
       initialValue?: AssignmentElementType | null,
@@ -42,9 +44,9 @@ declare namespace MappingField {
 
   type BaseAssignmentType<
     AssignmentElementType,
-    KeyType extends string = string
+    TypeKey extends string = string
   > =
-    | Record<KeyType, AssignmentElementType>
+    | Record<TypeKey, AssignmentElementType>
 
   type DefaultOptions<AssignmentElementType> = fvttUtils.SimpleMerge<
     foundry.data.fields.ObjectField.DefaultOptions,
@@ -79,30 +81,30 @@ declare namespace MappingField {
 
   type AssignmentType<
     AssignmentElementType,
-    KeyType extends string = string,
+    TypeKey extends string = string,
     Opts extends AnyOptions = AnyOptions
   > = foundry.data.fields.DataField.DerivedAssignmentType<
-    BaseAssignmentType<AssignmentElementType, KeyType>,
+    BaseAssignmentType<AssignmentElementType, TypeKey>,
     MergedOptions<AssignmentElementType, Opts>
   >;
 
   type InitializedType<
     AssignmentElementType,
     InitializedElementType,
-    KeyType extends string = string,
+    TypeKey extends string = string,
     Opts extends AnyOptions = AnyOptions
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    Record<KeyType, InitializedElementType>,
+    Record<TypeKey, InitializedElementType>,
     MergedOptions<AssignmentElementType, Opts>
   >;
 
   type PersistedType<
     AssignmentElementType,
     PersistedElementType,
-    KeyType extends string = string,
+    TypeKey extends string = string,
     Opts extends AnyOptions = AnyOptions
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    Record<KeyType, PersistedElementType>,
+    Record<TypeKey, PersistedElementType>,
     MergedOptions<AssignmentElementType, Opts>
   >
 }

@@ -16,8 +16,7 @@ export default class TurnMessageData extends ChatMessageDataModel<
     trigger: foundry.data.fields.SetField<foundry.data.fields.StringField>
   },
   {
-
-    actor: Item.Implementation,
+    actor: Actor.Implementation,
     combat: Combat.Implementation,
     combatant: Combatant.Implementation,
     activities: ReturnType<typeof ActivationsField['processActivations']>,
@@ -38,14 +37,14 @@ export default class TurnMessageData extends ChatMessageDataModel<
   /**
    * The combat during which this message was triggered.
    */
-  get combat(): Combat.Implementation
+  get combat(): Combat
 
   /* -------------------------------------------- */
 
   /**
    * The combatant to whom this message applies.
    */
-  get combatant(): Combatant.Implementation
+  get combatant(): Combatant
 }
 
 declare global {

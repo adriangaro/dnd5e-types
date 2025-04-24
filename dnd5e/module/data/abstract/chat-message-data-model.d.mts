@@ -9,6 +9,7 @@ declare class ChatMessageDataModel<
   Schema,
   any
 > {
+  __RenderContext: RenderContext
 
   /**
    * Metadata for this chat message type.
