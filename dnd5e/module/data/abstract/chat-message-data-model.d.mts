@@ -7,7 +7,7 @@ declare class ChatMessageDataModel<
   RenderContext extends fvttUtils.AnyObject = {}
 > extends foundry.abstract.TypeDataModel<
   Schema,
-  any
+  foundry.abstract.Document.Any
 > {
   __RenderContext: RenderContext
 

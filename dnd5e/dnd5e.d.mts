@@ -229,6 +229,15 @@ declare global {
       export type PrettifyType<T> = {
         [K in keyof T]: T[K];
       } & {};
+
+      /**
+       * Utility type to filter out properties of T whose value is 'never'.
+       */
+      type FilterNever<T> = {
+        [K in keyof T as T[K] extends never ? never : K]: T[K]
+      };
+
+
       export type DeepMerge<T, U> =
         // --- Handle `never` cases first ---
         IsNever<T> extends true
@@ -260,99 +269,6 @@ declare global {
           : U // U overwrites T
         >;
 
-      /**
-       * Helper type to recursively split a dot-separated string path into a tuple of keys.
-       * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
-       * @example SplitPath<'a'> // Result: ['a']
-       * @example SplitPath<''> // Result: []
-       */
-      type SplitPath<S extends string> =
-        S extends `${infer Key}.${infer Rest}`
-        ? [Key, ...SplitPath<Rest>]
-        : S extends "" ? [] : [S];
-
-      /**
-       * Recursively navigates a type `T` using a tuple of path segments `TPath`.
-       * Returns the type at the end of the path or `never`.
-       */
-      type NavigatePath<T, TPath extends string[]> =
-        // Base Case 1: If T becomes null or undefined before path ends, the path is invalid.
-        T extends undefined | null
-        ? TPath extends [] ? T : never // Return T if path is also done, else never
-        : TPath extends []
-        // Base Case 2: Path is exhausted, return the current type T.
-        ? T
-        : TPath extends [infer CurrentKey, ...infer RemainingKeys]
-        // Recursive Step: Check if CurrentKey is a valid key of T and RemainingKeys is string[].
-        ? CurrentKey extends keyof T
-        ? RemainingKeys extends string[]
-        // Recurse with the type T[CurrentKey] and the remaining path segments.
-        ? NavigatePath<T[CurrentKey], RemainingKeys>
-        : never // Should not happen if SplitPath is correct
-        : never // CurrentKey is not a valid key in T for the remaining path.
-        : never;
-
-      /**
-       * Utility type to get the type of a property deep within an object `T`
-       * using a dot-separated string path `P`.
-       *
-       * @template T The object type to navigate.
-       * @template P The dot-separated string path (e.g., "user.address.street").
-       * @returns The type found at the specified path, or `never` if the path is invalid.
-       *
-       * @example
-       * type MyType = { actor: { system: { traits: string[] } }, name: string };
-       * type TraitsType = GetTypeFromPath<MyType, 'actor.system.traits'>; // string[]
-       * type NameType = GetTypeFromPath<MyType, 'name'>; // string
-       * type InvalidPath = GetTypeFromPath<MyType, 'actor.data.value'>; // never
-       * type TooDeep = GetTypeFromPath<MyType, 'name.length'>; // never (unless T was string)
-       * type RootType = GetTypeFromPath<MyType, ''>; // MyType
-       */
-      export type GetTypeFromPath<T, P extends string> = NavigatePath<T, SplitPath<P>>;
-
-      /**
- * Helper type to determine if a type T should be recursed into for path generation.
- * We stop at primitives, arrays, null, undefined, Dates, RegExps, etc.
- * We only continue for plain objects.
- */
-      type ShouldRecurse<T> =
-        T extends string | number | boolean | bigint | symbol | null | undefined | any[] | Date | RegExp ? false
-        : T extends object ? true
-        : false;
-
-      /**
-      * Recursive type to generate all possible dot-separated paths for a type T.
-      * K represents the keys of the current level of T.
-      */
-      type GeneratePaths<T, Depth = 10> =
-        // Check if T is an object we should recurse into
-        ShouldRecurse<T> extends true
-        ? { // Use mapped type to iterate over keys K of T
-          [K in keyof T]: K extends string | number // Only consider string/number keys
-          ? // Path Option 1: The key K itself
-          `${K}` |
-          // Path Option 2: Key K followed by a dot and paths from the nested type T[K]
-          `${K}.${GeneratePaths<T[K]>}`
-          : never // Ignore symbol keys
-        }[keyof T] // Extract the union of all generated paths for keys K
-        : never; // T is not an object to recurse into, so stop generating paths from here
-
-      /**
-      * Generates a union type of all valid dot-separated string paths for a given object type `T`.
-      *
-      * @template T The object type to generate paths for.
-      * @returns A union of string literal types representing valid paths, or `never` if T is not an object.
-      *
-      * @example
-      * type MyType = { user: { name: string; age: number }, id: string };
-      * type Path = ValidPath<MyType>;
-      * // Path = "id" | "user" | "user.name" | "user.age"
-      *
-      * function getValue(obj: MyType, path: ValidPath<MyType>) { ... }
-      * getValue(obj, "user.name"); // OK
-      * getValue(obj, "user.id"); // Error: Argument of type '"user.id"' is not assignable to parameter of type '"id" | "user" | "user.name" | "user.age"'
-      */
-      export type ValidPath<T> = GeneratePaths<T>;
 
       export type ExtractKeys<_T extends object, T = fvttUtils.RemoveIndexSignatures<_T>> = {
         [K in keyof T]:
@@ -443,40 +359,49 @@ declare global {
        * b. Otherwise (type mismatch or non-SchemaField conflict):
        * - Use the field definition from the *second* schema (U).
        */
+
       export type MergeSchemas<
-        T extends foundry.data.fields.DataSchema,
-        U extends foundry.data.fields.DataSchema,
-      > = {
+        _T extends foundry.data.fields.DataSchema,
+        _U extends foundry.data.fields.DataSchema,
+        T extends foundry.data.fields.DataSchema = fvttUtils.RemoveIndexSignatures<_T>,
+        U extends foundry.data.fields.DataSchema = fvttUtils.RemoveIndexSignatures<_U>,
+      > = { // Apply FilterNever to the result of the mapped type
+        // Iterate over all keys present in either T or U
         [K in keyof T | keyof U]:
-        K extends keyof T
-        ? K extends keyof U
-        // --- Key K exists in both T and U (Conflict/Merge Case) ---
+        // Check if K exists in the overriding schema U first
+        K extends keyof U
+        // --- Key K exists in U ---
+        ? U[K] extends never // Check if the value in U is 'never'
+        // If U[K] is 'never', map this key to 'never' so FilterNever removes it.
+        ? never
+        // If U[K] is not 'never', proceed with merge logic. Check if K also exists in T.
+        : K extends keyof T
+        // --- Key K exists in both T and U (and U[K] is not never) ---
         ? IsSchemaField<T[K]> extends true
         ? IsSchemaField<U[K]> extends true
-        // --- Both are SchemaFields: Perform deep merge with intersection ---
+        // --- Both T[K] and U[K] are SchemaFields: Perform deep merge ---
         ? T[K] extends foundry.data.fields.SchemaField<any, any, any, any, any> // Type guard for inference
         ? U[K] extends foundry.data.fields.SchemaField<any, any, any, any, any> // Type guard for inference
-        // Use the reconstruction helper that performs intersection
         ? ReconstructSchemaFieldWithIntersection<
           T[K], // Pass original T[K] to extract its types
           U[K], // Pass original U[K] to extract its types
           MergeSchemas<ExtractSchema<T[K]>, ExtractSchema<U[K]>> // Pass merged inner schema
         >
-        : U[K] // Should be unreachable
-        : U[K] // Should be unreachable
-        // --- T[K] is SchemaField, U[K] is not -> Use U[K] (Rule 2.b) ---
+        : U[K] // Should be unreachable due to IsSchemaField<U[K]> check
+        : U[K] // Should be unreachable due to IsSchemaField<T[K]> check
+        // --- T[K] is SchemaField, U[K] is not -> Use U[K] (Rule 2.c) ---
         : U[K]
-        // --- T[K] is not a SchemaField -> Use U[K] (Rule 2.b) ---
+        // --- T[K] is not a SchemaField -> Use U[K] (Rule 2.c) ---
         : U[K]
+        // --- Key K exists only in U (and U[K] is not never) ---
+        : U[K] // Use the value from U
         // --- Key K exists only in T ---
-        : T[K]
-        // --- Key K exists only in U ---
-        : K extends keyof U
-        ? U[K]
-        : never;
-      } & {}; // Clean up display
+        : K extends keyof T // Ensure K is actually in T (should always be true here)
+        ? T[K] // Use the value from T
+        : never; // Should be unreachable because K must be in T or U
+      } & {}; // Use '& {}' to clean up the display of the resulting type
 
-      export type StrictSimpleMerge<Target, Override extends object> = Omit<Target, keyof fvttUtils.RemoveIndexSignatures<Override>> & Override;
+      export type StrictSimpleMerge<Target extends object, Override extends object> = Omit<fvttUtils.RemoveIndexSignatures<Target>, keyof fvttUtils.RemoveIndexSignatures<Override>> & fvttUtils.RemoveIndexSignatures<Override>;
       interface FunctionSignature {
         parameters: AnyArray;
         returnType: unknown;

@@ -1,5 +1,5 @@
 import Proficiency from "../../../documents/actor/proficiency.mjs";
-import { ActorDataModel } from "../../abstract.mjs";
+import SystemDataModel, { ActorDataModel } from "../../abstract.mjs";
 import FormulaField from "../../fields/formula-field.mjs";
 import MappingField from "../../fields/mapping-field.mjs";
 import CurrencyTemplate from "../../shared/currency.mjs";
@@ -23,35 +23,44 @@ type AbilityData = {
   save: RollConfigField<{ ability: false }>
 }
 
-declare class CommonTemplate extends ActorDataModel.mixin(CurrencyTemplate)<{
-  abilities: MappingField<
-    foundry.data.fields.SchemaField<AbilityData>,
-    dnd5e.types.Ability.TypeKey,
+declare class CommonTemplate<
+  Schema extends foundry.data.fields.DataSchema = {},
+  Templates extends SystemDataModel.AnyConstructor[] = []
+> extends ActorDataModel.mixin(CurrencyTemplate)<
+  dnd5e.types.MergeSchemas<
     {
-      initialKeys: dnd5e.types.Ability.TypeKey[],
-      initialKeysOnly: true,
-      label: "DND5E.Abilities"
-    },
-    MappingField.AssignmentType<AbilityData, dnd5e.types.Ability.TypeKey>,
-    dnd5e.types.DeepMerge<
-      MappingField.InitializedType<AbilityData, dnd5e.types.Ability.TypeKey>,
-      {
-        checkProf: Proficiency,
-        checkBonus: number,
-        saveProf: Proficiency,
-        saveBonus: number,
-        save: {
-          value: number,
-          toString(): string,
-          toJson(): string
+      abilities: MappingField<
+        foundry.data.fields.SchemaField<AbilityData>,
+        dnd5e.types.Ability.TypeKey,
+        {
+          initialKeys: dnd5e.types.Ability.TypeKey[],
+          initialKeysOnly: true,
+          label: "DND5E.Abilities"
         },
-        attack: number,
-        dc: number,
-        max: number
-      }
-    >
-  >
-}> {
+        MappingField.AssignmentType<AbilityData, dnd5e.types.Ability.TypeKey>,
+        dnd5e.types.DeepMerge<
+          MappingField.InitializedType<AbilityData, dnd5e.types.Ability.TypeKey>,
+          {
+            checkProf: Proficiency,
+            checkBonus: number,
+            saveProf: Proficiency,
+            saveBonus: number,
+            save: {
+              value: number,
+              toString(): string,
+              toJson(): string
+            },
+            attack: number,
+            dc: number,
+            max: number
+          }
+        >
+      >
+    },
+    Schema
+  >,
+  Templates
+> {
 
   /* -------------------------------------------- */
 
@@ -84,9 +93,7 @@ declare class CommonTemplate extends ActorDataModel.mixin(CurrencyTemplate)<{
    */
   prepareAbilities(options?: {
     rollData?: object,
-    originalSaves?: foundry.data.fields.SchemaField.AssignmentData<
-      dnd5e.types.GetSchema<typeof CommonTemplate>
-    >['abilities']
+    originalSaves?: CommonTemplate['_source']['abilities']
   })
 
   /* -------------------------------------------- */
@@ -127,7 +134,7 @@ declare global {
        * }
        * }
        */
-      interface OverrideTypes extends Record<string, boolean | never> {}
+      interface OverrideTypes extends Record<string, boolean | never> { }
 
       type Types = dnd5e.types.MergeOverrideDefinition<
         DefaultAbilityTypes,
@@ -161,7 +168,7 @@ declare global {
        * }
        * }
        */
-      interface OverrideAbilityDefaults extends Record<string, TypeKey | never> {}
+      interface OverrideAbilityDefaults extends Record<string, TypeKey | never> { }
 
       type AbilityDefaults = dnd5e.types.MergeOverrideDefinition<
         DefaultAbilityDefaults,

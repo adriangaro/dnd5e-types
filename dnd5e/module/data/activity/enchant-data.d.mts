@@ -32,7 +32,7 @@ export default class EnchantActivityData extends BaseActivityData<
             effect: foundry.data.fields.SetField<foundry.data.fields.DocumentIdField>,
             item: foundry.data.fields.SetField<foundry.data.fields.DocumentUUIDField>
           }>
-        }>
+        }, 'enchantment'>
       >
       enchant: foundry.data.fields.SchemaField<{
         identifier: IdentifierField

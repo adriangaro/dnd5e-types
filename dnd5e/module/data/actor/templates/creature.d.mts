@@ -4,6 +4,7 @@ import FormulaField from "../../fields/formula-field.mjs";
 import MappingField from "../../fields/mapping-field.mjs";
 import RollConfigField from "../../shared/roll-config-field.mjs";
 import CommonTemplate from "./common.mjs";
+import type SystemDataModel from "../../abstract.d.mts";
 
 declare type AttackBonusesDataSchema = {
   attack: FormulaField<{ required: true, label: "DND5E.BonusAttack" }>,
@@ -54,75 +55,84 @@ type ToolField = RollConfigField<
   }
 >
 
-declare class CreatureTemplate extends CommonTemplate.mixin()<{
-  bonuses: foundry.data.fields.SchemaField<{
-    mwak: AttackBonusesDataSchemaField,
-    rwak: AttackBonusesDataSchemaField,
-    msak: AttackBonusesDataSchemaField,
-    rsak: AttackBonusesDataSchemaField,
-    abilities: foundry.data.fields.SchemaField<{
-      check: FormulaField<{ required: true }>,
-      save: FormulaField<{ required: true }>,
-      skill: FormulaField<{ required: true }>
-    }>,
-    spell: foundry.data.fields.SchemaField<{
-      dc: FormulaField<{ required: true, deterministic: true }>
-    }>
-  }>,
-  skills: MappingField<
-    SkillField,
-    dnd5e.types.Skill.TypeKey,
+declare class CreatureTemplate<
+  Schema extends foundry.data.fields.DataSchema = {},
+  Templates extends SystemDataModel.AnyConstructor[] = []
+> extends CommonTemplate<
+  dnd5e.types.MergeSchemas<
     {
-      initialKeys: dnd5e.types.Skill.TypeKey[],
-      initialKeysOnly: true,
-      label: "DND5E.Skills"
-    },
-    MappingField.AssignmentElementType<SkillField>,
-    fvttUtils.SimpleMerge<
-      MappingField.InitializedElementType<SkillField>,
-      {
-        effectValue: number,
-        bonus: number,
-        mod: number,
-        prof: Proficiency,
-        proficient: number,
-        total: number,
-        passive: number
-      }
-    >
-  >,
-  tools: MappingField<
-    ToolField,
-    dnd5e.types.Tool.TypeKey,
-    {},
-    MappingField.AssignmentElementType<ToolField>,
-    fvttUtils.SimpleMerge<
-      MappingField.InitializedElementType<ToolField>,
-      {
-        effectValue: number,
-        bonus: number,
-        mod: number,
-        prof: Proficiency,
-        total: number,
-      }
-    >
-  >,
-  spells: MappingField<
-    foundry.data.fields.SchemaField<{
-      value: foundry.data.fields.NumberField<{
-        nullable: false, integer: true, min: 0, initial: 0, label: "DND5E.SpellProgAvailable"
+      bonuses: foundry.data.fields.SchemaField<{
+        mwak: AttackBonusesDataSchemaField,
+        rwak: AttackBonusesDataSchemaField,
+        msak: AttackBonusesDataSchemaField,
+        rsak: AttackBonusesDataSchemaField,
+        abilities: foundry.data.fields.SchemaField<{
+          check: FormulaField<{ required: true }>,
+          save: FormulaField<{ required: true }>,
+          skill: FormulaField<{ required: true }>
+        }>,
+        spell: foundry.data.fields.SchemaField<{
+          dc: FormulaField<{ required: true, deterministic: true }>
+        }>
       }>,
-      override: foundry.data.fields.NumberField<{
-        integer: true, min: 0, label: "DND5E.SpellProgOverride"
-      }>
-    }>,
-    SpellLevelKeyActor,
-    {
-      initialKeys: SpellLevelKeyActor[], // this._spellLevels, 
-      label: "DND5E.SpellLevels"
-    }
-  >
-}> {
+      skills: MappingField<
+        SkillField,
+        dnd5e.types.Skill.TypeKey,
+        {
+          initialKeys: dnd5e.types.Skill.TypeKey[],
+          initialKeysOnly: true,
+          label: "DND5E.Skills"
+        },
+        MappingField.AssignmentElementType<SkillField>,
+        fvttUtils.SimpleMerge<
+          MappingField.InitializedElementType<SkillField>,
+          {
+            effectValue: number,
+            bonus: number,
+            mod: number,
+            prof: Proficiency,
+            proficient: number,
+            total: number,
+            passive: number
+          }
+        >
+      >,
+      tools: MappingField<
+        ToolField,
+        dnd5e.types.Tool.TypeKey,
+        {},
+        MappingField.AssignmentElementType<ToolField>,
+        fvttUtils.SimpleMerge<
+          MappingField.InitializedElementType<ToolField>,
+          {
+            effectValue: number,
+            bonus: number,
+            mod: number,
+            prof: Proficiency,
+            total: number,
+          }
+        >
+      >,
+      spells: MappingField<
+        foundry.data.fields.SchemaField<{
+          value: foundry.data.fields.NumberField<{
+            nullable: false, integer: true, min: 0, initial: 0, label: "DND5E.SpellProgAvailable"
+          }>,
+          override: foundry.data.fields.NumberField<{
+            integer: true, min: 0, label: "DND5E.SpellProgOverride"
+          }>
+        }>,
+        SpellLevelKeyActor,
+        {
+          initialKeys: SpellLevelKeyActor[], // this._spellLevels, 
+          label: "DND5E.SpellLevels"
+        }
+      >
+    },
+    Schema
+  >,
+  Templates
+> {
 
 
   /* -------------------------------------------- */
@@ -167,9 +177,7 @@ declare class CreatureTemplate extends CommonTemplate.mixin()<{
    */
   prepareSkills(options?: {
     rollData?: object,
-    originalSkills?: foundry.data.fields.SchemaField.AssignmentData<
-      dnd5e.types.GetSchema<typeof CreatureTemplate>
-    >['skills']
+    originalSkills?: CreatureTemplate['_source']['skills']
   })
 
   /* -------------------------------------------- */
@@ -180,22 +188,14 @@ declare class CreatureTemplate extends CommonTemplate.mixin()<{
   prepareSkill(
     skillId: dnd5e.types.Skill.TypeKey,
     options?: {
-      skillData: foundry.data.fields.SchemaField.InitializedData<
-        dnd5e.types.GetSchema<typeof CreatureTemplate>
-      >['skills'][dnd5e.types.Skill.TypeKey],
+      skillData: CreatureTemplate['_source']['skills'][dnd5e.types.Skill.TypeKey],
       rollData: object,
-      originalSkills: foundry.data.fields.SchemaField.AssignmentData<
-        dnd5e.types.GetSchema<typeof CreatureTemplate>
-      >['skills'],
-      globalBonuses: foundry.data.fields.SchemaField.InitializedData<
-        dnd5e.types.GetSchema<typeof CreatureTemplate>
-      >['bonuses'],
+      originalSkills: CreatureTemplate['_source']['skills'],
+      globalBonuses: CreatureTemplate['_source']['bonuses'],
       globalCheckBonus: number,
       globalSkillBonus: number,
       ability: dnd5e.types.Ability.TypeKey
-    }): foundry.data.fields.SchemaField.InitializedData<
-      dnd5e.types.GetSchema<typeof CreatureTemplate>
-    >['skills'][dnd5e.types.Skill.TypeKey]
+    }): CreatureTemplate['skills'][dnd5e.types.Skill.TypeKey]
 
   /* -------------------------------------------- */
 
@@ -210,12 +210,13 @@ declare class CreatureTemplate extends CommonTemplate.mixin()<{
   /*  Helpers                                     */
   /* -------------------------------------------- */
 
-  override getRollData:(...args: Parameters<CommonTemplate['getRollData']>) => ActorDataModel.RollData<
+  override getRollData: (...args: Parameters<CommonTemplate['getRollData']>) => ActorDataModel.RollData<
     CreatureTemplate
   > & {
     classes: Record<string, (Item.OfType<'class'>)['system'] & {
       hitDice: number
-      subclass:  Item.OfType<'class'>['subclass']['system']
+      /// TODO
+      subclass:  any // Item.OfType<'class'>['subclass']['system']
     }>
   }
 }
@@ -272,7 +273,7 @@ declare global {
       /** Configuration object structure for a skill type. */
       interface SkillTypeConfig {
         label: string;
-        ability: dnd5e.types.Ability.TypeKey; 
+        ability: dnd5e.types.Ability.TypeKey;
         fullKey: string; // Usually matches the key, e.g., "acr"
         reference?: string; // Link to rules reference if available
         icon?: string; // Associated icon

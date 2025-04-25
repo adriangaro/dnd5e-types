@@ -3,7 +3,7 @@ import FormulaField from "../fields/formula-field.mjs";
 import CurrencyTemplate from "../shared/currency.mjs";
 import GroupSystemFlags from "./group-system-flags.mjs";
 
-type MemberSchemaField = foundry.data.fields.SchemaField<
+interface MemberSchemaField extends foundry.data.fields.SchemaField<
   {
     actor: foundry.data.fields.ForeignDocumentField<Actor.ImplementationClass>,
     quantity: foundry.data.fields.SchemaField<{
@@ -11,7 +11,7 @@ type MemberSchemaField = foundry.data.fields.SchemaField<
       formula: FormulaField<{ label: "DND5E.QuantityFormula" }>
     }>
   }
->
+> {}
 
 /**
  * A data model and API layer which handles the schema and functionality of "group" type Actors in the dnd5e system.
@@ -91,7 +91,7 @@ declare class GroupActor extends ActorDataModel.mixin(CurrencyTemplate)<
   /* -------------------------------------------- */
 
 
-  get metadata(): fvttUtils.SimpleMerge<
+  metadata: fvttUtils.SimpleMerge<
     ActorDataModel['metadata'],
     {
       systemFlagsModel: typeof GroupSystemFlags
@@ -107,7 +107,6 @@ declare class GroupActor extends ActorDataModel.mixin(CurrencyTemplate)<
   /* -------------------------------------------- */
 
 
-  // TODO: switch to Actor5e<'character'>
   /**
    * Return only the group members that are characters.
    */

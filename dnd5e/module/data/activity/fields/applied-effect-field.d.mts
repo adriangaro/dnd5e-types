@@ -1,26 +1,22 @@
-type _BaseFields = {
-  _id: foundry.data.fields.DocumentIdField<{
-    required: true,
-    nullable: true
-  }>
-}
+
 
 declare class AppliedEffectField<
   Schema extends foundry.data.fields.DataSchema = {},
+  SubType extends ActiveEffect.SubType = ActiveEffect.SubType,
   const Options extends AppliedEffectField.Options<
-    Schema & _BaseFields
+    Schema
   > = AppliedEffectField.DefaultOptions,
   const AssignmentType = AppliedEffectField.AssignmentType<
-    Schema & _BaseFields, Options
+    Schema, Options
   >,
   const InitializedType = AppliedEffectField.InitializedType<
-    Schema & _BaseFields, Options
+    Schema, SubType, Options
   >,
   const PersistedType extends fvttUtils.AnyObject | null | undefined = AppliedEffectField.PersistedType<
-    Schema & _BaseFields, Options
+    Schema, Options
     >
 > extends foundry.data.fields.SchemaField<
-  Schema & _BaseFields,
+  AppliedEffectField.GetSchema<Schema>,
   Options,
   AssignmentType,
   InitializedType,
@@ -32,19 +28,61 @@ declare class AppliedEffectField<
 
 
 declare namespace AppliedEffectField {
-  export import Options = foundry.data.fields.SchemaField.Options
-  export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
-  export import AssignmentType = foundry.data.fields.SchemaField.Internal.AssignmentType
-  type InitializedType<
+  type BaseFields = {
+    _id: foundry.data.fields.DocumentIdField<{
+      required: true,
+      nullable: true
+    }>
+  }
+ type GetSchema<
     Fields extends foundry.data.fields.DataSchema,
-    Opts extends Options<Fields> = DefaultOptions,
-  > = fvttUtils.Merge<
-    foundry.data.fields.SchemaField.Internal.InitializedType<Fields, Opts>,
+  > = fvttUtils.SimpleMerge<
+    BaseFields,
+    Fields
+  >
+
+  type Options<
+    Fields extends foundry.data.fields.DataSchema,
+  > = fvttUtils.SimpleMerge<
+    foundry.data.fields.SchemaField.Options<
+      GetSchema<Fields>
+    >,
     {
-      effect: ActiveEffect.Implementation
+    }
+  >;
+
+  type DefaultOptions = fvttUtils.SimpleMerge<
+    foundry.data.fields.SchemaField.DefaultOptions,
+    {
     }
   >
-  export import PersistedType = foundry.data.fields.SchemaField.Internal.PersistedType
+  type AssignmentType<
+    Fields extends foundry.data.fields.DataSchema,
+    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+  > = foundry.data.fields.SchemaField.Internal.AssignmentType<
+    GetSchema<Fields>,
+    Opts
+  >
+  type InitializedType<
+    Fields extends foundry.data.fields.DataSchema,
+    SubType extends ActiveEffect.SubType = ActiveEffect.SubType,
+    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+  > = fvttUtils.SimpleMerge<
+    foundry.data.fields.SchemaField.Internal.InitializedType<
+      GetSchema<Fields>,
+      Opts
+    >,
+    {
+      get effect(): ActiveEffect.OfType<SubType>
+    }
+  >
+  type PersistedType<
+    Fields extends foundry.data.fields.DataSchema,
+    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+  > = foundry.data.fields.SchemaField.Internal.PersistedType<
+    GetSchema<Fields>,
+    Opts
+  >
 }
 
 export default AppliedEffectField

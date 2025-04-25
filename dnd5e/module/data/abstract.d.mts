@@ -1,16 +1,61 @@
 import type Proficiency from "../documents/actor/proficiency.d.mts";
 
-declare class SystemDataModel<
+interface _InternalResolvedSchemaInterface extends foundry.abstract.TypeDataModel.AnyConstructor {
+  new <
+    Schema extends foundry.data.fields.DataSchema,
+    _ComputedInstance extends foundry.abstract.TypeDataModel<Schema, foundry.abstract.Document.Any>
+  >(
+    ...args: ConstructorParameters<typeof foundry.abstract.TypeDataModel<Schema, foundry.abstract.Document.Any>>
+  ): foundry.abstract.TypeDataModel<Schema, foundry.abstract.Document.Any> & _ComputedInstance
+}
+
+declare const _InternalResolvedSchemaConst: _InternalResolvedSchemaInterface;
+
+// @ts-expect-error Ignore the error, this is a workaround for a dynamic class.
+declare class _InternalResolvedSchema<
   Schema extends foundry.data.fields.DataSchema,
-> extends foundry.abstract.TypeDataModel<Schema, foundry.abstract.Document.Any> {
+  InstanceMembers,
+  // This does not work if inlined. It's weird to put it here but it works.
+  _ComputedInstance extends foundry.abstract.TypeDataModel<Schema, foundry.abstract.Document.Any> = fvttUtils.SimpleMerge<
+    foundry.data.fields.SchemaField.InitializedData<Schema>,
+    // The merge is written this way because properties in the data model _cannot_ be allowed to be overridden by the base or derived data.
+    // In theory this could be allowed but it causes a few difficulties.
+    // The fundamental issue is that allowing this would cause subclasses to no longer guaranteed to be valid subtypes.
+    // A particularly thorny but not fully fundamental issue is that it also causes difficulties with `this` inside of classes generic over `BaseData`.
+    foundry.abstract.TypeDataModel<Schema, foundry.abstract.Document.Any> &
+    InstanceMembers
+  >,
+> extends _InternalResolvedSchemaConst<Schema, _ComputedInstance> { }
+
+declare class ResolvedSchemaAndTypeDataModel<
+  Schema extends foundry.data.fields.DataSchema,
+  Templates extends SystemDataModel.AnyConstructor[] = [],
+  FinalSchema extends foundry.data.fields.DataSchema = fvttUtils.SimpleMerge<
+    SystemDataModel.Internal.CalculateSchemaRecursive<
+      // remove generic SystemDataModel.AnyConstructor[] since it will break usage of dnd5e.types.GetSchema<typeof SystemDataModel> if no ctor params are passed
+      SystemDataModel.Internal.EnsureTemplates<Templates>
+    >,
+    // remove generic SystemDataModel.AnyConstructor[] since it will break usage of dnd5e.types.GetSchema<typeof SystemDataModel> if no ctor params are passed
+    fvttUtils.RemoveIndexSignatures<SystemDataModel.Internal.EnsureSchema<Schema>>
+  >,
+  InstanceMembers = SystemDataModel.Internal.MixedInstance<Templates>
+> extends _InternalResolvedSchema<FinalSchema, InstanceMembers> {
+}
+
+declare class SystemDataModel<
+  Schema extends foundry.data.fields.DataSchema = {},
+  Templates extends SystemDataModel.AnyConstructor[] = []
+> extends ResolvedSchemaAndTypeDataModel<Schema, Templates> {
 
   static mixin<
-    This extends fvttUtils.AnyConcreteConstructor,
-    Templates extends fvttUtils.AnyConcreteConstructor[],
+    This extends SystemDataModel.AnyRootConstructor,
+    Templates extends SystemDataModel.AnyConstructor[],
   >(
     this: This,
     ...templates: Templates
-  ): SystemDataModel.Internal.MakeMixin<[This, ...Templates]>;
+  ): SystemDataModel.Internal.MakeMixin<
+    This, SystemDataModel.Internal.EnsureTemplates<Templates>
+  >;
 
   static LOCALIZATION_PREFIXES: string[];
 
@@ -111,25 +156,40 @@ declare class SystemDataModel<
   get embeddedDescriptionKeyPath(): string | null;
 }
 
-declare abstract class AnySystemDataModel extends SystemDataModel<any> {
+declare abstract class AnySystemDataModel extends SystemDataModel<{}, []> {
   constructor(...args: never);
 }
 
 declare namespace SystemDataModel {
   interface Any extends AnySystemDataModel { }
-  interface AnyConstructor extends fvttUtils.Identity<typeof SystemDataModel> { }
+  interface AnyRootConstructor extends fvttUtils.Identity<typeof AnySystemDataModel> {
+    new <
+      Schema extends foundry.data.fields.DataSchema,
+      Templates extends SystemDataModel.AnyRootConstructor[] = []
+    >(...args: never): AnySystemDataModel
+  }
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnySystemDataModel> {
+    new(...args: never): AnySystemDataModel
+  }
 
   namespace Internal {
+    type Immisiciable = ["length", "mixed", "name", "prototype", "cleanData", "_cleanData",
+      "_initializationOrder", "validateJoint", "_validateJoint", "migrateData", "_migrateData",
+      "shimData", "_shimData", "defineSchema"][number]
+    type RootSchemaDependent = ["schema", '_source', 'clone', 'validate', 'updateSource', 'toObject', 'toJSON'][number]
     // type OmitMembers<T> =
     //   Omit<T, '_schema' | 'schema' | 'defineSchema' | '_schemaTemplateFields'>
 
-
-    type GetParent<T> = T extends ({
-      new(...args: never): {
-        parent: foundry.abstract.Document.Any
-      }
-    }) ? InstanceType<T>['parent'] extends infer U extends foundry.abstract.Document.Any ? U : never : never
-
+    type FilterAnyConstructor<T extends readonly any[]> =
+      T extends readonly [] // Base Case: If the tuple is empty, return an empty tuple.
+      ? []
+      : T extends readonly [infer Head, ...infer Tail] // Recursive Step: Split the tuple into the first element (Head) and the rest (Tail).
+      ? IsExactly<Head, SystemDataModel.AnyConstructor> extends true // Check if the Head element is exactly AnyConstructor.
+      ? FilterAnyConstructor<Tail> // If yes, discard Head and recursively filter the Tail.
+      : [Head, ...FilterAnyConstructor<Tail>] // If no, keep Head and prepend it to the recursively filtered Tail.
+      // Fallback: Should not be reached if T is a tuple, but handles non-tuple array types gracefully (returns empty).
+      // Adjust if general array filtering needs different behavior.
+      : [];
     type GetMetadata<T> = T extends ({
       metadata: SystemDataModel.Metadata
     }) ? T['metadata'] extends infer U ? U : never : never
@@ -163,28 +223,42 @@ declare namespace SystemDataModel {
     */
     type MixedStatic<T extends readonly fvttUtils.AnyConcreteConstructor[]> =
       T extends readonly fvttUtils.AnyConcreteConstructor[] // Ensure T is an array of constructors
-      ? Omit<fvttUtils.UnionToIntersection<T[number]>, 'schema' | '_schema' | 'defineSchema' | '_schemaTemplateFields'> // T[number] creates a union of the constructor types
+      ? Omit<fvttUtils.UnionToIntersection<T[number]>, Immisiciable> // T[number] creates a union of the constructor types
       : never;
+
+    type IsExactly<A, B> = [A] extends [B]
+      ? [B] extends [A]
+      ? true
+      : false
+      : false;
+
+    type EnsureTemplates<
+      Templates
+    > = IsExactly<Templates, SystemDataModel.AnyConstructor[]> extends true ? [] : Templates
+
+    type EnsureSchema<
+      Schema
+    > = IsExactly<Schema, foundry.data.fields.DataSchema> extends true ? {} : Schema
 
 
     type MakeMixin<
-      TTypes extends readonly [fvttUtils.AnyConcreteConstructor, ...fvttUtils.AnyConcreteConstructor[]],
-      Schema extends foundry.data.fields.DataSchema = CalculateSchemaRecursive<TTypes>
-    > = {
+      Root extends SystemDataModel.AnyRootConstructor,
+      Templates extends SystemDataModel.AnyConstructor[] = [],
+    > = Omit<Root, Immisiciable> & typeof SystemDataModel<{}, []> & MixedStatic<Templates> & {
       new <
-        ExtraSchema extends foundry.data.fields.DataSchema = {},
-        FinalSchema extends foundry.data.fields.DataSchema = fvttUtils.PrettifyType<
-          dnd5e.types.MergeSchemas<
-            Schema,
-            ExtraSchema
-          >
-        >
-      >(...args: ConstructorParameters<TTypes[0]>): SystemDataModel<FinalSchema> & MixedInstance<TTypes> & foundry.data.fields.SchemaField.InitializedData<FinalSchema>  
-      _schema: foundry.data.fields.SchemaField<Schema, fvttUtils.EmptyObject>;
-      get schema(): foundry.data.fields.SchemaField<Schema, fvttUtils.EmptyObject>;
-      defineSchema(): Schema;
-      get _schemaTemplateFields(): Set<keyof Schema>
-    } & MixedStatic<TTypes>
+        Schema extends foundry.data.fields.DataSchema = {},
+        NewTemplates extends SystemDataModel.AnyConstructor[] = []
+      >(
+        ...args: ConstructorParameters<Root>
+      ): SystemDataModel<
+        fvttUtils.SimpleMerge<
+          fvttUtils.RemoveIndexSignatures<EnsureSchema<dnd5e.types.GetSchema<Root>>>,
+          fvttUtils.RemoveIndexSignatures<EnsureSchema<Schema>>
+        >,
+        [...EnsureTemplates<Templates>, ...EnsureTemplates<NewTemplates>]
+        // for some reason there are infex sigantures in InstanceType of Root
+      > & Omit<fvttUtils.RemoveIndexSignatures<InstanceType<Root>>, RootSchemaDependent>
+    }
   }
 
 
@@ -206,8 +280,10 @@ export default SystemDataModel;
 
 export declare class ActorDataModel<
   Schema extends foundry.data.fields.DataSchema = {},
+  Templates extends SystemDataModel.AnyConstructor[] = []
 > extends SystemDataModel<
-  Schema
+  Schema,
+  Templates
 > {
   static get metadata(): ActorDataModel.Metadata
   get metadata(): ActorDataModel.Metadata
@@ -284,8 +360,10 @@ export declare namespace ActorDataModel {
 
 export declare class ItemDataModel<
   Schema extends foundry.data.fields.DataSchema = {},
+  Templates extends SystemDataModel.AnyConstructor[] = []
 > extends SystemDataModel<
-  Schema
+  Schema,
+  Templates
 > {
   static ITEM_TOOLTIP_TEMPLATE: string;
   static get metadata(): ItemDataModel.Metadata
@@ -410,4 +488,4 @@ export declare class SparseDataModel<
   ExtraConstructorOptions extends fvttUtils.AnyObject = {},
 > extends foundry.abstract.DataModel<
   Schema, Parent, ExtraConstructorOptions
-> {}
+> { }

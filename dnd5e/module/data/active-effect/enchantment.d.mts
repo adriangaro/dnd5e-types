@@ -1,7 +1,7 @@
 /**
  * System data model for enchantment active effects.
  */
-export default class EnchantmentData extends foundry.abstract.TypeDataModel<{}, any> {
+export default class EnchantmentData extends foundry.abstract.TypeDataModel<{}, foundry.abstract.Document.Any> {
   /**
    * Handle enchantment-specific changes to the item.
    */

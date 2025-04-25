@@ -20,49 +20,51 @@ export interface EffectApplicationData {
 declare class BaseActivityData<
   Schema extends foundry.data.fields.DataSchema = {}
 > extends foundry.abstract.DataModel<
-  dnd5e.types.MergeSchemas<
-    {
-      _id: foundry.data.fields.DocumentIdField<{ initial: () => string }>,
-      type: dnd5e.types.fields.RestrictedStringField<
-        dnd5e.types.Activity.TypeKey,
-        {
-          blank: false, required: true, readOnly: true, initial: () => dnd5e.types.Activity.TypeKey
-        }
-      >,
-      name: foundry.data.fields.StringField<{ initial: undefined }>,
-      img: foundry.data.fields.FilePathField<{ initial: undefined, categories: ["IMAGE"], base64: false }>,
-      sort: foundry.data.fields.IntegerSortField,
-      activation: ActivationField<{
-        override: foundry.data.fields.BooleanField
-      }>,
-      consumption: foundry.data.fields.SchemaField<{
-        scaling: foundry.data.fields.SchemaField<{
-          allowed: foundry.data.fields.BooleanField,
-          max: FormulaField<{ deterministic: true }>
+  dnd5e.types.FilterNever<
+    dnd5e.types.MergeSchemas<
+      {
+        _id: foundry.data.fields.DocumentIdField<{ initial: () => string }>,
+        type: dnd5e.types.fields.RestrictedStringField<
+          dnd5e.types.Activity.TypeKey,
+          {
+            blank: false, required: true, readOnly: true, initial: () => dnd5e.types.Activity.TypeKey
+          }
+        >,
+        name: foundry.data.fields.StringField<{ initial: undefined }>,
+        img: foundry.data.fields.FilePathField<{ initial: undefined, categories: ["IMAGE"], base64: false }>,
+        sort: foundry.data.fields.IntegerSortField,
+        activation: ActivationField<{
+          override: foundry.data.fields.BooleanField
         }>,
-        spellSlot: foundry.data.fields.BooleanField<{ initial: true }>,
-        targets: ConsumptionTargetsField
-      }>,
-      description: foundry.data.fields.SchemaField<{
-        chatFlavor: foundry.data.fields.StringField
-      }>,
-      duration: DurationField<{
-        concentration: foundry.data.fields.BooleanField,
-        override: foundry.data.fields.BooleanField
-      }>,
-      effects: foundry.data.fields.ArrayField<AppliedEffectField>,
-      range: RangeField<{
-        override: foundry.data.fields.BooleanField
-      }>,
-      target: TargetField<{
-        override: foundry.data.fields.BooleanField,
-        prompt: foundry.data.fields.BooleanField<{ initial: true }>
-      }>,
-      uses: UsesField
-    },
-    Schema
+        consumption: foundry.data.fields.SchemaField<{
+          scaling: foundry.data.fields.SchemaField<{
+            allowed: foundry.data.fields.BooleanField,
+            max: FormulaField<{ deterministic: true }>
+          }>,
+          spellSlot: foundry.data.fields.BooleanField<{ initial: true }>,
+          targets: ConsumptionTargetsField
+        }>,
+        description: foundry.data.fields.SchemaField<{
+          chatFlavor: foundry.data.fields.StringField
+        }>,
+        duration: DurationField<{
+          concentration: foundry.data.fields.BooleanField,
+          override: foundry.data.fields.BooleanField
+        }>,
+        effects: foundry.data.fields.ArrayField<AppliedEffectField>,
+        range: RangeField<{
+          override: foundry.data.fields.BooleanField
+        }>,
+        target: TargetField<{
+          override: foundry.data.fields.BooleanField,
+          prompt: foundry.data.fields.BooleanField<{ initial: true }>
+        }>,
+        uses: UsesField
+      },
+      Schema
+    >
   >,
-  any
+  foundry.abstract.DataModel.Any
 > {
   labels: Record<
     string,
@@ -371,13 +373,15 @@ declare class BaseActivityData<
   _setOverride(keyPath: string)
 }
 
-declare class AnyBaseActivityData extends BaseActivityData<any> {
+declare class AnyBaseActivityData extends BaseActivityData<{
+  [k in keyof dnd5e.types.GetSchema<typeof BaseActivityData<{}>>]: never
+}> {
   constructor(...args: never)
 }
 
 declare namespace BaseActivityData {
-  interface Any extends AnyBaseActivityData {}
-  interface AnyConstructor extends fvttUtils.Identity<typeof AnyBaseActivityData> {}
+  interface Any extends AnyBaseActivityData { }
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyBaseActivityData> { }
 }
 
 export default BaseActivityData;
