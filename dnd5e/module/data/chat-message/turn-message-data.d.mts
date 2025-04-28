@@ -37,14 +37,14 @@ export default class TurnMessageData extends ChatMessageDataModel<
   /**
    * The combat during which this message was triggered.
    */
-  get combat(): Combat
+  get combat(): Combat.Implementation
 
   /* -------------------------------------------- */
 
   /**
    * The combatant to whom this message applies.
    */
-  get combatant(): Combatant
+  get combatant(): Combatant.Implementation
 }
 
 declare global {

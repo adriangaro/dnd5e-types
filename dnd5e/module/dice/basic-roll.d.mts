@@ -11,10 +11,10 @@ declare class BasicRoll<
   DialogConfiguration extends fvttUtils.AnyObject = {},
   MessageConfiguration extends fvttUtils.AnyObject = {},
 > extends Roll<D> {
-  __Configuration: BasicRoll.Configuration<Configuration>;
-  __ProcessConfiguration: BasicRoll.ProcessConfiguration<ProcessConfiguration, BasicRoll.Configuration<Configuration>>;
-  __DialogConfiguration: BasicRoll.DialogConfiguration<DialogConfiguration>;
-  __MessageConfiguration: BasicRoll.MessageConfiguration<MessageConfiguration>;
+  __Configuration: BasicRoll.MakeConfiguration<Configuration>;
+  __ProcessConfiguration: BasicRoll.MakeProcessConfiguration<ProcessConfiguration, BasicRoll.MakeConfiguration<Configuration>>;
+  __DialogConfiguration: BasicRoll.MakeDialogConfiguration<DialogConfiguration>;
+  __MessageConfiguration: BasicRoll.MakeMessageConfiguration<MessageConfiguration>;
 
   /**
    * Default application used for the roll configuration prompt.
@@ -217,7 +217,7 @@ declare namespace BasicRoll {
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyBasicRoll> {}
   type DefaultConstructor = typeof BasicRoll<fvttUtils.EmptyObject, {}, {}, {}, {}>
 
-  type Configuration<
+  type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
   > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
     {
@@ -244,9 +244,11 @@ declare namespace BasicRoll {
     },
     Cfg
   >>
-  type ProcessConfiguration<
+  type Configuration = BasicRoll['__Configuration']
+
+  type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
-    Cfg extends Configuration<any> = Configuration
+    Cfg extends MakeConfiguration<any> = MakeConfiguration
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
       {
@@ -275,6 +277,7 @@ declare namespace BasicRoll {
       PrcCfg
     >
   >
+  type ProcessConfiguration = BasicRoll['__ProcessConfiguration']
 
 
   /**
@@ -287,7 +290,7 @@ declare namespace BasicRoll {
 
   /* -------------------------------------------- */
 
-  type DialogConfiguration<
+  type MakeDialogConfiguration<
     DlgCfg extends fvttUtils.AnyObject = {},
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
@@ -307,6 +310,7 @@ declare namespace BasicRoll {
       DlgCfg
     >
   >
+  type DialogConfiguration = BasicRoll['__DialogConfiguration']
 
   /* -------------------------------------------- */
 
@@ -314,7 +318,7 @@ declare namespace BasicRoll {
   * Configuration data for creating a roll message.
   */
 
-  type MessageConfiguration<
+  type MakeMessageConfiguration<
     MsgCfg extends fvttUtils.AnyObject = {},
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
@@ -340,6 +344,7 @@ declare namespace BasicRoll {
       MsgCfg
     >
   >
+  type MessageConfiguration = BasicRoll['__MessageConfiguration']
 
 }
 

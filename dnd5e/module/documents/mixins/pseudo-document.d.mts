@@ -23,7 +23,7 @@ declare class PseudoDocument {
   get relativeID(): string;
   get uuid(): string;
 
-  get item(): fvttUtils.Defer<Item.Implementation>;
+  // get item(): Item.Implementation;
   get actor(): Actor.Implementation | null;
 
   get sheet(): AnyApplication;

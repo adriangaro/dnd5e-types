@@ -34,9 +34,12 @@ declare namespace DurationField {
     value: dnd5e.dataModels.fields.FormulaField<{
       deterministic: true
     }>
-    units: foundry.data.fields.StringField<{
-      initial: 'inst'
-    }>,
+    units: dnd5e.types.fields.RestrictedStringField<
+      dnd5e.types.DurationUnits.TypeKey,
+      {
+        initial: 'inst'
+      }
+    >,
     special: foundry.data.fields.StringField
   }
 
@@ -72,12 +75,77 @@ declare namespace DurationField {
   >
 
   type PersistedType<
-      Fields extends foundry.data.fields.DataSchema,
-      Opts extends Options<GetSchema<Fields>> = DefaultOptions,
-    > = foundry.data.fields.SchemaField.Internal.PersistedType<
-      GetSchema<Fields>,
-      Opts
-    >
+    Fields extends foundry.data.fields.DataSchema,
+    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+  > = foundry.data.fields.SchemaField.Internal.PersistedType<
+    GetSchema<Fields>,
+    Opts
+  >
+}
+
+declare global {
+  namespace dnd5e.types {
+    namespace DurationUnits {
+      
+      interface DefaultDurationUnits extends Record<string, 'special' | 'scalar' | 'permanent'> {
+        inst: 'special',
+        spec: 'special'
+        
+        day: 'scalar',
+        hour: 'scalar',
+        minute: 'scalar',
+        month: 'scalar',
+        round: 'scalar',
+        second: 'scalar',
+        turn: 'scalar',
+        week: 'scalar',
+        year: 'scalar',
+
+        disp: 'permanent',
+        dstr: 'permanent',
+        perm: 'permanent'
+      }
+
+      interface OverrideTypes extends Record<string, 'special' | 'scalar' | 'permanent' | never> {
+    
+      }
+    
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultDurationUnits,
+        OverrideTypes
+      >
+    
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      type PermanentTypeKey = dnd5e.types.FilterKeysByValue<Types, TypeKey, 'permanent'>
+      type ScalarTypeKey = dnd5e.types.FilterKeysByValue<Types, TypeKey, 'scalar'>
+      type SpecialTypeKey = dnd5e.types.FilterKeysByValue<Types, TypeKey, 'special'>
+
+      interface ScalarUnitConfig {
+        label: string,
+        conversion: number,
+        combat?: boolean,
+        counted?: string,
+        option?: boolean
+      }
+    }
+
+    interface DND5EConfig {
+      scalarTimePeriods: {
+        [K in dnd5e.types.DurationUnits.ScalarTypeKey]: string
+      },
+      permanentTimePeriods: {
+        [K in dnd5e.types.DurationUnits.PermanentTypeKey]: string
+      },
+      specialTimePeriods: {
+        [K in dnd5e.types.DurationUnits.SpecialTypeKey]: string
+      },
+      timeUnits: {
+        [K in dnd5e.types.DurationUnits.ScalarTypeKey]: dnd5e.types.DurationUnits.ScalarTypeKey
+      },
+      timePeriods: DND5EConfig['scalarTimePeriods'] & DND5EConfig['permanentTimePeriods'] & DND5EConfig['specialTimePeriods']
+    }
+  }
 }
 
 export default DurationField

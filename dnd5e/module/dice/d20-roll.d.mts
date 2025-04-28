@@ -12,10 +12,10 @@ declare class D20Roll<
   MessageConfiguration extends fvttUtils.AnyObject = {},
 > extends BasicRoll<
   D,
-  D20Roll.Configuration<Configuration>,
-  D20Roll.ProcessConfiguration<ProcessConfiguration, D20Roll.Configuration<Configuration>>,
-  D20Roll.DialogConfiguration<DialogConfiguration>,
-  D20Roll.MessageConfiguration<MessageConfiguration>
+  D20Roll.MakeConfiguration<Configuration>,
+  D20Roll.MakeProcessConfiguration<ProcessConfiguration, D20Roll.MakeConfiguration<Configuration>>,
+  D20Roll.MakeDialogConfiguration<DialogConfiguration>,
+  D20Roll.MakeMessageConfiguration<MessageConfiguration>
 > {
   /* -------------------------------------------- */
 
@@ -146,7 +146,7 @@ declare namespace D20Roll {
 
   type AdvantageMode = -1 | 0 | 1
 
-  type Configuration<
+  type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
   > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
     {
@@ -158,9 +158,11 @@ declare namespace D20Roll {
     },
     Cfg
   >>
-  type ProcessConfiguration<
+  type Configuration = D20Roll['__Configuration']
+
+  type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
-    Cfg extends Configuration<any> = Configuration
+    Cfg extends MakeConfiguration<any> = MakeConfiguration
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
       {
@@ -185,6 +187,7 @@ declare namespace D20Roll {
       PrcCfg
     >
   >
+  type ProcessConfiguration = D20Roll['__ProcessConfiguration']
 
   /* -------------------------------------------- */
 
@@ -217,7 +220,7 @@ declare namespace D20Roll {
     minimum?: number;
   }
 
-  type DialogConfiguration<
+  type MakeDialogConfiguration<
     DlgCfg extends fvttUtils.AnyObject = {},
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
@@ -227,6 +230,7 @@ declare namespace D20Roll {
       DlgCfg
     >
   >
+  type DialogConfiguration = D20Roll['__DialogConfiguration']
 
   /* -------------------------------------------- */
 
@@ -234,7 +238,7 @@ declare namespace D20Roll {
   * Configuration data for creating a roll message.
   */
 
-  type MessageConfiguration<
+  type MakeMessageConfiguration<
     MsgCfg extends fvttUtils.AnyObject = {},
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
@@ -243,6 +247,7 @@ declare namespace D20Roll {
       MsgCfg
     >
   >
+  type MessageConfiguration = D20Roll['__MessageConfiguration']
 
 }
 

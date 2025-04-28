@@ -4,10 +4,12 @@ import ItemDescriptionTemplate from "./templates/item-description.mjs";
 import StartingEquipmentTemplate from "./templates/starting-equipment.mjs";
 
 
+declare class _ItemDataModel extends ItemDataModel {}
+
 /**
  * Data definition for Background items.
  */
-declare class BackgroundData extends ItemDataModel.mixin(
+declare class BackgroundData extends _ItemDataModel.mixin(
   ItemDescriptionTemplate<'background'>, StartingEquipmentTemplate
 )<
   dnd5e.types.MergeSchemas<
@@ -37,7 +39,6 @@ declare class BackgroundData extends ItemDataModel.mixin(
     }
   >;
 }
-
 
 export default BackgroundData;
 

@@ -1,18 +1,7 @@
 import IdentifierField from "../fields/identifier-field.mjs";
-import BaseActivityData, { EffectApplicationData } from "./base-activity.mjs";
+import BaseActivityData from "./base-activity.mjs";
 import AppliedEffectField from "./fields/applied-effect-field.mjs";
 
-export interface EnchantEffectApplicationData extends EffectApplicationData {
-  level: {
-    min: number,
-    max: number
-  },
-  riders: {
-    activity: Set<string>,
-    effect: Set<string>,
-    item: Set<string>,
-  }
-}
 
 /**
  * Data model for a enchant activity.
@@ -73,7 +62,7 @@ export default class EnchantActivityData extends BaseActivityData<
   /**
    * Enchantments that can be applied based on spell/character/class level.
    */
-  get availableEnchantments(): EnchantEffectApplicationData[]
+  get availableEnchantments(): this['effects']
 
   /* -------------------------------------------- */
 
@@ -82,3 +71,5 @@ export default class EnchantActivityData extends BaseActivityData<
    */
   static get enchantableTypes(): Set<Item.SubType>
 }
+
+type d = dnd5e.types.PrettifyType<EnchantActivityData['effects'][number]>

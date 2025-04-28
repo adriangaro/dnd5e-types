@@ -11,6 +11,7 @@ import { default as HealActivity } from "./heal.mjs";
 import { default as SaveActivity } from "./save.mjs";
 import { default as SummonActivity } from "./summon.mjs";
 import { default as UtilityActivity } from "./utility.mjs";
+import type ActivitySheet from '@dnd5e/module/applications/activity/activity-sheet.mjs';
 
 declare class _ActivityMixin {
   /** @privateRemarks All mixin classses should accept anything for its constructor. */
@@ -85,7 +86,7 @@ declare class _ActivityMixin {
 
   _createUsageMessage(
     message: ActivityMixin.ActivityMessageConfiguration
-  ): Promise<ChatMessage.Implementation | object>
+  ): Promise<object> // Promise<ChatMessage.Implementation | object>
 
   _finalizeUsage(
     config: ActivityMixin.ActivityUseConfiguration,
@@ -105,7 +106,7 @@ declare class _ActivityMixin {
 
   activateChatListeners(message: ChatMessage, html: HTMLElement): void
 
-  getContextMenuOptions(): ContextMenuEntry[]
+  getContextMenuOptions(): ContextMenu.Entry[]
 
   #onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>
   _onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>
@@ -197,17 +198,7 @@ declare namespace ActivityMixin {
     rolls?: Roll[];
   }
 
-
-
-  type ConsumptionLabels = {
-    label: string,
-    hint: string,
-    notes?: {
-      type: string,
-      message: string
-    },
-    warn?: boolean
-  }
+  
 
   type ActivityDialogConfiguration = {
     configure?: boolean,
@@ -247,26 +238,6 @@ declare namespace ActivityMixin {
     dataset: object;
   }
   //
-
-  interface DefaultActivityConsumptionTypes {
-    activityUses: true
-    attribute: true
-    hitDice: true
-    itemUses: true
-    material: true
-    spellSlots: true
-  }
-
-  interface OverrideActivityConsumptionTypes extends Record<string, boolean | never> {
-
-  }
-
-  type ActivityConsumptionTypes = dnd5e.types.MergeOverrideDefinition<
-    DefaultActivityConsumptionTypes,
-    OverrideActivityConsumptionTypes
-  >
-
-  type ActivityConsumptionTypeKey = dnd5e.types.ExtractKeys<ActivityConsumptionTypes>;
 }
 
 declare global {
@@ -304,6 +275,8 @@ declare global {
     
       type AnyClass = Types[TypeKey];
       type Any = ActivityInstances[TypeKey];
+      type OfType<T extends TypeKey> = ActivityInstances[T]
+      type ClassOfType<T extends TypeKey> = Types[T]
     
 
 
@@ -316,47 +289,22 @@ declare global {
         [K in keyof Types]: dnd5e.types.GetSchema<Types[K]>
       }
 
+      // TODO add activity sheet data
+      type SheetMap = {
+        [K in keyof Types]: ActivitySheet
+      }
+
       type ActivityAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<
         SchemaMap[T]
       >
     }
-
-    namespace ActivityConsumption {
-      export import Types = ActivityMixin.ActivityConsumptionTypes
-      export import OverrideTypes = ActivityMixin.OverrideActivityConsumptionTypes
-      export import TypeKey = ActivityMixin.ActivityConsumptionTypeKey
-
-      type ActivityConsumptionConfig = {
-        consume: (
-          this: dnd5e.dataModels.activity.ConsumptionTargetData,
-          config: ActivityMixin.ActivityUseConfiguration,
-          updates: ActivityMixin.ActivityUsageUpdates
-        ) => Promise<void>,
-        consumptionLabels: (
-          this: dnd5e.dataModels.activity.ConsumptionTargetData,
-          config: ActivityMixin.ActivityUseConfiguration,
-          options?: {
-            consumed: boolean
-          }
-        ) => ActivityMixin.ConsumptionLabels,
-        label: string,
-        targetRequiresEmbedded?: boolean
-        validTargets?: (
-          this: dnd5e.dataModels.activity.ConsumptionTargetData,
-        ) => dnd5e.types.FormSelectOption[]
-      }
-
-    }
-
     interface DND5EConfig {
       activityTypes: {
         [K in dnd5e.types.Activity.TypeKey]: dnd5e.types.Activity.ActivityTypeConfig<K>
       }
-      activityConsumptionTypes: {
-        [K in dnd5e.types.ActivityConsumption.TypeKey]: dnd5e.types.ActivityConsumption.ActivityConsumptionConfig
-      }
     }
   }
 }
+
 
 export default ActivityMixin

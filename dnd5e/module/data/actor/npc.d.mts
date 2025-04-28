@@ -57,10 +57,9 @@ type AttributesData = fvttUtils.SimpleMerge<
     }
   >
 >
-
 /**
  */
-declare class NPCData extends CreatureTemplate.mixin()<
+declare class NPCData extends CreatureTemplate<
   dnd5e.types.MergeSchemas<
     {
       attributes: foundry.data.fields.SchemaField<

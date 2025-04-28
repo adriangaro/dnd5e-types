@@ -1,6 +1,3 @@
-// --- Imports ---
-// Assuming SelectChoices types from the previous exercise are available
-// You might need to adjust the import path
 import SelectChoices from "./select-choices.mjs"; // Adjust path as needed
 
 
@@ -219,10 +216,21 @@ declare global {
       }
 
       export interface TraitConfigTypeMap {
-        [k: string]: TraitConfig
+        saves: TraitConfig
+        skills: TraitConfig
+        languages: TraitConfig
+        armor: TraitConfig
+        weapon: TraitConfig
+        tool: TraitConfig
+        di: TraitConfig
+        dr: TraitConfig
+        dv: TraitConfig
+        dm: TraitConfig
+        ci: TraitConfig
+        da: TraitConfig
       }
 
-      export type TraitKey = keyof fvttUtils.RemoveIndexSignatures<TraitConfigTypeMap> & string;
+      export type TraitKey = keyof fvttUtils.RemoveIndexSignatures<TraitConfigTypeMap>;
     }
 
     interface DND5EConfig {

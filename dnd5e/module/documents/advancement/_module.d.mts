@@ -8,6 +8,7 @@ import ScaleValueAdvancement from "./scale-value.mjs";
 import SizeAdvancement from "./size.mjs";
 import SubclassAdvancement from "./subclass.mjs";
 import TraitAdvancement from "./trait.mjs";
+import type AdvancementConfig from "@dnd5e/module/applications/advancement/advancement-config-v2.mjs";
 
 export {
   Advancement,
@@ -63,6 +64,11 @@ declare global {
 
       type SchemaMap = {
         [K in keyof Types]: dnd5e.types.GetSchema<Types[K]>
+      }
+
+      // TODO: infer Config
+      type ConfigSheetMap = {
+        [K in keyof Types]: AdvancementConfig
       }
 
       type AdvancementAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<

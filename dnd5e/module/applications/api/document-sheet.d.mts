@@ -13,7 +13,12 @@ export default class DocumentSheet5e<
   DocumentSheet5e.RenderContext<RenderContext>,
   DocumentSheet5e.Configuration<Document, Configuration>,
   DocumentSheet5e.RenderOptions<RenderOptions>
-> { }
+> { 
+  __Document: Document;
+  __Configuration: DocumentSheet5e.Configuration<Document, Configuration>;
+  __RenderOptions: DocumentSheet5e.RenderOptions<RenderOptions>;
+  __RenderContext: DocumentSheet5e.RenderContext<RenderContext>;
+}
 
 declare namespace DocumentSheet5e {
   type RenderContext<Ctx extends fvttUtils.AnyObject = {}> =  dnd5e.types.DeepMerge<

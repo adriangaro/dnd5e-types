@@ -5,32 +5,29 @@ import SpellcastingField from "./fields/spellcasting-field.mjs";
 import ItemDescriptionTemplate from "./templates/item-description.mjs";
 import StartingEquipmentTemplate from "./templates/starting-equipment.mjs";
 
+declare class _ItemDataModel extends ItemDataModel {}
 /**
  * Data definition for Class items.
  */
-export default class ClassData extends ItemDataModel.mixin(
+export default class ClassData extends _ItemDataModel.mixin(
   ItemDescriptionTemplate<'class'>, StartingEquipmentTemplate
 )<
   dnd5e.types.MergeSchemas<
     {
       levels: foundry.data.fields.NumberField<{ required: true, nullable: false, integer: true, min: 0, initial: 1 }>,
       primaryAbility: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.SetField<foundry.data.fields.StringField<
-          {
-            choices: dnd5e.types.Ability.TypeKey[]
-          },
-        >>,
+        value: foundry.data.fields.SetField<dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey>>,
         all: foundry.data.fields.BooleanField<{ initial: true }>
       }>,
       hd: foundry.data.fields.SchemaField<{
         additional: FormulaField<{ deterministic: true, required: true }>,
-        denomination: foundry.data.fields.StringField<{
+        denomination: dnd5e.types.fields.RestrictedStringField<`d${number}`, {
           required: true,
           initial: "d6",
           blank: false,
           validate: (v: string) => boolean,
           validationError: "must be a dice value in the format d#"
-        }, `d${number}`, `d${number}`, `d${number}`>,
+        }>,
         spent: foundry.data.fields.NumberField<{ required: true, nullable: false, integer: true, initial: 0, min: 0 }>
       }>,
       advancement: foundry.data.fields.ArrayField<AdvancementField, { label: "DND5E.AdvancementTitle" }>,

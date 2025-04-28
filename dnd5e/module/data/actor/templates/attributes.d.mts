@@ -56,8 +56,8 @@ export default class AttributesFields {
           base: number,
           value: number,
           dex: number,
-          equippedArmor?: Item.Implementation;
-          equippedShield?: Item.Implementation;
+          equippedArmor?: Item.OfType<'equipment'>;
+          equippedShield?: Item.OfType<'equipment'>;
         }
       >
     >,

@@ -155,11 +155,8 @@ export default class ActivitiesTemplate extends SystemDataModel<{
 
   /**
    * Perform any item & activity uses recovery.
-   * @param {string[]} periods  Recovery periods to check.
-   * @param {object} rollData   Roll data to use when evaluating recover formulas.
-   * @returns {Promise<{ updates: object, rolls: BasicRoll[] }>}
    */
-  recoverUses(periods: string[], rollData: ReturnType<Item.Implementation['getRollData']>): Promise<{ updates: object, rolls: dnd5e.dice.BasicRoll[] }>
+  recoverUses(periods: dnd5e.types.ActivityActivation.TypeKey[], rollData: ReturnType<Item.Implementation['getRollData']>): Promise<{ updates: object, rolls: dnd5e.dice.BasicRoll[] }>
 
   /* -------------------------------------------- */
   /*  Socket Event Handlers                       */

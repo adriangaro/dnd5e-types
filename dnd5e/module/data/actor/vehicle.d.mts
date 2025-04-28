@@ -9,7 +9,7 @@ import TraitsFields from "./templates/traits.mjs";
 /**
  * System data definition for Vehicles.
  */
-declare class VehicleData extends CommonTemplate.mixin()<
+declare class VehicleData extends CommonTemplate<
   dnd5e.types.MergeSchemas<
     {
       vehicleType: foundry.data.fields.StringField<{ required: true, initial: "water", label: "DND5E.VehicleType" }>,

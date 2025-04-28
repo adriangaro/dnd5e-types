@@ -6,13 +6,7 @@ import LocalDocumentField from "../fields/local-document-field.mjs";
 export class SubclassValueData extends foundry.abstract.DataModel<
   {
     document: LocalDocumentField<
-      Item.ImplementationClass,
-      LocalDocumentField.DefaultOptions,
-      LocalDocumentField.AssignmentType<{}>,
-      foundry.data.fields.DataField.DerivedInitializedType<
-        Item.OfType<'subclass'>,
-        LocalDocumentField.DefaultOptions
-      >
+      Item.OfType<'subclass'>
     >,
     uuid: foundry.data.fields.DocumentUUIDField
   },

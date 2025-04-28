@@ -14,8 +14,8 @@ declare class RollConfigurationDialog<
   RollConfigurationDialog.RenderOptions<RenderOptions>
 > {
   constructor(
-    config?: dnd5e.dice.BasicRoll.ProcessConfiguration,
-    message?: dnd5e.dice.BasicRoll.MessageConfiguration,
+    config?: dnd5e.dice.BasicRoll.MakeProcessConfiguration,
+    message?: dnd5e.dice.BasicRoll.MakeMessageConfiguration,
     options?: RollConfigurationDialog.BasicRollConfigurationDialogOptions
   )
 
@@ -31,16 +31,16 @@ declare class RollConfigurationDialog<
   /*  Properties                                  */
   /* -------------------------------------------- */
 
-  #config: dnd5e.dice.BasicRoll.ProcessConfiguration
-  get config(): dnd5e.dice.BasicRoll.ProcessConfiguration
+  #config: dnd5e.dice.BasicRoll.MakeProcessConfiguration
+  get config(): dnd5e.dice.BasicRoll.MakeProcessConfiguration
 
   /* -------------------------------------------- */
 
   /**
    * Configuration information for the roll message.
    */
-  #message: dnd5e.dice.BasicRoll.MessageConfiguration
-  get message(): dnd5e.dice.BasicRoll.MessageConfiguration
+  #message: dnd5e.dice.BasicRoll.MakeMessageConfiguration
+  get message(): dnd5e.dice.BasicRoll.MakeMessageConfiguration
 
   /* -------------------------------------------- */
 
@@ -91,14 +91,14 @@ declare class RollConfigurationDialog<
   /**
    * Build a roll from the provided configuration objects.
    */
-  #buildRolls(config: dnd5e.dice.BasicRoll.ProcessConfiguration, formData: FormDataExtended)
+  #buildRolls(config: dnd5e.dice.BasicRoll.MakeProcessConfiguration, formData: FormDataExtended)
 
   /* -------------------------------------------- */
 
   /**
    * Prepare individual configuration object before building a roll.
    */
-  _buildConfig(config: dnd5e.dice.BasicRoll.Configuration, formData: FormDataExtended, index: number): dnd5e.dice.BasicRoll.Configuration 
+  _buildConfig(config: dnd5e.dice.BasicRoll.MakeConfiguration, formData: FormDataExtended, index: number): dnd5e.dice.BasicRoll.MakeConfiguration 
 
   /* -------------------------------------------- */
 
@@ -131,9 +131,9 @@ declare class RollConfigurationDialog<
    * A helper to handle displaying and responding to the dialog.
    */
   static configure(
-    config?: dnd5e.dice.BasicRoll.ProcessConfiguration, 
-    dialog?: dnd5e.dice.BasicRoll.DialogConfiguration,
-    message?: dnd5e.dice.BasicRoll.MessageConfiguration
+    config?: dnd5e.dice.BasicRoll.MakeProcessConfiguration, 
+    dialog?: dnd5e.dice.BasicRoll.MakeDialogConfiguration,
+    message?: dnd5e.dice.BasicRoll.MakeMessageConfiguration
   ): Promise<dnd5e.dice.BasicRoll[]>
 }
 
@@ -189,8 +189,8 @@ declare namespace RollConfigurationDialog {
  * @param index Index of the roll within all rolls being prepared.
  */
   type RollBuildConfigCallback = (
-    process: dnd5e.dice.BasicRoll.ProcessConfiguration,
-    config: dnd5e.dice.BasicRoll.Configuration,
+    process: dnd5e.dice.BasicRoll.MakeProcessConfiguration,
+    config: dnd5e.dice.BasicRoll.MakeConfiguration,
     formData?: FormDataExtended,
     index?: number
   ) => void;

@@ -174,12 +174,6 @@ declare global {
         o?: string | undefined;
       }
 
-      export type CombatRecoveryResults = {
-        actor: object;
-        item: object[];
-        rolls: dnd5e.dice.BasicRoll[];
-      }
-
       export type RestConfiguration = {
         type: string;
         dialog: boolean;
@@ -458,6 +452,10 @@ declare global {
         [_K in K]: any
       } ? T[K] : never;
 
+      type GetKeyReturn<T, K extends string | number | symbol | never> = K extends never ? never : T extends {
+        [_K in K]: (...args: any[]) => any
+      } ? ReturnType<T[K]> : never;
+
       /** Utility type to find a key in a map based on its value. */
       type FindKeyByValue<Map extends Record<PropertyKey, any>, Value> = {
         [K in keyof Map]: Map[K] extends Value ? K : never
@@ -522,6 +520,83 @@ declare global {
         // This branch should logically not be hit
         : {};
 
+      
+      /**
+       * Filters a string union `U` to include only those keys `K` that:
+       * 1. Exist as keys in the type `T`.
+       * 2. Have a value type `T[K]` that extends the target value type `V`.
+       *
+       * @template T - The target interface or type to inspect keys and values from.
+       * @template U - The string union of potential keys to filter. Must extend string | number | symbol (PropertyKey).
+       * @template V - The type that the value associated with a key in T must match (or extend).
+       */
+      type FilterKeysByValue<T, U extends PropertyKey, V> = {
+        // 1. Iterate through each key 'K' in the input union 'U'
+        [K in U]:
+          // 2. Check if 'K' is actually a key of the target type 'T'
+          K extends keyof T
+            // 3. If 'K' is a key of 'T', check if the type of its value (T[K]) extends the target value type 'V'
+            ? T[K] extends V
+              // 4. If both conditions are true, keep the key 'K'
+              ? K
+              // 5. Otherwise (value type doesn't match), discard this key by mapping it to 'never'
+              : never
+            // 6. If 'K' wasn't even a key of 'T', discard it by mapping it to 'never'
+            : never
+      // 7. Look up the properties of the mapped type using the original union 'U'.
+      // This effectively collects all non-'never' values (the keys we kept) into a final union type.
+      }[U];
+
+       /**
+        * Helper type to recursively split a dot-separated string path into a tuple of keys.
+        * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
+        * @example SplitPath<'a'> // Result: ['a']
+        * @example SplitPath<''> // Result: []
+        */
+       type SplitPath<S extends string> =
+         S extends `${infer Key}.${infer Rest}`
+         ? [Key, ...SplitPath<Rest>]
+         : S extends "" ? [] : [S];
+ 
+       /**
+        * Recursively navigates a type `T` using a tuple of path segments `TPath`.
+        * Returns the type at the end of the path or `never`.
+        */
+       type NavigatePath<T, TPath extends string[]> =
+         // Base Case 1: If T becomes null or undefined before path ends, the path is invalid.
+         T extends undefined | null
+         ? TPath extends [] ? T : never // Return T if path is also done, else never
+         : TPath extends []
+         // Base Case 2: Path is exhausted, return the current type T.
+         ? T
+         : TPath extends [infer CurrentKey, ...infer RemainingKeys]
+         // Recursive Step: Check if CurrentKey is a valid key of T and RemainingKeys is string[].
+         ? CurrentKey extends keyof T
+         ? RemainingKeys extends string[]
+         // Recurse with the type T[CurrentKey] and the remaining path segments.
+         ? NavigatePath<T[CurrentKey], RemainingKeys>
+         : never // Should not happen if SplitPath is correct
+         : never // CurrentKey is not a valid key in T for the remaining path.
+         : never;
+ 
+       /**
+        * Utility type to get the type of a property deep within an object `T`
+        * using a dot-separated string path `P`.
+        *
+        * @template T The object type to navigate.
+        * @template P The dot-separated string path (e.g., "user.address.street").
+        * @returns The type found at the specified path, or `never` if the path is invalid.
+        *
+        * @example
+        * type MyType = { actor: { system: { traits: string[] } }, name: string };
+        * type TraitsType = GetTypeFromPath<MyType, 'actor.system.traits'>; // string[]
+        * type NameType = GetTypeFromPath<MyType, 'name'>; // string
+        * type InvalidPath = GetTypeFromPath<MyType, 'actor.data.value'>; // never
+        * type TooDeep = GetTypeFromPath<MyType, 'name.length'>; // never (unless T was string)
+        * type RootType = GetTypeFromPath<MyType, ''>; // MyType
+        */
+       export type GetTypeFromPath<T, P extends string> = NavigatePath<T, SplitPath<P>>;
+
       export interface DND5EConfig {
 
       }
@@ -539,10 +614,6 @@ declare global {
 
   interface CONFIG {
     DND5E: dnd5e.types.DND5EConfig
-  }
-
-  namespace CONFIG {
-    const DND5E: dnd5e.types.DND5EConfig;
   }
 }
 

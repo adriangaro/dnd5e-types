@@ -57,7 +57,6 @@ type ToolField = RollConfigField<
 
 declare class CreatureTemplate<
   Schema extends foundry.data.fields.DataSchema = {},
-  Templates extends SystemDataModel.AnyConstructor[] = []
 > extends CommonTemplate<
   dnd5e.types.MergeSchemas<
     {
@@ -130,8 +129,7 @@ declare class CreatureTemplate<
       >
     },
     Schema
-  >,
-  Templates
+  >
 > {
 
 
@@ -210,8 +208,8 @@ declare class CreatureTemplate<
   /*  Helpers                                     */
   /* -------------------------------------------- */
 
-  override getRollData: (...args: Parameters<CommonTemplate['getRollData']>) => ActorDataModel.RollData<
-    CreatureTemplate
+  override getRollData(...args: Parameters<CommonTemplate['getRollData']>): ActorDataModel.RollData<
+    this
   > & {
     classes: Record<string, (Item.OfType<'class'>)['system'] & {
       hitDice: number

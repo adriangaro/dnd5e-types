@@ -11,7 +11,7 @@ declare class ActivationsField extends foundry.data.fields.SetField<
   /**
    * Find any activity relative UUIDs on this actor that can be used during a set of periods.
    */
-  static getActivations(actor: Actor.Implementation, periods: string[]): string[]
+  static getActivations(actor: Actor.Implementation, periods: dnd5e.types.ActivityActivation.TypeKey[]): string[]
 
   /* -------------------------------------------- */
 

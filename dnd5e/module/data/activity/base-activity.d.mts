@@ -8,13 +8,6 @@ import AppliedEffectField from "./fields/applied-effect-field.mjs";
 import ConsumptionTargetsField from "./fields/consumption-targets-field.mjs";
 
 /**
- * Data for effects that can be applied.
- */
-export interface EffectApplicationData {
-  _id: string
-}
-
-/**
  * Data model for activities.
  */
 declare class BaseActivityData<
@@ -260,6 +253,7 @@ declare class BaseActivityData<
 
   /* -------------------------------------------- */
 
+  _inferredSource: this['_source']
   /**
    * Prepare data related to this activity.
    */

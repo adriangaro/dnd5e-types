@@ -1,5 +1,5 @@
 import Proficiency from "../../../documents/actor/proficiency.mjs";
-import SystemDataModel, { ActorDataModel } from "../../abstract.mjs";
+import { ActorDataModel } from "../../abstract.mjs";
 import FormulaField from "../../fields/formula-field.mjs";
 import MappingField from "../../fields/mapping-field.mjs";
 import CurrencyTemplate from "../../shared/currency.mjs";
@@ -23,10 +23,11 @@ type AbilityData = {
   save: RollConfigField<{ ability: false }>
 }
 
+declare class _ActorDataModel extends ActorDataModel {}
+
 declare class CommonTemplate<
   Schema extends foundry.data.fields.DataSchema = {},
-  Templates extends SystemDataModel.AnyConstructor[] = []
-> extends ActorDataModel.mixin(CurrencyTemplate)<
+> extends _ActorDataModel.mixin(CurrencyTemplate)<
   dnd5e.types.MergeSchemas<
     {
       abilities: MappingField<
@@ -58,8 +59,7 @@ declare class CommonTemplate<
       >
     },
     Schema
-  >,
-  Templates
+  >
 > {
 
   /* -------------------------------------------- */

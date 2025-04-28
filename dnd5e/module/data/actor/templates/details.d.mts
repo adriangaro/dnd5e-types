@@ -26,7 +26,7 @@ export default class DetailsField {
     ideal: foundry.data.fields.StringField<{ required: true, label: "DND5E.Ideals" }>,
     bond: foundry.data.fields.StringField<{ required: true, label: "DND5E.Bonds" }>,
     flaw: foundry.data.fields.StringField<{ required: true, label: "DND5E.Flaws" }>,
-    race: LocalDocumentField<Item.ImplementationClass, {
+    race: LocalDocumentField<Item.OfType<'race'>, {
       required: true, fallback: true, label: "DND5E.Species"
     }>
   }

@@ -11,7 +11,9 @@ interface MemberSchemaField extends foundry.data.fields.SchemaField<
       formula: FormulaField<{ label: "DND5E.QuantityFormula" }>
     }>
   }
-> {}
+> { }
+
+declare class _ActorDataModel extends ActorDataModel { }
 
 /**
  * A data model and API layer which handles the schema and functionality of "group" type Actors in the dnd5e system.
@@ -24,7 +26,7 @@ interface MemberSchemaField extends foundry.data.fields.SchemaField<
  *  }
  * });
  */
-declare class GroupActor extends ActorDataModel.mixin(CurrencyTemplate)<
+declare class GroupActor extends _ActorDataModel.mixin(CurrencyTemplate)<
   dnd5e.types.MergeSchemas<
     {
       type: foundry.data.fields.SchemaField<{

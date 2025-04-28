@@ -31,19 +31,19 @@ declare class PhysicalItemTemplate extends SystemDataModel<dnd5e.types.MergeSche
         value: foundry.data.fields.NumberField<{
           required: true, nullable: false, initial: 0, min: 0, label: "DND5E.Price"
         }>,
-        denomination: foundry.data.fields.StringField<{
+        denomination: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Currency.TypeKey, {
           required: true,
           blank:
           false,
           initial: "gp",
           label: "DND5E.Currency"
-        }, dnd5e.types.Currency.TypeKey, dnd5e.types.Currency.TypeKey, dnd5e.types.Currency.TypeKey>
+        }>
       },
       { label: "DND5E.Price" }
     >,
-    rarity: foundry.data.fields.StringField<
-      { required: true, blank: true, label: "DND5E.Rarity" },
-      dnd5e.types.Rarity.TypeKey, dnd5e.types.Rarity.TypeKey, dnd5e.types.Rarity.TypeKey
+    rarity: dnd5e.types.fields.RestrictedStringField<
+      dnd5e.types.Rarity.TypeKey,
+      { required: true, blank: true, label: "DND5E.Rarity" }
     >
   },
   {

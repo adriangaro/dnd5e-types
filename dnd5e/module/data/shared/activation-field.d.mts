@@ -31,9 +31,12 @@ declare class ActivationField<
 
 declare namespace ActivationField {
   type BaseFields = {
-    type: foundry.data.fields.StringField<{
-      initial: 'action'
-    }>,
+    type: dnd5e.types.fields.RestrictedStringField<
+      dnd5e.types.ActivityActivation.TypeKey,
+      {
+        initial: 'action'
+      }
+    >,
     value: foundry.data.fields.NumberField,
     condition: foundry.data.fields.StringField
   }
@@ -65,7 +68,7 @@ declare namespace ActivationField {
       scaler: boolean
     }
   >
- 
+
   type PersistedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
@@ -74,5 +77,57 @@ declare namespace ActivationField {
     Opts
   >
 }
+
+
+declare global {
+  namespace dnd5e.types {
+
+    namespace ActivityActivation {
+      interface DefaultActivityActivationTypes {
+        action: true
+        bonus: true
+        day: true
+        encounter: true
+        hour: true
+        lair: true,
+        legendary: true,
+        longRest: true,
+        minute: true,
+        mythic: true,
+        reaction: true,
+        shortRest: true,
+        special: true,
+        turnEnd: true,
+        turnStart: true
+      }
+
+      interface OverrideTypes extends Record<string, boolean | never> {
+
+      }
+
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultActivityActivationTypes,
+        OverrideTypes
+      >
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      type ActivityActivationConfig = {
+        group?: string,
+        label: string,
+        passive?: boolean,
+        scalar?: boolean
+      }
+
+    }
+    interface DND5EConfig {
+      activityActivationTypes: {
+        [K in dnd5e.types.ActivityActivation.TypeKey]: dnd5e.types.ActivityActivation.ActivityActivationConfig
+      },
+    }
+  }
+}
+
+
 
 export default ActivationField

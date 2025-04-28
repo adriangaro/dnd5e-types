@@ -17,10 +17,10 @@ declare class DamageRoll<
   MessageConfiguration extends fvttUtils.AnyObject = {},
 > extends BasicRoll<
   D,
-  DamageRoll.Configuration<Configuration>,
-  DamageRoll.ProcessConfiguration<ProcessConfiguration, DamageRoll.Configuration<Configuration>>,
-  DamageRoll.DialogConfiguration<DialogConfiguration>,
-  DamageRoll.MessageConfiguration<MessageConfiguration>
+  DamageRoll.MakeConfiguration<Configuration>,
+  DamageRoll.MakeProcessConfiguration<ProcessConfiguration, DamageRoll.MakeConfiguration<Configuration>>,
+  DamageRoll.MakeDialogConfiguration<DialogConfiguration>,
+  DamageRoll.MakeMessageConfiguration<MessageConfiguration>
 > {
   /* -------------------------------------------- */
 
@@ -94,7 +94,7 @@ declare namespace DamageRoll {
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyDamageRoll> {}
   type DefaultConstructor = typeof DamageRoll<fvttUtils.EmptyObject, {}, {}, {}, {}>
 
-  type Configuration<
+  type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
   > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
     {
@@ -102,9 +102,11 @@ declare namespace DamageRoll {
     },
     Cfg
   >>
-  type ProcessConfiguration<
+  type Configuration = DamageRoll['__Configuration']
+
+  type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
-    Cfg extends Configuration<any> = Configuration
+    Cfg extends MakeConfiguration<any> = MakeConfiguration
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
       {
@@ -116,6 +118,7 @@ declare namespace DamageRoll {
       PrcCfg
     >
   >
+  type ProcessConfiguration = DamageRoll['__ProcessConfiguration']
 
   /* -------------------------------------------- */
 
@@ -140,7 +143,7 @@ declare namespace DamageRoll {
     powerfulCritical?: string;
   }
 
-  type DialogConfiguration<
+  type MakeDialogConfiguration<
     DlgCfg extends fvttUtils.AnyObject = {},
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
@@ -150,6 +153,7 @@ declare namespace DamageRoll {
       DlgCfg
     >
   >
+  type DialogConfiguration = DamageRoll['__DialogConfiguration']
 
   /* -------------------------------------------- */
 
@@ -157,7 +161,7 @@ declare namespace DamageRoll {
   * Configuration data for creating a roll message.
   */
 
-  type MessageConfiguration<
+  type MakeMessageConfiguration<
     MsgCfg extends fvttUtils.AnyObject = {},
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
@@ -166,6 +170,7 @@ declare namespace DamageRoll {
       MsgCfg
     >
   >
+  type MessageConfiguration = DamageRoll['__MessageConfiguration']
 
 }
 

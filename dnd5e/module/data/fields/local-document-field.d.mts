@@ -1,16 +1,16 @@
 declare class LocalDocumentField<
-  Model extends foundry.abstract.Document.AnyConstructor,
+  ModelInstance extends foundry.abstract.Document.Any,
   Options extends LocalDocumentField.Options = LocalDocumentField.DefaultOptions,
   AssignmentType = LocalDocumentField.AssignmentType<Options>,
-  InitializedType = LocalDocumentField.InitializedType<Model, Options>,
+  InitializedType = LocalDocumentField.InitializedType<ModelInstance, Options>,
   PersistedType extends string | null | undefined = LocalDocumentField.PersistedType<Options>,
 > extends foundry.data.fields.DocumentIdField<
   Options,
   AssignmentType,
   InitializedType,
   PersistedType> {
-  model: Model;
-  _findCollection(model: Model, collection: string): foundry.abstract.EmbeddedCollection<InstanceType<Model>, foundry.abstract.Document.Any>
+  model: new (...args: any[]) => ModelInstance;
+  _findCollection(model: new (...args: any[]) => ModelInstance, collection: string): foundry.abstract.EmbeddedCollection<ModelInstance, foundry.abstract.Document.Any>
 }
 
 declare namespace LocalDocumentField {
@@ -32,10 +32,10 @@ declare namespace LocalDocumentField {
   >
   export import AssignmentType = foundry.data.fields.DocumentIdField.AssignmentType
   type InitializedType<
-    Model extends foundry.abstract.Document.AnyConstructor,
+    ModelInstance extends foundry.abstract.Document.Any,
     Options extends LocalDocumentField.Options
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    InstanceType<Model>,
+    ModelInstance,
     fvttUtils.Merge<Options, DefaultOptions>
   >;
   export import PersistedType = foundry.data.fields.DocumentIdField.InitializedType

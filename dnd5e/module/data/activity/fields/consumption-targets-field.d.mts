@@ -1,15 +1,16 @@
 import type ActivityMixin from "@dnd5e/module/documents/activity/mixin.mjs"
-import type BaseActivityData from "../base-activity.mjs"
 
 export class ConsumptionTargetData extends foundry.abstract.DataModel<{
-  type: foundry.data.fields.StringField,
+  type: dnd5e.types.fields.RestrictedStringField<
+    dnd5e.types.ActivityConsumption.TypeKey
+  >,
   target: foundry.data.fields.StringField,
   value: dnd5e.dataModels.fields.FormulaField,
   scaling: foundry.data.fields.SchemaField<{
     mode: foundry.data.fields.StringField,
     formula: dnd5e.dataModels.fields.FormulaField
   }>
-}, BaseActivityData> {
+}> {
   get activity(): dnd5e.types.Activity.Any
   /* -------------------------------------------- */
 
@@ -367,17 +368,6 @@ declare namespace ConsumptionTargetsField {
   export import DefaultOptions = foundry.data.fields.ArrayField.DefaultOptions
   export import AssignmentElementType = foundry.data.fields.ArrayField.AssignmentElementType
 
-  export type ActivityConsumptionTargetConfig = {
-    label: string;
-    consume: ConsumptionConsumeFunction;
-    consumptionLabels: ConsumptionLabelsFunction;
-    scalingModes?: {
-      value: string;
-      label: string;
-    }[] | undefined;
-    targetRequiresEmbedded?: boolean | undefined;
-    validTargets?: ConsumptionValidTargetsFunction | undefined;
-  }
 
   export type ConsumptionConsumeFunction = (
     this: ConsumptionTargetData,
@@ -408,6 +398,70 @@ declare namespace ConsumptionTargetsField {
   ) => dnd5e.types.FormSelectOption[]
 
 }
+
+declare global {
+  namespace dnd5e.types {
+    namespace ActivityConsumption {
+      interface DefaultActivityConsumptionTypes {
+        activityUses: true
+        attribute: true
+        hitDice: true
+        itemUses: true
+        material: true
+        spellSlots: true
+      }
+      interface OverrideTypes extends Record<string, boolean | never> {
+
+      }
+
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultActivityConsumptionTypes,
+        OverrideTypes
+      >
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      type ConsumptionLabels = {
+        label: string,
+        hint: string,
+        notes?: {
+          type: string,
+          message: string
+        },
+        warn?: boolean
+      }
+
+      type ActivityConsumptionConfig = {
+        consume: (
+          this: ConsumptionTargetData,
+          config: ActivityMixin.ActivityUseConfiguration,
+          updates: ActivityMixin.ActivityUsageUpdates
+        ) => Promise<void>,
+        consumptionLabels: (
+          this: ConsumptionTargetData,
+          config: ActivityMixin.ActivityUseConfiguration,
+          options?: {
+            consumed: boolean
+          }
+        ) => ConsumptionLabels,
+        label: string,
+        targetRequiresEmbedded?: boolean
+        validTargets?: (
+          this: ConsumptionTargetData,
+        ) => dnd5e.types.FormSelectOption[]
+      }
+
+    }
+
+    interface DND5EConfig {
+      activityConsumptionTypes: {
+        [K in dnd5e.types.ActivityConsumption.TypeKey]: dnd5e.types.ActivityConsumption.ActivityConsumptionConfig
+      }
+    }
+  }
+}
+
+
 
 export default ConsumptionTargetsField
 

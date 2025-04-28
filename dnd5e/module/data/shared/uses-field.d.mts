@@ -38,13 +38,17 @@ declare class UsesField<
   /**
    * Determine uses recovery.
    */
-  static recoverUses(this: ItemDataModel | BaseActivityData, periods: string[], rollData: object): Promise<
+  static recoverUses(
+    this: ItemDataModel | BaseActivityData, 
+    periods: dnd5e.types.RecoveryPeriod.TypeKey[], 
+    rollData: object
+  ): Promise<
     { updates: object, rolls: dnd5e.dice.BasicRoll[] } |
     false
   >
 
   static rollRecharge(
-    this: Item.Implementation | ActivityMixin.AnyActivity,
+    this: Item.Implementation | dnd5e.types.Activity.Any,
     config?: UsesField.RechargeRollProcessConfiguration,
     dialog?: dnd5e.types.BasicRollDialogConfiguration,
     message?: dnd5e.types.BasicRollMessageConfiguration
@@ -63,8 +67,8 @@ declare namespace UsesField {
     max: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
     recovery: foundry.data.fields.ArrayField<
       foundry.data.fields.SchemaField<{
-        period: foundry.data.fields.StringField<{ initial: "lr" }>,
-        type: foundry.data.fields.StringField<{ initial: "recoverAll" }>,
+        period: dnd5e.types.fields.RestrictedStringField<dnd5e.types.RecoveryPeriod.TypeKey, { initial: "lr" }>,
+        type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.RecoveryPeriod.TypeKey, { initial: "recoverAll" }>,
         formula: dnd5e.dataModels.fields.FormulaField
       }>
     >,
@@ -117,6 +121,71 @@ declare namespace UsesField {
 
   interface RechargeRollProcessConfiguration extends dnd5e.types.BasicRollConfiguration {
     apply?: boolean
+  }
+}
+
+declare global {
+  namespace dnd5e.types {
+    namespace RecoveryPeriod {
+      interface DefaultRecoveryPeriodGroups extends Record<string, boolean> {
+        special: true,
+        combat: true
+      }
+
+      interface GroupOverrideTypes extends Record<string, boolean | never> {
+
+      }
+
+      type GroupTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultRecoveryPeriodGroups,
+        GroupOverrideTypes
+      >
+
+      type GroupTypeKey = dnd5e.types.ExtractKeys<GroupTypes>;
+
+      interface DefaultRecoveryPeriodTypes extends Record<string, GroupTypeKey | boolean> {
+        lr: true
+        sr: true
+        day: true
+        charges: true
+        dawn: true
+        dusk: true
+        initiative: 'special'
+        turnStart: 'combat'
+        turnEnd: 'combat'
+        turn: 'combat'
+      }
+
+      interface OverrideTypes extends Record<string, boolean | never> {
+
+      }
+
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultRecoveryPeriodTypes,
+        OverrideTypes
+      >
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      type CombatTypeKey = dnd5e.types.FilterKeysByValue<Types, TypeKey, 'combat'> | 'encounter'
+
+      interface RecoveryPeriodConfig<T extends TypeKey | null = null> {
+        label: string,
+        abbreviation: string,
+        formula?: boolean,
+        deprecated?: boolean,
+        type: T extends TypeKey ? Types[T] : undefined
+      }
+    }
+
+    interface DND5EConfig {
+      limitedUsesPeriods: {
+        [K in dnd5e.types.RecoveryPeriod.TypeKey]: dnd5e.types.RecoveryPeriod.RecoveryPeriodConfig<K>
+      } & {
+        get recoveryOptions(): {
+          value: string, label: string, group?: string
+        }[]
+      }
+    }
   }
 }
 

@@ -11,6 +11,7 @@ import ItemTypeTemplate from "./templates/item-type.mjs";
 import PhysicalItemTemplate from "./templates/physical-item.mjs";
 import ItemTypeField from "./fields/item-type-field.mjs";
 
+declare class _ItemDataModel extends ItemDataModel {}
 /**
  * Data definition for Consumable items.
  * @mixes ActivitiesTemplate
@@ -28,7 +29,7 @@ import ItemTypeField from "./fields/item-type-field.mjs";
  * @property {object} uses
  * @property {boolean} uses.autoDestroy  Should this item be destroyed when it runs out of uses.
  */
-declare class ConsumableData extends ItemDataModel.mixin(
+declare class ConsumableData extends _ItemDataModel.mixin(
   ActivitiesTemplate, ItemDescriptionTemplate<'consumable'>, IdentifiableTemplate, ItemTypeTemplate<'consumable'>,
   PhysicalItemTemplate, EquippableItemTemplate
 )<

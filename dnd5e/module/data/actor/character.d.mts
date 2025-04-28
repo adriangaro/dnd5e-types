@@ -1,6 +1,4 @@
-import type { NumberField } from "node_modules/fvtt-types/src/foundry/common/data/fields.d.mts";
 import HitDice from "../../documents/actor/hit-dice.mjs";
-import type SystemDataModel from "../abstract.d.mts";
 import FormulaField from "../fields/formula-field.mjs";
 import LocalDocumentField from "../fields/local-document-field.mjs";
 import CreatureTypeField from "../shared/creature-type-field.mjs";
@@ -17,7 +15,7 @@ type DetailsData = fvttUtils.PrettifyType<fvttUtils.SimpleMerge<
   fvttUtils.SimpleMerge<
     typeof DetailsFields['creature'],
     {
-      background: LocalDocumentField<Item.ImplementationClass, {
+      background: LocalDocumentField<Item.OfType<'background'>, {
         required: true, fallback: true, label: "DND5E.Background"
       }>,
       originalClass: foundry.data.fields.StringField<{ required: true, label: "DND5E.ClassOriginal" }>,
@@ -265,7 +263,7 @@ declare class CharacterData extends CreatureTemplate<
 
 declare namespace CharacterData {
   type FavoriteType = "activity" | "effect" | "item" | "skill" | "slots" | "tool";
-  type ActorFavorite5e = fvttUtils.PrettifyType<foundry.data.fields.SchemaField.InitializedData<dnd5e.types.GetSchema<typeof CharacterData>>['favorites'][number]>
+  type ActorFavorite5e = CharacterData['favorites'][number]
 }
 
 export default CharacterData

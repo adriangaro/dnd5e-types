@@ -4,15 +4,21 @@ import MappingField from "../fields/mapping-field.mjs";
 /**
  * A template for currently held currencies.
  */
-declare class CurrencyTemplate extends SystemDataModel<{
-  currency: MappingField<
-    foundry.data.fields.NumberField<{
-      required: true, nullable: false, integer: true, min: 0, initial: 0
-    }>,
-    dnd5e.types.Currency.TypeKey,
-    { initialKeys: dnd5e.types.Currency.TypeKey[], initialKeysOnly: true, label: "DND5E.Currency" }
+declare class CurrencyTemplate extends SystemDataModel<
+  dnd5e.types.MergeSchemas<
+    {
+      currency: MappingField<
+        foundry.data.fields.NumberField<{
+          required: true, nullable: false, integer: true, min: 0, initial: 0
+        }>,
+        dnd5e.types.Currency.TypeKey,
+        { initialKeys: dnd5e.types.Currency.TypeKey[], initialKeysOnly: true, label: "DND5E.Currency" }
+      >
+    },
+    {}
   >
-}> {
+> {
+  constructor(...args: any[])
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
@@ -22,7 +28,6 @@ declare class CurrencyTemplate extends SystemDataModel<{
    */
   get currencyWeight(): number
 }
-
 declare global {
   namespace dnd5e.types {
     namespace Currency {
