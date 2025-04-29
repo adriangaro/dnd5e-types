@@ -3,20 +3,23 @@ import Dialog5e from "../api/dialog.mjs";
 /**
  * Dialog for configuring one or more rolls.
  */
+
+type d = ConstructorParameters<dnd5e.dice.BasicRoll.AnyConstructor>
 declare class RollConfigurationDialog<
-  RollType extends dnd5e.dice.BasicRoll.AnyConstructor = dnd5e.dice.BasicRoll.DefaultConstructor,
+  RollType extends dnd5e.dice.BasicRoll.AnyConstructor = typeof dnd5e.dice.BasicRoll<{}, {}, {}, {}, {}>,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends Dialog5e<
-  RollConfigurationDialog.RenderContext<RenderContext, RollType>,
-  RollConfigurationDialog.Configuration<Configuration>,
-  RollConfigurationDialog.RenderOptions<RenderOptions>
+  RollConfigurationDialog.MakeRenderContext<RenderContext, RollType>,
+  RollConfigurationDialog.MakeConfiguration<Configuration>,
+  RollConfigurationDialog.MakeRenderOptions<RenderOptions>
 > {
+
   constructor(
-    config?: dnd5e.dice.BasicRoll.MakeProcessConfiguration,
-    message?: dnd5e.dice.BasicRoll.MakeMessageConfiguration,
-    options?: RollConfigurationDialog.BasicRollConfigurationDialogOptions
+    config?: InstanceType<RollType>['__ProcessConfiguration'],
+    message?: InstanceType<RollType>['__MessageConfiguration'],
+    options?: RollConfigurationDialog.MakeConfiguration<Configuration>
   )
 
   /* -------------------------------------------- */
@@ -31,16 +34,16 @@ declare class RollConfigurationDialog<
   /*  Properties                                  */
   /* -------------------------------------------- */
 
-  #config: dnd5e.dice.BasicRoll.MakeProcessConfiguration
-  get config(): dnd5e.dice.BasicRoll.MakeProcessConfiguration
+  #config: InstanceType<RollType>['__ProcessConfiguration']
+  get config(): InstanceType<RollType>['__ProcessConfiguration']
 
   /* -------------------------------------------- */
 
   /**
    * Configuration information for the roll message.
    */
-  #message: dnd5e.dice.BasicRoll.MakeMessageConfiguration
-  get message(): dnd5e.dice.BasicRoll.MakeMessageConfiguration
+  #message: InstanceType<RollType>['__MessageConfiguration']
+  get message(): InstanceType<RollType>['__MessageConfiguration']
 
   /* -------------------------------------------- */
 
@@ -91,21 +94,21 @@ declare class RollConfigurationDialog<
   /**
    * Build a roll from the provided configuration objects.
    */
-  #buildRolls(config: dnd5e.dice.BasicRoll.MakeProcessConfiguration, formData: FormDataExtended)
+  #buildRolls(config: InstanceType<RollType>['__ProcessConfiguration'], formData: FormDataExtended)
 
   /* -------------------------------------------- */
 
   /**
    * Prepare individual configuration object before building a roll.
    */
-  _buildConfig(config: dnd5e.dice.BasicRoll.MakeConfiguration, formData: FormDataExtended, index: number): dnd5e.dice.BasicRoll.MakeConfiguration 
+  _buildConfig(config: InstanceType<RollType>['__Configuration'], formData: FormDataExtended, index: number): InstanceType<RollType>['__Configuration']
 
   /* -------------------------------------------- */
 
   /**
    * Make any final modifications to rolls based on the button clicked.
    */
-  _finalizeRolls(action: string): dnd5e.dice.BasicRoll[]
+  _finalizeRolls(action: string): InstanceType<RollType>[]
 
   /* -------------------------------------------- */
 
@@ -131,13 +134,16 @@ declare class RollConfigurationDialog<
    * A helper to handle displaying and responding to the dialog.
    */
   static configure(
-    config?: dnd5e.dice.BasicRoll.MakeProcessConfiguration, 
-    dialog?: dnd5e.dice.BasicRoll.MakeDialogConfiguration,
-    message?: dnd5e.dice.BasicRoll.MakeMessageConfiguration
+    config?: dnd5e.dice.BasicRoll.ProcessConfiguration, 
+    dialog?: dnd5e.dice.BasicRoll.DialogConfiguration,
+    message?: dnd5e.dice.BasicRoll.MessageConfiguration
   ): Promise<dnd5e.dice.BasicRoll[]>
 }
 
-declare class AnyRollConfigurationDialog extends RollConfigurationDialog<any, any, any, any> {
+declare class AnyRollConfigurationDialog extends RollConfigurationDialog<
+  typeof dnd5e.dice.BasicRoll<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject>,
+  fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject
+> {
   constructor(...args: never);
 }
 
@@ -145,7 +151,7 @@ declare namespace RollConfigurationDialog {
   interface Any extends AnyRollConfigurationDialog {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyRollConfigurationDialog> {}
 
-  type RenderContext<
+  type MakeRenderContext<
     Ctx extends fvttUtils.AnyObject = {},
     RollType extends dnd5e.dice.BasicRoll.AnyConstructor = typeof dnd5e.dice.BasicRoll
   > = dnd5e.types.DeepMerge<
@@ -169,16 +175,21 @@ declare namespace RollConfigurationDialog {
     },
     Ctx
   >
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type RenderContext = RollConfigurationDialog['__RenderContext']
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     fvttUtils.InterfaceToObject<RollConfigurationDialog.BasicRollConfigurationDialogOptions>,
-    Cfg
+   Cfg 
   >
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type Configuration = RollConfigurationDialog['__Configuration']
+
+  type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
-    Opt
+    Opt  
   >
+  type RenderOptions =  RollConfigurationDialog['__RenderOptions']
 
   /**
  * Callback to handle additional build configuration.
@@ -188,12 +199,12 @@ declare namespace RollConfigurationDialog {
  * @param formData Any data entered into the rolling prompt.
  * @param index Index of the roll within all rolls being prepared.
  */
-  type RollBuildConfigCallback = (
-    process: dnd5e.dice.BasicRoll.MakeProcessConfiguration,
-    config: dnd5e.dice.BasicRoll.MakeConfiguration,
+  type RollBuildConfigCallback = fvttUtils.ToMethod<(
+    process: dnd5e.dice.BasicRoll.ProcessConfiguration,
+    config: dnd5e.dice.BasicRoll.Configuration,
     formData?: FormDataExtended,
     index?: number
-  ) => void;
+  ) => void>;
 
   /**
   * Rendering options specific to the dice display in the configuration dialog.

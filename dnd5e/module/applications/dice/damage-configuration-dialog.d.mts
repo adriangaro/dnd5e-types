@@ -3,19 +3,16 @@ import RollConfigurationDialog from "./roll-configuration-dialog.mjs";
 /**
  * Dialog for configuring damage rolls.
  *
- * @param {DamageRollProcessConfiguration} [config={}]        Initial roll configuration.
- * @param {BasicRollMessageConfiguration} [message={}]        Message configuration.
- * @param {BasicRollConfigurationDialogOptions} [options={}]  Dialog rendering options.
  */
 export default class DamageRollConfigurationDialog<
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends RollConfigurationDialog<
-  dnd5e.dice.DamageRoll.DefaultConstructor,
-  DamageRollConfigurationDialog.RenderContext<RenderContext>,
-  DamageRollConfigurationDialog.Configuration<Configuration>,
-  DamageRollConfigurationDialog.RenderOptions<RenderOptions>
+  typeof dnd5e.dice.DamageRoll<{}, {}, {}, {}, {}>,
+  DamageRollConfigurationDialog.MakeRenderContext<RenderContext>,
+  DamageRollConfigurationDialog.MakeConfiguration<Configuration>,
+  DamageRollConfigurationDialog.MakeRenderOptions<RenderOptions>
 > {}
 
 declare class AnyDamageRollConfigurationDialog extends DamageRollConfigurationDialog<{}, {}, {}> {
@@ -26,7 +23,7 @@ declare namespace DamageRollConfigurationDialog {
   interface Any extends AnyDamageRollConfigurationDialog {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyDamageRollConfigurationDialog> {}
   
-  type RenderContext<
+  type MakeRenderContext<
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {
@@ -44,16 +41,22 @@ declare namespace DamageRollConfigurationDialog {
     },
     Ctx
   >
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type RenderContext = DamageRollConfigurationDialog['__RenderContext']
+
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Cfg
   >
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type Configuration = DamageRollConfigurationDialog['__Configuration']
+
+  type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Opt
   >
+  type RenderOptions = DamageRollConfigurationDialog['__RenderOptions']
 }

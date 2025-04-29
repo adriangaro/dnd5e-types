@@ -5,7 +5,7 @@ import BasicRoll from "./basic-roll.mjs";
 /* -------------------------------------------- */
 
 declare class D20Roll<
-  D extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
+  D extends fvttUtils.AnyObject = fvttUtils.AnyObject,
   Configuration extends fvttUtils.AnyObject = {},
   ProcessConfiguration extends fvttUtils.AnyObject = {},
   DialogConfiguration extends fvttUtils.AnyObject = {},
@@ -31,7 +31,7 @@ declare class D20Roll<
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  static override DefaultConfigurationDialog: typeof D20RollConfigurationDialog<any, any, any>;
+  static override DefaultConfigurationDialog: D20RollConfigurationDialog.AnyConstructor;
 
   /* -------------------------------------------- */
   /*  Static Construction                         */
@@ -135,14 +135,15 @@ declare class D20Roll<
 }
 
 
-declare class AnyD20Roll extends D20Roll<fvttUtils.EmptyObject, {}, {}, {}, {}> {
+declare class AnyD20Roll extends D20Roll<
+  any, any, any, any, any
+> {
   constructor(...args: never);
 }
 
 declare namespace D20Roll {
   interface Any extends AnyD20Roll {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyD20Roll> {}
-  type DefaultConstructor = typeof D20Roll<fvttUtils.EmptyObject, {}, {}, {}, {}>
 
   type AdvantageMode = -1 | 0 | 1
 
@@ -224,9 +225,9 @@ declare namespace D20Roll {
     DlgCfg extends fvttUtils.AnyObject = {},
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
-      {
-
-      },
+      BasicRoll.MakeDialogAppConfig<
+        typeof D20RollConfigurationDialog
+      >,
       DlgCfg
     >
   >
@@ -260,9 +261,9 @@ export default D20Roll;
  * @internal
  */
 export function _createDeprecatedD20Config(
-  rollConfig: D20Roll['__ProcessConfiguration'], 
-  dialogConfig: BasicRoll['__DialogConfiguration'], 
-  messageConfig: BasicRoll['__MessageConfiguration']
+  rollConfig: D20Roll.ProcessConfiguration, 
+  dialogConfig: BasicRoll.DialogConfiguration, 
+  messageConfig: BasicRoll.MessageConfiguration
 ): dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration
 
 /* -------------------------------------------- */
@@ -272,9 +273,9 @@ export function _createDeprecatedD20Config(
  * @internal
  */
 export function _applyDeprecatedD20Configs(
-  rollConfig: D20Roll['__ProcessConfiguration'], 
-  dialogConfig: BasicRoll['__DialogConfiguration'], 
-  messageConfig: BasicRoll['__MessageConfiguration'],
+  rollConfig: D20Roll.ProcessConfiguration, 
+  dialogConfig: BasicRoll.DialogConfiguration, 
+  messageConfig: BasicRoll.MessageConfiguration,
   options: dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration
 )
 

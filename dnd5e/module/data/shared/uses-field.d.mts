@@ -50,8 +50,8 @@ declare class UsesField<
   static rollRecharge(
     this: Item.Implementation | dnd5e.types.Activity.Any,
     config?: UsesField.RechargeRollProcessConfiguration,
-    dialog?: dnd5e.types.BasicRollDialogConfiguration,
-    message?: dnd5e.types.BasicRollMessageConfiguration
+    dialog?: dnd5e.dice.BasicRoll.DialogConfiguration,
+    message?: dnd5e.dice.BasicRoll.MessageConfiguration
   ): Promise<
     dnd5e.dice.BasicRoll[] |
     { rolls: dnd5e.dice.BasicRoll[], updates: object } |
@@ -119,7 +119,7 @@ declare namespace UsesField {
   >
 
 
-  interface RechargeRollProcessConfiguration extends dnd5e.types.BasicRollConfiguration {
+  interface RechargeRollProcessConfiguration extends dnd5e.dice.BasicRoll.Configuration {
     apply?: boolean
   }
 }

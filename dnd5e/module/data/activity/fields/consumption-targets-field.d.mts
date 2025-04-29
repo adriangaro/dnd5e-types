@@ -49,8 +49,8 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    * Perform consumption according to the target type.
    */
   consume(
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ): Promise<void>
   /* -------------------------------------------- */
 
@@ -59,8 +59,8 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumeActivityUses(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ): Promise<void>
 
   /* -------------------------------------------- */
@@ -70,8 +70,8 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumeAttribute(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ): Promise<void>
 
   /* -------------------------------------------- */
@@ -81,8 +81,8 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumeHitDice(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ): Promise<void>
 
   /* -------------------------------------------- */
@@ -92,8 +92,8 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumeItemUses(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ): Promise<void>
 
   /* -------------------------------------------- */
@@ -103,8 +103,8 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumeMaterial(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ): Promise<void>
 
   /* -------------------------------------------- */
@@ -114,8 +114,8 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumeSpellSlots(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ): Promise<void>
 
   /* -------------------------------------------- */
@@ -125,7 +125,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    * @internal
    */
   _usesConsumption(
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options: {
       uses: dnd5e.types.UsesData,
       type: string,
@@ -142,7 +142,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    * Create label and hint text indicating how much of this resource will be consumed/recovered.
    */
   getConsumptionLabels(
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean
     }
@@ -155,7 +155,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumptionLabelsActivityUses(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean
     }
@@ -168,7 +168,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumptionLabelsAttribute(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean
     }
@@ -181,7 +181,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumptionLabelsHitDice(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean
     }
@@ -194,7 +194,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumptionLabelsItemUses(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean
     }
@@ -207,7 +207,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumptionLabelsMaterial(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean
     }
@@ -220,7 +220,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    */
   static consumptionLabelsSpellSlots(
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean
     }
@@ -233,7 +233,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    * @internal
    */
   _resolveHintCost(
-    config: ActivityMixin.ActivityUseConfiguration
+    config: dnd5e.types.Activity.UseConfiguration
   ): { cost: string, simplifiedCost: number, increaseKey: string, pluralRule: string }
   /* -------------------------------------------- */
   /*  Valid Targets                               */
@@ -290,17 +290,17 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    * Resolve the amount to consume, taking scaling into account.
    */
   resolveCost(options?: {
-    config?: ActivityMixin.ActivityUseConfiguration,
+    config?: dnd5e.types.Activity.UseConfiguration,
     evaluate?: false,
     rolls?: dnd5e.dice.BasicRoll[]
   }): dnd5e.dice.BasicRoll
   resolveCost(options?: {
-    config?: ActivityMixin.ActivityUseConfiguration,
+    config?: dnd5e.types.Activity.UseConfiguration,
     evaluate?: true,
     rolls?: dnd5e.dice.BasicRoll[]
   }): Promise<dnd5e.dice.BasicRoll>
   resolveCost(options?: {
-    config?: ActivityMixin.ActivityUseConfiguration,
+    config?: dnd5e.types.Activity.UseConfiguration,
     evaluate?: boolean,
     rolls?: dnd5e.dice.BasicRoll[]
   }): Promise<dnd5e.dice.BasicRoll> | dnd5e.dice.BasicRoll
@@ -311,7 +311,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
    * Resolve the spell level to consume, taking scaling into account.
    */
   resolveLevel(options?: {
-    config?: ActivityMixin.ActivityUseConfiguration,
+    config?: dnd5e.types.Activity.UseConfiguration,
     rolls?: dnd5e.dice.BasicRoll[]
   }): number
 
@@ -371,13 +371,13 @@ declare namespace ConsumptionTargetsField {
 
   export type ConsumptionConsumeFunction = (
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
-    updates: ActivityMixin.ActivityUsageUpdates
+    config: dnd5e.types.Activity.UseConfiguration,
+    updates: dnd5e.types.Activity.UsageUpdates
   ) => any
 
   export type ConsumptionLabelsFunction = (
     this: ConsumptionTargetData,
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       consumed?: boolean | undefined;
     } | undefined
@@ -434,12 +434,12 @@ declare global {
       type ActivityConsumptionConfig = {
         consume: (
           this: ConsumptionTargetData,
-          config: ActivityMixin.ActivityUseConfiguration,
-          updates: ActivityMixin.ActivityUsageUpdates
+          config: dnd5e.types.Activity.UseConfiguration,
+          updates: dnd5e.types.Activity.UsageUpdates
         ) => Promise<void>,
         consumptionLabels: (
           this: ConsumptionTargetData,
-          config: ActivityMixin.ActivityUseConfiguration,
+          config: dnd5e.types.Activity.UseConfiguration,
           options?: {
             consumed: boolean
           }

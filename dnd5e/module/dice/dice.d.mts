@@ -7,8 +7,8 @@
  * Holding SHIFT, ALT, or CTRL when the attack is rolled will "fast-forward".
  * This chooses the default options of a normal attack with no bonus, Advantage, or Disadvantage respectively
  *
- * @param {DeprecatedD20RollConfiguration} configuration  Configuration data for the D20 roll.
- * @returns {Promise<D20Roll|null>}             The evaluated D20Roll, or null if the workflow was cancelled.
+ * @param configuration  Configuration data for the D20 roll.
+ * @returns              The evaluated D20Roll, or null if the workflow was cancelled.
  */
 export function d20Roll(configuration?: d20Roll.DeprecatedD20RollConfiguration): Promise<dnd5e.dice.D20Roll | null>
 export declare namespace d20Roll {

@@ -24,99 +24,6 @@ declare global {
         rule?: boolean;
       }
 
-      export type BasicRollOptions = {
-        target?: number | undefined;
-      }
-
-      export type BasicRollConfiguration = {
-        parts?: string[] | undefined;
-        data?: object;
-        situational?: boolean | undefined;
-        options?: BasicRollOptions | undefined;
-      }
-
-      export type BasicRollProcessConfiguration = {
-        rolls: BasicRollConfiguration[];
-        evaluate?: boolean | undefined;
-        event?: Event | undefined;
-        hookNames?: string[] | undefined;
-        subject?: Document | undefined;
-        target?: number | undefined;
-      }
-
-      export type CriticalDamageConfiguration = {
-        allow?: boolean | undefined;
-        multiplier?: number | undefined;
-        bonusDice?: number | undefined;
-        bonusDamage?: string | undefined;
-        multiplyDice?: boolean | undefined;
-        multiplyNumeric?: boolean | undefined;
-        powerfulCritical?: string | undefined;
-      }
-
-      export type DamageRollOptions = fvttUtils.PrettifyType<
-        fvttUtils.SimpleMerge<
-          BasicRollOptions,
-          {
-            isCritical?: boolean | undefined;
-            critical?: CriticalDamageConfiguration | undefined;
-            properties?: string[] | undefined;
-            type?: string | undefined;
-            types?: string[] | undefined;
-          }
-        >
-      >
-      export type DamageRollConfiguration = fvttUtils.PrettifyType<
-        fvttUtils.SimpleMerge<
-          BasicRollConfiguration,
-          {
-            options?: DamageRollOptions;
-          }
-        >
-      >
-
-      export type DamageRollProcessConfiguration = fvttUtils.PrettifyType<
-        fvttUtils.SimpleMerge<
-          BasicRollProcessConfiguration,
-          {
-            rolls: DamageRollConfiguration[];
-            critical?: CriticalDamageConfiguration | undefined;
-            isCritical?: boolean | undefined;
-            scaling?: number | undefined;
-          }
-        >
-      >
-      export type RollBuildConfigCallback = (process: BasicRollProcessConfiguration, config: BasicRollConfiguration, formData?: FormDataExtended, index?: number) => any
-
-      export type BasicRollConfigurationDialogRenderOptions = {
-        dice?: {
-          max?: number | undefined;
-          denominations?: Set<string> | undefined;
-        } | undefined;
-      }
-
-      export type BasicRollConfigurationDialogOptions = {
-        rollType: typeof dnd5e.dice.BasicRoll;
-        default?: {
-          rollMode?: number | undefined;
-        } | undefined;
-        buildConfig?: RollBuildConfigCallback | undefined;
-        rendering?: BasicRollConfigurationDialogRenderOptions | undefined;
-      }
-
-      export type BasicRollDialogConfiguration = {
-        configure?: boolean | undefined;
-        applicationClass?: typeof dnd5e.applications.dice.RollConfigurationDialog | undefined;
-        options?: BasicRollConfigurationDialogOptions;
-      }
-
-      export type BasicRollMessageConfiguration = {
-        create?: boolean | undefined;
-        document?: ChatMessage.Implementation;
-        rollMode?: string | undefined;
-        data?: object;
-      }
-
       export type FavoriteData5e = {
         img: string;
         title: string;
@@ -231,36 +138,39 @@ declare global {
         [K in keyof T as T[K] extends never ? never : K]: T[K]
       };
 
+      export type RemoveIndexSignatures<T> = {
+        [K in keyof T as fvttUtils.OmitIndex<K>]: T[K];
+      };
+      export type DeepMerge<T, U> = 
+        // --- Handle top-level `never` cases first ---
+        IsNever<U> extends true
+        ? never // If U is never, the result is always never.
+        : IsNever<T> extends true
+        ? U // If T is never (and U is not), the result is U.
 
-      export type DeepMerge<T, U> =
-        // --- Handle `never` cases first ---
-        IsNever<T> extends true
-        ? (IsNever<U> extends true ? never : U) // If T=never, result is U (unless U=never, then result is never)
-        : IsNever<U> extends true
-        ? T // If T!=never and U=never, result is T
-        // --- Neither is `never`, proceed with original merging logic ---
-        : PrettifyType< // Apply Prettify to the outcome of the logic below
-          IsArray<T> extends true // Check T is Array
-          ? IsArray<U> extends true // Check U is Array
-          ? Array<DeepMerge<InferArrayElement<T>, InferArrayElement<U>>> // Both Arrays: Merge elements recursively
-          : U // T is Array, U is not: U overwrites T
-          // T is not Array. Check U.
-          : fvttUtils.IsObject<U> extends true // Check U is Object
-          ? fvttUtils.IsObject<T> extends true // Check T is Object
-          // Both T and U are Objects: merge them
-          ? { // Combine properties
-            // Properties from T not in U
-            [K in Exclude<keyof T, keyof U>]: T[K];
-          } & {
-            // Properties from U not in T
-            [K in Exclude<keyof U, keyof T>]: U[K];
-          } & {
-            // Properties in both T and U: recursively DeepMerge them
-            [K in Extract<keyof T, keyof U>]: DeepMerge<T[K], U[K]>;
-          }
-          : U // T is not Object, U is Object: U overwrites T
-          // U is not an Object (and not an Array)
-          : U // U overwrites T
+        // --- Neither is `never`, proceed with merging logic ---
+        : PrettifyType< // Apply Prettify to the outcome
+            IsArray<T> extends true // Check if T is an array
+            ? IsArray<U> extends true // Check if U is also an array
+                ? Array<DeepMerge<InferArrayElement<T>, InferArrayElement<U>>> // Both are arrays: Merge elements recursively
+                : U // T is array, U is not: U takes priority
+
+            : fvttUtils.IsObject<T> extends true // Check if T is an object (and not an array)
+            ? fvttUtils.IsObject<U> extends true // Check if U is also an object
+                // Both T and U are Objects: merge them
+                ? { // Combine properties
+                    // Properties only in T
+                    [K in Exclude<keyof T, keyof U>]: T[K];
+                  } & {
+                    // Properties only in U
+                    [K in Exclude<keyof U, keyof T>]: U[K];
+                  } & {
+                    // Properties in both T and U: recursively DeepMerge them
+                    [K in Extract<keyof T, keyof U>]: DeepMerge<T[K], U[K]>;
+                  }
+                : U // T is object, U is not: U takes priority
+
+            : U // T is neither array nor object: U takes priority
         >;
 
 
@@ -520,7 +430,7 @@ declare global {
         // This branch should logically not be hit
         : {};
 
-      
+
       /**
        * Filters a string union `U` to include only those keys `K` that:
        * 1. Exist as keys in the type `T`.
@@ -533,70 +443,79 @@ declare global {
       type FilterKeysByValue<T, U extends PropertyKey, V> = {
         // 1. Iterate through each key 'K' in the input union 'U'
         [K in U]:
-          // 2. Check if 'K' is actually a key of the target type 'T'
-          K extends keyof T
-            // 3. If 'K' is a key of 'T', check if the type of its value (T[K]) extends the target value type 'V'
-            ? T[K] extends V
-              // 4. If both conditions are true, keep the key 'K'
-              ? K
-              // 5. Otherwise (value type doesn't match), discard this key by mapping it to 'never'
-              : never
-            // 6. If 'K' wasn't even a key of 'T', discard it by mapping it to 'never'
-            : never
-      // 7. Look up the properties of the mapped type using the original union 'U'.
-      // This effectively collects all non-'never' values (the keys we kept) into a final union type.
+        // 2. Check if 'K' is actually a key of the target type 'T'
+        K extends keyof T
+        // 3. If 'K' is a key of 'T', check if the type of its value (T[K]) extends the target value type 'V'
+        ? T[K] extends V
+        // 4. If both conditions are true, keep the key 'K'
+        ? K
+        // 5. Otherwise (value type doesn't match), discard this key by mapping it to 'never'
+        : never
+        // 6. If 'K' wasn't even a key of 'T', discard it by mapping it to 'never'
+        : never
+        // 7. Look up the properties of the mapped type using the original union 'U'.
+        // This effectively collects all non-'never' values (the keys we kept) into a final union type.
       }[U];
 
-       /**
-        * Helper type to recursively split a dot-separated string path into a tuple of keys.
-        * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
-        * @example SplitPath<'a'> // Result: ['a']
-        * @example SplitPath<''> // Result: []
-        */
-       type SplitPath<S extends string> =
-         S extends `${infer Key}.${infer Rest}`
-         ? [Key, ...SplitPath<Rest>]
-         : S extends "" ? [] : [S];
- 
-       /**
-        * Recursively navigates a type `T` using a tuple of path segments `TPath`.
-        * Returns the type at the end of the path or `never`.
-        */
-       type NavigatePath<T, TPath extends string[]> =
-         // Base Case 1: If T becomes null or undefined before path ends, the path is invalid.
-         T extends undefined | null
-         ? TPath extends [] ? T : never // Return T if path is also done, else never
-         : TPath extends []
-         // Base Case 2: Path is exhausted, return the current type T.
-         ? T
-         : TPath extends [infer CurrentKey, ...infer RemainingKeys]
-         // Recursive Step: Check if CurrentKey is a valid key of T and RemainingKeys is string[].
-         ? CurrentKey extends keyof T
-         ? RemainingKeys extends string[]
-         // Recurse with the type T[CurrentKey] and the remaining path segments.
-         ? NavigatePath<T[CurrentKey], RemainingKeys>
-         : never // Should not happen if SplitPath is correct
-         : never // CurrentKey is not a valid key in T for the remaining path.
-         : never;
- 
-       /**
-        * Utility type to get the type of a property deep within an object `T`
-        * using a dot-separated string path `P`.
-        *
-        * @template T The object type to navigate.
-        * @template P The dot-separated string path (e.g., "user.address.street").
-        * @returns The type found at the specified path, or `never` if the path is invalid.
-        *
-        * @example
-        * type MyType = { actor: { system: { traits: string[] } }, name: string };
-        * type TraitsType = GetTypeFromPath<MyType, 'actor.system.traits'>; // string[]
-        * type NameType = GetTypeFromPath<MyType, 'name'>; // string
-        * type InvalidPath = GetTypeFromPath<MyType, 'actor.data.value'>; // never
-        * type TooDeep = GetTypeFromPath<MyType, 'name.length'>; // never (unless T was string)
-        * type RootType = GetTypeFromPath<MyType, ''>; // MyType
-        */
-       export type GetTypeFromPath<T, P extends string> = NavigatePath<T, SplitPath<P>>;
+      /**
+       * Helper type to recursively split a dot-separated string path into a tuple of keys.
+       * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
+       * @example SplitPath<'a'> // Result: ['a']
+       * @example SplitPath<''> // Result: []
+       */
+      type SplitPath<S extends string> =
+        S extends `${infer Key}.${infer Rest}`
+        ? [Key, ...SplitPath<Rest>]
+        : S extends "" ? [] : [S];
 
+      /**
+       * Recursively navigates a type `T` using a tuple of path segments `TPath`.
+       * Returns the type at the end of the path or `never`.
+       */
+      type NavigatePath<T, TPath extends string[]> =
+        // Base Case 1: If T becomes null or undefined before path ends, the path is invalid.
+        T extends undefined | null
+        ? TPath extends [] ? T : never // Return T if path is also done, else never
+        : TPath extends []
+        // Base Case 2: Path is exhausted, return the current type T.
+        ? T
+        : TPath extends [infer CurrentKey, ...infer RemainingKeys]
+        // Recursive Step: Check if CurrentKey is a valid key of T and RemainingKeys is string[].
+        ? CurrentKey extends keyof T
+        ? RemainingKeys extends string[]
+        // Recurse with the type T[CurrentKey] and the remaining path segments.
+        ? NavigatePath<T[CurrentKey], RemainingKeys>
+        : never // Should not happen if SplitPath is correct
+        : never // CurrentKey is not a valid key in T for the remaining path.
+        : never;
+
+      /**
+       * Utility type to get the type of a property deep within an object `T`
+       * using a dot-separated string path `P`.
+       *
+       * @template T The object type to navigate.
+       * @template P The dot-separated string path (e.g., "user.address.street").
+       * @returns The type found at the specified path, or `never` if the path is invalid.
+       *
+       * @example
+       * type MyType = { actor: { system: { traits: string[] } }, name: string };
+       * type TraitsType = GetTypeFromPath<MyType, 'actor.system.traits'>; // string[]
+       * type NameType = GetTypeFromPath<MyType, 'name'>; // string
+       * type InvalidPath = GetTypeFromPath<MyType, 'actor.data.value'>; // never
+       * type TooDeep = GetTypeFromPath<MyType, 'name.length'>; // never (unless T was string)
+       * type RootType = GetTypeFromPath<MyType, ''>; // MyType
+       */
+      export type GetTypeFromPath<T, P extends string> = NavigatePath<T, SplitPath<P>>;
+
+      type IsExactly<A, B> = [A] extends [B]
+        ? [B] extends [A]
+        ? true
+        : false
+        : false;
+
+      type EnsureAnyIfNever<T> = {
+        [K in keyof T]: T[K] extends never ? any : T[K]
+      }
       export interface DND5EConfig {
 
       }

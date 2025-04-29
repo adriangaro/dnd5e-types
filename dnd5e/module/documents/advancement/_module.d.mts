@@ -56,6 +56,9 @@ declare global {
         OverrideTypes
       >;
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      
+      type AnyClass = Types[TypeKey];
+      type Any = fvttUtils.FixedInstanceType<Types[TypeKey]>;
 
       type AdvancementTypeConfig<T extends TypeKey> = {
         documentClass: Types[T],
@@ -68,14 +71,12 @@ declare global {
 
       // TODO: infer Config
       type ConfigSheetMap = {
-        [K in keyof Types]: AdvancementConfig
+        [K in keyof Types]: AdvancementConfig<Any>
       }
 
       type AdvancementAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<
         SchemaMap[T]
       >
-      type AnyClass = Types[TypeKey];
-      type Any = fvttUtils.FixedInstanceType<Types[TypeKey]>;
     }
     interface DND5EConfig {
       advancementTypes: {

@@ -1,11 +1,10 @@
-import type Dialog5e from "../applications/api/dialog.d.mts";
 import RollConfigurationDialog from "../applications/dice/roll-configuration-dialog.mjs";
 
 /**
  * Custom base roll type with methods for building rolls, presenting prompts, and creating messages.
  */
 declare class BasicRoll<
-  D extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
+  D extends fvttUtils.AnyObject = fvttUtils.AnyObject,
   Configuration extends fvttUtils.AnyObject = {},
   ProcessConfiguration extends fvttUtils.AnyObject = {},
   DialogConfiguration extends fvttUtils.AnyObject = {},
@@ -74,7 +73,7 @@ declare class BasicRoll<
     this: This,
     rolls: InstanceType<This>[],
     config?: InstanceType<This>['__ProcessConfiguration'],
-    message?: InstanceType<This>['__MessageConfiguration'] 
+    message?: InstanceType<This>['__MessageConfiguration']
   ): Promise<InstanceType<This>>
   /* -------------------------------------------- */
 
@@ -85,7 +84,7 @@ declare class BasicRoll<
     this: This,
     rolls: InstanceType<This>[],
     config?: InstanceType<This>['__ProcessConfiguration'],
-    message?: InstanceType<This>['__MessageConfiguration'] 
+    message?: InstanceType<This>['__MessageConfiguration']
   ): Promise<ChatMessage.Implementation>
 
   /* -------------------------------------------- */
@@ -97,7 +96,7 @@ declare class BasicRoll<
     this: This,
     config: InstanceType<This>['__ProcessConfiguration'],
     dialog: InstanceType<This>['__DialogConfiguration'],
-    message: InstanceType<This>['__MessageConfiguration'] 
+    message: InstanceType<This>['__MessageConfiguration']
   )
 
   /* -------------------------------------------- */
@@ -203,23 +202,26 @@ declare class BasicRoll<
    */
   static mergeConfigs<This extends typeof BasicRoll>(
     this: This,
-    original: Partial<InstanceType<This>['__Configuration']>, 
+    original: Partial<InstanceType<This>['__Configuration']>,
     other?: Partial<InstanceType<This>['__Configuration']>
   ): Partial<InstanceType<This>['__Configuration']>
 }
 
-declare class AnyBasicRoll extends BasicRoll<fvttUtils.EmptyObject, {}, {}, {}, {}> {
+declare class AnyBasicRoll extends BasicRoll<
+  fvttUtils.EmptyObject, fvttUtils.EmptyObject, 
+  fvttUtils.EmptyObject, fvttUtils.EmptyObject, 
+  fvttUtils.EmptyObject
+> {
   constructor(...args: never);
 }
 
 declare namespace BasicRoll {
-  interface Any extends AnyBasicRoll {}
-  interface AnyConstructor extends fvttUtils.Identity<typeof AnyBasicRoll> {}
-  type DefaultConstructor = typeof BasicRoll<fvttUtils.EmptyObject, {}, {}, {}, {}>
+  interface Any extends AnyBasicRoll { }
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyBasicRoll> { }
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
-  > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
+  > = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     {
       /**
      * Parts used to construct the roll formula.
@@ -249,7 +251,7 @@ declare namespace BasicRoll {
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
     Cfg extends MakeConfiguration<any> = MakeConfiguration
-  > = fvttUtils.PrettifyType<
+  > = dnd5e.types.EnsureAnyIfNever<
     dnd5e.types.DeepMerge<
       {
         /** Configuration data for individual rolls. */
@@ -292,7 +294,7 @@ declare namespace BasicRoll {
 
   type MakeDialogConfiguration<
     DlgCfg extends fvttUtils.AnyObject = {},
-  > = fvttUtils.PrettifyType<
+  > = dnd5e.types.EnsureAnyIfNever<
     dnd5e.types.DeepMerge<
       {
         /**
@@ -300,18 +302,23 @@ declare namespace BasicRoll {
        * @defaultValue `true`
        */
         configure?: boolean;
-
-        /** Alternate configuration application to use. */
-        applicationClass?: typeof RollConfigurationDialog;
-
-        /** Additional options passed to the dialog. */
-        options?: RollConfigurationDialog.BasicRollConfigurationDialogOptions;
-      },
+      } & MakeDialogAppConfig<
+        typeof RollConfigurationDialog
+      >,
       DlgCfg
     >
   >
   type DialogConfiguration = BasicRoll['__DialogConfiguration']
 
+  type MakeDialogAppConfig<
+    DialogClass extends fvttUtils.AnyConstructor
+  > = {
+    /** Alternate configuration application to use. */
+    applicationClass?: DialogClass;
+
+    /** Additional options passed to the dialog. */
+    options?: dnd5e.types.GetKey<fvttUtils.FixedInstanceType<DialogClass>, '__Configuration'>;
+  }
   /* -------------------------------------------- */
 
   /**
@@ -320,7 +327,7 @@ declare namespace BasicRoll {
 
   type MakeMessageConfiguration<
     MsgCfg extends fvttUtils.AnyObject = {},
-  > = fvttUtils.PrettifyType<
+  > = dnd5e.types.EnsureAnyIfNever<
     dnd5e.types.DeepMerge<
       {
         /**

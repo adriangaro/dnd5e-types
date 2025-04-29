@@ -12,6 +12,7 @@ import { default as SaveActivity } from "./save.mjs";
 import { default as SummonActivity } from "./summon.mjs";
 import { default as UtilityActivity } from "./utility.mjs";
 import type ActivitySheet from '@dnd5e/module/applications/activity/activity-sheet.mjs';
+import type OrderActivity from './order.d.mts';
 
 declare class _ActivityMixin {
   /** @privateRemarks All mixin classses should accept anything for its constructor. */
@@ -19,7 +20,7 @@ declare class _ActivityMixin {
 
   type: dnd5e.types.Activity.TypeKey;
 
-  static metadata: _ActivityMixin.Metadata;
+  static metadata: dnd5e.types.Activity.Metadata;
   static localize(): void;
   static _localizeSchema(schema: foundry.data.fields.SchemaField<any>, prefixes: string[]): void;
 
@@ -27,57 +28,57 @@ declare class _ActivityMixin {
 
   get canUse(): boolean
   get damageFlavor(): string
-  get messageFlags(): _ActivityMixin.MessageFlags<this>
+  get messageFlags(): dnd5e.types.Activity.MessageFlags<this>
   get relativeUUID(): string;
   get validConsumptionTypes(): Set<keyof dnd5e.types.DND5EConfig['activityConsumptionTypes']>
 
   use(
-    usage?: ActivityMixin.ActivityUseConfiguration,
-    dialog?: ActivityMixin.ActivityDialogConfiguration,
-    message?: ActivityMixin.ActivityMessageConfiguration
-  ): Promise<ActivityMixin.ActivityUsageResults | void>
+    usage?: dnd5e.types.Activity.UseConfiguration,
+    dialog?: dnd5e.types.Activity.DialogConfiguration,
+    message?: dnd5e.types.Activity.MessageConfiguration
+  ): Promise<dnd5e.types.Activity.UsageResults | void>
 
   consume(
-    usageConfig: ActivityMixin.ActivityUseConfiguration,
-    messageConfig: ActivityMixin.ActivityMessageConfiguration
-  ): ActivityMixin.ActivityUsageResults | false
+    usageConfig: dnd5e.types.Activity.UseConfiguration,
+    messageConfig: dnd5e.types.Activity.MessageConfiguration
+  ): dnd5e.types.Activity.UsageResults | false
 
   refund(
-    consumed: ActivityMixin.ActivityConsumptionDescriptor
+    consumed: dnd5e.types.Activity.ConsumptionDescriptor
   ): Promise<void>
 
   #applyUsageUpdates(
-    updates: ActivityMixin.ActivityUsageUpdates
-  ): Promise<ActivityMixin.ActivityConsumptionDescriptor>
+    updates: dnd5e.types.Activity.UsageUpdates
+  ): Promise<dnd5e.types.Activity.ConsumptionDescriptor>
 
   _prepareUsageConfig(
-    config: ActivityMixin.ActivityUseConfiguration
-  ): ActivityMixin.ActivityUseConfiguration
+    config: dnd5e.types.Activity.UseConfiguration
+  ): dnd5e.types.Activity.UseConfiguration
 
   _prepareUsageScaling(
-    usageConfig: ActivityMixin.ActivityUseConfiguration,
-    messageConfig: ActivityMixin.ActivityMessageConfiguration,
+    usageConfig: dnd5e.types.Activity.UseConfiguration,
+    messageConfig: dnd5e.types.Activity.MessageConfiguration,
     item: Item.Implementation
   )
 
   _prepareUsageUpdates(
-    config: ActivityMixin.ActivityUseConfiguration,
+    config: dnd5e.types.Activity.UseConfiguration,
     options?: {
       returnErrors: boolean
     }
-  ): Promise<ActivityMixin.ActivityUsageUpdates | Error[] | false>
+  ): Promise<dnd5e.types.Activity.UsageUpdates | Error[] | false>
 
   _requiresConfigurationDialog(
-    config: ActivityMixin.ActivityUseConfiguration
+    config: dnd5e.types.Activity.UseConfiguration
   ): boolean
 
   _usageChatContext(
-    message: ActivityMixin.ActivityMessageConfiguration
+    message: dnd5e.types.Activity.MessageConfiguration
   ): Promise<object>
 
   _usageChatButtons(
-    message: ActivityMixin.ActivityMessageConfiguration
-  ): Promise<ActivityMixin.ActivityUsageChatButton[]>
+    message: dnd5e.types.Activity.MessageConfiguration
+  ): Promise<dnd5e.types.Activity.UsageChatButton[]>
 
   shouldHideChatButton(
     button: HTMLButtonElement,
@@ -85,23 +86,23 @@ declare class _ActivityMixin {
   ): boolean
 
   _createUsageMessage(
-    message: ActivityMixin.ActivityMessageConfiguration
+    message: dnd5e.types.Activity.MessageConfiguration
   ): Promise<object> // Promise<ChatMessage.Implementation | object>
 
   _finalizeUsage(
-    config: ActivityMixin.ActivityUseConfiguration,
-    results: ActivityMixin.ActivityUsageResults
-  ): Promise<void>
+    config: dnd5e.types.Activity.UseConfiguration,
+    results: dnd5e.types.Activity.UsageResults
+  ): Promise<unknown>
 
   _triggerSubsequentActions(
-    config: ActivityMixin.ActivityUseConfiguration,
-    results: ActivityMixin.ActivityUsageResults
+    config: dnd5e.types.Activity.UseConfiguration,
+    results: dnd5e.types.Activity.UsageResults
   ): Promise<void>
 
   rollDamage(
-    config?: Partial<dnd5e.types.DamageRollProcessConfiguration>,
-    dialog?: Partial<dnd5e.types.BasicRollDialogConfiguration>,
-    message?: Partial<dnd5e.types.BasicRollMessageConfiguration>
+    config?: Partial<dnd5e.dice.DamageRoll.ProcessConfiguration>,
+    dialog?: Partial<dnd5e.dice.BasicRoll.DialogConfiguration>,
+    message?: Partial<dnd5e.dice.BasicRoll.MessageConfiguration>
   ): Promise<dnd5e.dice.DamageRoll[] | void>
 
   activateChatListeners(message: ChatMessage, html: HTMLElement): void
@@ -124,12 +125,21 @@ declare class _ActivityMixin {
 
   getRollData(options?: {
     deterministic?: boolean | undefined;
-  }): fvttUtils.AnyObject
+  }): dnd5e.types.Activity.RollData<this>
 
-  _mergeActivityUpdates(updates: ActivityMixin.ActivityUsageUpdates): void
+  _mergeActivityUpdates(updates: dnd5e.types.Activity.UsageUpdates): void
 }
 
-declare namespace _ActivityMixin {
+declare namespace _ActivityMixin {}
+
+declare function ActivityMixin<
+  T extends fvttUtils.AnyConstructor
+>(
+  BaseClass: T
+): typeof _ActivityMixin & ReturnType<typeof PseudoDocumentMixin<T>>
+
+declare namespace ActivityMixin {
+  
   interface Metadata extends PseudoDocumentMixin.MixinClass.Metadata {
     sheetClass: typeof dnd5e.applications.activity.ActivitySheet
     usage: {
@@ -152,21 +162,12 @@ declare namespace _ActivityMixin {
     },
     targets: ReturnType<typeof dnd5e.utils.getTargetDescriptors>
   }
-}
+  interface RollData<This> extends ReturnType<Item.Implementation['getRollData']> {
+    activity: This,
+    mod: number
+  }
 
-
-
-declare function ActivityMixin<
-  T extends fvttUtils.AnyConstructor
->(
-  BaseClass: T
-): typeof _ActivityMixin & ReturnType<typeof PseudoDocumentMixin<T>>
-
-declare namespace ActivityMixin {
-  export import MixinClass = _ActivityMixin;
-
- 
-  type ActivityUseConfiguration = {
+  interface UseConfiguration {
     create?: false | {
       measuredTemplate: boolean
     },
@@ -175,7 +176,7 @@ declare namespace ActivityMixin {
       end?: string | null
     },
     consume?: false | {
-      resources: boolean | number[];
+      resources: boolean | number[]
       spellSlot?: boolean
     },
     event?: Event,
@@ -185,11 +186,11 @@ declare namespace ActivityMixin {
     subsequentActions?: boolean,
     cause?: {
       activity: string;
-      resources: boolean | number[];
+      resources: boolean | number[]
     }
   }
 
-  type ActivityUsageUpdates = {
+  interface UsageUpdates {
     activity?: object,
     actor?: object,
     create?: object[],
@@ -198,29 +199,28 @@ declare namespace ActivityMixin {
     rolls?: Roll[];
   }
 
-  
 
-  type ActivityDialogConfiguration = {
+  interface DialogConfiguration {
     configure?: boolean,
     applicationClass?: typeof dnd5e.applications.activity.ActivityUsageDialog,
     options?: object
   }
 
-  type ActivityMessageConfiguration = {
+  interface MessageConfiguration {
     create?: boolean;
     data?: object;
     hasConsumption?: boolean;
     rollMode?: string;
   }
 
-  type ActivityUsageResults = {
+  interface UsageResults {
     effects: ActiveEffect.Implementation[];
     message: ChatMessage.Implementation | object;
     templates: MeasuredTemplateDocument.Implementation[];
-    updates: ActivityUsageUpdates;
+    updates: UsageUpdates;
   }
 
-  type ActivityConsumptionDescriptor = {
+  interface ConsumptionDescriptor {
     actor: {
       keyPath: string;
       delta: number;
@@ -231,19 +231,18 @@ declare namespace ActivityMixin {
     }[]>;
   }
 
-  type ActivityUsageChatButton = {
+  interface UsageChatButton {
     label: string;
     icon: string;
     classes: string;
     dataset: object;
   }
-  //
 }
 
 declare global {
   namespace dnd5e.types {
     namespace Activity {
-      export import Mixin = ActivityMixin
+      export import Mixin = _ActivityMixin
       interface DefaultActivityTypes extends Record<string, BaseActivityData.AnyConstructor> {
         attack: typeof AttackActivity;
         cast: typeof CastActivity;
@@ -252,6 +251,7 @@ declare global {
         enchant: typeof EnchantActivity;
         forward: typeof ForwardActivity;
         heal: typeof HealActivity;
+        order: typeof OrderActivity;
         save: typeof SaveActivity;
         summon: typeof SummonActivity;
         utility: typeof UtilityActivity;
@@ -291,12 +291,24 @@ declare global {
 
       // TODO add activity sheet data
       type SheetMap = {
-        [K in keyof Types]: ActivitySheet
+        [K in keyof Types]: ActivitySheet<Any>
       }
 
       type ActivityAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<
         SchemaMap[T]
       >
+
+      // types
+      export import Metadata = ActivityMixin.Metadata;
+      export import MessageFlags = ActivityMixin.MessageFlags;
+      export import RollData = ActivityMixin.RollData;
+      export import UseConfiguration = ActivityMixin.UseConfiguration;
+      export import UsageUpdates = ActivityMixin.UsageUpdates;
+      export import DialogConfiguration = ActivityMixin.DialogConfiguration;
+      export import MessageConfiguration = ActivityMixin.MessageConfiguration;
+      export import UsageResults = ActivityMixin.UsageResults;
+      export import ConsumptionDescriptor = ActivityMixin.ConsumptionDescriptor;
+      export import UsageChatButton = ActivityMixin.UsageChatButton;
     }
     interface DND5EConfig {
       activityTypes: {

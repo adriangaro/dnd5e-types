@@ -25,10 +25,9 @@ declare class DamageRoll<
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  static DefaultConfigurationDialog: typeof DamageRollConfigurationDialog<any, any, any>;
+  static DefaultConfigurationDialog: typeof DamageRollConfigurationDialog;
 
-
-  /* -------------------------------------------- */
+  /* -------------------------------------------- 
   /*  Properties                                  */
   /* -------------------------------------------- */
 

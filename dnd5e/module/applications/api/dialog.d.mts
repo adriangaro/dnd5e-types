@@ -8,9 +8,9 @@ declare class Dialog5e<
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends Application5e<
-  Dialog5e.RenderContext<RenderContext>,
-  Dialog5e.Configuration<Configuration>,
-  Dialog5e.RenderOptions<RenderOptions>
+  Dialog5e.MakeRenderContext<RenderContext>,
+  Dialog5e.MakeConfiguration<Configuration>,
+  Dialog5e.MakeRenderOptions<RenderOptions>
 > {
   /* -------------------------------------------- */
   /*  Properties                                  */
@@ -28,18 +28,18 @@ declare class Dialog5e<
   /**
    * Prepare rendering context for the content section.
    */
-  _prepareContentContext(context: RenderContext, options: foundry.applications.api.HandlebarsApplicationMixin.RenderOptions): Promise<RenderContext>
+  _prepareContentContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
   /**
    * Prepare rendering context for the footer.
    */
-  _prepareFooterContext(context: RenderContext, options: foundry.applications.api.HandlebarsApplicationMixin.RenderOptions): Promise<RenderContext>
+  _prepareFooterContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
 }
 
 declare namespace Dialog5e {
-  type RenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
       buttons: {
         action?: string,
@@ -52,7 +52,9 @@ declare namespace Dialog5e {
     },
     Ctx
   >
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type RenderContext = Dialog5e['__RenderContext']
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
       buttons?: {
         action?: string,
@@ -64,7 +66,9 @@ declare namespace Dialog5e {
     },
     Cfg
   >
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type Configuration = Dialog5e['__Configuration']
+  
+  type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
       buttons?: {
         action?: string,
@@ -76,6 +80,7 @@ declare namespace Dialog5e {
     },
     Opt
   >
+  type RenderOptions = Dialog5e['__RenderOptions']
 }
 
 export default Dialog5e

@@ -9,7 +9,7 @@ import TraitsFields from "./templates/traits.mjs";
 
 type AttributesData = fvttUtils.SimpleMerge<
   typeof AttributesFields['common'],
-  fvttUtils.SimpleMerge<
+  dnd5e.types.MergeSchemas<
     typeof AttributesFields['creature'],
     {
       hd: foundry.data.fields.SchemaField<

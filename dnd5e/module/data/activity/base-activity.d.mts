@@ -97,7 +97,7 @@ declare class BaseActivityData<
   /**
    * Effects that can be applied from this activity.
    */
-  get applicableEffects(): ActiveEffect.Implementation[] | null
+  // get applicableEffects(): ActiveEffect.Implementation[] | null
 
   /* -------------------------------------------- */
 
@@ -342,7 +342,7 @@ declare class BaseActivityData<
   /**
    * Get the roll parts used to create the damage rolls.
    */
-  getDamageConfig(config?: Partial<dnd5e.types.DamageRollProcessConfiguration>): dnd5e.types.DamageRollProcessConfiguration
+  getDamageConfig(config?: Partial<dnd5e.dice.DamageRoll.ProcessConfiguration>): dnd5e.dice.DamageRoll.ProcessConfiguration
 
   /* -------------------------------------------- */
 
@@ -355,7 +355,7 @@ declare class BaseActivityData<
    * @returns {DamageRollConfiguration}
    * @protected
    */
-  _processDamagePart(damage: dnd5e.types.Damage.Data, rollConfig: Partial<dnd5e.types.DamageRollProcessConfiguration>, rollData: ReturnType<dnd5e.types.GetKey<this, 'getRollData'>>, index?: number): dnd5e.types.DamageRollConfiguration
+  _processDamagePart(damage: dnd5e.types.Damage.Data, rollConfig: Partial<dnd5e.dice.DamageRoll.ProcessConfiguration>, rollData: ReturnType<dnd5e.types.GetKey<this, 'getRollData'>>, index?: number): dnd5e.dice.DamageRoll.Configuration
 
   /* -------------------------------------------- */
 

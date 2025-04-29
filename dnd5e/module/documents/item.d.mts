@@ -1,19 +1,8 @@
-import ActivityChoiceDialog from "../applications/activity/activity-choice-dialog.mjs";
-import AdvancementManager from "../applications/advancement/advancement-manager.mjs";
-import AdvancementConfirmationDialog from "../applications/advancement/advancement-confirmation-dialog.mjs";
-import CreateScrollDialog from "../applications/item/create-scroll-dialog.mjs";
-import ClassData from "../data/item/class.mjs";
-import ContainerData from "../data/item/container.mjs";
 import EquipmentData from "../data/item/equipment.mjs";
-import SpellData from "../data/item/spell.mjs";
-import ActivitiesTemplate from "../data/item/templates/activities.mjs";
-import PhysicalItemTemplate from "../data/item/templates/physical-item.mjs";
 import { _applyDeprecatedD20Configs } from "../dice/d20-roll.mjs";
-import { staticID } from "../utils.mjs";
 import Scaling from "./scaling.mjs";
 import Proficiency from "./actor/proficiency.mjs";
 import SelectChoices from "./actor/select-choices.mjs";
-import Advancement from "./advancement/advancement.mjs";
 import SystemDocumentMixin from "./mixins/document.mjs";
 import type ActivitySheet from "../applications/activity/activity-sheet.d.mts";
 import type AdvancementConfig from "../applications/advancement/advancement-config-v2.d.mts";
@@ -439,10 +428,10 @@ declare class Item5e<
    *                                                                   activities and was posted directly to chat.
    */
   use(
-    config?: dnd5e.types.Activity.Mixin.ActivityUseConfiguration,
-    dialog?: dnd5e.types.Activity.Mixin.ActivityDialogConfiguration,
-    message?: dnd5e.types.Activity.Mixin.ActivityMessageConfiguration
-  ): Promise<dnd5e.types.Activity.Mixin.ActivityUsageResults | ChatMessage.Implementation | undefined>
+    config?: dnd5e.types.Activity.UseConfiguration,
+    dialog?: dnd5e.types.Activity.DialogConfiguration,
+    message?: dnd5e.types.Activity.MessageConfiguration
+  ): Promise<dnd5e.types.Activity.UsageResults | ChatMessage.Implementation | undefined>
 
   /* -------------------------------------------- */
 
@@ -467,7 +456,7 @@ declare class Item5e<
    * @param {Partial<ActivityMessageConfiguration>} [message]  Configuration info for the created chat message.
    * @returns {Promise<ChatMessage5e|object|void>}
    */
-  displayCard(message?: Partial<dnd5e.types.Activity.Mixin.ActivityMessageConfiguration>): Promise<ChatMessage.Implementation | undefined>
+  displayCard(message?: Partial<dnd5e.types.Activity.MessageConfiguration>): Promise<ChatMessage.Implementation | undefined>
 
   /* -------------------------------------------- */
   /*  Chat Cards                                  */

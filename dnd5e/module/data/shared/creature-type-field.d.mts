@@ -27,11 +27,9 @@ declare class CreatureTypeField<
 
 declare namespace CreatureTypeField {
   export type BaseFields = {
-    value: foundry.data.fields.StringField<
-      { blank: true, label: "DND5E.CreatureType" }, 
-      dnd5e.types.Creature.TypeKey,
-      dnd5e.types.Creature.TypeKey,
-      dnd5e.types.Creature.TypeKey
+    value: dnd5e.types.fields.RestrictedStringField<
+      dnd5e.types.Creature.TypeKey | 'custom',
+      { blank: true, label: "DND5E.CreatureType" } 
     >,
     subtype: foundry.data.fields.StringField<{ label: "DND5E.CreatureTypeSelectorSubtype" }>,
     swarm: foundry.data.fields.StringField<{ blank: true, label: "DND5E.CreatureSwarmSize" }>,

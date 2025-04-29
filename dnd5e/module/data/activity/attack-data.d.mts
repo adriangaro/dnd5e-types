@@ -83,7 +83,7 @@ declare class AttackActivityData extends BaseActivityData<
   /**
    * Get the roll parts used to create the damage rolls.
    */
-  getDamageConfig(config: Partial<AttackActivityData.AttackDamageRollProcessConfiguration>): AttackActivityData.AttackDamageRollProcessConfiguration
+  getDamageConfig(config: Partial<AttackActivityData.ProcessConfiguration>): AttackActivityData.ProcessConfiguration
   /* -------------------------------------------- */
 
   /**
@@ -95,12 +95,11 @@ declare class AttackActivityData extends BaseActivityData<
 
 declare namespace AttackActivityData {
   type AttackMode = "oneHanded" | "twoHanded" | "offhand" | "thrown" | "thrown-offhand"
-  interface AttackDamageRollProcessConfiguration extends dnd5e.types.DamageRollProcessConfiguration {
+  interface ProcessConfiguration extends dnd5e.dice.DamageRoll.ProcessConfiguration {
     ammunition: Item.OfType<'consumable'>;
     attackMode: AttackMode
   }
 }
 
-type d = AttackActivityData['attack']['ability']
 
 export default AttackActivityData;

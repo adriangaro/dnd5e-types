@@ -18,7 +18,7 @@ declare namespace BaseConfigSheet{
   type RenderContext<Ctx extends fvttUtils.AnyObject = {}> =  dnd5e.types.DeepMerge<
     {
       advantageModeOptions: {
-        value: -1 | 0 | 1 
+        value: dnd5e.dice.D20Roll.AdvantageMode
         label: string 
       }[]
     },

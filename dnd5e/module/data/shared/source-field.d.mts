@@ -39,10 +39,11 @@ declare namespace SourceField {
 
   export type GetSchema<
     Fields extends foundry.data.fields.DataSchema,
-  > = fvttUtils.SimpleMerge<
+  > = dnd5e.types.FilterNever<fvttUtils.SimpleMerge<
     BaseFields,
     Fields
-  >
+  >>
+
   export type Options<
     Fields extends foundry.data.fields.DataSchema,
   > = foundry.data.fields.SchemaField.Options<
@@ -53,7 +54,7 @@ declare namespace SourceField {
 
   export type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
-    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+    Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
     Opts
@@ -61,7 +62,7 @@ declare namespace SourceField {
 
   export type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
-    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+    Opts extends Options<Fields> = DefaultOptions,
   > = fvttUtils.Merge<
     foundry.data.fields.SchemaField.Internal.InitializedType<
       GetSchema<Fields>, Opts
@@ -78,7 +79,7 @@ declare namespace SourceField {
 
   export type PersistedType<
     Fields extends foundry.data.fields.DataSchema,
-    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+    Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
     Opts

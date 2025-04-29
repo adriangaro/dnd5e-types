@@ -8,35 +8,40 @@ declare class Application5e<
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends ApplicationV2Mixin(foundry.applications.api.ApplicationV2)<
-  Application5e.RenderContext<RenderContext>,
-  Application5e.Configuration<Configuration>,
-  Application5e.RenderOptions<RenderOptions>
+  Application5e.MakeRenderContext<RenderContext>,
+  Application5e.MakeConfiguration<Configuration>,
+  Application5e.MakeRenderOptions<RenderOptions>
 > {
-  __Configuration: Application5e.Configuration<Configuration>;
-  __RenderOptions: Application5e.RenderOptions<RenderOptions>;
-  __RenderContext: Application5e.RenderContext<RenderContext>;
+  __Configuration: Application5e.MakeConfiguration<Configuration>;
+  __RenderOptions: Application5e.MakeRenderOptions<RenderOptions>;
+  __RenderContext: Application5e.MakeRenderContext<RenderContext>;
 }
 
 
 declare namespace Application5e {
-  type RenderContext<Ctx extends fvttUtils.AnyObject = {}> = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
+  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     ApplicationV2Mixin.RenderContext,
     Ctx
   >>
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
+  type RenderContext = Application5e['__RenderContext']
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
       foundry.applications.api.ApplicationV2.Configuration,
       ApplicationV2Mixin.Configuration
     >,
     Cfg
-  > & foundry.applications.api.ApplicationV2.Configuration>
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
+  >> & foundry.applications.api.ApplicationV2.Configuration
+  type Configuration = Application5e['__Configuration']
+
+  type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
       foundry.applications.api.ApplicationV2.RenderOptions,
       ApplicationV2Mixin.RenderOptions
     >,
     Opt
-  > & foundry.applications.api.ApplicationV2.RenderOptions>
+  >> & foundry.applications.api.ApplicationV2.RenderOptions
+  type RenderOptions = Application5e['__RenderOptions']
 }
 
 export default Application5e

@@ -2,7 +2,6 @@ import BaseActivityData from "./base-activity.mjs";
 
 /**
  * Data model for an order activity.
- * @property {string} order  The issued order.
  */
 export default class OrderActivityData extends BaseActivityData<
   dnd5e.types.MergeSchemas<

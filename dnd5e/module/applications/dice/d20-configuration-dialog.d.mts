@@ -3,30 +3,31 @@ import RollConfigurationDialog from "./roll-configuration-dialog.mjs";
 /**
  * Dialog for configuring d20 rolls.
  *
- * @param {D20RollProcessConfiguration} [config={}]           Initial roll configuration.
- * @param {BasicRollMessageConfiguration} [message={}]        Message configuration.
- * @param {BasicRollConfigurationDialogOptions} [options={}]  Dialog rendering options.
  */
 declare class D20RollConfigurationDialog<
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends RollConfigurationDialog<
-  dnd5e.dice.D20Roll.DefaultConstructor,
-  D20RollConfigurationDialog.RenderContext<RenderContext>,
-  D20RollConfigurationDialog.Configuration<Configuration>,
-  D20RollConfigurationDialog.RenderOptions<RenderOptions>
-> { }
+  typeof dnd5e.dice.D20Roll<{}, {}, {}, {}, {}>,
+  D20RollConfigurationDialog.MakeRenderContext<RenderContext>,
+  D20RollConfigurationDialog.MakeConfiguration<Configuration>,
+  D20RollConfigurationDialog.MakeRenderOptions<RenderOptions>
+> { 
+  __RollType: typeof dnd5e.dice.D20Roll
 
-declare class AnyD20RollConfigurationDialog extends D20RollConfigurationDialog<{}, {}, {}> {
+}
+
+declare class AnyD20RollConfigurationDialog extends D20RollConfigurationDialog {
   constructor(...args: never);
 }
+
 
 declare namespace D20RollConfigurationDialog {
   interface Any extends AnyD20RollConfigurationDialog {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyD20RollConfigurationDialog> {}
-  
-  type RenderContext<
+
+  type MakeRenderContext<
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {
@@ -35,20 +36,25 @@ declare namespace D20RollConfigurationDialog {
         label: string
       }>
     },
-    Ctx
+    dnd5e.types.IsExactly<Ctx, fvttUtils.AnyObject> extends true ? {} : Ctx
   >
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type RenderContext = D20RollConfigurationDialog['__RenderContext']
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
-    Cfg
+    dnd5e.types.IsExactly<Cfg, fvttUtils.AnyObject> extends true ? {} : Cfg
   >
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type Configuration = D20RollConfigurationDialog['__Configuration']
+
+  type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
-    Opt
+    dnd5e.types.IsExactly<Opt, fvttUtils.AnyObject> extends true ? {} : Opt
   >
+  type RenderOptions = D20RollConfigurationDialog['__RenderOptions']
 }
 
 export default D20RollConfigurationDialog

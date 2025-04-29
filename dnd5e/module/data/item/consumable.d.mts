@@ -1,6 +1,4 @@
-import { filteredKeys } from "../../utils.mjs";
-import SystemDataModel, { ItemDataModel } from "../abstract.mjs";
-import BaseActivityData from "../activity/base-activity.mjs";
+import { ItemDataModel } from "../abstract.mjs";
 import DamageField from "../shared/damage-field.mjs";
 import UsesField from "../shared/uses-field.mjs";
 import ActivitiesTemplate from "./templates/activities.mjs";
