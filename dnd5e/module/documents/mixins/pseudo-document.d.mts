@@ -26,7 +26,21 @@ declare class PseudoDocument {
   get item(): Item.Implementation;
   get actor(): Actor.Implementation | null;
 
-  get sheet(): AnyApplication;
+  // this.constructor.metadata.sheetClass ?? this.constructor.metadata.apps?.config;
+  get sheet(): dnd5e.types.GetTypeFromPath<this, 'metadata.sheetClass'> extends never
+  ? (
+   dnd5e.types.GetTypeFromPath<this, 'metadata.apps.config'> extends never
+   ? any
+   : ( 
+     dnd5e.types.GetTypeFromPath<this, 'metadata.apps.config'> extends foundry.applications.api.ApplicationV2.AnyConstructor 
+     ? InstanceType<dnd5e.types.GetTypeFromPath<this, 'metadata.apps.config'>>
+     : any
+   )
+ ) : (
+   dnd5e.types.GetTypeFromPath<this, 'metadata.sheetClass'> extends foundry.applications.api.ApplicationV2.AnyConstructor 
+   ? InstanceType<dnd5e.types.GetTypeFromPath<this, 'metadata.sheetClass'> >
+   : any
+ )
   render(options: foundry.applications.api.ApplicationV2.RenderOptions);
 
   static _registerApp(doc: PseudoDocument, app: AnyApplication)
@@ -72,3 +86,5 @@ declare namespace PseudoDocumentMixin {
 }
 
 export default PseudoDocumentMixin;
+
+type d = typeof dnd5e.applications.activity.SummonSheet extends foundry.applications.api.ApplicationV2.AnyConstructor ? true : false

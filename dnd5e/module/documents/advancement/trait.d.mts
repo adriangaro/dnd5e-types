@@ -11,8 +11,8 @@ declare class TraitAdvancement extends Advancement<
   typeof TraitConfigurationData,
   typeof TraitValueData
 > {
-
-
+  static metadata: TraitAdvancement.Metadata
+  get metadata(): TraitAdvancement.Metadata
 
   /* -------------------------------------------- */
 
@@ -60,7 +60,18 @@ declare class TraitAdvancement extends Advancement<
     choices: SelectChoices
   }>
 }
-
+declare namespace TraitAdvancement {
+  interface Metadata extends Advancement.Metadata {
+    dataModels: {
+      configuration: typeof TraitConfigurationData,
+      value: typeof TraitValueData
+    }
+    apps: {
+      config: typeof dnd5e.applications.advancement.TraitConfig
+      flow: typeof dnd5e.applications.advancement.TraitFlow
+    }
+  }
+}
 
 export default TraitAdvancement
 

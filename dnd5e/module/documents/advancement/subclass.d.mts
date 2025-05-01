@@ -9,7 +9,22 @@ declare class SubclassAdvancement extends Advancement<
   'Subclass',
   never,
   typeof SubclassValueData
-> {}
+> {
+  static metadata: SubclassAdvancement.Metadata
+  get metadata(): SubclassAdvancement.Metadata
+}
+
+declare namespace SubclassAdvancement {
+  interface Metadata extends Advancement.Metadata {
+    dataModels: {
+      value: typeof SubclassValueData
+    }
+    apps: {
+      config: typeof dnd5e.applications.advancement.AdvancementConfigV2
+      flow: typeof dnd5e.applications.advancement.SubclassFlow
+    }
+  }
+}
 
 export default SubclassAdvancement
 

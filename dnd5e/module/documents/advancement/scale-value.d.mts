@@ -9,7 +9,8 @@ declare class ScaleValueAdvancement extends Advancement<
   typeof ScaleValueConfigurationData,
   never
 > {
-
+  static metadata: ScaleValueAdvancement.Metadata
+  get metadata(): ScaleValueAdvancement.Metadata
   /* -------------------------------------------- */
 
   /**
@@ -40,6 +41,18 @@ declare class ScaleValueAdvancement extends Advancement<
    * Compare two scaling values and determine if they are equal.
    */
   testEquality(a: any, b: any): boolean
+}
+
+declare namespace ScaleValueAdvancement {
+  interface Metadata extends Advancement.Metadata {
+      dataModels: {
+        configuration: typeof ScaleValueConfigurationData
+      }
+      apps: {
+        config: typeof dnd5e.applications.advancement.ScaleValueConfig
+        flow: typeof dnd5e.applications.advancement.ScaleValueFlow
+      }
+    }
 }
 
 export default ScaleValueAdvancement

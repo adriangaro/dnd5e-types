@@ -12,6 +12,8 @@ declare class AttackActivity extends ActivityMixin(AttackActivityData) {
   /*  Rolling                                     */
   /* -------------------------------------------- */
 
+  static metadata: AttackActivity.Metadata;
+  get metadata(): AttackActivity.Metadata;
   /**
    * Perform an attack roll.
    * @param config  Configuration information for the roll.
@@ -87,3 +89,11 @@ declare namespace AttackActivity {
 }
 
 export default AttackActivity
+
+declare global {
+  namespace dnd5e.types.Activity {
+    interface DefaultActivityTypes {
+      attack: typeof AttackActivity;
+    }
+  }
+}

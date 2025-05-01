@@ -9,7 +9,8 @@ import type AdvancementDataField from "@dnd5e/module/data/fields/advancement-dat
 declare class _ItemGrantAdvancement<
   Type extends dnd5e.types.Advancement.TypeKey,
   ConfigurationData extends AdvancementDataField.ConcreteDataModelConstructor | never = typeof ItemGrantConfigurationData,
-  ValueData extends AdvancementDataField.ConcreteDataModelConstructor | never = never
+  ValueData extends AdvancementDataField.ConcreteDataModelConstructor | never = never,
+  
 > extends Advancement<
   Type,
   ConfigurationData,
@@ -45,13 +46,28 @@ declare class _ItemGrantAdvancement<
   // _validateItemType(item: Item.Implementation, config?: { strict?: boolean }): boolean
 }
 
+declare namespace _ItemGrantAdvancement {
+  interface Metadata extends Advancement.Metadata {
+    dataModels: {
+      configuration: typeof ItemGrantConfigurationData,
+    }
+    apps: {
+      config: typeof dnd5e.applications.advancement.ItemGrantConfig,
+      flow: typeof dnd5e.applications.advancement.ItemChoiceFlow
+    }
+  }
+}
+
 export default _ItemGrantAdvancement
 
 declare class ItemGrantAdvancement extends _ItemGrantAdvancement<
   'ItemGrant',
   typeof ItemGrantConfigurationData,
   never
-> {}
+> { 
+  static metadata: _ItemGrantAdvancement.Metadata
+  get metadata(): _ItemGrantAdvancement.Metadata
+}
 
 declare global {
   namespace dnd5e.types {

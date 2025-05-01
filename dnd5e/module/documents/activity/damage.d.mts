@@ -4,11 +4,13 @@ import ActivityMixin from "./mixin.mjs";
 /**
  * Activity for rolling damage.
  */
-export default class DamageActivity extends ActivityMixin(DamageActivityData) {
+declare class DamageActivity extends ActivityMixin(DamageActivityData) {
   /* -------------------------------------------- */
   /*  Event Listeners and Handlers                */
   /* -------------------------------------------- */
 
+  static metadata: DamageActivity.Metadata;
+  get metadata(): DamageActivity.Metadata;
   /**
    * Handle performing a damage roll.
    * @param event     Triggering click event.
@@ -18,4 +20,20 @@ export default class DamageActivity extends ActivityMixin(DamageActivityData) {
   static #rollDamage(
     this: DamageActivity, event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation
   )
+}
+
+declare namespace DamageActivity {
+  interface Metadata extends ActivityMixin.Metadata {
+    sheetClass: typeof dnd5e.applications.activity.DamageSheet
+  }
+}
+
+export default DamageActivity
+
+declare global {
+  namespace dnd5e.types.Activity {
+    interface DefaultActivityTypes {
+      damage: typeof DamageActivity;
+    }
+  }
 }

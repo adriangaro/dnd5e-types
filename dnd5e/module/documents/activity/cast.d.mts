@@ -1,16 +1,15 @@
-import CastSheet from "../../applications/activity/cast-sheet.mjs";
 import CastActivityData from "../../data/activity/cast-data.mjs";
-import { staticID } from "../../utils.mjs";
 import ActivityMixin from "./mixin.mjs";
 
 /**
  * Activity for casting a spell from another item.
  */
-export default class CastActivity extends ActivityMixin(CastActivityData) {
+declare class CastActivity extends ActivityMixin(CastActivityData) {
   /* -------------------------------------------- */
   /*  Model Configuration                         */
   /* -------------------------------------------- */
-
+  static metadata: CastActivity.Metadata;
+  get metadata(): CastActivity.Metadata;
   /**
    * Static ID used for the enchantment that modifies spell data.
    */
@@ -51,4 +50,20 @@ export default class CastActivity extends ActivityMixin(CastActivityData) {
    * Create spell changes based on the activity's configuration.
    */
   getSpellChanges(): ActiveEffect.EffectChangeData[]
+}
+
+declare namespace CastActivity {
+  interface Metadata extends ActivityMixin.Metadata {
+    sheetClass: typeof dnd5e.applications.activity.CastSheet
+  }
+}
+
+export default CastActivity
+
+declare global {
+  namespace dnd5e.types.Activity {
+    interface DefaultActivityTypes {
+      cast: typeof CastActivity;
+    }
+  }
 }

@@ -13,6 +13,8 @@ declare class HitPointsAdvancement extends Advancement<
   never,
   Record<number | string, number | 'max' | 'avg'>
 > {
+  static metadata: HitPointsAdvancement.Metadata
+  get metadata(): HitPointsAdvancement.Metadata
 
   /* -------------------------------------------- */
   /*  Instance Properties                         */
@@ -77,7 +79,15 @@ declare class HitPointsAdvancement extends Advancement<
    */
   #getApplicableValue(value: number): number
 }
-
+declare namespace HitPointsAdvancement {
+  interface Metadata extends Advancement.Metadata {
+    dataModels: {}
+    apps: {
+      config: typeof dnd5e.applications.advancement.HitPointsConfig
+      flow: typeof dnd5e.applications.advancement.HitPointsFlow
+    }
+  }
+}
 export default HitPointsAdvancement
 
 declare global {

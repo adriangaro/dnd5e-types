@@ -5,6 +5,8 @@ import OrderActivityData from "../../data/activity/order-data.mjs";
  * An activity for issuing an order to a facility.
  */
 declare class OrderActivity extends ActivityMixin(OrderActivityData) {
+  static metadata: OrderActivity.Metadata
+  get metadata(): OrderActivity.Metadata;
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
@@ -116,6 +118,9 @@ declare class OrderActivity extends ActivityMixin(OrderActivityData) {
 }
 
 declare namespace OrderActivity {
+  interface Metadata extends ActivityMixin.Metadata {
+    sheetClass: typeof dnd5e.applications.activity.ActivitySheet<OrderActivity, {}, {}, {}>
+  }
   /**
  * Represents the configuration for an order activity.
  */
@@ -165,8 +170,12 @@ declare namespace OrderActivity {
   }
 }
 
-declare namespace OrderActivity {
-
-}
-
 export default OrderActivity
+
+declare global {
+  namespace dnd5e.types.Activity {
+    interface DefaultActivityTypes {
+      order: typeof OrderActivity;
+    }
+  }
+}

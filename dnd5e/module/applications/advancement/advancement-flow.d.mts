@@ -52,7 +52,7 @@ declare class AdvancementFlow<
   protected override _updateObject(event: Event, formData?: object): Promise<void>
 }
 
-declare class AnyAdvancementFlow extends AdvancementFlow<dnd5e.documents.advancement.Advancement.Any> {
+declare class AnyAdvancementFlow extends AdvancementFlow<any> {
   constructor(...args: never);
 }
 

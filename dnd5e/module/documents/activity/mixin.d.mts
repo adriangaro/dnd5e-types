@@ -1,18 +1,4 @@
-import type BaseActivityData from '@dnd5e/module/data/activity/base-activity.mjs';
 import PseudoDocumentMixin from '../mixins/pseudo-document.mjs';
-
-import { default as AttackActivity } from "./attack.mjs";
-import { default as CastActivity } from "./cast.mjs";
-import { default as CheckActivity } from "./check.mjs";
-import { default as DamageActivity } from "./damage.mjs";
-import { default as EnchantActivity } from "./enchant.mjs";
-import { default as ForwardActivity } from "./forward.mjs";
-import { default as HealActivity } from "./heal.mjs";
-import { default as SaveActivity } from "./save.mjs";
-import { default as SummonActivity } from "./summon.mjs";
-import { default as UtilityActivity } from "./utility.mjs";
-import type ActivitySheet from '@dnd5e/module/applications/activity/activity-sheet.mjs';
-import type OrderActivity from './order.d.mts';
 
 declare class _ActivityMixin {
   /** @privateRemarks All mixin classses should accept anything for its constructor. */
@@ -145,7 +131,7 @@ declare namespace ActivityMixin {
     usage: {
       actions: Record<string, Function>,
       chatCard: string,
-      dialog: typeof dnd5e.applications.activity.ActivityUsageDialog
+      dialog: dnd5e.applications.activity.ActivityUsageDialog.AnyConstructor
     }
   }
 
@@ -243,21 +229,11 @@ declare global {
   namespace dnd5e.types {
     namespace Activity {
       export import Mixin = _ActivityMixin
-      interface DefaultActivityTypes extends Record<string, BaseActivityData.AnyConstructor> {
-        attack: typeof AttackActivity;
-        cast: typeof CastActivity;
-        check: typeof CheckActivity;
-        damage: typeof DamageActivity;
-        enchant: typeof EnchantActivity;
-        forward: typeof ForwardActivity;
-        heal: typeof HealActivity;
-        order: typeof OrderActivity;
-        save: typeof SaveActivity;
-        summon: typeof SummonActivity;
-        utility: typeof UtilityActivity;
+      interface DefaultActivityTypes extends Record<string, dnd5e.dataModels.activity.BaseActivityData.AnyConstructor> {
+
       }
     
-      interface OverrideTypes extends Record<string, BaseActivityData.AnyConstructor | never> {
+      interface OverrideTypes extends Record<string, dnd5e.dataModels.activity.BaseActivityData.AnyConstructor | never> {
     
       }
     
@@ -288,11 +264,9 @@ declare global {
       type SchemaMap = {
         [K in keyof Types]: dnd5e.types.GetSchema<Types[K]>
       }
-      type d = SchemaMap['order']
 
-      // TODO add activity sheet data
       type SheetMap = {
-        [K in keyof Types]: ActivitySheet<Any>
+        [K in keyof Types]: OfType<K>['sheet']
       }
 
       type ActivityAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<
@@ -321,3 +295,6 @@ declare global {
 
 
 export default ActivityMixin
+
+type c = dnd5e.types.Activity.OfType<'order'>
+type d = dnd5e.types.FindKeyByValue<dnd5e.types.Activity.ActivityInstances, dnd5e.types.Activity.OfType<'order'>>

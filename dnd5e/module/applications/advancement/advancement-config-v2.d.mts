@@ -77,11 +77,14 @@ declare class AdvancementConfig<
   _validateDroppedItem(event: Event, item: Item.Implementation)
 }
 
+declare class AnyAdvancementConfig extends AdvancementConfig<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
+  constructor (...args: never)
+}
+
 declare namespace AdvancementConfig {
-  type Any = AdvancementConfig<any, any, any, any>
-  interface AnyConstructor extends fvttUtils.Identity<typeof AdvancementConfig> {
-    new (...args: never): Any;
-  }
+  interface Any extends AnyAdvancementConfig {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyAdvancementConfig> {}
+  
   type RenderContext<
     Document extends dnd5e.documents.advancement.Advancement.Any,
     Ctx extends fvttUtils.AnyObject = {}

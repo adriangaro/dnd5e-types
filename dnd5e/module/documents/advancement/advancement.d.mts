@@ -35,6 +35,7 @@ declare class Advancement<
    * Configuration information for this advancement type.
    */
   static get metadata(): Advancement.Metadata
+  get metadata(): Advancement.Metadata
 
   /* -------------------------------------------- */
 

@@ -4,7 +4,11 @@ import ActivityMixin from "./mixin.mjs";
 /**
  * Activity for enchanting items.
  */
-export default class EnchantActivity extends ActivityMixin(EnchantActivityData) {
+declare class EnchantActivity extends ActivityMixin(EnchantActivityData) {
+  
+  static metadata: EnchantActivity.Metadata;
+  get metadata(): EnchantActivity.Metadata;
+  
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
@@ -25,9 +29,26 @@ export default class EnchantActivity extends ActivityMixin(EnchantActivityData) 
   canEnchant(item: Item.Implementation): true | EnchantmentError[]
 }
 
+declare namespace EnchantActivity {
+  interface Metadata extends ActivityMixin.Metadata {
+    sheetClass: typeof dnd5e.applications.activity.EnchantSheet
+  }
+}
+
+export default EnchantActivity
+
+
 /**
  * Error to throw when an item cannot be enchanted.
  */
 export class EnchantmentError extends Error {
   name: 'EnchantmentError'
+}
+
+declare global {
+  namespace dnd5e.types.Activity {
+    interface DefaultActivityTypes {
+      enchant: typeof EnchantActivity;
+    }
+  }
 }

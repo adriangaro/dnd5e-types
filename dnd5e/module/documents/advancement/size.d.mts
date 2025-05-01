@@ -9,6 +9,8 @@ declare class SizeAdvancement extends Advancement<
   typeof SizeConfigurationData,
   typeof SizeValueData
 > {
+  static metadata: SizeAdvancement.Metadata
+  get metadata(): SizeAdvancement.Metadata
   /* -------------------------------------------- */
   /*  Instance Properties                         */
   /* -------------------------------------------- */
@@ -18,7 +20,18 @@ declare class SizeAdvancement extends Advancement<
    */
   get automaticHint(): string
 }
-
+declare namespace SizeAdvancement {
+  interface Metadata extends Advancement.Metadata {
+    dataModels: {
+      configuration: typeof SizeConfigurationData,
+      value: typeof SizeValueData
+    }
+    apps: {
+      config: typeof dnd5e.applications.advancement.SizeConfig
+      flow: typeof dnd5e.applications.advancement.SizeFlow
+    }
+  }
+}
 export default SizeAdvancement
 
 declare global {

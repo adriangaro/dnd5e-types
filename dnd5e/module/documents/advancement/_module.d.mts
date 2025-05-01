@@ -51,6 +51,7 @@ declare global {
       
       type AnyClass = Types[TypeKey];
       type Any = fvttUtils.FixedInstanceType<Types[TypeKey]>;
+      type OfType<T extends TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
 
       type AdvancementTypeConfig<T extends TypeKey> = {
         documentClass: Types[T],
@@ -63,7 +64,7 @@ declare global {
 
       // TODO: infer Config
       type ConfigSheetMap = {
-        [K in keyof Types]: AdvancementConfig<Any>
+        [K in keyof Types]: OfType<K>['sheet']
       }
 
       type AdvancementAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<

@@ -5,7 +5,7 @@ import AdvancementDataField from "../fields/advancement-data-field.mjs";
  * Base data model for advancement.
  */
 declare class BaseAdvancement<
-  Type extends dnd5e.types.Advancement.TypeKey,
+  Type extends string,
   ConfigurationData extends AdvancementDataField.RequiredType,
   ValueData extends AdvancementDataField.RequiredType
 > extends SparseDataModel<{

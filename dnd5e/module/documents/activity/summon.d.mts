@@ -1,12 +1,13 @@
 import type TokenPlacement from "@dnd5e/module/canvas/token-placement.mjs";
 import SummonActivityData from "../../data/activity/summon-data.mjs";
-import { simplifyBonus, staticID } from "../../utils.mjs";
 import ActivityMixin from "./mixin.mjs";
 
 /**
  * Activity for summoning creatures.
  */
 declare class SummonActivity extends ActivityMixin(SummonActivityData) {
+  static metadata: SummonActivity.Metadata;
+  get metadata(): SummonActivity.Metadata;
 
   /* -------------------------------------------- */
   /*  Properties                                  */
@@ -88,7 +89,6 @@ declare class SummonActivity extends ActivityMixin(SummonActivityData) {
   /* -------------------------------------------- */
 
 
-
   /**
    * Create token data ready to be summoned.
    * @param config  Configuration for creating a modified token.
@@ -110,6 +110,9 @@ declare class SummonActivity extends ActivityMixin(SummonActivityData) {
 }
 
 declare namespace SummonActivity {
+  interface Metadata extends ActivityMixin.Metadata {
+    sheetClass: typeof dnd5e.applications.activity.SummonSheet
+  }
   type UseConfiguration = dnd5e.types.Activity.UseConfiguration & {
     create: {
       summons: string
@@ -140,3 +143,11 @@ declare namespace SummonActivity {
 }
 
 export default SummonActivity;
+
+declare global {
+  namespace dnd5e.types.Activity {
+    interface DefaultActivityTypes {
+      summon: typeof SummonActivity;
+    }
+  }
+}

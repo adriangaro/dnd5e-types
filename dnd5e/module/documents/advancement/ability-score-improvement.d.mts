@@ -13,6 +13,8 @@ declare class AbilityScoreImprovementAdvancement extends Advancement<
   typeof AbilityScoreImprovementConfigurationData,
   typeof AbilityScoreImprovementValueData
 > {
+  static metadata: AbilityScoreImprovementAdvancement.Metadata
+  get metadata(): AbilityScoreImprovementAdvancement.Metadata
 
   /* -------------------------------------------- */
   /*  Instance Properties                         */
@@ -43,6 +45,19 @@ declare class AbilityScoreImprovementAdvancement extends Advancement<
   /* -------------------------------------------- */
   /*  Application Methods                         */
   /* -------------------------------------------- */
+}
+
+declare namespace AbilityScoreImprovementAdvancement {
+  interface Metadata extends Advancement.Metadata {
+    dataModels: {
+      config: typeof AbilityScoreImprovementConfigurationData,
+      value: typeof AbilityScoreImprovementValueData
+    }
+    apps: {
+      config: typeof dnd5e.applications.advancement.AbilityScoreImprovementConfig
+      flow: typeof dnd5e.applications.advancement.AbilityScoreImprovementFlow
+    }
+  }
 }
 export default AbilityScoreImprovementAdvancement
 

@@ -4,8 +4,10 @@ import ActivityMixin from "./mixin.mjs";
 /**
  * Activity for making ability checks.
  */
-export default class CheckActivity extends ActivityMixin(CheckActivityData) {
+declare class CheckActivity extends ActivityMixin(CheckActivityData) {
 
+  static metadata: CheckActivity.Metadata;
+  get metadata(): CheckActivity.Metadata;
   /* -------------------------------------------- */
   /*  Event Listeners and Handlers                */
   /* -------------------------------------------- */
@@ -19,4 +21,20 @@ export default class CheckActivity extends ActivityMixin(CheckActivityData) {
   static #rollCheck(
     this: CheckActivity, event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation
   ): Promise<void>
+}
+
+declare namespace CheckActivity {
+  interface Metadata extends ActivityMixin.Metadata {
+    sheetClass: typeof dnd5e.applications.activity.CheckSheet
+  }
+}
+
+export default CheckActivity
+
+declare global {
+  namespace dnd5e.types.Activity {
+    interface DefaultActivityTypes {
+      check: typeof CheckActivity;
+    }
+  }
 }
