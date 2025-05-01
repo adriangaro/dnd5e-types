@@ -1,26 +1,26 @@
 declare class LocalDocumentField<
-  ModelInstance extends foundry.abstract.Document.Any,
+  DocumentType extends foundry.abstract.Document.AnyConstructor,
   Options extends LocalDocumentField.Options = LocalDocumentField.DefaultOptions,
-  AssignmentType = LocalDocumentField.AssignmentType<Options>,
-  InitializedType = LocalDocumentField.InitializedType<ModelInstance, Options>,
+  AssignmentType = LocalDocumentField.AssignmentType<DocumentType, Options>,
+  InitializedType = LocalDocumentField.InitializedType<DocumentType, Options>,
   PersistedType extends string | null | undefined = LocalDocumentField.PersistedType<Options>,
 > extends foundry.data.fields.DocumentIdField<
   Options,
   AssignmentType,
   InitializedType,
   PersistedType> {
-  model: new (...args: any[]) => ModelInstance;
-  _findCollection(model: new (...args: any[]) => ModelInstance, collection: string): foundry.abstract.EmbeddedCollection<ModelInstance, foundry.abstract.Document.Any>
+  model: DocumentType;
+  _findCollection(model: DocumentType, collection: string): foundry.abstract.EmbeddedCollection<
+    foundry.abstract.Document.ToConfiguredInstance<DocumentType>, any
+  >
 }
 
 declare namespace LocalDocumentField {
-  type Options = fvttUtils.Merge<
-    foundry.data.fields.StringField.Options<string>,
-    {
-      idOnly?: boolean,
-      fallback?: boolean
-    }
-  >
+  interface Options extends foundry.data.fields.StringField.Options<string> {
+    //                                          ^ Making this more concrete leads to excessively deep instantiation
+    idOnly?: boolean;
+    fallback?: boolean
+  }
   type DefaultOptions = fvttUtils.SimpleMerge<
     foundry.data.fields.DocumentIdField.DefaultOptions,
     {
@@ -30,15 +30,23 @@ declare namespace LocalDocumentField {
       fallback: false
     }
   >
-  export import AssignmentType = foundry.data.fields.DocumentIdField.AssignmentType
-  type InitializedType<
-    ModelInstance extends foundry.abstract.Document.Any,
-    Options extends LocalDocumentField.Options
-  > = foundry.data.fields.DataField.DerivedInitializedType<
-    ModelInstance,
-    fvttUtils.Merge<Options, DefaultOptions>
+  type MergedOptions<Opts extends Options> = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
+  type AssignmentType<
+    ConcreteDocument extends foundry.abstract.Document.AnyConstructor,
+    Opts extends Options,
+  > = foundry.data.fields.DataField.DerivedAssignmentType<
+    string, MergedOptions<Opts>
   >;
-  export import PersistedType = foundry.data.fields.DocumentIdField.InitializedType
+
+  type InitializedType<
+    ConcreteDocument extends foundry.abstract.Document.AnyConstructor,
+    Opts extends Options,
+  > = foundry.data.fields.DataField.DerivedInitializedType<
+    Opts["idOnly"] extends true ? string : foundry.abstract.Document.ToConfiguredInstance<ConcreteDocument>,
+    MergedOptions<Opts>
+  >;
+  type PersistedType<Opts extends Options> = foundry.data.fields.DataField.DerivedInitializedType<string, MergedOptions<Opts>>;
 }
 
 export default LocalDocumentField

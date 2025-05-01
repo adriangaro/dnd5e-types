@@ -8,6 +8,7 @@ import AppliedEffectField from "./fields/applied-effect-field.mjs";
  * Data model for an save activity.
  */
 declare class SaveActivityData extends BaseActivityData<
+  'save',
   dnd5e.types.MergeSchemas<
     {
       damage: foundry.data.fields.SchemaField<{

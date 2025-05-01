@@ -90,8 +90,8 @@ declare class OrderActivity extends ActivityMixin(OrderActivityData) {
 
   /** @override */
   _prepareUsageScaling(
-    usageConfig: OrderActivity.UseConfiguration, 
-    messageConfig: dnd5e.types.Activity.MessageConfiguration, 
+    usageConfig: OrderActivity.UseConfiguration,
+    messageConfig: dnd5e.types.Activity.MessageConfiguration,
     item: Item.Implementation
   )
 
@@ -163,6 +163,10 @@ declare namespace OrderActivity {
       };
     };
   }
+}
+
+declare namespace OrderActivity {
+
 }
 
 export default OrderActivity

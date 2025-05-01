@@ -7,6 +7,7 @@ import BaseActivityData from "./base-activity.mjs";
  * Data model for a summon activity.
  */
 export default class SummonActivityData extends BaseActivityData<
+  'summon',
   dnd5e.types.MergeSchemas<
     {
       bonuses: foundry.data.fields.SchemaField<{

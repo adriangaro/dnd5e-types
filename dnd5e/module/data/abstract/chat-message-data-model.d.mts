@@ -89,7 +89,7 @@ declare class ChatMessageDataModel<
    * @param event         Triggering click event.
    * @param target  Button that was clicked.
    */
-  static #useActivity(this: ChatMessageDataModel<any>, event: Event, target: HTMLElement): Promise<void>
+  static #useActivity(event: Event, target: HTMLElement): Promise<void>
 }
 
 declare namespace ChatMessageDataModel {

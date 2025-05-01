@@ -9,13 +9,13 @@ declare class BaseConfigSheet<
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends DocumentSheet5e<
   Actor.Implementation,
-  BaseConfigSheet.RenderContext<RenderContext>,
-  BaseConfigSheet.Configuration<Configuration>,
-  BaseConfigSheet.RenderOptions<RenderOptions>
+  BaseConfigSheet.MakeRenderContext<RenderContext>,
+  BaseConfigSheet.MakeConfiguration<Configuration>,
+  BaseConfigSheet.MakeRenderOptions<RenderOptions>
 > {}
 
 declare namespace BaseConfigSheet{
-  type RenderContext<Ctx extends fvttUtils.AnyObject = {}> =  dnd5e.types.DeepMerge<
+  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> =  dnd5e.types.DeepMerge<
     {
       advantageModeOptions: {
         value: dnd5e.dice.D20Roll.AdvantageMode
@@ -24,7 +24,8 @@ declare namespace BaseConfigSheet{
     },
     Ctx
   >
-  type Configuration<
+  type RenderContext = BaseConfigSheet['__RenderContext']
+  type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {
@@ -32,7 +33,8 @@ declare namespace BaseConfigSheet{
     },
     Cfg
   >
-  type RenderOptions<
+  type Configuration = BaseConfigSheet['__Configuration']
+  type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {
@@ -40,6 +42,7 @@ declare namespace BaseConfigSheet{
     },
     Opt
   >
+  type RenderOptions = BaseConfigSheet['__RenderOptions']
 }
 
 export default BaseConfigSheet

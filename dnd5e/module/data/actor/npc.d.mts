@@ -275,7 +275,7 @@ declare class NPCData extends CreatureTemplate<
 
   /**
    * Move spell level from `details.spellLevel` to `attributes.spell.level`.
-   * @param {object} source  The candidate source data from which the model will be constructed.
+   * @param source  The candidate source data from which the model will be constructed.
    */
   static #migrateSpellLevel(source: NPCData['_source']): void
 
@@ -283,7 +283,7 @@ declare class NPCData extends CreatureTemplate<
 
   /**
    * Migrate the actor type string to type object.
-   * @param {object} source  The candidate source data from which the model will be constructed.
+   * @param source  The candidate source data from which the model will be constructed.
    */
   static #migrateTypeData(source: NPCData['_source']): void
 
@@ -294,6 +294,7 @@ declare class NPCData extends CreatureTemplate<
   /**
    * Level used to determine cantrip scaling.
    */
+  
   cantripLevel(spell: Item.OfType<'spell'>): number
 
   /* -------------------------------------------- */
@@ -315,7 +316,7 @@ declare class NPCData extends CreatureTemplate<
 
   /**
    * Spend a legendary resistance to change a failed saving throw into a success.
-   * @param {ChatMessage.Implementation} message  The chat message containing the failed save.
+   * @param message  The chat message containing the failed save.
    */
   resistSave(message: ChatMessage.Implementation): Promise<void>
 

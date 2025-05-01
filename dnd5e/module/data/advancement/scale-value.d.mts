@@ -13,7 +13,7 @@ export class ScaleValueConfigurationData extends foundry.abstract.DataModel<
     }>,
     scale: MappingField<ScaleValueEntryField, string, { required: true }>
   },
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > { }
 
 
@@ -67,7 +67,7 @@ export class ScaleValueType<
   }
 > extends foundry.abstract.DataModel<
   Schema,
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > {
   /**
    * Configuration information for this scale value type.

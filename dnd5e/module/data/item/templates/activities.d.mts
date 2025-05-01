@@ -6,7 +6,7 @@ import UsesField from "../../shared/uses-field.mjs";
  * Data model template for items with activities.
  * @mixin
  */
-export default class ActivitiesTemplate extends SystemDataModel<{
+declare class ActivitiesTemplate extends SystemDataModel<{
   activities: ActivitiesField,
   uses: UsesField
 }> {
@@ -142,6 +142,7 @@ export default class ActivitiesTemplate extends SystemDataModel<{
    */
   prepareFinalActivityData(rollData: ReturnType<Item.Implementation['getRollData']>)
 
+
   /* -------------------------------------------- */
   /*  Helpers                                     */
   /* -------------------------------------------- */
@@ -157,7 +158,7 @@ export default class ActivitiesTemplate extends SystemDataModel<{
    * Perform any item & activity uses recovery.
    */
   recoverUses(periods: dnd5e.types.ActivityActivation.TypeKey[], rollData: ReturnType<Item.Implementation['getRollData']>): Promise<{ updates: object, rolls: dnd5e.dice.BasicRoll[] }>
-
+ 
   /* -------------------------------------------- */
   /*  Socket Event Handlers                       */
   /* -------------------------------------------- */
@@ -198,3 +199,9 @@ export default class ActivitiesTemplate extends SystemDataModel<{
    */
   static _applyActivityShims()
 }
+
+declare namespace ActivitiesTemplate {
+  
+}
+
+export default ActivitiesTemplate

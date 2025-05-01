@@ -62,19 +62,6 @@ declare global {
   namespace dnd5e.types {
     namespace DataModelConfig {
       interface Item {
-        background: typeof BackgroundData,
-        container: typeof ContainerData,
-        class: typeof ClassData,
-        consumable: typeof ConsumableData,
-        equipment: typeof EquipmentData,
-        facility: typeof FacilityData,
-        feat: typeof FeatData,
-        loot: typeof LootData,
-        race: typeof RaceData,
-        spell: typeof SpellData,
-        subclass: typeof SubclassData,
-        tool: typeof ToolData,
-        weapon: typeof WeaponData,
       }
     }
   }

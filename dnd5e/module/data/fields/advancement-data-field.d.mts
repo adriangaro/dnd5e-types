@@ -4,7 +4,7 @@ import type BaseAdvancement from "../advancement/base-advancement.d.mts";
  * Data field that automatically selects the Advancement-specific configuration or value data models.
  */
 declare class AdvancementDataField<
-  const Type extends AdvancementDataField.ConcreteDataModelConstructor | never,
+  const Type extends AdvancementDataField.RequiredType,
   const Options extends AdvancementDataField.Options<Type> = AdvancementDataField.DefaultOptions,
   const AssignmentType = AdvancementDataField.AssignmentType<Type, Options>,
   const InitializedType = AdvancementDataField.InitializedType<Type, Options>,
@@ -35,34 +35,35 @@ declare class AdvancementDataField<
 
 
 declare namespace AdvancementDataField {
+  type RequiredType = ConcreteDataModelConstructor | fvttUtils.AnyObject | never
   export type ConcreteDataModelConstructor =
     // 1. Must be a concrete constructor
     fvttUtils.AnyConcreteConstructor &
     // 3. Must produce instances assignable to DataModel
     (new (...args: any) => foundry.abstract.DataModel.Any);
 
-  type BaseData<T extends ConcreteDataModelConstructor | never> = T extends never ? {} : foundry.data.fields.SchemaField.AssignmentData<
+  type BaseData<T extends RequiredType> = T extends never ? {} : T extends ConcreteDataModelConstructor ? foundry.data.fields.SchemaField.AssignmentData<
     dnd5e.types.GetSchema<T>
-  >
-  type Options<T extends ConcreteDataModelConstructor | never> = foundry.data.fields.DataField.Options<BaseData<T>>;
+  > : T
+  type Options<T extends RequiredType> = foundry.data.fields.DataField.Options<BaseData<T>>;
   type DefaultOptions = foundry.data.fields.ObjectField.DefaultOptions;
-  type MergedOptions<Options extends AdvancementDataField.Options<ConcreteDataModelConstructor | never>> = fvttUtils.SimpleMerge<DefaultOptions, Options>;
+  type MergedOptions<Options extends AdvancementDataField.Options<RequiredType>> = fvttUtils.SimpleMerge<DefaultOptions, Options>;
   type AssignmentType<
-    T extends ConcreteDataModelConstructor | never,
+    T extends RequiredType,
     Options extends AdvancementDataField.Options<T>
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     BaseData<T>,
     MergedOptions<Options>
   >;
   type InitializedType<
-    T extends ConcreteDataModelConstructor | never,
+    T extends RequiredType,
     Options extends AdvancementDataField.Options<T>
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    InstanceType<T>,
+    T extends ConcreteDataModelConstructor ? InstanceType<T> : T,
     MergedOptions<Options>
   >;
   type PersistedType<
-    T extends ConcreteDataModelConstructor | never,
+    T extends RequiredType,
     Options extends AdvancementDataField.Options<T>
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     BaseData<T>,

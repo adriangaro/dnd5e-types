@@ -297,7 +297,6 @@ declare class ChatMessage5e<
 
   /**
    * Get the Activity that created this chat card.
-   * @returns {Activity|void}
    */
   getAssociatedActivity(): dnd5e.types.Activity.Any | null
 
@@ -319,9 +318,9 @@ declare class ChatMessage5e<
 
   /**
    * Get a list of all chat messages containing rolls that originated from this message.
-   * @param {string} [type]  Type of rolls to get. If empty, all roll types will be fetched.
+   * @param type  Type of rolls to get. If empty, all roll types will be fetched.
    */
-  getAssociatedRolls(type: string): ChatMessage.Implementation[]
+  getAssociatedRolls(type?: string): ChatMessage.Implementation[]
 
   /* -------------------------------------------- */
 

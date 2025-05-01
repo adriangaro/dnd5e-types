@@ -4,6 +4,7 @@ import BaseActivityData from "./base-activity.mjs";
  * Data model for a Cast activity.
  */
 declare class CastActivityData extends BaseActivityData<
+  'cast',
   dnd5e.types.MergeSchemas<
     {
       effects: never,

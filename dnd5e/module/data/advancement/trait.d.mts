@@ -11,7 +11,7 @@ export class TraitConfigurationData extends foundry.abstract.DataModel<
     grants: foundry.data.fields.SetField<foundry.data.fields.StringField, { required: true }>,
     mode: foundry.data.fields.StringField<{ required: true, blank: false, initial: "default" }>
   },
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > { }
 
 /**
@@ -21,5 +21,5 @@ export class TraitValueData extends foundry.abstract.DataModel<
   {
     chosen: foundry.data.fields.SetField<foundry.data.fields.StringField, { required: false }>
   },
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > {}

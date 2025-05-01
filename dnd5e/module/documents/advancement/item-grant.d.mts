@@ -1,6 +1,3 @@
-import { filteredKeys } from "../../utils.mjs";
-import ItemGrantConfig from "../../applications/advancement/item-grant-config.mjs";
-import ItemGrantFlow from "../../applications/advancement/item-grant-flow.mjs";
 import ItemGrantConfigurationData from "../../data/advancement/item-grant.mjs";
 import Advancement from "./advancement.mjs";
 import type AdvancementDataField from "@dnd5e/module/data/fields/advancement-data-field.mjs";
@@ -9,10 +6,12 @@ import type AdvancementDataField from "@dnd5e/module/data/fields/advancement-dat
  * Advancement that automatically grants one or more items to the player. Presents the player with the option of
  * skipping any or all of the items.
  */
-export default class ItemGrantAdvancement<
+declare class _ItemGrantAdvancement<
+  Type extends dnd5e.types.Advancement.TypeKey,
   ConfigurationData extends AdvancementDataField.ConcreteDataModelConstructor | never = typeof ItemGrantConfigurationData,
   ValueData extends AdvancementDataField.ConcreteDataModelConstructor | never = never
 > extends Advancement<
+  Type,
   ConfigurationData,
   ValueData
 > {
@@ -43,5 +42,23 @@ export default class ItemGrantAdvancement<
   /**
    * Verify that the provided item can be used with this advancement based on the configuration.
    */
-  _validateItemType(item: Item.Implementation, config?: { strict?: boolean }): boolean
+  // _validateItemType(item: Item.Implementation, config?: { strict?: boolean }): boolean
+}
+
+export default _ItemGrantAdvancement
+
+declare class ItemGrantAdvancement extends _ItemGrantAdvancement<
+  'ItemGrant',
+  typeof ItemGrantConfigurationData,
+  never
+> {}
+
+declare global {
+  namespace dnd5e.types {
+    namespace Advancement {
+      interface DefaultAdvancementTypes {
+        ItemGrant: typeof ItemGrantAdvancement
+      }
+    }
+  }
 }

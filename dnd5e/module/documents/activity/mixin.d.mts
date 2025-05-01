@@ -141,7 +141,7 @@ declare function ActivityMixin<
 declare namespace ActivityMixin {
   
   interface Metadata extends PseudoDocumentMixin.MixinClass.Metadata {
-    sheetClass: typeof dnd5e.applications.activity.ActivitySheet
+    sheetClass: dnd5e.applications.activity.ActivitySheet.AnyConstructor
     usage: {
       actions: Record<string, Function>,
       chatCard: string,
@@ -288,6 +288,7 @@ declare global {
       type SchemaMap = {
         [K in keyof Types]: dnd5e.types.GetSchema<Types[K]>
       }
+      type d = SchemaMap['order']
 
       // TODO add activity sheet data
       type SheetMap = {

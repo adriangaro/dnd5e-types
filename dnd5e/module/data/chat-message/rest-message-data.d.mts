@@ -24,6 +24,7 @@ export default class RestMessageData extends ChatMessageDataModel<{
   /**
    * The actor for the chat message.
    */
+  
   get actor(): Actor.Implementation
 }
 

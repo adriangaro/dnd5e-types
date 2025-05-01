@@ -1,5 +1,4 @@
 import type ItemChoiceAdvancement from "@dnd5e/module/documents/advancement/item-choice.mjs";
-import Actor5e from "../../documents/actor/actor.mjs";
 import ItemGrantFlow from "./item-grant-flow.mjs";
 
 /**

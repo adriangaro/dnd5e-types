@@ -40,5 +40,21 @@ declare class BackgroundData extends _ItemDataModel.mixin(
   >;
 }
 
+declare global {
+  namespace dnd5e.types {
+    namespace ItemProperties {
+      interface ValidPropertyMap {
+        background: never
+      }
+    }
+    
+    namespace DataModelConfig {
+      interface Item {
+        background: typeof BackgroundData;
+      }
+    }
+  }
+}
+
 export default BackgroundData;
 

@@ -1,14 +1,14 @@
 type Schema = {
-  awardDestinations: foundry.data.fields.SetField<
-    foundry.data.fields.ForeignDocumentField<Actor.ImplementationClass, { idOnly: true }>, 
-    { required: false }
-  >
+  // awardDestinations: foundry.data.fields.SetField<
+  //   foundry.data.fields.ForeignDocumentField<typeof foundry.documents.BaseActor, { idOnly: true }>, 
+  //   { required: false }
+  // >
 };
 
 /**
  * A custom model to validate system flags on Group Actors.
  */
-declare class GroupSystemFlags extends foundry.abstract.DataModel<Schema, Actor.Implementation> {
+declare class GroupSystemFlags extends foundry.abstract.DataModel<Schema> {
   static get _schema(): foundry.data.fields.SchemaField<Schema>
   static get schema(): foundry.data.fields.SchemaField<Schema>
   static defineSchema(): Schema

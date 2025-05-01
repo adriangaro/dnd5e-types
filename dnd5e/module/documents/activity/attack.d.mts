@@ -65,6 +65,9 @@ declare class AttackActivity extends ActivityMixin(AttackActivityData) {
 }
 
 declare namespace AttackActivity {
+  interface Metadata extends ActivityMixin.Metadata {
+    sheetClass: typeof dnd5e.applications.activity.AttackSheet
+  }
   interface ProcessConfiguration extends dnd5e.dice.D20Roll.ProcessConfiguration {
     ammunition?: string | boolean
     attackMode?: AttackActivityData.AttackMode

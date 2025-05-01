@@ -23,7 +23,7 @@ declare class ActiveEffect5e<
   /**
    * Is this effect an enchantment on an item that accepts enchantment?
    */
-  get isAppliedEnchantment(): 'enchantment' extends SubType ? boolean : false
+  get isAppliedEnchantment(): boolean 
 
   /* -------------------------------------------- */
 

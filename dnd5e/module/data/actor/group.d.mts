@@ -5,7 +5,7 @@ import GroupSystemFlags from "./group-system-flags.mjs";
 
 interface MemberSchemaField extends foundry.data.fields.SchemaField<
   {
-    actor: foundry.data.fields.ForeignDocumentField<Actor.ImplementationClass>,
+    actor: foundry.data.fields.ForeignDocumentField<typeof foundry.documents.BaseActor>,
     quantity: foundry.data.fields.SchemaField<{
       value: foundry.data.fields.NumberField<{ initial: 1, integer: true, min: 0, label: "DND5E.Quantity" }>,
       formula: FormulaField<{ label: "DND5E.QuantityFormula" }>

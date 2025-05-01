@@ -6,7 +6,8 @@ import { TraitConfigurationData, TraitValueData } from "../../data/advancement/t
  * Advancement that grants the player with certain traits or presents them with a list of traits from which
  * to choose.
  */
-export default class TraitAdvancement extends Advancement<
+declare class TraitAdvancement extends Advancement<
+  'Trait',
   typeof TraitConfigurationData,
   typeof TraitValueData
 > {
@@ -58,4 +59,17 @@ export default class TraitAdvancement extends Advancement<
     }[],
     choices: SelectChoices
   }>
+}
+
+
+export default TraitAdvancement
+
+declare global {
+  namespace dnd5e.types {
+    namespace Advancement {
+      interface DefaultAdvancementTypes {
+        Trait: typeof TraitAdvancement
+      }
+    }
+  }
 }

@@ -1,8 +1,8 @@
 import FormulaField from "../fields/formula-field.mjs";
 
 export default class SpellConfigurationData extends foundry.abstract.DataModel<{
-  ability: foundry.data.fields.SetField<foundry.data.fields.StringField>,
-  preparation: foundry.data.fields.StringField,
+  ability: foundry.data.fields.SetField<dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey>>,
+  preparation: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Spellcasting.PreparationModes.TypeKey>,
   uses: foundry.data.fields.SchemaField<{
     max: FormulaField<{ deterministic: true }>,
     per: foundry.data.fields.StringField,

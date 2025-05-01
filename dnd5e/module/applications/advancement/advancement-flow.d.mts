@@ -3,7 +3,7 @@
  * individual advancement types.
  */
 declare class AdvancementFlow<
-  Document extends dnd5e.documents.advancement.Advancement<any, any>,
+  Document extends dnd5e.documents.advancement.Advancement.Any,
 > extends FormApplication<
   FormApplication.Options,
   Item.Implementation
@@ -52,7 +52,7 @@ declare class AdvancementFlow<
   protected override _updateObject(event: Event, formData?: object): Promise<void>
 }
 
-declare class AnyAdvancementFlow extends AdvancementFlow<dnd5e.documents.advancement.Advancement<any, any>> {
+declare class AnyAdvancementFlow extends AdvancementFlow<dnd5e.documents.advancement.Advancement.Any> {
   constructor(...args: never);
 }
 

@@ -6,8 +6,10 @@ import SystemDataModel from "../../abstract.mjs";
  */
 declare class PhysicalItemTemplate extends SystemDataModel<dnd5e.types.MergeSchemas<
   {
-    container: foundry.data.fields.ForeignDocumentField<
-      Item.ImplementationClass,
+    // TODO: circularity
+    // this should be ForeignDocumentField of Item, but circular, 
+    // this however is correct enough due to being id only
+    container: foundry.data.fields.DocumentIdField<
       {
         idOnly: true, label: "DND5E.Container"
       }

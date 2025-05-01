@@ -8,7 +8,7 @@
  *                                             If populated, will enable default drop & delete behavior.
  */
 export default class AdvancementConfig<
-  Document extends dnd5e.documents.advancement.Advancement<any, any>,
+  Document extends dnd5e.documents.advancement.Advancement.Any,
   Options extends FormApplication.Options = FormApplication.Options
 > extends FormApplication<
   Options, Document

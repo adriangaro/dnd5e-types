@@ -15,6 +15,7 @@ declare class Item5e<
 > extends SystemDocumentMixin(Item)<
   SubType
 > {
+  type: SubType
   system: Item.SystemOfType<SubType> & {
     prof: Proficiency
   }
@@ -865,7 +866,7 @@ declare namespace Item5e {
     event: Event;
   }
 
-  type RollData<This extends Item5e> = (
+  type RollData<This extends Item5e> = fvttUtils.InterfaceToObject<(
     dnd5e.types.GetKeyReturn<This['system'], 'getRollData'> extends never ?
     (
       ReturnType<Actor.Implementation['getRollData']> & {
@@ -875,7 +876,7 @@ declare namespace Item5e {
     dnd5e.types.GetKeyReturn<This['system'], 'getRollData'>
   ) & {
     scaling: Scaling
-  }
+  }>
 
   type ContentsTransformer = (item: Item.Implementation, options: {
     container: string,
@@ -924,3 +925,6 @@ declare global {
     }
   }
 }
+
+type g = Item.Implementation
+type d = Item.OfType<'class'>

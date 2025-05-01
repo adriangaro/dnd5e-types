@@ -50,8 +50,7 @@ type d = DamageField.Data<dnd5e.types.Damage.TypeKey>['denomination']
 export class DamageData<
   Types extends string = dnd5e.types.Damage.TypeKey
 > extends foundry.abstract.DataModel<
-  DamageDataSchema<Types>,
-  any
+  DamageDataSchema<Types>
 > {
 
 

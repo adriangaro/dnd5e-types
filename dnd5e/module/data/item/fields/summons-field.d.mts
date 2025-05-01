@@ -154,5 +154,5 @@ export default SummonsField;
  */
 export class SummonsData extends foundry.abstract.DataModel<
   SummonsDataSchema,
-  Item.Implementation
+  any
 > { }

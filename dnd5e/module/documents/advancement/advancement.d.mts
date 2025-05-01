@@ -15,9 +15,11 @@ declare class AdvancementError extends Error {
  * Abstract base class which various advancement types can subclass.
  */
 declare class Advancement<
-  ConfigurationData extends AdvancementDataField.ConcreteDataModelConstructor | never,
-  ValueData extends AdvancementDataField.ConcreteDataModelConstructor | never
+  Type extends dnd5e.types.Advancement.TypeKey,
+  ConfigurationData extends AdvancementDataField.RequiredType,
+  ValueData extends AdvancementDataField.RequiredType
 > extends PseudoDocumentMixin(BaseAdvancement)<
+  Type,
   ConfigurationData,
   ValueData
 > {
@@ -169,7 +171,14 @@ declare class Advancement<
   static onContextMenu(item: Item.Implementation, target: HTMLElement)
 }
 
+declare class AnyAdvancement extends Advancement<dnd5e.types.Advancement.TypeKey, any, any>{
+  constructor(...args: never);
+}
+
 declare namespace Advancement {
+  interface Any extends AnyAdvancement {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyAdvancement> {}
+
   interface Metadata extends PseudoDocumentMixin.MixinClass.Metadata {
     name: string,
     label: string,

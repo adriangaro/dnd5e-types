@@ -6,9 +6,9 @@ import type ItemGrantAdvancement from "@dnd5e/module/documents/advancement/item-
  * Inline application that presents the player with a list of items to be added.
  */
 export default class ItemGrantFlow<
-  Document extends ItemGrantAdvancement<any, any> = ItemGrantAdvancement
+  Document extends dnd5e.documents.advancement.Advancement.Any = ItemGrantAdvancement<'ItemGrant'>
 > extends AdvancementFlow<
-  ItemGrantAdvancement
+  Document
 > {
 
   /* -------------------------------------------- */

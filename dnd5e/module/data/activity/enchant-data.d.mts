@@ -8,6 +8,7 @@ import AppliedEffectField from "./fields/applied-effect-field.mjs";
  *
  */
 export default class EnchantActivityData extends BaseActivityData<
+  'enchant',
   dnd5e.types.MergeSchemas<
     {
       effects: foundry.data.fields.ArrayField<

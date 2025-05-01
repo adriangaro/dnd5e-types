@@ -26,14 +26,6 @@ declare global {
   namespace dnd5e.types {
     namespace Advancement {
       interface DefaultAdvancementTypes {
-        AbilityScoreImprovement: typeof AbilityScoreImprovementAdvancement;
-        HitPoints: typeof HitPointsAdvancement;
-        ItemChoice: typeof ItemChoiceAdvancement;
-        ItemGrant: typeof ItemGrantAdvancement;
-        ScaleValue: typeof ScaleValueAdvancement;
-        Size: typeof SizeAdvancement
-        Subclass: typeof SubclassAdvancement
-        Trait: typeof TraitAdvancement
       }
 
       /**

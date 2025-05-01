@@ -1,9 +1,7 @@
 declare class MappingField<
   const ElementFieldType extends foundry.data.fields.DataField.Any,
   const TypeKey extends string = string,
-  const Options extends MappingField.AnyOptions = MappingField.DefaultOptions<
-    MappingField.AssignmentElementType<ElementFieldType>
-  >,
+  const Options extends MappingField.AnyOptions = MappingField.DefaultOptions,
   const AssignmentElementType = MappingField.AssignmentElementType<ElementFieldType>,
   const InitializedElementType = MappingField.InitializedElementType<ElementFieldType>,
   const AssignmentType = MappingField.AssignmentType<AssignmentElementType, TypeKey, Options>,
@@ -48,18 +46,18 @@ declare namespace MappingField {
   > =
     | Record<TypeKey, AssignmentElementType>
 
-  type DefaultOptions<AssignmentElementType> = fvttUtils.SimpleMerge<
+  type DefaultOptions = fvttUtils.SimpleMerge<
     foundry.data.fields.ObjectField.DefaultOptions,
     {
       initialKeys: null,
       initialValue: null,
       initialKeysOnly: false,
-      initial: () => Record<string, AssignmentElementType>
+      initial: () => Record<string, any>
     }
   >;
 
   type MergedOptions<AssignmentElementType, Opts extends AnyOptions> = fvttUtils.SimpleMerge<
-    DefaultOptions<AssignmentElementType>,
+    DefaultOptions,
     Opts
   >;
 

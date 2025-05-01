@@ -7,6 +7,7 @@ import BaseActivityData from "./base-activity.mjs";
  * Data model for an attack activity.
  */
 declare class AttackActivityData extends BaseActivityData<
+  'attack',
   {
     attack: foundry.data.fields.SchemaField<{
       ability: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey | 'none' | 'spellcasting'>,
@@ -33,13 +34,7 @@ declare class AttackActivityData extends BaseActivityData<
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
-
-
-  /** @override */
-  get actionType(): BaseActivityData['actionType']
-
-  /* -------------------------------------------- */
-
+  
   /**
    * Abilities that could potentially be used with this attack. Unless a specific ability is specified then
    * whichever ability has the highest modifier will be selected when making an attack.

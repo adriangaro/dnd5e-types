@@ -10,9 +10,9 @@ declare class PseudoDocumentSheet<
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends Application5e<
-  PseudoDocumentSheet.RenderContext<Document, PseudoDocumentSheet.Configuration<Configuration>, RenderContext>,
-  PseudoDocumentSheet.Configuration<Configuration>,
-  PseudoDocumentSheet.RenderOptions<RenderOptions>
+  PseudoDocumentSheet.MakeRenderContext<Document, PseudoDocumentSheet.MakeConfiguration<Configuration>, RenderContext>,
+  PseudoDocumentSheet.MakeConfiguration<Configuration>,
+  PseudoDocumentSheet.MakeRenderOptions<RenderOptions>
 > {
   #documentId: string
   #documentType: string
@@ -90,11 +90,17 @@ declare class PseudoDocumentSheet<
   }): Promise<void>
 }
 
+declare class AnyPseudoDocumentSheet extends PseudoDocumentSheet<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
+  constructor(...args: never)
+}
+
 declare namespace PseudoDocumentSheet {
-  type Any = PseudoDocumentSheet<any, any, any, any>
-  type RenderContext<
+  interface Any extends AnyPseudoDocumentSheet {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyPseudoDocumentSheet> {}
+
+  type MakeRenderContext<
     Document extends PseudoDocumentMixin.MixinClass,
-    Cfg extends Configuration<any>,
+    Cfg extends MakeConfiguration<any>,
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {
@@ -104,7 +110,9 @@ declare namespace PseudoDocumentSheet {
     },
     Ctx
   >
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type RenderContext = PseudoDocumentSheet<any>['__RenderContext']
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
       document: null | {
         id: string,
@@ -125,12 +133,14 @@ declare namespace PseudoDocumentSheet {
     },
     Cfg
   >
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type Configuration = PseudoDocumentSheet<any>['__Configuration']
+  type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Opt
   >
+  type RenderOptions = PseudoDocumentSheet<any>['__RenderOptions']
 }
 
 export default PseudoDocumentSheet

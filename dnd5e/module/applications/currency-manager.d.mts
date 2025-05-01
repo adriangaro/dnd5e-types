@@ -87,7 +87,7 @@ export default class CurrencyManager extends Application5e<{
    * @param amount                          The amount of currency.
    * @param denomination                    The currency's denomination.
    * @param options
-   * @param options.recursive      Deduct currency from containers as well as the base Actor. TODO
+   * @param options.recursive      Deduct currency from containers as well as the base Actor.
    * @param options.priority  Prioritize higher denominations before lower, or vice-versa.
    * @param options.exact          Prioritize deducting the requested denomination first.
    * @throws {Error} If the Actor does not have sufficient currency.

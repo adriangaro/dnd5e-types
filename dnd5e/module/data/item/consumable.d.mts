@@ -9,23 +9,9 @@ import ItemTypeTemplate from "./templates/item-type.mjs";
 import PhysicalItemTemplate from "./templates/physical-item.mjs";
 import ItemTypeField from "./fields/item-type-field.mjs";
 
-declare class _ItemDataModel extends ItemDataModel {}
+declare class _ItemDataModel extends ItemDataModel { }
 /**
  * Data definition for Consumable items.
- * @mixes ActivitiesTemplate
- * @mixes ItemDescriptionTemplate
- * @mixes ItemTypeTemplate
- * @mixes IdentifiableTemplate
- * @mixes PhysicalItemTemplate
- * @mixes EquippableItemTemplate
- *
- * @property {object} damage
- * @property {DamageData} damage.base    Damage caused by this ammunition.
- * @property {string} damage.replace     Should ammunition damage replace the base weapon's damage?
- * @property {number} magicalBonus       Magical bonus added to attack & damage rolls by ammunition.
- * @property {Set<string>} properties    Ammunition properties.
- * @property {object} uses
- * @property {boolean} uses.autoDestroy  Should this item be destroyed when it runs out of uses.
  */
 declare class ConsumableData extends _ItemDataModel.mixin(
   ActivitiesTemplate, ItemDescriptionTemplate<'consumable'>, IdentifiableTemplate, ItemTypeTemplate<'consumable'>,
@@ -33,17 +19,14 @@ declare class ConsumableData extends _ItemDataModel.mixin(
 )<
   dnd5e.types.MergeSchemas<
     {
-      type: ItemTypeField<{ label: "DND5E.ItemConsumableType" }>,
+      type: ItemTypeField<'consumable', {}, { label: "DND5E.ItemConsumableType" }>,
       damage: foundry.data.fields.SchemaField<{
         base: DamageField,
         replace: foundry.data.fields.BooleanField
       }>,
       magicalBonus: foundry.data.fields.NumberField<{ min: 0, integer: true }>,
       properties: foundry.data.fields.SetField<
-        foundry.data.fields.StringField<
-          foundry.data.fields.StringField.DefaultOptions,
-          dnd5e.types.ItemProperties.Consumable.TypeKey, dnd5e.types.ItemProperties.Consumable.TypeKey, dnd5e.types.ItemProperties.Consumable.TypeKey
-        >
+        dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Consumable.TypeKey>
       >,
       uses: UsesField<{
         autoDestroy: foundry.data.fields.BooleanField<{ required: true }>
@@ -107,11 +90,7 @@ declare class ConsumableData extends _ItemDataModel.mixin(
 
   /** @inheritDoc */
   getFavoriteData: () => Promise<
-    ItemDataModel.FavoriteData & {
-      subtitle: [string, string],
-      uses: ReturnType<ConsumableData['getUsesData']> | null,
-      quantity: number
-    }
+    ConsumableData.FavoriteData<this>
   >
 
   /* -------------------------------------------- */
@@ -138,5 +117,164 @@ declare class ConsumableData extends _ItemDataModel.mixin(
   get proficiencyMultiplier(): number
 }
 
-export default ConsumableData;
+declare namespace ConsumableData {
+  interface FavoriteData<This> extends ItemDataModel.FavoriteData {
+    subtitle: [string, string],
+    uses: dnd5e.types.GetKeyReturn<This, 'getUsesData'> | null,
+    quantity: number
+  }
+}
 
+declare global {
+  namespace dnd5e.types {
+    namespace Consumable {
+      namespace Ammo {
+        interface DefaultAmmoTypes extends Record<string, boolean> {
+          "arrow": true,
+          "crossbowBolt": true,
+          "firearmBullet": true,
+          "slingBullet": true,
+          "energyCell": true,
+          "blowgunNeedle": true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom loot properties here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.ItemProperties.Loot {
+         * interface OverrideTypes {
+         * questItem: true
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultAmmoTypes,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
+      namespace Poison {
+        interface DefaultPoisonTypes extends Record<string, boolean> {
+          "contact": true,
+          "ingested": true,
+          "inhaled": true,
+          "injury": true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom loot properties here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.ItemProperties.Loot {
+         * interface OverrideTypes {
+         * questItem: true
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultPoisonTypes,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
+
+      // --- Base Definitions ---
+      interface DefaultConsumableTypes extends Record<string, string | null> {
+        ammo: dnd5e.types.Consumable.Ammo.TypeKey
+        food: null,
+        poison: dnd5e.types.Consumable.Poison.TypeKey
+        potion: null,
+        rod: null,
+        scroll: null,
+        trinket: null,
+        wand: null
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom loot properties here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.ItemProperties.Loot {
+       * interface OverrideTypes {
+       * questItem: true
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, string | null | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultConsumableTypes,
+        OverrideTypes
+      >;
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+    }
+
+    namespace ItemProperties {
+      namespace Consumable {
+        // --- Base Definitions ---
+        interface DefaultConsumableProperties {
+          mgc: true; // Magical
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom consumable properties here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.ItemProperties.Consumable {
+         * interface OverrideTypes {
+         * cursed: true
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> {}
+
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultConsumableProperties,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
+
+      interface ValidPropertyMap {
+        consumable: ItemProperties.Consumable.TypeKey;  
+      }
+    }
+    namespace ItemTypes {
+      interface ItemTypeMap {
+        consumable: {
+          [K in Consumable.TypeKey]: dnd5e.types.ItemTypes.ItemTypeConfig<Consumable.Types[K]>
+        }
+      }
+    }
+    namespace DataModelConfig {
+      interface Item {
+        consumable: typeof ConsumableData;
+      }
+    }
+
+    interface DND5EConfig {
+      consumableTypes: {
+        [K in Consumable.TypeKey]: dnd5e.types.ItemTypes.ItemTypeConfig<Consumable.Types[K]>
+      }
+    }
+  }
+}
+
+export default ConsumableData;

@@ -4,7 +4,7 @@ import ActivityMixin from "./mixin.mjs";
 /**
  * Activity for making saving throws and rolling damage.
  */
-export default class SaveActivity extends ActivityMixin(SaveActivityData) {
+declare class SaveActivity extends ActivityMixin(SaveActivityData) {
   /* -------------------------------------------- */
   /*  Event Listeners and Handlers                */
   /* -------------------------------------------- */
@@ -27,8 +27,14 @@ export default class SaveActivity extends ActivityMixin(SaveActivityData) {
 
   /** @inheritDoc */
   getFavoriteData(): Promise<
-    dnd5e.types.FavoriteData5e & {
-      save: SaveActivity['save']
-    }
+    SaveActivity.FavoriteData<this>
   >
 }
+
+declare namespace SaveActivity {
+  type FavoriteData<This> = dnd5e.types.FavoriteData5e & {
+    save: dnd5e.types.GetKey<This, 'save'>
+  }
+}
+
+export default SaveActivity

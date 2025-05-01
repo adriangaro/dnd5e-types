@@ -4,14 +4,12 @@ import MappingField from "./mapping-field.mjs";
  * Field that stores activities on an item.
  */
 export class ActivitiesField<
-  const Options extends MappingField.AnyOptions = MappingField.DefaultOptions<
-    MappingField.AssignmentElementType<ActivityField>
-  >,
-  const AssignmentElementType = MappingField.AssignmentElementType<ActivityField>,
-  const InitializedElementType = MappingField.InitializedElementType<ActivityField>,
+  const Options extends MappingField.AnyOptions = MappingField.DefaultOptions,
+  const AssignmentElementType = ActivityField.AssignmentType<ActivityField.DefaultOptions>,
+  const InitializedElementType = ActivityField.InitializedType<ActivityField.DefaultOptions>,
   const AssignmentType = MappingField.AssignmentType<AssignmentElementType, string, Options>,
   const InitializedType = ActivityCollection,
-  const PersistedElementType = MappingField.PersistedElementType<ActivityField>,
+  const PersistedElementType = ActivityField.PersistedType<ActivityField.DefaultOptions>,
   const PersistedType extends Record<string, PersistedElementType> | null | undefined = MappingField.PersistedType<
     AssignmentElementType,
     PersistedElementType,
@@ -75,7 +73,7 @@ export namespace ActivityField {
   type InitializedType<
     Opts extends Options
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    dnd5e.types.Activity.Any,
+    dnd5e.types.Activity.Any extends any ? dnd5e.types.Activity.Any : never,
     fvttUtils.SimpleMerge<DefaultOptions, Opts>
   >
   type PersistedType<
@@ -89,7 +87,6 @@ export namespace ActivityField {
 }
 
 /* -------------------------------------------- */
-
 /**
  * Specialized collection type for stored activities.
  */

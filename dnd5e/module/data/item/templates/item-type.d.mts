@@ -45,16 +45,18 @@ declare global {
         subtypes: ([Subtypes] extends [string] ? { [K in Subtypes]: string } : never)
       }
 
-      interface ItemTypeMap extends Record<Item.SubType, Record<string, ItemTypeConfig>> {
+      interface ItemTypeMap extends Record<Item.SubType, Record<string, ItemTypeConfig<null> | ItemTypeConfig<any>>> {
       }
 
       type GetItemTypeKey<T extends Item.SubType> = keyof fvttUtils.RemoveIndexSignatures<ItemTypeMap>[T]
 
       type GetItemTypeMap<T extends Item.SubType> = fvttUtils.RemoveIndexSignatures<ItemTypeMap>[T]
-
-      type GetItemSubTypeKey<T extends Item.SubType, S extends GetItemTypeKey<T>> = keyof fvttUtils.RemoveIndexSignatures<dnd5e.types.GetKey<GetItemTypeKey<T>, S>>
+      
+      type InferSubTypes<T> = T extends ItemTypeConfig<infer Subtypes> ? Subtypes : never;
+      type GetItemSubTypeKey<T extends Item.SubType, S extends GetItemTypeKey<T>> =  InferSubTypes<GetItemTypeMap<T>[S]>
     }
   }
 }
-
+type d = dnd5e.types.ItemTypes.GetItemTypeMap<'consumable'>[dnd5e.types.ItemTypes.GetItemTypeKey<'consumable'>]
+type f = d extends dnd5e.types.ItemTypes.ItemTypeConfig<infer Q> ? Q : never
 export default ItemTypeTemplate;

@@ -11,17 +11,18 @@ import ConsumptionTargetsField from "./fields/consumption-targets-field.mjs";
  * Data model for activities.
  */
 declare class BaseActivityData<
+  Type extends string = string,
   Schema extends foundry.data.fields.DataSchema = {}
 > extends foundry.abstract.DataModel<
   dnd5e.types.FilterNever<
     dnd5e.types.MergeSchemas<
       {
         _id: foundry.data.fields.DocumentIdField<{ initial: () => string }>,
-        type: dnd5e.types.fields.RestrictedStringField<
-          dnd5e.types.Activity.TypeKey,
+        type: foundry.data.fields.StringField<
           {
-            blank: false, required: true, readOnly: true, initial: () => dnd5e.types.Activity.TypeKey
-          }
+            blank: false, required: true, readOnly: true, initial: () => string
+          },
+          Type
         >,
         name: foundry.data.fields.StringField<{ initial: undefined }>,
         img: foundry.data.fields.FilePathField<{ initial: undefined, categories: ["IMAGE"], base64: false }>,
@@ -57,7 +58,7 @@ declare class BaseActivityData<
       Schema
     >
   >,
-  foundry.abstract.DataModel.Any
+  null
 > {
   labels: Record<
     string,
@@ -97,7 +98,7 @@ declare class BaseActivityData<
   /**
    * Effects that can be applied from this activity.
    */
-  // get applicableEffects(): ActiveEffect.Implementation[] | null
+  get applicableEffects(): ActiveEffect.Implementation[] | null
 
   /* -------------------------------------------- */
 
@@ -318,10 +319,12 @@ declare class BaseActivityData<
 
   /* -------------------------------------------- */
 
+  getRollData(...args: any[]): any
+
   /**
    * Prepare the label for a compiled and simplified damage formula.
    */
-  prepareDamageLabel(parts: dnd5e.types.Damage.Data[], rollData: ReturnType<dnd5e.types.GetKey<this, 'getRollData'>>): {
+  prepareDamageLabel(parts: dnd5e.types.Damage.Data[], rollData: ReturnType<this['getRollData']>): {
     formula: string,
     damageType: dnd5e.types.Damage.TypeKey | null,
     label: string,
@@ -367,8 +370,8 @@ declare class BaseActivityData<
   _setOverride(keyPath: string)
 }
 
-declare class AnyBaseActivityData extends BaseActivityData<{
-  [k in keyof dnd5e.types.GetSchema<typeof BaseActivityData<{}>>]: never
+declare class AnyBaseActivityData extends BaseActivityData<string, {
+  [k in keyof dnd5e.types.GetSchema<typeof BaseActivityData<string, {}>>]: never
 }> {
   constructor(...args: never)
 }

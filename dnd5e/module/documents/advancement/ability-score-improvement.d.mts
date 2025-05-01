@@ -9,6 +9,7 @@ import {
  * Advancement that presents the player with the option of improving their ability scores or selecting a feat.
  */
 declare class AbilityScoreImprovementAdvancement extends Advancement<
+  'AbilityScoreImprovement',
   typeof AbilityScoreImprovementConfigurationData,
   typeof AbilityScoreImprovementValueData
 > {
@@ -44,3 +45,13 @@ declare class AbilityScoreImprovementAdvancement extends Advancement<
   /* -------------------------------------------- */
 }
 export default AbilityScoreImprovementAdvancement
+
+declare global {
+  namespace dnd5e.types {
+    namespace Advancement {
+      interface DefaultAdvancementTypes {
+        AbilityScoreImprovement: typeof AbilityScoreImprovementAdvancement
+      }
+    }
+  }
+}

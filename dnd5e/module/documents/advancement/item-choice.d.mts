@@ -7,7 +7,8 @@ import ItemGrantAdvancement from "./item-grant.mjs";
  * Advancement that presents the player with a choice of multiple items that they can take. Keeps track of which
  * items were selected at which levels.
  */
-export default class ItemChoiceAdvancement extends ItemGrantAdvancement<
+declare class ItemChoiceAdvancement extends ItemGrantAdvancement<
+  'ItemChoice',
   typeof ItemChoiceConfigurationData,
   typeof ItemChoiceValueData
 > {
@@ -17,12 +18,24 @@ export default class ItemChoiceAdvancement extends ItemGrantAdvancement<
   /**
    * Verify that the provided item can be used with this advancement based on the configuration.
    */
-  _validateItemType(
-    item: Item.Implementation, 
-    config?: { 
-      type: Item.SubType, 
-      restriction: object, 
-      strict?: boolean
+  // _validateItemType(
+  //   item: Item.Implementation, 
+  //   config?: { 
+  //     type: Item.SubType, 
+  //     restriction: object, 
+  //     strict?: boolean
+  //   }
+  // ): boolean
+}
+
+export default ItemChoiceAdvancement
+
+declare global {
+  namespace dnd5e.types {
+    namespace Advancement {
+      interface DefaultAdvancementTypes {
+        ItemChoice: typeof ItemChoiceAdvancement
+      }
     }
-  ): boolean
+  }
 }

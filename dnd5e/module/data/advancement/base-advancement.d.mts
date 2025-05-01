@@ -5,16 +5,17 @@ import AdvancementDataField from "../fields/advancement-data-field.mjs";
  * Base data model for advancement.
  */
 declare class BaseAdvancement<
-  ConfigurationData extends AdvancementDataField.ConcreteDataModelConstructor | never,
-  ValueData extends AdvancementDataField.ConcreteDataModelConstructor | never
+  Type extends dnd5e.types.Advancement.TypeKey,
+  ConfigurationData extends AdvancementDataField.RequiredType,
+  ValueData extends AdvancementDataField.RequiredType
 > extends SparseDataModel<{
   _id: foundry.data.fields.DocumentIdField<{ initial: () => string }>,
   type: foundry.data.fields.StringField<{
     required: true,
-    initial: string,
+    initial: Type,
     validate: (v: string) => boolean,
     validationError: string
-  }>,
+  }, Type, Type, Type>,
   configuration: AdvancementDataField<ConfigurationData, { required: true }>,
   value: AdvancementDataField<ValueData, { required: true }>,
   level: foundry.data.fields.NumberField<{
@@ -31,7 +32,7 @@ declare class BaseAdvancement<
     },
     undefined | "primary" | "secondary", undefined | "primary" | "secondary", undefined | "primary" | "secondary"
   >
-}, any> {
+}, null> {
   /**
    * Name of this advancement type that will be stored in config and used for lookups.
    */

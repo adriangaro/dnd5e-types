@@ -134,9 +134,9 @@ declare global {
       /**
        * Utility type to filter out properties of T whose value is 'never'.
        */
-      type FilterNever<T> = {
+      type FilterNever<T> = PrettifyType<{
         [K in keyof T as T[K] extends never ? never : K]: T[K]
-      };
+      }>;
 
       export type RemoveIndexSignatures<T> = {
         [K in keyof T as fvttUtils.OmitIndex<K>]: T[K];
@@ -465,29 +465,26 @@ declare global {
        */
       type SplitPath<S extends string> =
         S extends `${infer Key}.${infer Rest}`
-        ? [Key, ...SplitPath<Rest>]
-        : S extends "" ? [] : [S];
+        ? [Key extends `${infer N extends number}` ? N : Key, ...SplitPath<Rest>]
+        : S extends "" ? [] : [S extends `${infer N extends number}` ? N : S];
 
       /**
        * Recursively navigates a type `T` using a tuple of path segments `TPath`.
        * Returns the type at the end of the path or `never`.
        */
-      type NavigatePath<T, TPath extends string[]> =
-        // Base Case 1: If T becomes null or undefined before path ends, the path is invalid.
-        T extends undefined | null
-        ? TPath extends [] ? T : never // Return T if path is also done, else never
-        : TPath extends []
-        // Base Case 2: Path is exhausted, return the current type T.
-        ? T
-        : TPath extends [infer CurrentKey, ...infer RemainingKeys]
-        // Recursive Step: Check if CurrentKey is a valid key of T and RemainingKeys is string[].
-        ? CurrentKey extends keyof T
-        ? RemainingKeys extends string[]
-        // Recurse with the type T[CurrentKey] and the remaining path segments.
-        ? NavigatePath<T[CurrentKey], RemainingKeys>
-        : never // Should not happen if SplitPath is correct
-        : never // CurrentKey is not a valid key in T for the remaining path.
-        : never;
+      type NavigatePath<T, TPath extends (string|number)[]> =
+          T extends undefined | null
+          ? TPath extends [] ? T : never
+          : TPath extends []
+          ? T
+          : TPath extends [infer CurrentKey, ...infer RemainingKeys]
+          ? CurrentKey extends keyof T // This handles string keys for objects AND numeric string keys for arrays/tuples
+          ? RemainingKeys extends (string|number)[]
+          ? NavigatePath<T[CurrentKey], RemainingKeys> // T[CurrentKey] works for both object properties and array elements
+          : never
+          : never
+          : never;
+
 
       /**
        * Utility type to get the type of a property deep within an object `T`
@@ -506,12 +503,28 @@ declare global {
        * type RootType = GetTypeFromPath<MyType, ''>; // MyType
        */
       export type GetTypeFromPath<T, P extends string> = NavigatePath<T, SplitPath<P>>;
-
-      type IsExactly<A, B> = [A] extends [B]
-        ? [B] extends [A]
+      type d = {
+        a?: {
+          b?: {
+            c: 3
+          }
+        },
+        d: { c: 2 }[]
+      }
+      type Schema = {
+        id: string;
+        config: {
+          values: number[]; // Array of numbers
+          params: [string, boolean]; // Tuple
+          metadata?: { // Optional object
+            tags: string[];
+          } | null; // Can also be null
+        };
+      };
+      
+      type IsExactly<T, U> = (<V>() => V extends T ? true : false) extends (<V>() => V extends U ? true : false)
         ? true
         : false
-        : false;
 
       type EnsureAnyIfNever<T> = {
         [K in keyof T]: T[K] extends never ? any : T[K]

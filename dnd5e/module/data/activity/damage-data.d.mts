@@ -6,6 +6,7 @@ import BaseActivityData from "./base-activity.mjs";
  * Data model for an damage activity.
  */
 export default class DamageActivityData extends BaseActivityData<
+  'damage',
   dnd5e.types.MergeSchemas<
     {
       damage: foundry.data.fields.SchemaField<{

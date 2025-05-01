@@ -8,9 +8,10 @@ import { simplifyBonus } from "../../utils.mjs";
  * Keeps track of player hit point rolls or selection for each class level. **Can only be added to classes and each
  * class can only have one.**
  */
-export default class HitPointsAdvancement extends Advancement<
+declare class HitPointsAdvancement extends Advancement<
+  'HitPoints',
   never,
-  never
+  Record<number | string, number | 'max' | 'avg'>
 > {
 
   /* -------------------------------------------- */
@@ -75,4 +76,16 @@ export default class HitPointsAdvancement extends Advancement<
    * Add the ability modifier and any bonuses to the provided hit points value to get the number to apply.
    */
   #getApplicableValue(value: number): number
+}
+
+export default HitPointsAdvancement
+
+declare global {
+  namespace dnd5e.types {
+    namespace Advancement {
+      interface DefaultAdvancementTypes {
+        HitPoints: typeof HitPointsAdvancement
+      }
+    }
+  }
 }

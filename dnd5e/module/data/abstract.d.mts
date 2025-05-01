@@ -175,7 +175,7 @@ declare namespace SystemDataModel {
 
   namespace Internal {
     type ImmiscibleKeys = ["length", "mixed", "name", "prototype", "cleanData", "_cleanData",
-      "_initializationOrder", "validateJoint", "_validateJoint", "migrateData", "_migrateData",
+      "validateJoint", "_validateJoint", "migrateData", "_migrateData",
       "shimData", "_shimData", "defineSchema"][number]
     type RootSchemaDependent = ["schema", '_source', 'clone', 'validate', 'updateSource', 'toObject', 'toJSON'][number]
     // type OmitMembers<T> =
@@ -388,10 +388,9 @@ export declare namespace ActorDataModel {
   interface Any extends AnyActorDataModel { }
   interface AnyConstructor extends fvttUtils.Identity<typeof ActorDataModel> { }
 
-  // @ts-expect-error
-  interface RollData<This extends object> extends This {
+  type RollData<This extends object> = fvttUtils.InterfaceToObject<This & {
     prof: Proficiency
-  }
+  }>
 
   type Metadata = fvttUtils.SimpleMerge<
     SystemDataModel.Metadata,
@@ -400,7 +399,6 @@ export declare namespace ActorDataModel {
     }
   >
 }
-
 
 // ITEM
 
@@ -445,7 +443,7 @@ export declare class ItemDataModel<
    * @param [options.activity]       Specific activity on item to use for customizing the data.
    * @returns A promise resolving to the card data object.
    */
-  getCardData(options?: TextEditor.EnrichmentOptions & { activity?: dnd5e.types.Activity.Any }): Promise<object>;
+  getCardData(options?: TextEditor.EnrichmentOptions & { activity?: dnd5e.dataModels.activity.BaseActivityData.Any }): Promise<object>;
 
   /**
    * Determine the cost to craft this Item.
@@ -487,14 +485,12 @@ export declare namespace ItemDataModel {
   interface Any extends AnyItemDataModel { }
   interface AnyConstructor extends fvttUtils.Identity<typeof ItemDataModel> { }
 
-  // @ts-expect-error - This is effectively a faux subclass of `T` which tsc isn't too fond of.
-  // It can be unsound but in this case there's no other way to do it.
-  interface RollData<
+  type RollData<
     This,
-    _RollData extends object = ReturnType<Actor.Implementation['getRollData']>
-  > extends _RollData {
+  > = fvttUtils.InterfaceToObject<{} & {
     item: This
-  }
+  }>
+  // dnd5e.types.GetKeyReturn<Actor.Implementation['system'], 'getRollData'>
 
   type Metadata = fvttUtils.SimpleMerge<
     SystemDataModel.Metadata,
@@ -525,7 +521,7 @@ export declare namespace ItemDataModel {
       value?: number,
       max?: number,
       name?: string
-    }
+    } | null
     toggle?: boolean;
     suppressed?: boolean | undefined;
   }

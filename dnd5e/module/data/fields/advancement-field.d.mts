@@ -1,4 +1,3 @@
-import type AbilityScoreImprovementAdvancement from "@dnd5e/module/documents/advancement/ability-score-improvement.mjs";
 
 /**
  * Data field that selects the appropriate advancement data model if available, otherwise defaults to generic
@@ -23,7 +22,9 @@ declare class AdvancementField<
 }
 
 declare namespace AdvancementField {
-  type BaseData = dnd5e.types.Advancement.AdvancementAssignmentData
+  type BaseData = foundry.data.fields.SchemaField.AssignmentData<
+    dnd5e.types.Advancement.SchemaMap[dnd5e.types.Advancement.TypeKey]
+  >
   type Options = foundry.data.fields.DataField.Options<BaseData>;
   export import DefaultOptions = foundry.data.fields.ObjectField.DefaultOptions;
   type MergedOptions<Options extends AdvancementField.Options> = fvttUtils.SimpleMerge<DefaultOptions, Options>;

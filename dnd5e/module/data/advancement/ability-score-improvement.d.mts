@@ -13,7 +13,7 @@ export class AbilityScoreImprovementConfigurationData extends foundry.abstract.D
     locked: foundry.data.fields.SetField<foundry.data.fields.StringField>,
     points: foundry.data.fields.NumberField<{ integer: true, min: 0, initial: 0 }>
   },
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > { }
 
 /**
@@ -35,5 +35,5 @@ export class AbilityScoreImprovementValueData extends SparseDataModel<
       { required: false, initial: undefined, label: "DND5E.Feature.Feat" }
     >
   },
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > {}

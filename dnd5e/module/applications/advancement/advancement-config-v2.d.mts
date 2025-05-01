@@ -5,7 +5,7 @@ import PseudoDocumentSheet from "../api/pseudo-document-sheet.mjs";
  * editing interfaces.
  */
 declare class AdvancementConfig<
-  Document extends dnd5e.documents.advancement.Advancement<any, any>,
+  Document extends dnd5e.documents.advancement.Advancement.Any,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
@@ -83,13 +83,13 @@ declare namespace AdvancementConfig {
     new (...args: never): Any;
   }
   type RenderContext<
-    Document extends dnd5e.documents.advancement.Advancement<any, any>,
+    Document extends dnd5e.documents.advancement.Advancement.Any,
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {
       advancement: Document,
       configuration: {
-        data: Document['configuration'],
+        data: dnd5e.types.GetKey<Document, 'configuration'>,
         fields: dnd5e.types.GetKey<
           dnd5e.types.GetKey<
             dnd5e.types.GetKey<

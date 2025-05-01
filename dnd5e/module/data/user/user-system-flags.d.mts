@@ -6,7 +6,7 @@ import MappingField from "../fields/mapping-field.mjs";
 export default class UserSystemFlags extends foundry.abstract.DataModel<{
   awardDestinations: foundry.data.fields.SetField<
     foundry.data.fields.ForeignDocumentField<
-      Actor.ImplementationClass, 
+      typeof foundry.documents.BaseActor, 
       { idOnly: true }
     >,
     { required: false }

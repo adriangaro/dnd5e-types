@@ -1,3 +1,4 @@
+import type { CreateInputFunction } from "../fields.d.mts";
 import ApplicationV2Mixin from "./application-v2-mixin.mjs";
 
 /**
@@ -42,6 +43,15 @@ declare namespace Application5e {
     Opt
   >> & foundry.applications.api.ApplicationV2.RenderOptions
   type RenderOptions = Application5e['__RenderOptions']
+
+  type FieldsConfig = {
+    field: foundry.data.fields.DataField.Any,
+    name: string,
+    value: any,
+    input?: CreateInputFunction
+    options?: dnd5e.types.FormSelectOption[]
+    choices?: dnd5e.types.FormSelectOption[]
+  }
 }
 
 export default Application5e

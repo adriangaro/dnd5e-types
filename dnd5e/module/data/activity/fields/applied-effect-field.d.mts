@@ -58,7 +58,7 @@ declare namespace AppliedEffectField {
   >
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
-    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+    Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
     Opts
@@ -66,23 +66,25 @@ declare namespace AppliedEffectField {
   type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
     SubType extends ActiveEffect.SubType = ActiveEffect.SubType,
-    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+    Opts extends Options<Fields> = DefaultOptions,
   > = fvttUtils.SimpleMerge<
     foundry.data.fields.SchemaField.Internal.InitializedType<
       GetSchema<Fields>,
       Opts
     >,
-    {
-      get effect(): ActiveEffect.OfType<SubType>
-    }
+    fvttUtils.InterfaceToObject<_InternalEffect<SubType>>
   >
   type PersistedType<
     Fields extends foundry.data.fields.DataSchema,
-    Opts extends Options<GetSchema<Fields>> = DefaultOptions,
+    Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
     Opts
   >
+}
+
+interface _InternalEffect<SubType extends ActiveEffect.SubType> {
+  get effect(): ActiveEffect.OfType<SubType>
 }
 
 export default AppliedEffectField

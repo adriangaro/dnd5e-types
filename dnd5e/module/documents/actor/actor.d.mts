@@ -1,22 +1,11 @@
-import ShortRestDialog from "../../applications/actor/rest/short-rest-dialog.mjs";
-import LongRestDialog from "../../applications/actor/rest/long-rest-dialog.mjs";
 import SkillToolRollConfigurationDialog from "../../applications/dice/skill-tool-configuration-dialog.mjs";
-import PropertyAttribution, { type AttributionDescription } from "../../applications/property-attribution.mjs";
-import ActivationsField from "../../data/chat-message/fields/activations-field.mjs";
-import { ActorDeltasField } from "../../data/chat-message/fields/deltas-field.mjs";
+import { type AttributionDescription } from "../../applications/property-attribution.mjs";
 import { _applyDeprecatedD20Configs, _createDeprecatedD20Config } from "../../dice/d20-roll.mjs";
-import { createRollLabel } from "../../enrichers.mjs";
-import parseUuid from "../../parse-uuid.mjs";
-import { convertTime, defaultUnits, formatNumber, formatTime, simplifyBonus, staticID } from "../../utils.mjs";
-import ActiveEffect5e from "../active-effect.mjs";
-import Item5e from "../item.mjs";
 import SystemDocumentMixin from "../mixins/document.mjs";
-import Proficiency from "./proficiency.mjs";
 import SelectChoices from "./select-choices.mjs";
-import * as Trait from "./trait.mjs";
-import BasicRoll from "../../dice/basic-roll.mjs";
 import type { CreatureTemplate } from "@dnd5e/module/data/actor/_module.mjs";
 import type CreatureTypeField from "@dnd5e/module/data/shared/creature-type-field.mjs";
+
 
 /**
  * Extend the base Actor class to implement additional system-specific logic.
@@ -26,6 +15,7 @@ declare class Actor5e<
 > extends SystemDocumentMixin(Actor)<
   SubType
 > {
+  type: SubType
 
   /**
    * The data source for Actor5e.classes allowing it to be lazily computed.
@@ -138,8 +128,7 @@ declare class Actor5e<
 
   /* -------------------------------------------- */
 
-  /** @inheritDoc */
-  // @ts-expect-error
+  // /** @inheritDoc */
   allApplicableEffects(): Generator<ActiveEffect.OfType<Exclude<ActiveEffect.SubType, 'enchantment'>>>
 
 
@@ -287,10 +276,10 @@ declare class Actor5e<
    * @param config.actor  Actor for whom the data is being prepared.
    */
   static prepareSpellcastingSlots(
-    spells: Actor.OfType<Actor5e.SubTypeWithSpellCasting>['system']['spells'],
+    spells: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.spells'>,
     type: dnd5e.types.Spellcasting.TypeKey,
     progression: Actor5e.SpellProgresionPrep,
-    config: { actor: Actor.OfType<Actor5e.SubTypeWithSpellCasting> }
+    config: { actor: Actor.Implementation }
   )
 
   /* -------------------------------------------- */
@@ -302,8 +291,8 @@ declare class Actor5e<
    * @param progression   Spellcasting progression data.
    */
   static prepareLeveledSlots(
-    spells: Actor.OfType<Actor5e.SubTypeWithSpellCasting>['system']['spells'],
-    actor: Actor.OfType<Actor5e.SubTypeWithSpellCasting>,
+    spells: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.spells'>,
+    actor: Actor.Implementation,
     progression: Actor5e.SpellProgresionPrep,
   )
 
@@ -318,8 +307,8 @@ declare class Actor5e<
    * @param table         The table used for determining the progression of slots.
    */
   static prepareAltSlots(
-    spells: Actor.OfType<Actor5e.SubTypeWithSpellCasting>['system']['spells'],
-    actor: Actor.OfType<Actor5e.SubTypeWithSpellCasting>,
+    spells: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.spells'>,
+    actor: Actor.Implementation,
     progression: Actor5e.SpellProgresionPrep,
     key: string,
     table: object
@@ -334,8 +323,8 @@ declare class Actor5e<
    * @param progression   Spellcasting progression data.
    */
   static preparePactSlots(
-    spells: Actor.OfType<Actor5e.SubTypeWithSpellCasting>['system']['spells'],
-    actor: Actor.OfType<Actor5e.SubTypeWithSpellCasting>,
+    spells: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.spells'>,
+    actor: Actor.Implementation,
     progression: Actor5e.SpellProgresionPrep,
   )
 
@@ -937,8 +926,8 @@ declare class Actor5e<
    * Fetch stats from the original actor for data preparation.
    */
   getOriginalStats(): {
-    originalSaves: Actor.OfType<'character' | 'npc'>['system']['abilities'] | null,
-    originalSkills: Actor.OfType<'character' | 'npc'>['system']['skills'] | null
+    originalSaves: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.abilities'> | null,
+    originalSkills: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.skills'> | null
   }
 
   /* -------------------------------------------- */
@@ -998,7 +987,7 @@ declare class Actor5e<
   /**
    * Format a type object into a string.
    */
-  static formatCreatureType(typeData: string | CreatureTypeField.InitializedType<{}>)
+  static formatCreatureType(typeData: string | CreatureTypeField.InitializedType<{}>): string
 
   /* -------------------------------------------- */
   /*  Event Listeners and Handlers                */
@@ -1068,7 +1057,12 @@ declare class Actor5e<
 }
 
 declare namespace Actor5e {
-  type RollData<This extends Actor5e> = (
+  type Implementation<Type extends Actor.ConfiguredSubTypes = Actor.ConfiguredSubTypes> = ActorMap[Type]
+  type ActorMap = {
+    [K in Actor.ConfiguredSubTypes]: Actor.OfType<K>
+  }
+
+  type RollData<This extends Actor5e> = fvttUtils.InterfaceToObject<(
     dnd5e.types.GetKeyReturn<This['system'], 'getRollData'> extends never ?
     ReturnType<Actor['getRollData']> :
     dnd5e.types.GetKeyReturn<This['system'], 'getRollData'>
@@ -1080,16 +1074,13 @@ declare namespace Actor5e {
     } & {
       [k: string]: number
     }
-  }
+  }>
 
   interface SpellProgresionPrep {
     slot: number,
     pact: number
   }
 
-  type SubTypeWithSpellCasting = {
-    [K in Actor.ConfiguredSubTypes]: Actor.OfType<K>['system'] extends { spells: unknown } ? K : never
-  }[Actor.ConfiguredSubTypes];
   /**
    * Description of a source of damage.
    */

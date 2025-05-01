@@ -7,6 +7,7 @@ import BaseActivityData from "./base-activity.mjs";
  * Data model for a check activity.
  */
 export default class CheckActivityData extends BaseActivityData<
+  'check',
   dnd5e.types.MergeSchemas<
     {
       check: foundry.data.fields.SchemaField<{

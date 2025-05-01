@@ -1,4 +1,4 @@
-import { ItemDataModel } from "../abstract.mjs";
+import { ActorDataModel, ItemDataModel } from "../abstract.mjs";
 import AdvancementField from "../fields/advancement-field.mjs";
 import FormulaField from "../fields/formula-field.mjs";
 import SpellcastingField from "./fields/spellcasting-field.mjs";
@@ -9,7 +9,7 @@ declare class _ItemDataModel extends ItemDataModel {}
 /**
  * Data definition for Class items.
  */
-export default class ClassData extends _ItemDataModel.mixin(
+declare class ClassData extends _ItemDataModel.mixin(
   ItemDescriptionTemplate<'class'>, StartingEquipmentTemplate
 )<
   dnd5e.types.MergeSchemas<
@@ -65,12 +65,7 @@ export default class ClassData extends _ItemDataModel.mixin(
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  getFavoriteData: () => Promise<
-    ItemDataModel.FavoriteData & {
-      subtitle?: string,
-      value: number
-    }
-  >
+  getFavoriteData(): Promise<ClassData.FavoriteData>
 
 
   /* -------------------------------------------- */
@@ -105,4 +100,27 @@ export default class ClassData extends _ItemDataModel.mixin(
    * @protected
    */
   static _migrateTraitAdvancement(source: ClassData['_source'])
+}
+declare namespace ClassData {
+  interface FavoriteData extends ItemDataModel.FavoriteData {
+    subtitle?: string,
+    value: number
+  }
+}
+
+export default ClassData
+
+declare global {
+  namespace dnd5e.types {
+    namespace ItemProperties {
+      interface ValidPropertyMap {
+        class: never
+      }
+    }
+    namespace DataModelConfig {
+      interface Item {
+        class: typeof ClassData;
+      }
+    }
+  }
 }

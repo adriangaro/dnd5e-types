@@ -20,9 +20,9 @@ export class ItemChoiceConfigurationData extends foundry.abstract.DataModel<
       type: foundry.data.fields.StringField
     }>,
     spell: foundry.data.fields.EmbeddedDataField<typeof SpellConfigurationData, { nullable: true, initial: null }>,
-    type: foundry.data.fields.StringField<{ blank: false, nullable: true, initial: null }>
+    type: dnd5e.types.fields.RestrictedStringField<Item.SubType, { blank: false, nullable: true, initial: null }>
   },
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > { }
 
 /**
@@ -30,14 +30,13 @@ export class ItemChoiceConfigurationData extends foundry.abstract.DataModel<
  */
 export class ItemChoiceValueData extends foundry.abstract.DataModel<
   {
-    ability: foundry.data.fields.StringField,
+    ability: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey>,
     added: MappingField<MappingField<foundry.data.fields.StringField>>,
     replaced: MappingField<foundry.data.fields.SchemaField<{
       level: foundry.data.fields.NumberField<{ integer: true, min: 0 }>,
-      original: foundry.data.fields.ForeignDocumentField<Item.ImplementationClass, { idOnly: true }>,
-      replacement: foundry.data.fields.ForeignDocumentField<Item.ImplementationClass, { idOnly: true }>
+      original: foundry.data.fields.ForeignDocumentField<typeof foundry.documents.BaseItem, { idOnly: true }>,
+      replacement: foundry.data.fields.ForeignDocumentField<typeof foundry.documents.BaseItem, { idOnly: true }>
     }>>
   },
-
-  dnd5e.documents.advancement.Advancement<any, any>
+  null
 > {}
