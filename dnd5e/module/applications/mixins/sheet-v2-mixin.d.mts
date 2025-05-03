@@ -29,7 +29,7 @@ export type SheetTabCondition5e = (doc: Document) => boolean;
 /**
  * Represents the instance members added by the DocumentSheetV2Mixin.
  */
-declare class DocumentSheetV2 extends DragDropApplicationMixin.MixinClass {
+declare class DocumentSheetV2 {
   /** @privateRemarks All mixin classes should accept anything for its constructor. */
   constructor(...args: any[]);
 

@@ -1,3 +1,27 @@
+
+// Import Configuration
+import DND5E from "./module/config.mjs";
+import { registerSystemKeybindings, registerSystemSettings, registerDeferredSettings } from "./module/settings.mjs";
+
+// Import Submodules
+import * as applications from "./module/applications/_module.mjs";
+import * as canvas from "./module/canvas/_module.mjs";
+import * as dataModels from "./module/data/_module.mjs";
+import * as dice from "./module/dice/_module.mjs";
+import * as documents from "./module/documents/_module.mjs";
+import * as enrichers from "./module/enrichers.mjs";
+import * as Filter from "./module/filter.mjs";
+import * as migrations from "./module/migration.mjs";
+import ModuleArt from "./module/module-art.mjs";
+import { registerModuleData, setupModulePacks } from "./module/module-registration.mjs";
+import parseUuid from "./module/parse-uuid.mjs";
+import { default as registry } from "./module/registry.mjs";
+import Tooltips5e from "./module/tooltips.mjs";
+import * as utils from "./module/utils.mjs";
+import { extendDragDrop } from "./module/drag-drop.mjs";
+
+// Normal imports above to keep types
+
 import * as _dataModels from "@dnd5e/module/data/_module.mjs";
 import * as _documents from "@dnd5e/module/documents/_module.mjs";
 import * as _applications from "@dnd5e/module/applications/_module.mjs";
@@ -104,7 +128,7 @@ declare global {
       export type RemoveIndexSignatures<T> = {
         [K in keyof T as fvttUtils.OmitIndex<K>]: T[K];
       };
-      export type DeepMerge<T, U> = 
+      export type DeepMerge<T, U> =
         // --- Handle top-level `never` cases first ---
         IsNever<U> extends true
         ? never // If U is never, the result is always never.
@@ -113,27 +137,27 @@ declare global {
 
         // --- Neither is `never`, proceed with merging logic ---
         : PrettifyType< // Apply Prettify to the outcome
-            IsArray<T> extends true // Check if T is an array
-            ? IsArray<U> extends true // Check if U is also an array
-                ? Array<DeepMerge<InferArrayElement<T>, InferArrayElement<U>>> // Both are arrays: Merge elements recursively
-                : U // T is array, U is not: U takes priority
+          IsArray<T> extends true // Check if T is an array
+          ? IsArray<U> extends true // Check if U is also an array
+          ? Array<DeepMerge<InferArrayElement<T>, InferArrayElement<U>>> // Both are arrays: Merge elements recursively
+          : U // T is array, U is not: U takes priority
 
-            : fvttUtils.IsObject<T> extends true // Check if T is an object (and not an array)
-            ? fvttUtils.IsObject<U> extends true // Check if U is also an object
-                // Both T and U are Objects: merge them
-                ? { // Combine properties
-                    // Properties only in T
-                    [K in Exclude<keyof T, keyof U>]: T[K];
-                  } & {
-                    // Properties only in U
-                    [K in Exclude<keyof U, keyof T>]: U[K];
-                  } & {
-                    // Properties in both T and U: recursively DeepMerge them
-                    [K in Extract<keyof T, keyof U>]: DeepMerge<T[K], U[K]>;
-                  }
-                : U // T is object, U is not: U takes priority
+          : fvttUtils.IsObject<T> extends true // Check if T is an object (and not an array)
+          ? fvttUtils.IsObject<U> extends true // Check if U is also an object
+          // Both T and U are Objects: merge them
+          ? { // Combine properties
+            // Properties only in T
+            [K in Exclude<keyof T, keyof U>]: T[K];
+          } & {
+            // Properties only in U
+            [K in Exclude<keyof U, keyof T>]: U[K];
+          } & {
+            // Properties in both T and U: recursively DeepMerge them
+            [K in Extract<keyof T, keyof U>]: DeepMerge<T[K], U[K]>;
+          }
+          : U // T is object, U is not: U takes priority
 
-            : U // T is neither array nor object: U takes priority
+          : U // T is neither array nor object: U takes priority
         >;
 
 
@@ -421,59 +445,96 @@ declare global {
       }[U];
 
       /**
-       * Helper type to recursively split a dot-separated string path into a tuple of keys.
-       * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
-       * @example SplitPath<'a'> // Result: ['a']
-       * @example SplitPath<''> // Result: []
-       */
+ * Helper type to recursively split a dot-separated string path into a tuple of keys.
+ * Handles numeric keys correctly for array/tuple access.
+ * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
+ * @example SplitPath<'a.0.c'> // Result: ['a', 0, 'c']
+ * @example SplitPath<'a'> // Result: ['a']
+ * @example SplitPath<'0'> // Result: [0]
+ * @example SplitPath<''> // Result: []
+ */
       type SplitPath<S extends string> =
         S extends `${infer Key}.${infer Rest}`
-        ? [Key extends `${infer N extends number}` ? N : Key, ...SplitPath<Rest>]
-        : S extends "" ? [] : [S extends `${infer N extends number}` ? N : S];
+        // Check if Key is purely numeric after converting to string representation of number
+        ? [`${Key}` extends `${infer N extends number}` ? N : Key, ...SplitPath<Rest>]
+        : S extends "" ? [] : [`${S}` extends `${infer N extends number}` ? N : S];
 
       /**
-       * Recursively navigates a type `T` using a tuple of path segments `TPath`.
-       * Returns the type at the end of the path or `never`.
-       */
-      type NavigatePath<T, TPath extends (string|number)[]> =
-          T extends undefined | null
-          ? TPath extends [] ? T : never
-          : TPath extends []
-          ? T
-          : TPath extends [infer CurrentKey, ...infer RemainingKeys]
-          ? CurrentKey extends keyof T // This handles string keys for objects AND numeric string keys for arrays/tuples
-          ? RemainingKeys extends (string|number)[]
-          ? NavigatePath<T[CurrentKey], RemainingKeys> // T[CurrentKey] works for both object properties and array elements
-          : never
-          : never
-          : never;
+      * Recursively navigates a type `T` using a tuple of path segments `TPath`.
+      * Returns the type at the end of the path or `never`.
+      * Handles objects, arrays, and tuples.
+      */
+      type NavigatePath<T, TPath extends (string | number)[]> =
+        // Handle null/undefined early: if path is empty, return T, otherwise never possible
+        T extends undefined | null
+        ? TPath extends [] ? T : never
+        // Base case: Path is empty, return the current type T
+        : TPath extends []
+        ? T
+        // Recursive step: Destructure the path
+        : TPath extends [infer CurrentKey, ...infer RemainingKeys]
+        // Ensure CurrentKey is a valid key type (string | number) and RemainingKeys is a valid path tuple
+        ? CurrentKey extends string | number
+        ? RemainingKeys extends (string | number)[]
+        // Check if CurrentKey is a valid key/index for T
+        // This works for object properties (string keys) and array/tuple elements (number keys)
+        ? CurrentKey extends keyof T
+        ? NavigatePath<T[CurrentKey], RemainingKeys> // Recurse with the nested type and remaining path
+        : never // CurrentKey is not a valid key/index in T
+        : never // RemainingKeys is not a valid path tuple (shouldn't happen with SplitPath)
+        : never // CurrentKey is not a string or number (shouldn't happen with SplitPath)
+        : never; // Path is not an empty array or a [head, ...tail] structure (shouldn't happen)
 
 
       /**
-       * Utility type to get the type of a property deep within an object `T`
-       * using a dot-separated string path `P`.
-       *
-       * @template T The object type to navigate.
-       * @template P The dot-separated string path (e.g., "user.address.street").
-       * @returns The type found at the specified path, or `never` if the path is invalid.
-       *
-       * @example
-       * type MyType = { actor: { system: { traits: string[] } }, name: string };
-       * type TraitsType = GetTypeFromPath<MyType, 'actor.system.traits'>; // string[]
-       * type NameType = GetTypeFromPath<MyType, 'name'>; // string
-       * type InvalidPath = GetTypeFromPath<MyType, 'actor.data.value'>; // never
-       * type TooDeep = GetTypeFromPath<MyType, 'name.length'>; // never (unless T was string)
-       * type RootType = GetTypeFromPath<MyType, ''>; // MyType
-       */
-      export type GetTypeFromPath<T, P extends string> = NavigatePath<T, SplitPath<P>>;
-      type d = {
-        a?: {
-          b?: {
-            c: 3
-          }
-        },
-        d: { c: 2 }[]
-      }
+      * Utility type to get the type of a property deep within an object or union type `T`
+      * using a dot-separated string path `P`.
+      *
+      * If `T` is a union type, this type will return a union of all possible types found
+      * at the path `P` across all members of the union `T`. If the path is invalid for
+      * a specific member of the union, `never` is contributed for that member (which
+      * usually simplifies away in the final union).
+      *
+      * @template T The object or union type to navigate.
+      * @template P The dot-separated string path (e.g., "user.address.street", "items.0.name").
+      * @returns The type (or union of types) found at the specified path, or `never` if the path is invalid for all members of `T`.
+      *
+      * @example
+      * type MyType = { actor: { system: { traits: string[] } }, name: string };
+      * type TraitsType = GetTypeFromPath<MyType, 'actor.system.traits'>; // string[]
+      * type NameType = GetTypeFromPath<MyType, 'name'>; // string
+      * type InvalidPath = GetTypeFromPath<MyType, 'actor.data.value'>; // never
+      * type TooDeep = GetTypeFromPath<MyType, 'name.length'>; // never (T[name] is string, doesn't have 'length' key *in this context*)
+      * type RootType = GetTypeFromPath<MyType, ''>; // MyType
+      *
+      * @example // Union Type Handling
+      * type Data = { type: "a", value: number } | { type: "b", value: string, extra: boolean };
+      * type ValueType = GetTypeFromPath<Data, 'value'>; // number | string
+      * type TypeType = GetTypeFromPath<Data, 'type'>; // "a" | "b"
+      * type ExtraType = GetTypeFromPath<Data, 'extra'>; // boolean (implicitly boolean | never)
+      * type MissingType = GetTypeFromPath<Data, 'missing'>; // never (never | never)
+      *
+      * @example // Array/Tuple Access
+      * type ArrData = { items: { name: string; value: number }[] };
+      * type FirstItemName = GetTypeFromPath<ArrData, 'items.0.name'>; // string
+      * type AnyItemValue = GetTypeFromPath<ArrData, 'items.number.value'>; // number (accessing element of array type)
+      *
+      * type TupleData = { data: [string, number, { active: boolean }] };
+      * type TupleStr = GetTypeFromPath<TupleData, 'data.0'>; // string
+      * type TupleNum = GetTypeFromPath<TupleData, 'data.1'>; // number
+      * type TupleBool = GetTypeFromPath<TupleData, 'data.2.active'>; // boolean
+      */
+      export type GetTypeFromPath<T, P extends string> =
+        // Use T directly in the extends clause to enable distribution over unions
+        T extends unknown // Or `T extends any`
+        ? NavigatePath<T, SplitPath<P>>
+        : never; // This branch is unlikely to be hit unless T is `never` itself
+      type Data = { type: "a", value: number } | { type: "b", value: string, extra: boolean };
+      type ValueType = GetTypeFromPath<Data, 'value'>; // number | string
+      type TypeType = GetTypeFromPath<Data, 'type'>; // "a" | "b"
+      type ExtraType = GetTypeFromPath<Data, 'extra'>; // boolean (as boolean | never simplifies to boolean)
+      type MissingType = GetTypeFromPath<Data, 'missing'>; // never (as never | never simplifies to never)
+        
       type Schema = {
         id: string;
         config: {
@@ -484,7 +545,7 @@ declare global {
           } | null; // Can also be null
         };
       };
-      
+
       type IsExactly<T, U> = (<V>() => V extends T ? true : false) extends (<V>() => V extends U ? true : false)
         ? true
         : false
