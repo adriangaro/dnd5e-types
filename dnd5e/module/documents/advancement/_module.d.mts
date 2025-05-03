@@ -40,7 +40,7 @@ declare global {
          * }
          * }
          */
-      interface OverrideTypes extends Record<never, typeof Advancement | never> { }
+      interface OverrideTypes extends Record<string, typeof Advancement | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<
@@ -53,16 +53,28 @@ declare global {
       type Any = fvttUtils.FixedInstanceType<Types[TypeKey]>;
       type OfType<T extends TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
 
+      /**
+       * Configuration information for advancement types.
+       */
       type AdvancementTypeConfig<T extends TypeKey> = {
+        /**
+         *  The advancement's document class.
+         */
         documentClass: Types[T],
+        /**
+         * What item types this advancement can be used with.
+         */
         validItemTypes: Set<Item.SubType>
+        /**
+         * Should this advancement type be hidden in the selection dialog?
+         */
+        hidden?: boolean
       }
 
       type SchemaMap = {
         [K in keyof Types]: dnd5e.types.GetSchema<Types[K]>
       }
 
-      // TODO: infer Config
       type ConfigSheetMap = {
         [K in keyof Types]: OfType<K>['sheet']
       }
@@ -72,6 +84,9 @@ declare global {
       >
     }
     interface DND5EConfig {
+      /**
+       * Advancement types that can be added to items.
+       */
       advancementTypes: {
         [K in dnd5e.types.Advancement.TypeKey]: dnd5e.types.Advancement.AdvancementTypeConfig<K>
       }

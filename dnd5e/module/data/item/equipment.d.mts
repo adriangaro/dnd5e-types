@@ -429,33 +429,62 @@ declare global {
     }
 
     interface DND5EConfig {
+      /**
+       * The basic armor types in 5e. This enables specific armor proficiencies,
+       * automated AC calculation in NPCs, and starting equipment.
+       */
       armorIds: dnd5e.types.FilterNever<{
         [K in dnd5e.types.ArmorProficiency.TypeKey]: dnd5e.types.FindKeyByValue<
           dnd5e.types.ArmorProficiency.ProficiencyMap,
           dnd5e.types.ArmorProficiency.Types[K]
         > extends 'shield' ? never : string
       }>,
+
+      /**
+       * The basic shield in 5e.
+       */
       shieldIds: dnd5e.types.FilterNever<{
         [K in dnd5e.types.ArmorProficiency.TypeKey]: dnd5e.types.FindKeyByValue<
           dnd5e.types.ArmorProficiency.ProficiencyMap,
           dnd5e.types.ArmorProficiency.Types[K]
         > extends 'shield' ? string : never
       }>,
-      armorProficienciesMap: dnd5e.types.ArmorProficiency.ProficiencyMap,
+      /**
+       * A mapping between `DND5E.equipmentTypes` and `DND5E.armorProficiencies` that
+       * is used to determine if character has proficiency when adding an item.
+       */
+      armorProficienciesMap: {
+        [K in keyof dnd5e.types.ArmorProficiency.ProficiencyMap]: dnd5e.types.ArmorProficiency.ProficiencyMap[K]
+      }
+      /**
+       * Specific equipment types that modify base AC.
+       */
       armorTypes: {
         [K in keyof dnd5e.types.ArmorProficiency.ProficiencyMap]: string
       },
+      /**
+       * The set of Armor Proficiencies which a character may have.
+       */
       armorProficiencies: {
         [K in dnd5e.types.ArmorProficiency.GroupTypeKey]: string
       }
+      /**
+       * Common armor class calculations.
+       */
       armorClasses: {
         [K in dnd5e.types.ArmorProficiency.ArmorClassKey]: dnd5e.types.ArmorProficiency.ArmorClassConfig
       }
 
+      /**
+       * The set of equipment types for armor, clothing, and other objects which can be worn by the character.
+       */
       equipmentTypes: {
         [K in Equipment.TypeKey]: string
       }
 
+      /**
+       * Equipment types that aren't armor.
+       */
       miscEquipmentTypes: {
         [K in Exclude<Equipment.TypeKey, "" | keyof Equipment.DefaultFromArmorProficiency>]: string
       }

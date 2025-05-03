@@ -181,9 +181,26 @@ declare global {
         type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
         interface OrdersConfig {
+          /**
+           * The human-readable name of the order.  
+           */ 
           label: string,
+          /**
+           * The SVG icon for this order.
+           */
           icon: string,
+          /**
+           * Whether this order can be issued to basic facilities.
+           */
+          basic?: boolean
+          /**
+           * The amount of time taken to complete the order if different to a normal bastion turn.
+           */
           duration?: number
+          /**
+           * This order is not normally available for execution.
+           */
+          hidden?: boolean
         }
       }
 
@@ -217,9 +234,21 @@ declare global {
         type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
         interface SizesConfig {
+          /**
+           * The human-readable name of the size category.
+           */
           label: string,
+          /**
+           * The number of days to build the facility.
+           */
           days: number,
+          /**
+           * The maximum area the facility may occupy in the bastion plan.
+           */
           squares: number,
+          /**
+           * The cost in gold pieces to build the facility.
+           */
           value: number
         }
       }
@@ -367,16 +396,32 @@ declare global {
     }
 
     interface DND5EConfig {
+      /**
+       * Configuration data for bastion facilities.
+       */
       facilities: {
+        /**
+         * The number of free facilities of a given type awarded
+         * at certain character levels.
+         */
         advancement: {
           [K in dnd5e.types.Facility.Advancement.TypeKey]: Record<number, number>
         }
+        /**
+         * Orders that can be issued to a facility.
+         */
         orders: {
           [K in dnd5e.types.Facility.Orders.TypeKey]: dnd5e.types.Facility.Orders.OrdersConfig
         }
+        /**
+         * Facility size categories.
+         */
         sizes: {
           [K in dnd5e.types.Facility.Sizes.TypeKey]: dnd5e.types.Facility.Sizes.SizesConfig
         }
+        /**
+         * Facility types and subtypes.
+         */
         types: {
           [K in dnd5e.types.Facility.Types.TypeKey]: dnd5e.types.Facility.Types.TypesConfig<K>
         }

@@ -87,3 +87,80 @@ declare namespace Proficiency {
 
 
 export default Proficiency;
+
+declare global {
+  namespace dnd5e.types {
+    namespace Proficiency {
+      interface DefaultProficiencyTypes {
+        0: true
+        1: true
+        0.5: true
+        2: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom spell levels (e.g., for epic levels) here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Spellcasting.School {
+       * interface OverrideTypes {
+       * 'psionics': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultProficiencyTypes,
+        OverrideTypes
+      >;
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      interface DefaultWeaponProficiencyTypes {
+        0: true
+        1: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom spell levels (e.g., for epic levels) here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Spellcasting.School {
+       * interface OverrideTypes {
+       * 'psionics': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideWeaponProficiencyTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type WeaponProficiencyTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultWeaponProficiencyTypes,
+        OverrideWeaponProficiencyTypes
+      >;
+      type WeaponProficiencyTypeKey = dnd5e.types.ExtractKeys<WeaponProficiencyTypes>;
+    }
+
+    interface DND5EConfig {
+      /**
+       * Skill, ability, and tool proficiency levels.
+       * The key for each level represents its proficiency multiplier.
+       */
+      proficiencyLevels: {
+        [K in Proficiency.TypeKey]: string
+      }
+      /**
+       * Weapon and armor item proficiency levels.
+       */
+      weaponAndArmorProficiencyLevels: {
+        [K in Proficiency.WeaponProficiencyTypeKey]: string
+      }
+
+    }
+  }
+} 

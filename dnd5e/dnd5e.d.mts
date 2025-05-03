@@ -15,8 +15,8 @@ declare global {
   namespace dnd5e {
     namespace types {
       export import canvas = _canvas;
-      export interface FormSelectOption {
-        value: string;
+      export interface FormSelectOption<T extends string = string> {
+        value: T;
         label: string;
         group?: string;
         disabled?: boolean;
@@ -49,18 +49,6 @@ declare global {
         suppressed?: boolean | undefined;
       }
 
-      export type UsesRecoveryData = {
-        period: string;
-        type: string;
-        formula: string;
-      }
-
-      export type UsesData = {
-        spent: number;
-        max: string;
-        recovery: UsesRecoveryData[];
-      }
-
       export type CompendiumBrowserFilterDefinition = Map<string, CompendiumBrowserFilterDefinitionEntry>
 
       export type CompendiumBrowserFilterDefinitionEntry = {
@@ -79,31 +67,6 @@ declare global {
         k: string;
         v: any;
         o?: string | undefined;
-      }
-
-      export type RestConfiguration = {
-        type: string;
-        dialog: boolean;
-        chat: boolean;
-        duration: number;
-        newDay: boolean;
-        advanceBastionTurn?: boolean | undefined;
-        advanceTime?: boolean | undefined;
-        autoHD?: boolean | undefined;
-        autoHDThreshold?: number | undefined;
-      }
-
-      export type RestResult = {
-        type: string;
-        clone: Actor.Implementation;
-        deltas: {
-          hitPoints: number;
-          hitDice: number;
-        };
-        newDay: boolean;
-        rolls: Roll[];
-        updateData: object;
-        updateItems: object[];
       }
 
       type IsAny<T> = 0 extends (1 & T) ? true : false;

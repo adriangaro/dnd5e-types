@@ -215,7 +215,7 @@ declare global {
          * }
          * }
          */
-      interface OverrideTypes extends Record<never, typeof ScaleValueType | never> { }
+      interface OverrideTypes extends Record<string, typeof ScaleValueType | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<

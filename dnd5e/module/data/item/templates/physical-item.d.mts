@@ -193,7 +193,7 @@ declare global {
          * }
          * }
          */
-      interface OverrideTypes extends Record<never, boolean | never> { }
+      interface OverrideTypes extends Record<string, boolean | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<
@@ -205,6 +205,9 @@ declare global {
   }
 
   interface DND5EConfig {
+    /**
+     * List of various item rarities.
+     */
     itemRarity: {
       [K in dnd5e.types.Rarity.TypeKey]: string
     }

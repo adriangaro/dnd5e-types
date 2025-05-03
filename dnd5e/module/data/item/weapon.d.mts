@@ -32,7 +32,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
     {
       type: ItemTypeField<'weapon', { value: "simpleM", subtype: false }, { required: true, label: "DND5E.ItemWeaponType" }>,
       ammunition: foundry.data.fields.SchemaField<{
-        type: foundry.data.fields.StringField
+        type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Consumable.Ammo.TypeKey>
       }>,
       armor: foundry.data.fields.SchemaField<{
         value: foundry.data.fields.NumberField<{ integer: true, min: 0 }>
@@ -42,7 +42,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
         versatile: DamageField
       }>,
       magicalBonus: foundry.data.fields.NumberField<{ min: 0, integer: true, label: "DND5E.MagicalBonus" }>,
-      mastery: foundry.data.fields.StringField,
+      mastery: dnd5e.types.fields.RestrictedStringField<dnd5e.types.WeaponProficiency.MasteryTypeKey>
       properties: foundry.data.fields.SetField<
         dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Weapon.TypeKey>,
         { label: "DND5E.ItemWeaponProperties" }
@@ -142,7 +142,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
   /**
    * Attack classification of this weapon.
    */
-  get attackClassification(): "weapon" | "unarmed"
+  get attackClassification(): dnd5e.types.Attack.ClassificationTypeKey
 
   /* -------------------------------------------- */
 
@@ -154,7 +154,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
   /**
    * Attack type offered by this weapon.
    */
-  get attackType(): "melee" | "ranged" | null
+  get attackType(): dnd5e.types.Attack.TypeKey | null
 
   /* -------------------------------------------- */
 
@@ -197,7 +197,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
   /**
    * Mastery options that can be used when attacking with this weapon.
    */
-  get masteryOptions(): dnd5e.types.FormSelectOption[] | null
+  get masteryOptions(): dnd5e.types.FormSelectOption<dnd5e.types.WeaponProficiency.MasteryTypeKey>[] | null
 
   /* -------------------------------------------- */
 
@@ -218,7 +218,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
   /**
    * Attack types that can be used with this item by default.
    */
-  get validAttackTypes(): Set<'melee' | 'ranged'>
+  get validAttackTypes(): Set<dnd5e.types.Attack.TypeKey>
 }
 
 declare namespace WeaponData {
@@ -355,7 +355,7 @@ declare global {
         OverrideProficiencyMap
       >;
 
-      type ProficiencyTypeKey = keyof ProficiencyMap
+      type ProficiencyTypeKey = dnd5e.types.ExtractKeys<ProficiencyMap>;
 
 
       type GetWeaponTypesByProficiency<T extends ProficiencyTypeKey> = ProficiencyMap[T] extends true ? never : dnd5e.types.FindKeyByValue<
@@ -400,6 +400,39 @@ declare global {
 
       // --- Combined Keys ---
       type CompleteTypeKey = TypeKey | GroupTypeKey;
+
+      interface DefaultMasteryTypes {
+        cleave: true,
+        graze: true,
+        nick: true,
+        push: true
+        sap: true
+        slow: true
+        topple: true
+        vex: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add mappings for custom proficiency *groups* (from OverrideWeaponProficiencyMap)
+       * to 'ranged' or 'melee' if they have a consistent type.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.WeaponProficiency {
+       * interface OverrideTypeMap {
+       * 'exoticWeapons': 'ranged' // If all exotic weapons are ranged, otherwise leave as never
+       * }
+       * }
+       * }
+       */
+      interface WeaponMasteryTypes extends Record<string, string | never> { }
+
+      type MasteryTypes = dnd5e.types.MergeOverrideDefinition<
+      DefaultMasteryTypes,
+        WeaponMasteryTypes
+      >;
+
+      type MasteryTypeKey = dnd5e.types.ExtractKeys<MasteryTypes>;
     }
 
     namespace Weapon {
@@ -437,8 +470,32 @@ declare global {
         OverrideTypes
       >;
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
-    }
 
+      
+      interface DefaultClassificationMap extends Record<string, dnd5e.types.Attack.ClassificationTypeKey> {
+        
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom feat properties here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.ItemProperties.Feat {
+       * interface OverrideTypes {
+       * combatManeuver: true
+       * }
+       * }
+       * }
+       */
+      interface OverrideClassificationMap extends Record<string, dnd5e.types.Attack.ClassificationTypeKey | never> { }
+
+      // --- Derived Types ---
+      type ClassificationMap = dnd5e.types.MergeOverrideDefinition<
+        DefaultClassificationMap,
+        OverrideClassificationMap
+      >;
+    }
 
     namespace ItemProperties {
       namespace Weapon {
@@ -492,9 +549,7 @@ declare global {
     namespace ItemTypes {
       interface ItemTypeMap {
         weapon: {
-          [K in WeaponProficiency.ProficiencyTypeKey]: ItemTypes.ItemTypeConfig<Weapon.Types[K]>
-        } & {
-          "": ItemTypes.ItemTypeConfig<null>
+          [K in Weapon.TypeKey]: ItemTypes.ItemTypeConfig<Weapon.Types[K]>
         }
       }
     }
@@ -506,19 +561,51 @@ declare global {
     }
 
     interface DND5EConfig {
-
+      /**
+       * The basic weapon types in 5e. This enables specific weapon proficiencies or
+       * starting equipment provided by classes and backgrounds.
+       */
       weaponIds: {
         [K in dnd5e.types.WeaponProficiency.TypeKey]: string
       }
+      /**
+       * A mapping between `DND5E.weaponTypes` and `DND5E.weaponProficiencies` that
+       * is used to determine if character has proficiency when adding an item.
+       */
       weaponProficienciesMap: dnd5e.types.WeaponProficiency.ProficiencyMap
+      /**
+       * The set of types which a weapon item can take.
+       */
       weaponTypes: {
         [K in keyof dnd5e.types.WeaponProficiency.ProficiencyMap]: string
       },
+      /**
+       * General weapon categories.
+       */
       weaponProficiencies: {
         [K in dnd5e.types.WeaponProficiency.GroupTypeKey]: string
       }
+      /**
+       * Weapon masteries.
+       */
+      weaponMasteries: {
+        [K in dnd5e.types.WeaponProficiency.MasteryTypeKey]: {
+          label: string
+        }
+      }
+      /**
+       * A mapping between `DND5E.weaponTypes` and `DND5E.attackTypes`.
+       */
       weaponTypeMap: {
         [K in keyof dnd5e.types.WeaponProficiency.TypeMap]: dnd5e.types.WeaponProficiency.TypeMap[K]
+      }
+
+      /**
+       * A mapping between `DND5E.weaponTypes` and `DND5E.attackClassifications`. Unlisted types are assumed to be
+       * of the "weapon" classification.
+       */
+      weaponClassificationMap: {
+        [K in keyof dnd5e.types.Weapon.ClassificationMap]: dnd5e.types.Weapon.ClassificationMap[K]
       }
     }
   }

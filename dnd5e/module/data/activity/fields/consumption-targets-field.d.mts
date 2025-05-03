@@ -127,7 +127,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
   _usesConsumption(
     config: dnd5e.types.Activity.UseConfiguration,
     options: {
-      uses: dnd5e.types.UsesData,
+      uses: ConsumptionTargetsField.UsesData,
       type: string,
       rolls: dnd5e.dice.BasicRoll[],
       delta: object
@@ -367,29 +367,64 @@ declare namespace ConsumptionTargetsField {
   export import AnyOptions = foundry.data.fields.ArrayField.AnyOptions
   export import DefaultOptions = foundry.data.fields.ArrayField.DefaultOptions
   export import AssignmentElementType = foundry.data.fields.ArrayField.AssignmentElementType
+  
+  export type UsesRecoveryData = {
+    period: string;
+    type: string;
+    formula: string;
+  }
 
+  export type UsesData = {
+    spent: number;
+    max: string;
+    recovery: UsesRecoveryData[];
+  }
 
   export type ConsumptionConsumeFunction = (
     this: ConsumptionTargetData,
+    /**
+     * Configuration data for the activity usage.
+     */
     config: dnd5e.types.Activity.UseConfiguration,
+    /**
+     * Updates to be performed.
+     */
     updates: dnd5e.types.Activity.UsageUpdates
-  ) => any
+  ) => Promise<void>
 
   export type ConsumptionLabelsFunction = (
     this: ConsumptionTargetData,
+    /**
+     * Configuration data for the activity usage.
+     */
     config: dnd5e.types.Activity.UseConfiguration,
     options?: {
+      /**
+       * Is this consumption currently set to be consumed?
+       */
       consumed?: boolean | undefined;
     } | undefined
   ) => ConsumptionLabels
 
   export type ConsumptionLabels = {
+    /**
+     * Label displayed for the consumption checkbox.
+     */
     label: string;
+    /**
+     * Hint text describing what should be consumed.
+     */
     hint: string;
+    /**
+     * Additional notes relating to the consumption to be performed.
+     */
     notes?: {
       type: string;
       message: string;
     } | undefined;
+    /**
+     * Display a warning icon indicating consumption will fail.
+     */
     warn?: boolean | undefined;
   }
 
@@ -432,28 +467,50 @@ declare global {
       }
 
       type ActivityConsumptionConfig = {
-        consume: (
-          this: ConsumptionTargetData,
-          config: dnd5e.types.Activity.UseConfiguration,
-          updates: dnd5e.types.Activity.UsageUpdates
-        ) => Promise<void>,
-        consumptionLabels: (
-          this: ConsumptionTargetData,
-          config: dnd5e.types.Activity.UseConfiguration,
-          options?: {
-            consumed: boolean
-          }
-        ) => ConsumptionLabels,
+        /**
+         * Localized label for the target type.
+         */
         label: string,
+        /**
+         * Function used to consume according to this type.
+         */
+        consume: ConsumptionTargetsField.ConsumptionConsumeFunction,
+        /**
+         * Function used to generate a hint of consumption amount.
+         */
+        consumptionLabels: ConsumptionTargetsField.ConsumptionLabelsFunction,
+        /**
+         * Use text input rather than select when not embedded.
+         */
         targetRequiresEmbedded?: boolean
-        validTargets?: (
-          this: ConsumptionTargetData,
-        ) => dnd5e.types.FormSelectOption[]
+        /**
+         * Function for creating an array of consumption targets.
+         */
+        validTargets?: ConsumptionTargetsField.ConsumptionValidTargetsFunction
+        /**
+         * Additional scaling modes for this consumption type in
+         * addition to the default "amount" scaling.
+         */
+        scalingModes?: dnd5e.types.FormSelectOption[] 
       }
 
     }
 
     interface DND5EConfig {
+      // TODO: I think this might be deprecated?
+      /**
+       * Different things that an ability can consume upon use.
+       */
+      abilityConsumptionTypes: {
+        ammo: string,
+        attribute: string,
+        hitDice: string,
+        material: string,
+        charges: string
+      }
+      /**
+       * Configuration information for different consumption targets.
+       */
       activityConsumptionTypes: {
         [K in dnd5e.types.ActivityConsumption.TypeKey]: dnd5e.types.ActivityConsumption.ActivityConsumptionConfig
       }

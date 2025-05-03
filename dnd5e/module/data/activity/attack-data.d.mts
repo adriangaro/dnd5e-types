@@ -52,9 +52,8 @@ declare class AttackActivityData extends BaseActivityData<
 
   /**
    * Potential attack types when attacking with this activity.
-   * @type {Set<string>}
    */
-  get validAttackTypes(): Set<"melee" | "ranged">
+  get validAttackTypes(): Set<dnd5e.types.Attack.TypeKey>
 
 
   /* -------------------------------------------- */
@@ -64,14 +63,14 @@ declare class AttackActivityData extends BaseActivityData<
   /**
    * The game term label for this attack.
    */
-  getActionLabel(attackMode: AttackActivityData.AttackMode): string
+  getActionLabel(attackMode: dnd5e.types.Attack.ModeTypeKey): string
 
   /* -------------------------------------------- */
 
   /**
    * Get the roll parts used to create the attack roll.
    */
-  getAttackData(config?: { ammunition: string, attackMode: AttackActivityData.AttackMode, situational: string }): { data: object, parts: string[] }
+  getAttackData(config?: { ammunition: string, attackMode: dnd5e.types.Attack.ModeTypeKey, situational: string }): { data: object, parts: string[] }
 
   /* -------------------------------------------- */
 
@@ -83,18 +82,130 @@ declare class AttackActivityData extends BaseActivityData<
 
   /**
    * Create a label based on this activity's settings and, if contained in a weapon, additional details from the weapon.
-   * @returns {string}
    */
   getRangeLabel(): string
 }
 
 declare namespace AttackActivityData {
-  type AttackMode = "oneHanded" | "twoHanded" | "offhand" | "thrown" | "thrown-offhand"
   interface ProcessConfiguration extends dnd5e.dice.DamageRoll.ProcessConfiguration {
     ammunition: Item.OfType<'consumable'>;
-    attackMode: AttackMode
+    attackMode: dnd5e.types.Attack.ModeTypeKey
   }
 }
 
 
 export default AttackActivityData;
+
+
+declare global {
+  namespace dnd5e.types {
+    namespace Attack {
+      interface DefaultAttackTypes extends Record<string, boolean> {
+        melee: true
+        ranged: true
+      }
+
+       /**
+       * Override interface for declaration merging.
+       * NOTE: Modifying or adding attack types is not currently supported
+       * by the core D&D5e system logic. This interface exists primarily
+       * for potential future expansion or for use by custom systems/modules
+       * that specifically implement handling for new movement types.
+       * Attempting to add types here without corresponding system support
+       * will likely have no effect.
+       *
+       * @example No overrides are supported by default.
+       */
+      // Defined with `never` key to prevent accidental merging in standard setups.
+      interface OverrideTypes extends Record<never, boolean | never> { }
+
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultAttackTypes,
+        OverrideTypes
+      >;
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      interface DefaultAttackModeTypes extends Record<string, boolean> {
+        oneHanded: true
+        twoHanded: true
+        offhand: true
+        ranged: true
+        thrown: true
+        "thrown-offhand": true
+      }
+
+       /**
+       * Override interface for declaration merging.
+       * NOTE: Modifying or adding attack modes is not currently supported
+       * by the core D&D5e system logic. This interface exists primarily
+       * for potential future expansion or for use by custom systems/modules
+       * that specifically implement handling for new movement types.
+       * Attempting to add types here without corresponding system support
+       * will likely have no effect.
+       *
+       * @example No overrides are supported by default.
+       */
+      // Defined with `never` key to prevent accidental merging in standard setups.
+      interface OverrideModeTypes extends Record<never, boolean | never> { }
+
+      type ModeTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultAttackModeTypes,
+        OverrideModeTypes
+      >;
+      type ModeTypeKey = dnd5e.types.ExtractKeys<ModeTypes>;
+
+      interface DefaultClassificationTypes extends Record<string, boolean> {
+        weapon: true
+        spell: true
+        unarmed: true
+      }
+
+       /**
+       * Override interface for declaration merging.
+       * NOTE: Modifying or adding attack modes is not currently supported
+       * by the core D&D5e system logic. This interface exists primarily
+       * for potential future expansion or for use by custom systems/modules
+       * that specifically implement handling for new movement types.
+       * Attempting to add types here without corresponding system support
+       * will likely have no effect.
+       *
+       * @example No overrides are supported by default.
+       */
+      // Defined with `never` key to prevent accidental merging in standard setups.
+      interface OverrideClassificationTypes extends Record<never, boolean | never> { }
+
+      type ClassificationTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultClassificationTypes,
+        OverrideClassificationTypes
+      >;
+      type ClassificationTypeKey = dnd5e.types.ExtractKeys<ClassificationTypes>;
+    }
+
+    interface DND5EConfig {
+      /**
+       * Classifications of attacks based on what is performing them.
+       */
+      attackClassifications: {
+        [K in Attack.ClassificationTypeKey]: {
+          label: string
+        }
+      }
+      /**
+       * Types of attacks based on range.
+       */
+      attackTypes: {
+        [K in Attack.TypeKey]: {
+          label: string
+        }
+      }
+      /**
+       * Attack modes available for weapons.
+       */
+      attackModes: {
+        [K in Attack.ModeTypeKey]: {
+          label: string
+        }
+      }
+    }
+  }
+}

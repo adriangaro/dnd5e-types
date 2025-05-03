@@ -64,16 +64,29 @@ declare global {
 
       /** Configuration object structure for a currency type. */
       interface CurrencyTypeConfig<T extends TypeKey> {
-        abbreviation: T; // The key used internally (e.g., "cp", "sp")
-        /** The conversion rate relative to the base unit (usually GP=1). Higher number means smaller value. */
-        conversion: Types[T]; // Access the value from the merged Types
-        icon?: string; // Icon representation
-        label: string; // Display name (e.g., "Copper Pieces")
+        /**
+         * Localized label for the currency.
+         */
+        label: string;
+        /**
+         * Localized abbreviation for the currency.
+         */
+        abbreviation: T;
+        /** Number by which this currency should be multiplied to arrive at a standard value. */
+        conversion: Types[T];
+        /**
+         * Icon representing the currency in the interface.
+         */
+        icon: string;
       }
     }
 
     interface DND5EConfig {
-      currency: {
+      /**
+       * The valid currency denominations with localized labels, abbreviations, and conversions.
+       * The conversion number defines how many of that currency are equal to one GP.
+       */
+      currencies: {
         [K in dnd5e.types.Currency.TypeKey]: dnd5e.types.Currency.CurrencyTypeConfig<K>
       }
     }

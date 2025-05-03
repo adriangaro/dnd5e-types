@@ -33,6 +33,31 @@ export default class Token5e extends Token {
   )
 }
 
+declare global {
+  namespace dnd5e.types {
+    interface DND5EConfig {
+      /**
+       * Colors used to visualize temporary and temporary maximum HP in token health bars.
+       */
+      tokenHPColors: Record<string, number> & {
+        damage: number
+        healing: number
+        temp: number,
+        tempmax: number,
+        negmax: number
+      }
+      /**
+       * Colors used when a dynamic token ring effects.
+       */
+      tokenRingColors: Record<string, number> & {
+        damage: number
+        healing: number
+        temp: number,
+        defeated: number,
+      }
+    }
+  }
+}
 
 declare module "fvtt-types/configuration" {
   interface PlaceableObjectClassConfig {

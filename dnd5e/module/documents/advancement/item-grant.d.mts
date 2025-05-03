@@ -56,6 +56,7 @@ declare namespace _ItemGrantAdvancement {
       flow: typeof dnd5e.applications.advancement.ItemChoiceFlow
     }
   }
+  type Concrete = ItemGrantAdvancement
 }
 
 export default _ItemGrantAdvancement

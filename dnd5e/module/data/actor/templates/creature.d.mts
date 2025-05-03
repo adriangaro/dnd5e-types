@@ -278,6 +278,9 @@ declare global {
     }
 
     interface DND5EConfig {
+      /**
+       * The set of skill which can be trained with their default ability scores.
+       */
       skills: {
         [K in dnd5e.types.Skill.TypeKey]: dnd5e.types.Skill.SkillTypeConfig
       },

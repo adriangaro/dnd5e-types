@@ -15,7 +15,7 @@ export declare function actorFields(actor: Actor.Implementation, trait: string):
 * @param trait Trait as defined in `CONFIG.DND5E.traits`.
 * @returns Key path to this trait's object within an actor's system data.
 */
-export declare function actorKeyPath<T extends dnd5e.types.Trait.TraitKey>(trait: dnd5e.types.Trait.TraitKey): `system.traits.${T}`;
+export declare function actorKeyPath<T extends dnd5e.types.Trait.TypeKey>(trait: dnd5e.types.Trait.TypeKey): `system.traits.${T}`;
 
 /**
 * Get the current trait values for the provided actor.
@@ -23,7 +23,7 @@ export declare function actorKeyPath<T extends dnd5e.types.Trait.TraitKey>(trait
 * @param trait Trait as defined in `CONFIG.DND5E.traits`.
 * @returns Promise resolving to an object mapping chosen trait keys (potentially prefixed) to their values (1 or 2).
 */
-export declare function actorValues(actor: Actor.Implementation, trait: dnd5e.types.Trait.TraitKey): Promise<Record<string, number>>;
+export declare function actorValues(actor: Actor.Implementation, trait: dnd5e.types.Trait.TypeKey): Promise<Record<string, number>>;
 
 /**
 * Calculate the change key path for updating a specific trait value on an actor document.
@@ -32,13 +32,13 @@ export declare function actorValues(actor: Actor.Implementation, trait: dnd5e.ty
 * @returns The specific key path for the update operation (e.g., "system.skills.acr.value"), or undefined.
 */
 export declare function changeKeyPath<
-  Trait extends dnd5e.types.Trait.TraitKey = dnd5e.types.Trait.TraitKey,
+  Trait extends dnd5e.types.Trait.TypeKey = dnd5e.types.Trait.TypeKey,
   KeyPath extends string = ReturnType<typeof actorKeyPath<Trait>>
->(key: string, trait?: Trait): (Trait extends 'saves' ? 
-    `${KeyPath}.${string}.proficient` : 
-    Trait extends 'skills' | 'tool' ? 
-      `${KeyPath}.${string}.value` :
-      `${KeyPath}.value`
+>(key: string, trait?: Trait): (Trait extends 'saves' ?
+  `${KeyPath}.${string}.proficient` :
+  Trait extends 'skills' | 'tool' ?
+  `${KeyPath}.${string}.value` :
+  `${KeyPath}.value`
 ) | undefined;
 
 /**
@@ -62,9 +62,9 @@ export declare function categories(trait: string): Promise<Record<string, Select
 export declare function choices(
   trait: string,
   options?: {
-      chosen?: Set<string> | string[];
-      prefixed?: boolean;
-      any?: boolean;
+    chosen?: Set<string> | string[];
+    prefixed?: boolean;
+    any?: boolean;
   }
 ): Promise<SelectChoices.Instance<any>>; // The specific type T is determined dynamically
 
@@ -134,9 +134,9 @@ export declare function traitLabel(trait: string, count?: number): string;
 export declare function keyLabel(
   key: string,
   config?: {
-      count?: number;
-      trait?: string;
-      final?: boolean;
+    count?: number;
+    trait?: string;
+    final?: boolean;
   }
 ): string;
 
@@ -151,8 +151,8 @@ export declare function keyLabel(
 export declare function choiceLabel(
   choice: dnd5e.types.Trait.TraitChoice,
   options?: {
-      only?: boolean;
-      final?: boolean;
+    only?: boolean;
+    final?: boolean;
   }
 ): string;
 
@@ -193,19 +193,20 @@ declare global {
         count: number;
         pool: Set<string>;
       }
-      
+
       // Define a minimal structure for the trait configuration within CONFIG.DND5E.traits
       export interface TraitConfig {
         actorKeyPath?: string;
         configKey?: keyof DND5EConfig;
         children?: Record<string, string>; // Maps category key to a CONFIG key (e.g., "art": "armorProficiencies")
         subtypes?: {
-            ids: string[]; // List of CONFIG keys containing base item IDs (e.g., ["weaponIds"])
-            keyPath: string; // Path within item system data (e.g., "armor.type")
+          ids: string[]; // List of CONFIG keys containing base item IDs (e.g., ["weaponIds"])
+          keyPath: string; // Path within item system data (e.g., "armor.type")
         };
         labels?: {
-            localization: string; // Base localization path (e.g., "DND5E.TraitArmorProficiency")
-            title: string;
+          localization: string; // Base localization path (e.g., "DND5E.TraitArmorProficiency")
+          title: string;
+          all?: string
         };
         icon?: string;
         labelKeyPath?: string; // Default "label"
@@ -230,11 +231,53 @@ declare global {
         da: TraitConfig
       }
 
-      export type TraitKey = keyof fvttUtils.RemoveIndexSignatures<TraitConfigTypeMap>;
+      export type TypeKey = keyof fvttUtils.RemoveIndexSignatures<TraitConfigTypeMap>;
+
+      interface DefaultTraitModes {
+        default: true,
+        expertise: true,
+        forcedExpertise: true,
+        upgrade: true,
+        mastery: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom condition types here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Conditions {
+       * interface OverrideTypes {
+       * 'dazed': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideModeTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type ModeTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultTraitModes,
+        OverrideModeTypes
+      >;
+
+      type ModeTypeKey = dnd5e.types.ExtractKeys<ModeTypes>;
     }
 
     interface DND5EConfig {
+      /**
+       * Configurable traits on actors.
+       */
       traits: dnd5e.types.Trait.TraitConfigTypeMap;
+      /**
+       * Modes used within a trait advancement.
+       */
+      traitModes: {
+        [K in Trait.ModeTypeKey]: {
+          label: string
+          hint: string
+        }
+      }
     }
   }
 }

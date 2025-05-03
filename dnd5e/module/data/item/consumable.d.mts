@@ -270,6 +270,16 @@ declare global {
     }
 
     interface DND5EConfig {
+      /**
+       * The basic ammunition types.
+       * @enum {string}
+       */
+      ammoIds: {
+        [K in Consumable.Ammo.TypeKey]: string
+      }
+      /**
+       * Enumerate the valid consumable types which are recognized by the system.
+       */
       consumableTypes: {
         [K in Consumable.TypeKey]: dnd5e.types.ItemTypes.ItemTypeConfig<Consumable.Types[K]>
       }

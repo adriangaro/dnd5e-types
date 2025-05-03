@@ -33,15 +33,15 @@ declare namespace TargetField {
     template: foundry.data.fields.SchemaField<{
       count: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
       contiguous: foundry.data.fields.BooleanField,
-      type: foundry.data.fields.StringField,
+      type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Target.TemplateTypeKey>,
       size: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
       width: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
       height: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
-      units: foundry.data.fields.StringField
+      units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Distance.TypeKey>
     }>,
     affects: foundry.data.fields.SchemaField<{
       count: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
-      type: foundry.data.fields.StringField,
+      type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Target.TypeKey>,
       choice: foundry.data.fields.BooleanField,
       special: foundry.data.fields.StringField
     }>,
@@ -82,7 +82,8 @@ declare namespace TargetField {
         dimensions: ReturnType<typeof TargetField['templateDimensions']>
       },
       affects: {
-        scaler: boolean
+        scaler: boolean,
+        labels: Record<string, string>
       }
     }
   >
@@ -97,3 +98,126 @@ declare namespace TargetField {
 }
 
 export default TargetField
+
+declare global {
+  namespace dnd5e.types {
+    namespace Target {
+      interface DefaultTargetTypes extends Record<string, true> {
+        self: true
+        ally: true
+        enemy: true
+        creature: true
+        object: true
+        space: true
+        creatureOrObject: true
+        any: true
+        willing: true
+      }
+
+      interface OverrideTypes extends Record<string, true | never> {
+
+      }
+
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultTargetTypes,
+        OverrideTypes
+      >
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      interface DefaultTemplateTypes extends Record<string, true> {
+        circle: true
+        cone: true
+        cube: true
+        cylinder: true
+        line: true
+        radius: true
+        sphere: true
+        square: true
+        wall: true
+      }
+
+      interface OverrideTemplateTypes extends Record<string, true | never> {
+
+      }
+
+      type TemplateTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultTemplateTypes,
+        OverrideTemplateTypes
+      >
+
+      type TemplateTypeKey = dnd5e.types.ExtractKeys<TemplateTypes>;
+
+      interface IndividualTargetDefinition {
+        /**
+         * Localized label for this type.
+         */
+        label: string;
+        /**
+         * Localization path for counted plural forms. Only necessary for scalar types.
+         */
+        counted?: string;
+        /**
+         * Can this target take an associated numeric value?
+         */
+        scalar?: boolean;
+      }
+
+      type SizeType = "radius" | "width" | "height" | "length" | "thickness"
+      
+      interface AreaTargetDefinition {
+        /**
+         * Localized label for this type.
+         */
+        label: string;
+        /**
+         * Localization path for counted plural forms.
+         */
+        counted: string;
+        /**
+         * Type of `MeasuredTemplate` create for this target type.
+         */
+        template: string;
+        /**
+         * Reference to a rule page describing this area of effect.
+         */
+        reference?: string;
+        /**
+         * List of available sizes for this template. Options are chosen from the list:
+         * "radius", "width", "height", "length", "thickness". No more than 3 dimensions may
+         * be specified.
+         */
+        sizes?: SizeType[];
+        /**
+         * Is this a standard area of effect as defined explicitly by the rules?
+         */
+        standard?: boolean;
+      }
+    }
+
+    interface DND5EConfig {
+      /**
+       * Targeting types that apply to one or more distinct targets.
+       */
+      individualTargetTypes: {
+        [K in Target.TypeKey]: Target.IndividualTargetDefinition
+      }
+      /**
+       * Targeting types that cover an area.
+       */
+      areaTargetTypes: {
+        [K in Target.TemplateTypeKey]: Target.AreaTargetDefinition
+      }
+      areaTargetOptions: dnd5e.types.FormSelectOption[]
+
+      /**
+       * The types of single or area targets which can be applied to abilities.
+       */
+      targetTypes: {
+        [K in Target.TypeKey]: string
+      } & {
+        [K in Target.TemplateTypeKey]: string
+      }
+
+    }
+  }
+}

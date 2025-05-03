@@ -921,10 +921,21 @@ declare global {
 
   namespace dnd5e.types {
     interface DND5EConfig {
+      /**
+       * Default artwork configuration for each Document type and sub-type.
+       */
+      defaultArtwork: {
+        Item: {
+          [K in Item.ConfiguredSubTypes]: string
+        }
+      }
+      /**
+       * Spell scroll save DCs and attack bonus values based on spell level. If matching level isn't found,
+       * then the nearest level lower than it will be selected.
+       */
       spellScrollValues: Record<number, Item5e.SpellScrollValues>
     }
   }
 }
 
-type g = Item.Implementation
-type d = Item.OfType<'class'>
+type d = TextEditor.EnrichmentOptions

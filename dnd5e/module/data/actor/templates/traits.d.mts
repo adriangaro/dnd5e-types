@@ -6,9 +6,10 @@ import SimpleTraitField from "../fields/simple-trait-field.mjs";
 type LanguageSchema = {
   communication: MappingField<
     foundry.data.fields.SchemaField<{
-      units: foundry.data.fields.StringField<{ initial: () => number }>,
+      units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Distance.TypeKey>,
       value: foundry.data.fields.NumberField<{ min: 0 }>
-    }>
+    }>,
+    dnd5e.types.Language.CommunicationTypeKey
   >
 }
 
@@ -23,11 +24,9 @@ declare class TraitsField {
    * Fields shared between characters, NPCs, and vehicles.
    */
   static get common(): {
-    size: foundry.data.fields.StringField<
-      { required: true, initial: "med", label: "DND5E.Size" },
+    size: dnd5e.types.fields.RestrictedStringField<
       dnd5e.types.ActorSize.TypeKey,
-      dnd5e.types.ActorSize.TypeKey,
-      dnd5e.types.ActorSize.TypeKey
+      { required: true, initial: "med", label: "DND5E.Size" }
     >,
     di: DamageTraitField<
       dnd5e.types.Damage.TypeKey,
@@ -51,13 +50,13 @@ declare class TraitsField {
         { label: "DND5E.DamMod" }
       >,
       bypasses: foundry.data.fields.SetField<
-        foundry.data.fields.StringField<{}, dnd5e.types.Damage.Bypass, dnd5e.types.Damage.Bypass, dnd5e.types.Damage.Bypass>,
+        dnd5e.types.fields.RestrictedStringField<dnd5e.types.Damage.Bypass>,
         {
           label: "DND5E.DamagePhysicalBypass", hint: "DND5E.DamagePhysicalBypassHint"
         }
       >
     }>,
-    ci: SimpleTraitField<dnd5e.types.Conditions.TypeKey, {}, { label: "DND5E.ConImm" }>
+    ci: SimpleTraitField<dnd5e.types.Condition.TypeKey, {}, { label: "DND5E.ConImm" }>
   };
 
 
@@ -76,8 +75,8 @@ declare class TraitsField {
         SimpleTraitField.InitializedType<LanguageSchema, string>,
         {
           labels: {
-            languages: [],
-            ranged: []
+            languages: string[],
+            ranged: string[]
           }
         }
       >
@@ -182,14 +181,32 @@ declare global {
       type KeyToNumber<T extends TypeKey> = Types[T];
       type NumberToKey<T extends TypeNumber> = dnd5e.types.FindKeyByValue<Types, T>;
 
-      /** Configuration object structure for an actor size. */
+      /** Configuration data for actor sizes. */
       type ActorSizeConfig<T extends number> = {
-        abbreviation: string;
-        capacityMultiplier?: number;
-        hitDie: number;
+        /**
+         * Localized label.
+         */
         label: string;
-        token?: number;
+        /**
+         * Size index, med is 0, everything below is negative, everything above is positive
+         */
         value: T;
+        /**
+         * Localized abbreviation.
+         */
+        abbreviation: string;
+        /**
+         * Default hit die denomination for NPCs of this size.
+         */
+        hitDie: number;
+        /**
+         * Default token size.
+         */
+        token?: number;
+        /**
+         * Multiplier used to calculate carrying capacities.
+         */
+        capacityMultiplier?: number;
       };
 
       /** A map for converting between actor size keys and their numeric values. */
@@ -200,7 +217,7 @@ declare global {
       };
     }
 
-    namespace Conditions {
+    namespace Condition {
       // --- Base Definitions ---
       interface DefaultConditionTypes {
         'bleeding': true;
@@ -253,25 +270,86 @@ declare global {
 
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
-      /** Configuration object structure for a condition type. */
-      type ConditionConfig = {
-        icon: string;
+      interface ConditionConfiguration extends Omit<dnd5e.types.DND5EConfig.StatusEffectConfig5e, 'name' | 'id'> {
         label: string;
         pseudo?: boolean;
-        special?: string;
-        reference?: string;
-        description?: string;
         levels?: number;
-        statuses?: TypeKey[]; // e.g., 'incapacitated' might apply 'blinded' status
-        riders?: TypeKey[];   // e.g., 'exhaustion' might apply other conditions
-        reduction?: {
-          rolls: number;
-          speed: number;
-        };
-      };
+        reduction?: { rolls: number; speed: number; };
+      }
+    }
+
+    namespace Status {
+      // --- Base Definitions ---
+      interface DefaultStatusTypes {
+        'burrowing': true;
+        'concentrating': true;
+        'coverHalf': true;
+        'coverThreeQuarters': true;
+        'coverTotal': true;
+        'dead': true;
+        'dodging': true;
+        'ethereal': true;
+        'flying': true;
+        'hiding': true;
+        'hovering': true;
+        'marked': true;
+        'sleeping': true;
+        'stable': true;
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom condition types here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Status {
+       * interface OverrideTypes {
+       * 'dazed': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultStatusTypes,
+        OverrideTypes
+      >;
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      interface StatusConfiguration extends Omit<dnd5e.types.DND5EConfig.StatusEffectConfig5e, 'img' | 'id'> {
+        icon: string
+      }
     }
 
     namespace Language {
+      interface DefaultCommunicationTypes {
+        telepathy: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom condition types here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Status {
+       * interface OverrideTypes {
+       * 'dazed': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideCommunicationTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type CommunicationTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultCommunicationTypes,
+        OverrideCommunicationTypes
+      >;
+
+      type CommunicationTypeKey = dnd5e.types.ExtractKeys<CommunicationTypes>;
       /** Configuration object structure for a language. */
       interface LanguageConfig {
         label: string;
@@ -283,16 +361,54 @@ declare global {
 
 
 
-    
+
 
     interface DND5EConfig {
+      /**
+       * Creature sizes ordered from smallest to largest.
+       */
       actorSizes: {
         [K in dnd5e.types.ActorSize.TypeKey]: dnd5e.types.ActorSize.ActorSizeConfig<
           dnd5e.types.ActorSize.KeyToNumber<K>
         >
       },
+      /**
+       * Conditions that can affect an actor.
+       */
       conditionTypes: {
-        [K in dnd5e.types.Conditions.TypeKey]: dnd5e.types.Conditions.ConditionConfig;
+        [K in dnd5e.types.Condition.TypeKey]: dnd5e.types.Condition.ConditionConfiguration;
+      }
+
+      /**
+       * Various effects of conditions and which conditions apply it. Either keys for the conditions,
+       * and with a number appended for a level of exhaustion.
+       */
+      conditionEffects: Record<
+        'noMovement' | 'halfMovement' | 'crawl' | 'petrification' | 'halfHealth',
+        Set<Condition.TypeKey | Status.TypeKey | `exhaustion-${number}` | (string & {})>
+      >
+      /**
+       * Extra status effects not specified in `conditionTypes`. If the ID matches a core-provided effect, then this
+       * data will be merged into the core data.
+       */
+      statusEffects: {
+        [K in dnd5e.types.Status.TypeKey]: dnd5e.types.Status.StatusConfiguration;
+      }
+      /**
+       * Configuration for the special bloodied status effect.
+       */
+      bloodied: { name: string, icon: string, threshold: number }
+      /**
+       * Languages a character can learn.
+       */
+      languages: {
+        [k: string]: dnd5e.types.Language.LanguageConfig
+      }
+      /**
+       * Communication types that take ranges such as telepathy.
+       */
+      communicationTypes: {
+        [K in dnd5e.types.Language.CommunicationTypeKey]: { label: string }
       }
     }
   }

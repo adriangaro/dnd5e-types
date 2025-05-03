@@ -100,6 +100,13 @@ declare global {
         OverrideTypes
       >;
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      interface LootTypeConfig {
+        /**
+         * Localized label for this type.
+         */
+        label: string
+      }
     }
 
 
@@ -154,8 +161,11 @@ declare global {
     }
 
     interface DND5EConfig {
+      /**
+       * Types of "loot" items.
+       */
       lootTypes: {
-        [K in Loot.TypeKey]: string
+        [K in Loot.TypeKey]: Loot.LootTypeConfig
       }
     }
   }

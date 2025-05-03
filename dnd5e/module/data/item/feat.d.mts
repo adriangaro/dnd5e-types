@@ -25,7 +25,7 @@ declare class FeatData extends _ItemDataModel.mixin(
       crewed: foundry.data.fields.BooleanField,
       enchant: foundry.data.fields.SchemaField<{
         max: FormulaField<{ deterministic: true }>,
-        period: foundry.data.fields.StringField
+        period: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Feat.Enchantment.PeriodTypeKey | ''>
       }>,
       prerequisites: foundry.data.fields.SchemaField<{
         level: foundry.data.fields.NumberField<{ integer: true, min: 0 }>,
@@ -195,6 +195,34 @@ declare global {
           OverrideTypes
         >;
         type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+        interface DefaultPeriodType {
+          sr: true,
+          lr: true,
+          atwill: true
+        }
+
+        /**
+         * Override interface for declaration merging.
+         * Add custom types properties here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Order.Types {
+         * interface OverrideTypes {
+         * customProperty: true
+         * }
+         * }
+         * }
+         */
+        interface OverridePeriodTypes extends Record<string, boolean | never> { }
+
+        // --- Derived Types ---
+        type PeriodTypes = dnd5e.types.MergeOverrideDefinition<
+          DefaultPeriodType,
+          OverridePeriodTypes
+        >;
+        type PeriodTypeKey = dnd5e.types.ExtractKeys<PeriodTypes>;
+
       }
 
       namespace Feat {
@@ -341,8 +369,19 @@ declare global {
     }
 
     interface DND5EConfig {
+      /**
+       * Types of "features" items.
+       */
       featureTypes: {
         [K in Feat.TypeKey]: ItemTypes.ItemTypeConfig<Feat.Types[K]>
+      }
+      /**
+       * Periods at which enchantments can be re-bound to new items.
+       */
+      enchantmentPeriods: {
+        [K in Feat.Enchantment.PeriodTypeKey]: {
+          label: string
+        }
       }
     }
   }

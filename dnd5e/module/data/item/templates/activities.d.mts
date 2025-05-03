@@ -201,7 +201,7 @@ declare class ActivitiesTemplate extends SystemDataModel<{
 }
 
 declare namespace ActivitiesTemplate {
-  
+
 }
 
 export default ActivitiesTemplate

@@ -177,17 +177,39 @@ declare global {
 
       /** Configuration object structure for a healing type. */
       interface HealingTypeConfig {
+        /**
+         * Localized label.
+         */
         label: string;
-        icon?: string; // Icon representation
-        reference?: string; // Link to rules reference
-        color?: Color; // Associated color for UI elements
+        /**
+         * Icon representing this type.
+         */
+        icon: string; 
+        /**
+         * Is this a type that can be bypassed by magical or silvered weapons?
+         */
+        isPhysical?: boolean
+        /**
+         * Reference to a rule page describing this damage type.
+         */
+        reference?: string;
+        /**
+         * Visual color of the damage type.
+         */
+        color?: Color;
       }
     }
 
     interface DND5EConfig {
+      /**
+       * Types of damage the can be caused by abilities.
+       */
       damageTypes: {
         [K in dnd5e.types.Damage.TypeKey]: dnd5e.types.Damage.DamageTypeConfig
       }
+      /**
+       * Different types of healing that can be applied using abilities.
+       */
       healingTypes: {
         [K in dnd5e.types.Healing.TypeKey]: dnd5e.types.Healing.HealingTypeConfig
       }

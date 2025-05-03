@@ -129,3 +129,24 @@ export class EquipmentEntryData extends foundry.abstract.DataModel<{
   get keyOptions(): Record<string, string>
 
 }
+
+
+declare global {
+  namespace dnd5e.types {
+    interface DND5EConfig {
+      /**
+       * Type of spellcasting foci.
+       */
+      focusTypes: Record<'arcane' | 'druidic' |' holy', {
+        /**
+         * Localized label for this category.
+         */
+        label: string,
+        /**
+         * Item IDs or UUIDs.
+         */
+        itemIds: Record<string, string>
+      }>
+    }
+  }
+}

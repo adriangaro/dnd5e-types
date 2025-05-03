@@ -40,8 +40,17 @@ declare namespace ItemTypeTemplate {
 declare global {
   namespace dnd5e.types {
     namespace ItemTypes {
+      /**
+       * Configuration data for an items that have sub-types.
+       */
       interface ItemTypeConfig<Subtypes extends string | null = null> {
+        /**
+         * Localized label for this type.
+         */
         label: string,
+        /**
+         * Enum containing localized labels for subtypes.
+         */
         subtypes: ([Subtypes] extends [string] ? { [K in Subtypes]: string } : never)
       }
 
@@ -57,6 +66,5 @@ declare global {
     }
   }
 }
-type d = dnd5e.types.ItemTypes.GetItemTypeMap<'consumable'>[dnd5e.types.ItemTypes.GetItemTypeKey<'consumable'>]
-type f = d extends dnd5e.types.ItemTypes.ItemTypeConfig<infer Q> ? Q : never
+
 export default ItemTypeTemplate;

@@ -120,15 +120,33 @@ declare global {
 
       /** Configuration object structure for a creature type. */
       interface CreatureTypeConfig {
-        detectAlignment?: boolean; // Whether spells like Detect Evil/Good affect this type
-        icon?: string; // Icon representation
-        label: string; // Display name (e.g., "Aberration")
-        plural: string; // Plural display name (e.g., "Aberrations")
-        reference?: string; // Link to rules reference
+        /**
+         * Localized label.
+         */
+        label: string;
+        /**
+         * Localized plural form used in swarm name.
+         */
+        plural: string;
+        /**
+         * Icon path
+         */
+        icon?: string; 
+        /**
+         * Is this type detectable by spells such as "Detect Evil and Good"?
+         */
+        detectAlignment?: boolean;
+        /**
+         * Reference to a rule page describing this type.
+         */
+        reference?: string;
       }
     }
 
     interface DND5EConfig {
+      /**
+       * Default types of creatures.
+       */
       creatureTypes: {
         [K in dnd5e.types.Creature.TypeKey]: dnd5e.types.Creature.CreatureTypeConfig
       }

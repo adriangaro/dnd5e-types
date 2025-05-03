@@ -72,7 +72,7 @@ declare namespace AttackActivity {
   }
   interface ProcessConfiguration extends dnd5e.dice.D20Roll.ProcessConfiguration {
     ammunition?: string | boolean
-    attackMode?: AttackActivityData.AttackMode
+    attackMode?: dnd5e.types.Attack.ModeTypeKey
     mastery?: string
   }
 

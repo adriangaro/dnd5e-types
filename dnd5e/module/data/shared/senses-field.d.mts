@@ -120,6 +120,9 @@ declare global {
   }
 
   interface DND5EConfig {
+    /**
+     * The set of possible sensory perception types which an Actor may have.
+     */
     senses: {
       [K in dnd5e.types.Senses.TypeKey]: string
     }

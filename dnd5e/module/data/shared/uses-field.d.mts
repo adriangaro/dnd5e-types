@@ -169,16 +169,34 @@ declare global {
       type CombatTypeKey = dnd5e.types.FilterKeysByValue<Types, TypeKey, 'combat'> | 'encounter'
 
       interface RecoveryPeriodConfig<T extends TypeKey | null = null> {
+        /**
+         * Localized label.
+         */
         label: string,
+        /**
+         * Shorthand form of the label.
+         */
         abbreviation: string,
+        /**
+         * Whether this limited use period restores charges via formula.
+         */
         formula?: boolean,
+        /**
+         * Whether this recovery period is deprecated
+         */
         deprecated?: boolean,
-        type: T extends TypeKey ? Types[T] : undefined
+        /**
+         * Grouping if outside the normal "time" group.
+         */
+        type: T extends TypeKey ? Types[T] extends string ? Types[T] : undefined : undefined
       }
     }
 
     interface DND5EConfig {
-      limitedUsesPeriods: {
+      /**
+       * Enumerate the lengths of time over which an item can have limited use ability.
+       */
+      limitedUsePeriods: {
         [K in dnd5e.types.RecoveryPeriod.TypeKey]: dnd5e.types.RecoveryPeriod.RecoveryPeriodConfig<K>
       } & {
         get recoveryOptions(): {

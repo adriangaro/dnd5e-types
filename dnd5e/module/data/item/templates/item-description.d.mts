@@ -72,14 +72,49 @@ declare global {
           string extends fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K] ? never : fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K]
         >
       }[Item.ConfiguredSubTypes]>[Item.ConfiguredSubTypes]
+
+      interface ItemPropertyConfig {
+        /**
+         *  Localized label.
+         */
+        label: string
+        /**
+         * Localized abbreviation.
+         */
+        abbreviation?: string
+        /**
+         * Icon that can be used in certain places to represent this property.
+         */
+        icon?: string
+        /**
+         * Reference to a rule page describing this property.
+         */
+        reference?: string
+        /**
+         * Is this property one that can cause damage resistance bypasses?
+         */
+        isPhysical?: boolean
+        /**
+         * Is this spell property a tag, rather than a component?
+         */
+        isTag?: boolean
+      }
     }
 
     interface DND5EConfig {
-      validProperties: {
-        [K in Item.ConfiguredSubTypes]: Set<fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K]>
-      }
-      itemProperties:{
-        [K in dnd5e.types.ItemProperties.TypeKey]: string
+      /**
+       * The various properties of an item per item type.
+       */
+      validProperties: dnd5e.types.FilterNever<{
+        [K in Item.ConfiguredSubTypes]: fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K] extends never ?
+          never :
+          Set<fvttUtils.RemoveIndexSignatures<dnd5e.types.ItemProperties.ValidPropertyMap>[K]>
+      }>
+      /**
+       * The various properties of all item types.
+       */
+      itemProperties: {
+        [K in dnd5e.types.ItemProperties.TypeKey]: ItemProperties.ItemPropertyConfig
       }
     }
   }

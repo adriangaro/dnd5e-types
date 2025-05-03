@@ -113,17 +113,55 @@ declare global {
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
       type ActivityActivationConfig = {
-        group?: string,
+        /**
+         * Localized label for the activation type.
+         */
         label: string,
+        /**
+         * Localized label for the presentational group.
+         */
+        group?: string,
+        /**
+         * Classify this item as a passive feature on NPC sheets.
+         */
         passive?: boolean,
+        /**
+         * Does this activation type have a numeric value attached?
+         */
         scalar?: boolean
       }
 
     }
     interface DND5EConfig {
+      /**
+       * Configuration data for activation types on activities.
+       */
       activityActivationTypes: {
         [K in dnd5e.types.ActivityActivation.TypeKey]: dnd5e.types.ActivityActivation.ActivityActivationConfig
-      },
+      }
+      // TODO: should this be configurable? seem deprecated and replaced by activityActivationTypes
+      /**
+       * Ways in which to activate an item that cannot be labeled with a cost.
+       */
+      staticAbilityActivationTypes: {
+        none: string,
+        special: string
+      }
+      /**
+       * Various ways in which an item or ability can be activated.
+       */
+      abilityActivationTypes: DND5EConfig['staticAbilityActivationTypes'] & {
+        action: string,
+        bonus: string,
+        reaction: string,
+        minute: string,
+        hour: string,
+        day: string,
+        legendary: string,
+        mythic: string,
+        lair: string,
+        crew: string
+      };
     }
   }
 }

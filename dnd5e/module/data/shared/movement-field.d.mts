@@ -127,6 +127,10 @@ declare global {
   }
 
   interface DND5EConfig {
+    /**
+     * The valid units of measure for movement distances in the game system.
+     * By default this uses the imperial units of feet and miles.
+     */
     movementTypes: {
       [K in dnd5e.types.Movement.TypeKey]: string
     }

@@ -32,7 +32,7 @@ export default class TraitConfig extends AdvancementConfig<
       field: foundry.data.fields.BooleanField,
       input: AdvancementConfig<TraitAdvancement>['__RenderContext']['inputs']['createCheckboxInput'],
       options: Awaited<ReturnType<typeof Trait['choices']>>,
-      selected: dnd5e.types.Trait.TraitKey,
+      selected: dnd5e.types.Trait.TypeKey,
       selectedHeader: string,
       typeField: foundry.data.fields.StringField,
       typeOptions: {
@@ -50,7 +50,7 @@ export default class TraitConfig extends AdvancementConfig<
   }
 > {
   selected: number
-  trait: dnd5e.types.Trait.TraitKey
+  trait: dnd5e.types.Trait.TypeKey
 
   /* -------------------------------------------- */
   /*  Properties                                  */

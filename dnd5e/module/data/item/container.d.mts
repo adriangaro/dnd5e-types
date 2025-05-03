@@ -25,11 +25,11 @@ declare class ContainerData extends _ItemDataModel.mixin(
         count: foundry.data.fields.NumberField<{ min: 0, integer: true }>,
         volume: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.NumberField<{ min: 0 }>,
-          units: foundry.data.fields.StringField
+          units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Volume.TypeKey>
         }>,
         weight: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.NumberField<{ min: 0 }>,
-          units: foundry.data.fields.StringField
+          units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Weight.TypeKey>
         }>
       }>,
       properties: foundry.data.fields.SetField<
@@ -218,6 +218,64 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         container: typeof ContainerData;
+      }
+    }
+
+    namespace Volume {
+      interface DefaultVolumeUnits extends Record<string, true> {
+        cubicFoot: true
+        liter: true
+      }
+
+      interface OverrideTypes extends Record<string, true | never> {
+    
+      }
+    
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultVolumeUnits,
+        OverrideTypes
+      >
+    
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+    }
+
+    namespace Weight {
+      interface DefaultWeightUnits extends Record<string, true> {
+        lb: true
+        tn: true
+        kg: true
+        Mg: true
+      }
+
+      interface OverrideTypes extends Record<string, true | never> {
+    
+      }
+    
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultWeightUnits,
+        OverrideTypes
+      >
+    
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+    }
+
+    interface DND5EConfig {
+      // Does not seem to be used
+      /**
+       * Types of containers.
+       */
+      containerTypes: Record<string, string>
+      /**
+       * The valid units for measurement of volume.
+       */
+      volumeUnits: {
+        [K in Volume.TypeKey]: DND5EConfig.UnitConfiguration
+      }
+      /**
+       * The valid units for measurement of weight.
+       */
+      weightUnits: {
+        [K in Weight.TypeKey]: DND5EConfig.UnitConfiguration
       }
     }
   }

@@ -76,7 +76,7 @@ declare class NPCData extends CreatureTemplate<
               habitat: foundry.data.fields.SchemaField<{
                 value: foundry.data.fields.ArrayField<
                   foundry.data.fields.SchemaField<{
-                    type: foundry.data.fields.StringField<{ required: true }>,
+                    type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Habitat.TypeKey, { required: true }>,
                     subtype: foundry.data.fields.StringField
                   }>
                 >,
@@ -340,6 +340,103 @@ declare global {
     namespace DataModelConfig {
       interface Actor {
         npc: typeof NPCData,
+      }
+    }
+
+    namespace Habitat {
+      interface DefaultHabitatTypes {
+        any: true,
+        arctic: true,
+        coastal: true,
+        desert: true,
+        forest: true,
+        grassland: true,
+        hill: true,
+        mountain: true,
+        planar: true,
+        swamp: true,
+        underdark: true,
+        underwater: true,
+        urban: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom condition types here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Conditions {
+       * interface OverrideTypes {
+       * 'dazed': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultHabitatTypes,
+        OverrideTypes
+      >;
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      interface HabitatConfig {
+        label: string;
+        subtypes?: boolean;
+      }
+    }
+
+    namespace Treasure {
+      interface DefaultTreasureTypes {
+        any: true,
+        arcana: true,
+        armaments: true,
+        implements: true,
+        individual: true
+        relics: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom condition types here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Conditions {
+       * interface OverrideTypes {
+       * 'dazed': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+      DefaultTreasureTypes,
+        OverrideTypes
+      >;
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      interface TreasureConfig {
+        label: string;
+      }
+    }
+
+    interface DND5EConfig {
+      /**
+       * NPC habitats.
+       */
+      habitats: {
+        [K in Habitat.TypeKey]: Habitat.HabitatConfig
+      }
+      /**
+       * NPC Treasure
+       */
+      treasure: {
+        [K in Treasure.TypeKey]: Treasure.TreasureConfig
       }
     }
   }

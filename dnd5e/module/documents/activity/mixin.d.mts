@@ -257,8 +257,18 @@ declare global {
 
 
       type ActivityTypeConfig<T extends TypeKey> = {
+        /**
+         * The activity's document class.
+         */
         documentClass: Types[T],
+        /**
+         * Whether the activity is editable via the UI.
+         */
         configurable?: boolean
+        /**
+         * Should this activity type be hidden in the selection dialog?
+         */
+        hidden?: boolean
       }
 
       type SchemaMap = {
@@ -286,6 +296,9 @@ declare global {
       export import UsageChatButton = ActivityMixin.UsageChatButton;
     }
     interface DND5EConfig {
+      /**
+       * Configuration information for activity types.
+       */
       activityTypes: {
         [K in dnd5e.types.Activity.TypeKey]: dnd5e.types.Activity.ActivityTypeConfig<K>
       }

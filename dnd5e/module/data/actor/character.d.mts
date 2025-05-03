@@ -76,7 +76,6 @@ type AttributesData = fvttUtils.SimpleMerge<
     }
   >
 >
-
 declare class CharacterData extends CreatureTemplate<
   dnd5e.types.MergeSchemas<
     {

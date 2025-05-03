@@ -1,4 +1,5 @@
 import type { PIXI } from "fvtt-types/configuration";
+import type MapLocationJournalPageData from "../data/journal/map.d.mts";
 
 /**
  * Custom control icon used to display Map Location journal pages when pinned to the map.
@@ -12,12 +13,7 @@ export default class MapLocationControlIcon extends PIXI.Container {
 
   size: number;
 
-  style: {
-    backgroundColor?: PIXI.Color
-    borderHoverColor?: PIXI.Color
-    shadowColor?: PIXI.Color
-    borderColor?: PIXI.Color
-  }
+  style: MapLocationJournalPageData.MapLocationMarkerStyle
 
   radius: number;
   circle: [number, number, number]
@@ -33,7 +29,7 @@ export default class MapLocationControlIcon extends PIXI.Container {
   constructor(locationConfig: {
     code: string, 
     size?: number, 
-  } & MapLocationControlIcon['style'], ...args: ConstructorParameters<typeof PIXI.Container>)
+  } & MapLocationJournalPageData.MapLocationMarkerStyle, ...args: ConstructorParameters<typeof PIXI.Container>)
 
   /* -------------------------------------------- */
 

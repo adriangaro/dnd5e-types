@@ -190,11 +190,23 @@ declare global {
         }>;
       };
     }
+
+    
     interface DND5EConfig {
+      /**
+       * The set of Ability Scores used within the system.
+       */
       abilities: {
         [K in dnd5e.types.Ability.TypeKey]: dnd5e.types.Ability.AbilityTypeConfig<K>
       },
-      defaultAbilities: dnd5e.types.Ability.AbilityDefaults,
+      /**
+       * Configure which ability score is used as the default modifier for initiative rolls,
+       * when calculating hit points per level and hit dice, and as the default modifier for
+       * saving throws to maintain concentration.
+       */
+      defaultAbilities: {
+        [K in keyof dnd5e.types.Ability.AbilityDefaults]: dnd5e.types.Ability.AbilityDefaults[K]
+      },
     }
   }
 }

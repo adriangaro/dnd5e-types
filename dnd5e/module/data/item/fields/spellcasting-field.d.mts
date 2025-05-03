@@ -130,18 +130,43 @@ declare global {
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
       type SpellCastingConfig<T extends TypeKey> = {
-        img?: string,
+        /**
+         * Localized label.
+         */
         label: string,
-        progression: Types[T] extends T ? undefined : Types[T] extends string ? Record<
-          Types[T],
-          {
-            label: string,
-            roundUp?: boolean,
-            divisor: number
-          }
-        > : undefined,
+        /**
+         * Image used when rendered as a favorite on the sheet.
+         */
+        img: string,
+
+        /**
+         * Are these spell slots additionally restored on a short rest?
+         */
         shortRest?: boolean
-      }
+      } & (Types[T] extends boolean ? {} :
+        {
+          /**
+         * Any progression modes for this type.
+         */
+          progression: Record<
+            Exclude<Types[T], boolean>,
+            {
+              /**
+               * Localized label.
+               */
+              label: string,
+              /**
+               * Value by which the class levels are divided to determine spellcasting level.
+               */
+              divisor?: number,
+              /**
+               * Should fractional values should be rounded up by default?
+               */
+              roundUp?: boolean
+            }
+          >,
+        }
+        )
 
       namespace Progression {
         interface DefaultProgressionTypes {
@@ -209,10 +234,25 @@ declare global {
         type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
         type SpellPreparationModeConfig = {
+          /**
+           * Localized name of this spell preparation type.
+           */
           label: string,
+          /**
+           * Whether this preparation mode allows for upcasting.
+           */
           upcast?: boolean,
+          /**
+           * Whether this mode allows for cantrips in a spellbook.
+           */
           prepares?: boolean,
+          /**
+           * The sort order of this mode in a spellbook.
+           */
           cantrips?: boolean,
+          /**
+           * Whether this preparation mode prepares spells.
+           */
           order?: number
         }
       }
@@ -345,43 +385,90 @@ declare global {
 
         // --- Derived Types ---
         type Types = dnd5e.types.MergeOverrideDefinition<
-        DefaultSchoolTypes,
+          DefaultSchoolTypes,
           OverrideTypes
         >;
         type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
         type SpellSchoolConfig = {
-          icon?: string,
-          fullKey: string,
-          reference?: string,
+          /**
+           *  Localized label.
+           */
           label: string,
+          /**
+           * Spell school icon.
+           */
+          icon: string,
+          /**
+           * Fully written key used as alternate for enrichers.
+           */
+          fullKey: string,
+          /**
+           * Reference to a rule page describing this school.
+           */
+          reference?: string,
         }
       }
     }
-  }
 
-  interface DND5EConfig {
-    spellcastingTypes: {
-      [K in dnd5e.types.Spellcasting.TypeKey]: dnd5e.types.Spellcasting.SpellCastingConfig<K>
+
+    interface DND5EConfig {
+      spellcastingTypes: {
+        [K in dnd5e.types.Spellcasting.TypeKey]: dnd5e.types.Spellcasting.SpellCastingConfig<K>
+      }
+      /**
+       * Ways in which a class can contribute to spellcasting levels.
+       */
+      spellProgression: {
+        [K in dnd5e.types.Spellcasting.Progression.TypeKey]: string
+      }
+      /**
+       * Various different ways a spell can be prepared.
+       */
+      spellPreparationModes: {
+        [K in dnd5e.types.Spellcasting.PreparationModes.TypeKey]: dnd5e.types.Spellcasting.PreparationModes.SpellPreparationModeConfig
+      }
+      /**
+       * Types of spell lists.
+       */
+      spellListTypes: {
+        [K in dnd5e.types.Spellcasting.ListType.TypeKey]: string
+      },
+      /**
+       * Valid spell levels.
+       */
+      spellLevels: {
+        [K in dnd5e.types.Spellcasting.Level.TypeKey]: string
+      },
+      /**
+       * The available choices for how spell damage scaling may be computed.
+       */
+      spellScalingModes: {
+        [K in dnd5e.types.Spellcasting.Scaling.TypeKey]: string
+      },
+      /**
+       * Schools to which a spell can belong.
+       */
+      spellSchools: {
+        [K in dnd5e.types.Spellcasting.School.TypeKey]: dnd5e.types.Spellcasting.School.SpellSchoolConfig
+      }
+      /**
+       * Define the standard slot progression by character level.
+       * The entries of this array represent the spell slot progression for a full spell-caster.
+       */
+      SPELL_SLOT_TABLE: number[][]
+      /**
+       * Define the pact slot & level progression by pact caster level.
+       */
+      pactCastingProgression: Record<number, {
+        slots: number,
+        level: number
+      }>
+      /**
+       * Spell scroll item ID within the `DND5E.sourcePacks` compendium or a full UUID for each spell level.
+       */
+      spellScrollIds: Record<number, string>
     }
-    spellProgression: {
-      [K in dnd5e.types.Spellcasting.Progression.TypeKey]: string
-    }
-    spellPreparationModes: {
-      [K in dnd5e.types.Spellcasting.PreparationModes.TypeKey]: dnd5e.types.Spellcasting.PreparationModes.SpellPreparationModeConfig
-    }
-    spellListTypes: {
-      [K in dnd5e.types.Spellcasting.ListType.TypeKey]: string
-    },
-    spellLevels: {
-      [K in dnd5e.types.Spellcasting.Level.TypeKey]: string
-    },
-    spellScalingModes: {
-      [K in dnd5e.types.Spellcasting.Scaling.TypeKey]: string
-    },
-    spellSchools: {
-      [K in dnd5e.types.Spellcasting.School.TypeKey]: dnd5e.types.Spellcasting.School.SpellSchoolConfig
-    },
   }
 }
 

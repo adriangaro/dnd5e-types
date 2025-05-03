@@ -122,27 +122,59 @@ declare global {
       type SpecialTypeKey = dnd5e.types.FilterKeysByValue<Types, TypeKey, 'special'>
 
       interface ScalarUnitConfig {
+        /**
+         *  Localized label for this unit.
+         */
         label: string,
+        /**
+         * Conversion multiplier used to converting between units.
+         */
         conversion: number,
+        /**
+         * Is this a combat-specific time unit?
+         */
         combat?: boolean,
+        /**
+         * Localization path for counted plural forms. Only necessary if non-supported unit
+         * or using non-standard name for a supported unit. List of supported units can be
+         * found here: https://tc39.es/ecma402/#table-sanctioned-single-unit-identifiers
+         */
         counted?: string,
+        /**
+         * Should this be available when users can select from a list of units?
+         */
         option?: boolean
       }
     }
 
     interface DND5EConfig {
+      /**
+       * Time periods that accept a numeric value.
+       */
       scalarTimePeriods: {
         [K in dnd5e.types.DurationUnits.ScalarTypeKey]: string
       },
+      /**
+       * Time periods for spells that don't have a defined ending.
+       */
       permanentTimePeriods: {
         [K in dnd5e.types.DurationUnits.PermanentTypeKey]: string
       },
+      /**
+       * Time periods that don't accept a numeric value.
+       */
       specialTimePeriods: {
         [K in dnd5e.types.DurationUnits.SpecialTypeKey]: string
       },
+      /**
+       * Configuration for time units available to the system.
+       */
       timeUnits: {
-        [K in dnd5e.types.DurationUnits.ScalarTypeKey]: dnd5e.types.DurationUnits.ScalarTypeKey
+        [K in dnd5e.types.DurationUnits.ScalarTypeKey]: dnd5e.types.DurationUnits.ScalarUnitConfig
       },
+      /**
+       * The various lengths of time over which effects can occur.
+       */
       timePeriods: DND5EConfig['scalarTimePeriods'] & DND5EConfig['permanentTimePeriods'] & DND5EConfig['specialTimePeriods']
     }
   }

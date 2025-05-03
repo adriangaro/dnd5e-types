@@ -30,7 +30,7 @@ declare class GroupActor extends _ActorDataModel.mixin(CurrencyTemplate)<
   dnd5e.types.MergeSchemas<
     {
       type: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.StringField<{ initial: "party", label: "DND5E.Group.Type" }>
+        value: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Group.TypeKey, { initial: "party", label: "DND5E.Group.Type" }>
       }>,
       description: foundry.data.fields.SchemaField<{
         full: foundry.data.fields.HTMLField<{ label: "DND5E.Description" }>,
@@ -160,16 +160,54 @@ declare class GroupActor extends _ActorDataModel.mixin(CurrencyTemplate)<
   /**
    * Initiate a rest for all members of this group.
    */
-  rest(config: dnd5e.types.RestConfiguration, result: dnd5e.types.RestResult): Promise<boolean>
+  rest(config: dnd5e.documents.Actor5e.RestConfiguration, result: dnd5e.documents.Actor5e.RestResult): Promise<boolean>
 }
 
 export default GroupActor;
 
 declare global {
   namespace dnd5e.types {
+    namespace Group {
+      interface DefaultGroupTypes {
+        party: true
+        encounter: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom spell levels (e.g., for epic levels) here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Spellcasting.School {
+       * interface OverrideTypes {
+       * 'psionics': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultGroupTypes,
+        OverrideTypes
+      >;
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+    }
+    
     namespace DataModelConfig {
       interface Actor {
         group: typeof GroupActor,
+      }
+    }
+
+    interface DND5EConfig {
+      /**
+       * Different types of actor structures that groups can represent.
+       */
+      groupTypes: {
+        [K in Group.TypeKey]: string
       }
     }
   }

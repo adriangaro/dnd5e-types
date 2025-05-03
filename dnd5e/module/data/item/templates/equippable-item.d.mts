@@ -5,7 +5,7 @@ import SystemDataModel from "../../abstract.mjs";
  *
  * @mixin
  */
-export default class EquippableItemTemplate extends SystemDataModel<{
+declare class EquippableItemTemplate extends SystemDataModel<{
   attunement: foundry.data.fields.StringField<{required: true, label: "DND5E.Attunement"}>,
   attuned: foundry.data.fields.BooleanField<{label: "DND5E.Attuned"}>,
   equipped: foundry.data.fields.BooleanField<{required: true, label: "DND5E.Equipped"}>
@@ -66,4 +66,62 @@ export default class EquippableItemTemplate extends SystemDataModel<{
    * Set as equipped for NPCs, and unequipped for PCs.
    */
   preCreateEquipped(data: object, options: object, user: User.Implementation)
+}
+
+declare namespace EquippableItemTemplate {
+  
+}
+
+export default EquippableItemTemplate 
+
+declare global {
+  namespace dnd5e.types {
+    namespace Attunement {
+      // --- Base Definitions ---
+      interface DefaultAttunementTypes {
+        required: string,
+        optional: string
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom condition types here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Conditions {
+       * interface OverrideTypes {
+       * 'dazed': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultAttunementTypes,
+        OverrideTypes
+      >;
+
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+    }  
+
+    interface DND5EConfig {
+      /**
+       * An enumeration of item attunement types.
+       */
+      attunementTypes: {
+        [K in Attunement.TypeKey]: string
+      }
+      /**
+       * An enumeration of item attunement states.
+       * @deprecated since 3.2, available until 3.4
+       */
+      attunements: {
+        0: string,
+        1: string,
+        2: string
+      }
+    }
+  }
 }

@@ -129,48 +129,12 @@ export default ToolData
 
 declare global {
   namespace dnd5e.types {
-    
-    namespace ToolGroup {
-      // --- Base Definitions ---
-      interface DefaultToolGroupTypes {
-        art: true;  // Artisan's Tools
-        game: true; // Gaming Set
-        music: true;// Musical Instrument
-        vehicle: true; // Vehicle proficiency (Land/Water) - Consider if this fits tool logic
-      }
-
-      /**
-       * Override interface for declaration merging.
-       * Add custom tool group types here.
-       * @example
-       * declare global {
-       * namespace dnd5e.types.ToolGroup {
-       * interface OverrideTypes {
-       * 'sci': true // Scientific Instrument
-       * }
-       * }
-       * }
-       */
-      interface OverrideTypes extends Record<string, boolean | never> { }
-
-      // --- Derived Types ---
-      type Types = dnd5e.types.MergeOverrideDefinition<
-        DefaultToolGroupTypes,
-        OverrideTypes
-      >;
-      type TypeKey = dnd5e.types.ExtractKeys<Types>;
-
-      type GetToolTypesByGroup<T extends TypeKey | boolean> = dnd5e.types.FindKeyByValue<
-        Tool.Types,
-        T
-      >
-    }
 
     namespace Tool {
       // --- Base Definitions ---
       // `true` indicates a tool proficiency not belonging to a standard group (like thieves' tools)
-      // Otherwise, the value is the key of the group it belongs to (from ToolGroup.TypeKey)
-      interface DefaultToolTypes extends Record<string, ToolGroup.TypeKey | true> {
+      // Otherwise, the value is the key of the group it belongs to (from GroupTypeKey)
+      interface DefaultToolTypes extends Record<string, GroupTypeKey | true> {
         alchemist: 'art';    // Alchemist's Supplies
         bagpipes: 'music';   // Bagpipes
         brewer: 'art';       // Brewer's Supplies
@@ -224,7 +188,7 @@ declare global {
        * }
        * }
        */
-      interface OverrideTypes extends Record<string, ToolGroup.TypeKey | true | never> { }
+      interface OverrideTypes extends Record<string, GroupTypeKey | true | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<
@@ -234,14 +198,50 @@ declare global {
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
       /** Configuration object structure for a specific tool type. */
-      interface ToolTypeConfig<T extends TypeKey> {
-        id: T; // The key identifying the tool, e.g., "alchemist"
-        label: string; // The display name, e.g., "Alchemist's Supplies"
-        ability?: dnd5e.types.Ability.TypeKey; // Default ability score associated, if any
-        group?: ToolGroup.TypeKey; // The group this tool belongs to, if any
+      interface ToolTypeConfig {
+        /**
+         * UUID of reference tool or ID within pack defined by `DND5E.sourcePacks.ITEMS`.
+         */
+        id: string;
+        /**
+         * Default ability used for the tool.
+         */
+        ability: dnd5e.types.Ability.TypeKey; // Default ability score associated, if any
       }
-    }
 
+      // --- Base Definitions ---
+      interface DefaultGroupTypes {
+        art: true;  // Artisan's Tools
+        game: true; // Gaming Set
+        music: true;// Musical Instrument
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom tool group types here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Tool {
+       * interface OverrideGroupTypes {
+       * 'sci': true // Scientific Instrument
+       * }
+       * }
+       * }
+       */
+      interface OverrideGroupTypes extends Record<string, boolean | never> { }
+
+      // --- Derived Types ---
+      type GroupTypes = dnd5e.types.MergeOverrideDefinition<
+        DefaultGroupTypes,
+        OverrideGroupTypes
+      >;
+      type GroupTypeKey = dnd5e.types.ExtractKeys<GroupTypes>;
+
+      type GetToolTypesByGroup<T extends GroupTypeKey | boolean> = dnd5e.types.FindKeyByValue<
+        Tool.Types,
+        T
+      >
+    }
 
     namespace ItemProperties {
       
@@ -282,9 +282,9 @@ declare global {
     namespace ItemTypes {
       interface ItemTypeMap {
         tool: dnd5e.types.FilterNever<{
-          [K in ToolGroup.TypeKey]: ToolGroup.GetToolTypesByGroup<K> extends never ? never : ItemTypes.ItemTypeConfig<ToolGroup.GetToolTypesByGroup<K>>
+          [K in Tool.GroupTypeKey]: Tool.GetToolTypesByGroup<K> extends never ? never : ItemTypes.ItemTypeConfig<Tool.GetToolTypesByGroup<K>>
         } & {
-          "": ItemTypes.ItemTypeConfig<ToolGroup.GetToolTypesByGroup<boolean>>
+          "": ItemTypes.ItemTypeConfig<Tool.GetToolTypesByGroup<boolean>>
         }> 
       }
     }
@@ -296,11 +296,32 @@ declare global {
     }
 
     interface DND5EConfig {
-      tools: {
-        [K in dnd5e.types.Tool.TypeKey]: dnd5e.types.Tool.ToolTypeConfig<K>
+      /**
+       * The categories into which Tool items can be grouped.
+       */
+      toolTypes: {
+        [K in dnd5e.types.Tool.GroupTypeKey]: string
       }
+      /**
+       * The categories of tool proficiencies that a character can gain.
+       */
       toolProficiencies: {
-        [K in dnd5e.types.ToolGroup.TypeKey]: string
+        [K in dnd5e.types.Tool.GroupTypeKey]: string
+      } & {
+        vehicle: string
+      }
+      /**
+       * Configuration data for tools.
+       */
+      tools: {
+        [K in dnd5e.types.Tool.TypeKey]: dnd5e.types.Tool.ToolTypeConfig
+      }
+      /**
+       * The basic tool types in 5e. This enables specific tool proficiencies or
+       * starting equipment provided by classes and backgrounds.
+       */
+      toolIds: {
+        [K in dnd5e.types.Tool.TypeKey]: string
       }
     }
   }

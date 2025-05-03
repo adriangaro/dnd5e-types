@@ -944,7 +944,7 @@ declare class Actor5e<
    * @returns              Updated token if the transformation was performed.
    */
   transformInto(
-    target: Actor.Implementation, 
+    target: Actor.Implementation,
     options?: Actor5e.TransformationOptions,
     sheetOptions?: { renderSheet?: boolean }
   ): Promise<Token.Object[]> | null
@@ -971,7 +971,7 @@ declare class Actor5e<
    * @param entryOptions         The default array of context menu options
    */
   static addDirectoryContextOptions(
-    html: JQuery | HTMLElement, 
+    html: JQuery | HTMLElement,
     entryOptions: ContextMenu.Entry[]
   )
 
@@ -1017,7 +1017,7 @@ declare class Actor5e<
    * @protected
    */
   _onUpdateExhaustion(
-    data: object, 
+    data: object,
     options: object
   ): Promise<ActiveEffect.OfType<'base'> | void>
   /* -------------------------------------------- */
@@ -1050,10 +1050,10 @@ declare class Actor5e<
   _clearFavorites(
     documents: foundry.abstract.Document.Any[]
   ): (
-    dnd5e.types.GetKey<Actor.Implementation['system'], 'favorites'> extends never ?
-    void :
-    Promise<Actor.Implementation>
-  )
+      dnd5e.types.GetKey<Actor.Implementation['system'], 'favorites'> extends never ?
+      void :
+      Promise<Actor.Implementation>
+    )
 }
 
 declare namespace Actor5e {
@@ -1070,7 +1070,7 @@ declare namespace Actor5e {
     flags: This['flags']
     name: This['name']
     statuses: {
-      [K in dnd5e.types.Conditions.TypeKey]: number
+      [K in dnd5e.types.Condition.TypeKey]: number
     } & {
       [k: string]: number
     }
@@ -1190,10 +1190,118 @@ declare namespace Actor5e {
     transformTokens?: boolean;
     preset?: string;
   }
+
+  interface DND5eFlags {
+  }
+
+  interface DND5eFlags extends fvttUtils.Identity<{
+    [K in dnd5e.types.CharacterFlags.Keys]?: dnd5e.types.CharacterFlags.Flags[K]
+  } & {
+    [K in dnd5e.types.CharacterFlags.AllowedKeys]?: dnd5e.types.CharacterFlags.AllowedFlags[K]
+  }> {}
 }
 
 
 export default Actor5e
+
+declare global {
+  namespace dnd5e.types {
+    namespace CharacterFlags {
+      interface DefaultFlags extends Record<string, boolean | number | string> {
+        diamondSoul: boolean
+        enhancedDualWielding: boolean
+        elvenAccuracy: boolean
+        halflingLucky: boolean
+        initiativeAdv: boolean
+        initiativeAlert: boolean
+        jackOfAllTrades: boolean
+        observantFeat: boolean
+        tavernBrawlerFeat: boolean
+        powerfulBuild: boolean
+        reliableTalent: boolean
+        remarkableAthlete: boolean
+        weaponCriticalThreshold: number
+        spellCriticalThreshold: number
+        meleeCriticalDamageDice: number
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom spell levels (e.g., for epic levels) here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Spellcasting.School {
+       * interface OverrideTypes {
+       * 'psionics': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideFlags extends Record<string, boolean | number | string | never> { }
+
+      // --- Derived Types ---
+      type Flags = dnd5e.types.MergeOverrideDefinition<
+        DefaultFlags,
+        OverrideFlags
+      >;
+      type Keys = dnd5e.types.ExtractKeys<Flags>;
+
+      interface DefaultAllowedFlags extends Record<string, any> {
+        isPolymorphed: boolean
+        originalActor: Actor.Implementation
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom spell levels (e.g., for epic levels) here.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Spellcasting.School {
+       * interface OverrideTypes {
+       * 'psionics': true
+       * }
+       * }
+       * }
+       */
+      interface OverrideAllowedFlags extends Record<string, any | never> { }
+
+      // --- Derived Types ---
+      type AllowedFlags = dnd5e.types.MergeOverrideDefinition<
+        DefaultFlags,
+        OverrideFlags
+      >;
+      type AllowedKeys = dnd5e.types.ExtractKeys<AllowedFlags>;
+
+
+      /* -------------------------------------------- */
+      interface CharacterFlagConfig<Type extends boolean | string | number> {
+        name: string;
+        hint: string;
+        section: string;
+        type: Type extends boolean ? typeof Boolean : Type extends string ? typeof String : Type extends number ? typeof Number : unknown;
+        placeholder?: Type;
+        abilities?: dnd5e.types.Ability.TypeKey[];
+        choices?: Record<string, string>;
+        skills?: dnd5e.types.Skill.TypeKey[];
+      }
+
+    }
+
+    interface DND5EConfig {
+      /**
+       * Special character flags.
+       */
+      characterFlags: {
+        [K in CharacterFlags.Keys]: CharacterFlags.CharacterFlagConfig<CharacterFlags.Flags[K]>
+      }
+
+      /**
+       * Flags allowed on actors. Any flags not in the list may be deleted during a migration.
+       */
+      allowedActorFlags: (CharacterFlags.AllowedKeys | CharacterFlags.Keys)[]
+    }
+  }
+}
 
 declare module "fvtt-types/configuration" {
   interface DocumentClassConfig {
@@ -1202,6 +1310,16 @@ declare module "fvtt-types/configuration" {
 
   interface ConfiguredActor<SubType extends Actor.SubType> {
     document: Actor5e<SubType>;
+  }
+
+  namespace FlagConfig {
+    interface Actor {
+      dnd5e: Actor5e.DND5eFlags
+    }
+  }
+
+  interface FlagConfig {
+    Actor: FlagConfig.Actor
   }
 }
 

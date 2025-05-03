@@ -12,7 +12,7 @@ import TraitsFields from "./templates/traits.mjs";
 declare class VehicleData extends CommonTemplate<
   dnd5e.types.MergeSchemas<
     {
-      vehicleType: foundry.data.fields.StringField<{ required: true, initial: "water", label: "DND5E.VehicleType" }>,
+      vehicleType: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Vehicle.TypeKey, { required: true, initial: "water", label: "DND5E.VehicleType" }>,
       attributes: foundry.data.fields.SchemaField<
         fvttUtils.SimpleMerge<
           typeof AttributesFields['common'],
@@ -97,7 +97,7 @@ declare class VehicleData extends CommonTemplate<
           {
             size: foundry.data.fields.StringField<{ required: true, initial: "lg", label: "DND5E.Size" }>,
             di: DamageTraitField<dnd5e.types.Damage.TypeKey, dnd5e.types.Damage.Bypass, {}, { label: "DND5E.DamImm", initialValue: ["poison", "psychic"] }>,
-            ci: SimpleTraitField<dnd5e.types.Conditions.TypeKey, {}, {
+            ci: SimpleTraitField<dnd5e.types.Condition.TypeKey, {}, {
               label: "DND5E.ConImm", initialValue: [
                 "blinded", "charmed", "deafened", "frightened", "paralyzed",
                 "petrified", "poisoned", "stunned", "unconscious"
@@ -194,9 +194,49 @@ declare function makePassengerData<
 
 declare global {
   namespace dnd5e.types {
+    namespace Vehicle {
+      interface DefaultVehicleTypes extends Record<string, true> {
+        air: true,
+        land: true,
+        space: true,
+        water: true
+      }
+
+      /**
+       * Override interface for declaration merging.
+       * Add custom tool types here. Map them to a ToolGroup.TypeKey if applicable,
+       * otherwise use `true`.
+       * @example
+       * declare global {
+       * namespace dnd5e.types.Tool {
+       * interface OverrideTypes {
+       * 'chemSet': 'sci'; // Chemistry Set -> Scientific Instrument Group
+       * 'lockpick': true; // Advanced Lockpicks -> Standalone Proficiency
+       * }
+       * }
+       * }
+       */
+      interface OverrideTypes extends Record<string, true | never> { }
+
+      // --- Derived Types ---
+      type Types = dnd5e.types.MergeOverrideDefinition<
+        DefaultVehicleTypes,
+        OverrideTypes
+      >;
+      type TypeKey = dnd5e.types.ExtractKeys<Types>;
+    }
     namespace DataModelConfig {
       interface Actor {
         vehicle: typeof VehicleData,
+      }
+    }
+
+    interface DND5EConfig {
+      /**
+       * The various types of vehicles in which characters can be proficient.
+       */
+      vehicleTypes: {
+        [K in dnd5e.types.Vehicle.TypeKey]: string
       }
     }
   }
