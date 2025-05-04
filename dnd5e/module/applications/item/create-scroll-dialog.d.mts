@@ -15,7 +15,6 @@ interface SpellScrollConfiguration {
 /**
  * Application for configuration spell scroll creation.
  */
-// @ts-expect-error
 export default class CreateScrollDialog extends Dialog5e<{
   anchor: string,
   config: Item5e.SpellScrollConfiguration,

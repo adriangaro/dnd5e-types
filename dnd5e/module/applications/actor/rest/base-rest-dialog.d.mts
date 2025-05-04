@@ -1,4 +1,3 @@
-import type { RestConfiguration } from "@dnd5e/module/config.mjs";
 import Dialog5e from "../../api/dialog.mjs";
 import type { Actor5e } from "@dnd5e/module/documents/_module.mjs";
 

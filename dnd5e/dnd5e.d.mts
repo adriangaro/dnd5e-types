@@ -1,9 +1,9 @@
 
-// Import Configuration
+// // Import Configuration
 import DND5E from "./module/config.mjs";
 import { registerSystemKeybindings, registerSystemSettings, registerDeferredSettings } from "./module/settings.mjs";
 
-// Import Submodules
+// // Import Submodules
 import * as applications from "./module/applications/_module.mjs";
 import * as canvas from "./module/canvas/_module.mjs";
 import * as dataModels from "./module/data/_module.mjs";
@@ -13,21 +13,21 @@ import * as enrichers from "./module/enrichers.mjs";
 import * as Filter from "./module/filter.mjs";
 import * as migrations from "./module/migration.mjs";
 import ModuleArt from "./module/module-art.mjs";
-import { registerModuleData, setupModulePacks } from "./module/module-registration.mjs";
-import parseUuid from "./module/parse-uuid.mjs";
-import { default as registry } from "./module/registry.mjs";
-import Tooltips5e from "./module/tooltips.mjs";
-import * as utils from "./module/utils.mjs";
-import { extendDragDrop } from "./module/drag-drop.mjs";
+// import { registerModuleData, setupModulePacks } from "./module/module-registration.mjs";
+// import parseUuid from "./module/parse-uuid.mjs";
+// import { default as registry } from "./module/registry.mjs";
+// import Tooltips5e from "./module/tooltips.mjs";
+// import * as utils from "./module/utils.mjs";
+// import { extendDragDrop } from "./module/drag-drop.mjs";
 
 // Normal imports above to keep types
 
-import * as _dataModels from "@dnd5e/module/data/_module.mjs";
-import * as _documents from "@dnd5e/module/documents/_module.mjs";
-import * as _applications from "@dnd5e/module/applications/_module.mjs";
-import * as _utils from "@dnd5e/module/utils.mjs";
-import * as _dice from "@dnd5e/module/dice/_module.mjs";
-import * as _canvas from "@dnd5e/module/canvas/_module.mjs";
+import * as _dataModels from "./module/data/_module.mjs";
+import * as _documents from "./module/documents/_module.mjs";
+import * as _applications from "./module/applications/_module.mjs";
+import * as _utils from "./module/utils.mjs";
+import * as _dice from "./module/dice/_module.mjs";
+import * as _canvas from "./module/canvas/_module.mjs";
 
 import * as _fvttUtils from 'fvtt-types/utils';
 
@@ -605,5 +605,16 @@ declare global {
   }
 }
 
-
-export default dnd5e;
+export {
+  applications,
+  canvas,
+  dataModels,
+  dice,
+  documents,
+  enrichers,
+  Filter,
+  migrations,
+  registry,
+  utils,
+  DND5E
+};

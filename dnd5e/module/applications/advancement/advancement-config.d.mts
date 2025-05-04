@@ -11,7 +11,7 @@ export default class AdvancementConfig<
   Document extends dnd5e.documents.advancement.Advancement.Any,
   Options extends FormApplication.Options = FormApplication.Options
 > extends FormApplication<
-  Options, Document
+  Document, Options
 > {
   protected override _updateObject(event: Event, formData?: object): Promise<unknown>;
   /* -------------------------------------------- */

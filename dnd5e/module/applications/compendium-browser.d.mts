@@ -127,10 +127,10 @@ declare namespace CompendiumBrowser {
   }
 }
 
-
 /**
  * Application for Browse, filtering, and searching for content between multiple compendiums
  */
+// @ts-expect-error
 declare class CompendiumBrowser extends Application5e<
   {},
   {

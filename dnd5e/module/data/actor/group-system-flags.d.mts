@@ -1,4 +1,5 @@
 type Schema = {
+  // TODO circularity
   // awardDestinations: foundry.data.fields.SetField<
   //   foundry.data.fields.ForeignDocumentField<typeof foundry.documents.BaseActor, { idOnly: true }>, 
   //   { required: false }
