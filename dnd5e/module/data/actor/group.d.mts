@@ -28,66 +28,71 @@ declare class _ActorDataModel extends ActorDataModel { }
  */
 declare class GroupActor extends _ActorDataModel.mixin(CurrencyTemplate)<
   dnd5e.types.MergeSchemas<
-    {
-      type: foundry.data.fields.SchemaField<{
-        value: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Group.TypeKey, { initial: "party", label: "DND5E.Group.Type" }>
-      }>,
-      description: foundry.data.fields.SchemaField<{
-        full: foundry.data.fields.HTMLField<{ label: "DND5E.Description" }>,
-        summary: foundry.data.fields.HTMLField<{ label: "DND5E.DescriptionSummary" }>
-      }>,
-      members: foundry.data.fields.ArrayField<
-        MemberSchemaField,
-        { label: "DND5E.GroupMembers" },
-        foundry.data.fields.ArrayField.AssignmentElementType<MemberSchemaField>,
-        foundry.data.fields.ArrayField.InitializedElementType<MemberSchemaField> & {
-          ids: Set<string>
-        }
-      >,
-      attributes: foundry.data.fields.SchemaField<
-        {
-          movement: foundry.data.fields.SchemaField<{
-            land: foundry.data.fields.NumberField<{ nullable: false, min: 0, step: 0.1, initial: 0, label: "DND5E.MovementLand" }>,
-            water: foundry.data.fields.NumberField<{ nullable: false, min: 0, step: 0.1, initial: 0, label: "DND5E.MovementWater" }>,
-            air: foundry.data.fields.NumberField<{ nullable: false, min: 0, step: 0.1, initial: 0, label: "DND5E.MovementAir" }>
+    dnd5e.types.MergeSchemas<
+      {
+        type: foundry.data.fields.SchemaField<{
+          value: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Group.TypeKey, { initial: "party", label: "DND5E.Group.Type" }>
+        }>,
+        description: foundry.data.fields.SchemaField<{
+          full: foundry.data.fields.HTMLField<{ label: "DND5E.Description" }>,
+          summary: foundry.data.fields.HTMLField<{ label: "DND5E.DescriptionSummary" }>
+        }>,
+        members: foundry.data.fields.ArrayField<
+          MemberSchemaField,
+          { label: "DND5E.GroupMembers" },
+          foundry.data.fields.ArrayField.AssignmentElementType<MemberSchemaField>,
+          foundry.data.fields.ArrayField.InitializedElementType<MemberSchemaField> & {
+            ids: Set<string>
+          }
+        >,
+        attributes: foundry.data.fields.SchemaField<
+          {
+            movement: foundry.data.fields.SchemaField<{
+              land: foundry.data.fields.NumberField<{ nullable: false, min: 0, step: 0.1, initial: 0, label: "DND5E.MovementLand" }>,
+              water: foundry.data.fields.NumberField<{ nullable: false, min: 0, step: 0.1, initial: 0, label: "DND5E.MovementWater" }>,
+              air: foundry.data.fields.NumberField<{ nullable: false, min: 0, step: 0.1, initial: 0, label: "DND5E.MovementAir" }>
+            }>
+          },
+          { label: "DND5E.Attributes" }
+        >,
+        details: foundry.data.fields.SchemaField<
+          {
+            xp: foundry.data.fields.SchemaField<
+              {
+                value: foundry.data.fields.NumberField<{ integer: true, min: 0, label: "DND5E.ExperiencePoints.Current" }>
+              },
+              { label: "DND5E.ExperiencePoints.Label" }
+            >
+          }, { label: "DND5E.Details" }>
+      },
+      {
+        details: foundry.data.fields.SchemaField<
+          {},
+          {
+            required: true,
+            nullable: false
+          },
+          {},
+          foundry.data.fields.SchemaField.InitializedData<{
+            xp: foundry.data.fields.SchemaField<
+              {},
+              {
+                required: true,
+                nullable: false
+              },
+              {},
+              {
+                derived: number | null
+              },
+              {}
+            >,
           }>
-        },
-        { label: "DND5E.Attributes" }
-      >,
-      details: foundry.data.fields.SchemaField<
-        {
-          xp: foundry.data.fields.SchemaField<
-            {
-              value: foundry.data.fields.NumberField<{ integer: true, min: 0, label: "DND5E.ExperiencePoints.Current" }>
-            },
-            { label: "DND5E.ExperiencePoints.Label" }
-          >
-        }, { label: "DND5E.Details" }>
-    },
-    {
-      details: foundry.data.fields.SchemaField<
-        {},
-        {
-          required: true,
-          nullable: false
-        },
-        {},
-        foundry.data.fields.SchemaField.InitializedData<{
-          xp: foundry.data.fields.SchemaField<
-            {},
-            {
-              required: true,
-              nullable: false
-            },
-            {},
-            {
-              derived: number | null
-            },
-            {}
-          >,
-        }>
-      >
-    }
+        >
+      }
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      GroupActor.OverrideSchema
+    >
   >
 > {
   /* -------------------------------------------- */
@@ -163,6 +168,13 @@ declare class GroupActor extends _ActorDataModel.mixin(CurrencyTemplate)<
   rest(config: dnd5e.documents.Actor5e.RestConfiguration, result: dnd5e.documents.Actor5e.RestResult): Promise<boolean>
 }
 
+declare namespace GroupActor {
+  type Schema = dnd5e.types.GetSchema<typeof GroupActor>
+  interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+  }
+}
+
 export default GroupActor;
 
 declare global {
@@ -195,7 +207,7 @@ declare global {
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
     }
-    
+
     namespace DataModelConfig {
       interface Actor {
         group: typeof GroupActor,

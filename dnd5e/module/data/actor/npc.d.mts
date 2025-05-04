@@ -60,6 +60,7 @@ type AttributesData = fvttUtils.SimpleMerge<
 /**
  */
 declare class NPCData extends CreatureTemplate<
+dnd5e.types.MergeSchemas<
   dnd5e.types.MergeSchemas<
     {
       attributes: foundry.data.fields.SchemaField<
@@ -204,6 +205,10 @@ declare class NPCData extends CreatureTemplate<
         }
       >
     }
+  >,
+    fvttUtils.RemoveIndexSignatures<
+      NPCData.OverrideSchema
+    >
   >
 > {
 
@@ -329,7 +334,10 @@ declare class NPCData extends CreatureTemplate<
 }
 
 declare namespace NPCData {
+  type Schema = dnd5e.types.GetSchema<typeof NPCData>
+  interface OverrideSchema extends foundry.data.fields.DataSchema {
 
+  }
 }
 
 export default NPCData;

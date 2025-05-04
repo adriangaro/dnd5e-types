@@ -78,124 +78,127 @@ type AttributesData = fvttUtils.SimpleMerge<
 >
 declare class CharacterData extends CreatureTemplate<
   dnd5e.types.MergeSchemas<
-    {
-      attributes: foundry.data.fields.SchemaField<
-        AttributesData,
-        { label: "DND5E.Attributes" },
-        foundry.data.fields.SchemaField.Internal.AssignmentType<AttributesData, {}>,
-        fvttUtils.SimpleMerge<
-          foundry.data.fields.SchemaField.Internal.InitializedType<AttributesData, {}>,
-          {
-            prof: number
-          }
-        >
-      >,
-      bastion: foundry.data.fields.SchemaField<{
-        name: foundry.data.fields.StringField<{ required: true }>,
-        description: foundry.data.fields.HTMLField
-      }>,
-      details: foundry.data.fields.SchemaField<
-        DetailsData,
-        { label: "DND5E.Details" }
-      >,
-      traits: foundry.data.fields.SchemaField<
-        fvttUtils.SimpleMerge<
-          typeof TraitsFields['common'],
+    dnd5e.types.MergeSchemas<
+      {
+        attributes: foundry.data.fields.SchemaField<
+          AttributesData,
+          { label: "DND5E.Attributes" },
+          foundry.data.fields.SchemaField.Internal.AssignmentType<AttributesData, {}>,
           fvttUtils.SimpleMerge<
-            typeof TraitsFields['creature'],
+            foundry.data.fields.SchemaField.Internal.InitializedType<AttributesData, {}>,
             {
-              weaponProf: SimpleTraitField<dnd5e.types.WeaponProficiency.CompleteTypeKey, {
-                mastery: foundry.data.fields.SchemaField<{
-                  value: foundry.data.fields.SetField<foundry.data.fields.StringField<{}, dnd5e.types.WeaponProficiency.TypeKey, dnd5e.types.WeaponProficiency.TypeKey, dnd5e.types.WeaponProficiency.TypeKey>>,
-                  bonus: foundry.data.fields.SetField<foundry.data.fields.StringField>
-                }>
-              }, { label: "DND5E.TraitWeaponProf" }
-              >,
-              armorProf: SimpleTraitField<dnd5e.types.ArmorProficiency.CompleteTypeKey, {}, { label: "DND5E.TraitArmorProf" }>
+              prof: number
             }
           >
-        >, { label: "DND5E.Traits" }
-      >,
-      resources: foundry.data.fields.SchemaField<{
-        primary: ResourceDataField<{ label: "DND5E.ResourcePrimary" }>,
-        secondary: ResourceDataField<{ label: "DND5E.ResourceSecondary" }>,
-        tertiary: ResourceDataField<{ label: "DND5E.ResourceTertiary" }>
-      }, { label: "DND5E.Resources" }>,
-      favorites: foundry.data.fields.ArrayField<
-        foundry.data.fields.SchemaField<{
-          type: foundry.data.fields.StringField<{ required: true, blank: false }, CharacterData.FavoriteType, CharacterData.FavoriteType, CharacterData.FavoriteType>,
-          id: foundry.data.fields.StringField<{ required: true, blank: false }>,
-          sort: foundry.data.fields.IntegerSortField
+        >,
+        bastion: foundry.data.fields.SchemaField<{
+          name: foundry.data.fields.StringField<{ required: true }>,
+          description: foundry.data.fields.HTMLField
         }>,
-        { label: "DND5E.Favorites" }
-      >,
-    },
-    {
-      details: foundry.data.fields.SchemaField<
-        {
+        details: foundry.data.fields.SchemaField<
+          DetailsData,
+          { label: "DND5E.Details" }
+        >,
+        traits: foundry.data.fields.SchemaField<
+          fvttUtils.SimpleMerge<
+            typeof TraitsFields['common'],
+            fvttUtils.SimpleMerge<
+              typeof TraitsFields['creature'],
+              {
+                weaponProf: SimpleTraitField<dnd5e.types.WeaponProficiency.CompleteTypeKey, {
+                  mastery: foundry.data.fields.SchemaField<{
+                    value: foundry.data.fields.SetField<foundry.data.fields.StringField<{}, dnd5e.types.WeaponProficiency.TypeKey, dnd5e.types.WeaponProficiency.TypeKey, dnd5e.types.WeaponProficiency.TypeKey>>,
+                    bonus: foundry.data.fields.SetField<foundry.data.fields.StringField>
+                  }>
+                }, { label: "DND5E.TraitWeaponProf" }
+                >,
+                armorProf: SimpleTraitField<dnd5e.types.ArmorProficiency.CompleteTypeKey, {}, { label: "DND5E.TraitArmorProf" }>
+              }
+            >
+          >, { label: "DND5E.Traits" }
+        >,
+        resources: foundry.data.fields.SchemaField<{
+          primary: ResourceDataField<{ label: "DND5E.ResourcePrimary" }>,
+          secondary: ResourceDataField<{ label: "DND5E.ResourceSecondary" }>,
+          tertiary: ResourceDataField<{ label: "DND5E.ResourceTertiary" }>
+        }, { label: "DND5E.Resources" }>,
+        favorites: foundry.data.fields.ArrayField<
+          foundry.data.fields.SchemaField<{
+            type: foundry.data.fields.StringField<{ required: true, blank: false }, CharacterData.FavoriteType, CharacterData.FavoriteType, CharacterData.FavoriteType>,
+            id: foundry.data.fields.StringField<{ required: true, blank: false }>,
+            sort: foundry.data.fields.IntegerSortField
+          }>,
+          { label: "DND5E.Favorites" }
+        >,
+      },
+      {
+        details: foundry.data.fields.SchemaField<
+          {
 
-        },
-        {
-          required: true,
-          nullable: false
-        },
-        {},
-        foundry.data.fields.SchemaField.InitializedData<{
-          type: CreatureTypeField,
-          xp: foundry.data.fields.SchemaField<
-            {},
-            {
-              required: true,
-              nullable: false
-            },
-            {},
-            {
-              min: number,
-              max: number,
-              pct: number,
-              boonsEarned?: number
-            },
-            {}
-          >,
-        }> & {
-          level: number
-        }
-      >,
-      attributes: foundry.data.fields.SchemaField<
-        {
+          },
+          {
+            required: true,
+            nullable: false
+          },
+          {},
+          foundry.data.fields.SchemaField.InitializedData<{
+            type: CreatureTypeField,
+            xp: foundry.data.fields.SchemaField<
+              {},
+              {
+                required: true,
+                nullable: false
+              },
+              {},
+              {
+                min: number,
+                max: number,
+                pct: number,
+                boonsEarned?: number
+              },
+              {}
+            >,
+          }> & {
+            level: number
+          }
+        >,
+        attributes: foundry.data.fields.SchemaField<
+          {
 
-        },
-        {
-          required: true,
-          nullable: false
-        },
-        {},
-        foundry.data.fields.SchemaField.InitializedData<{
-          hp: foundry.data.fields.SchemaField<
-            {},
-            {
-              required: true,
-              nullable: false
-            },
-            {},
-            {
-              max: number,
-              effectiveMax: number,
-              value: number,
-              damage: number,
-              pct: number
-            },
-            {}
-          >
-        }> & {
-          hd: HitDice
-        }
-      >
-    }
+          },
+          {
+            required: true,
+            nullable: false
+          },
+          {},
+          foundry.data.fields.SchemaField.InitializedData<{
+            hp: foundry.data.fields.SchemaField<
+              {},
+              {
+                required: true,
+                nullable: false
+              },
+              {},
+              {
+                max: number,
+                effectiveMax: number,
+                value: number,
+                damage: number,
+                pct: number
+              },
+              {}
+            >
+          }> & {
+            hd: HitDice
+          }
+        >
+      }
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      CharacterData.OverrideSchema
+    >
   >
 > {
-
-
   /* -------------------------------------------- */
 
   metadata: fvttUtils.SimpleMerge<
@@ -252,6 +255,11 @@ declare class CharacterData extends CreatureTemplate<
 
 
 declare namespace CharacterData {
+  type Schema = dnd5e.types.GetSchema<typeof CharacterData>
+  interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+  }
+
   type FavoriteType = "activity" | "effect" | "item" | "skill" | "slots" | "tool";
   type ActorFavorite5e = CharacterData['favorites'][number]
 }

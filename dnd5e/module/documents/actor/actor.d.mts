@@ -16,6 +16,7 @@ declare class Actor5e<
   SubType
 > {
   type: SubType
+  system: Actor.SystemOfType<SubType> & dnd5e.types.CreateParentLink<this>
 
   /**
    * The data source for Actor5e.classes allowing it to be lazily computed.

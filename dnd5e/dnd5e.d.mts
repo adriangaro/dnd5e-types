@@ -585,6 +585,10 @@ declare global {
         ]?: T[K] extends never ? any : T[K]
       }
 
+      type CreateParentLink<This> = {
+        parent: This
+      }
+
 
       export interface DND5EConfig {
 

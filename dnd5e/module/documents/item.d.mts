@@ -18,7 +18,7 @@ declare class Item5e<
   type: SubType
   system: Item.SystemOfType<SubType> & {
     prof: Proficiency
-  }
+  } & dnd5e.types.CreateParentLink<this>
 
   /**
    * Caches an item linked to this one, such as a subclass associated with a class.
