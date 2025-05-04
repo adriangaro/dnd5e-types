@@ -37,8 +37,14 @@ declare class Dialog5e<
    */
   _prepareFooterContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
 }
+declare class AnyDialog5e extends Dialog5e<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
+  constructor(...args: never)
+}
 
 declare namespace Dialog5e {
+  interface Any extends AnyDialog5e {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyDialog5e> {}
+
   type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
       buttons: {

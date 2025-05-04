@@ -20,7 +20,14 @@ export default class DocumentSheet5e<
   __RenderContext: DocumentSheet5e.RenderContext<RenderContext>;
 }
 
+declare class AnyDocumentSheet5e extends DocumentSheet5e<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
+  constructor(...args: never)
+}
+
 declare namespace DocumentSheet5e {
+  interface Any extends AnyDocumentSheet5e {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyDocumentSheet5e> {}
+
   type RenderContext<Ctx extends fvttUtils.AnyObject = {}> =  dnd5e.types.DeepMerge<
     ApplicationV2Mixin.RenderContext,
     Ctx
