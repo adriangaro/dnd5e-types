@@ -212,6 +212,9 @@ declare global {
       interface Actor {
         group: typeof GroupActor,
       }
+      namespace Actor {
+        export import group = GroupActor
+      }
     }
 
     interface DND5EConfig {

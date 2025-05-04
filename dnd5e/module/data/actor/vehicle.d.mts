@@ -237,6 +237,10 @@ declare global {
       interface Actor {
         vehicle: typeof VehicleData,
       }
+
+      namespace Actor {
+        export import vehicle = VehicleData
+      }
     }
 
     interface DND5EConfig {

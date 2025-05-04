@@ -292,6 +292,9 @@ declare global {
       interface Actor {
         character: typeof CharacterData
       }
+      namespace Actor {
+        export import character = CharacterData
+      }
     }
   }
 }

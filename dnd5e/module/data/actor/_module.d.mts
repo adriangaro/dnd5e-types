@@ -1,13 +1,13 @@
-import CharacterData from "./character.mjs";
-import GroupData from "./group.mjs";
-import NPCData from "./npc.mjs";
-import VehicleData from "./vehicle.mjs";
+import _CharacterData from "./character.mjs";
+import _GroupData from "./group.mjs";
+import _NPCData from "./npc.mjs";
+import _VehicleData from "./vehicle.mjs";
 
 export {
-  CharacterData,
-  GroupData,
-  NPCData,
-  VehicleData,
+  _CharacterData as CharacterData,
+  _GroupData as GroupData,
+  _NPCData as NPCData,
+  _VehicleData as VehicleData,
 };
 export { default as GroupSystemFlags } from "./group-system-flags.mjs";
 export { default as AttributesFields } from "./templates/attributes.mjs";
@@ -17,10 +17,10 @@ export { default as DetailsFields } from "./templates/details.mjs";
 export { default as TraitsFields } from "./templates/traits.mjs";
 
 export const config: {
-  character: typeof CharacterData,
-  group: typeof GroupData,
-  npc: typeof NPCData,
-  vehicle: typeof VehicleData
+  character: typeof _CharacterData,
+  group: typeof _GroupData,
+  npc: typeof _NPCData,
+  vehicle: typeof _VehicleData
 };
 declare global {
   namespace dnd5e.types {

@@ -349,6 +349,9 @@ declare global {
       interface Actor {
         npc: typeof NPCData,
       }
+      namespace Actor {
+        export import npc = NPCData
+      }
     }
 
     namespace Habitat {
