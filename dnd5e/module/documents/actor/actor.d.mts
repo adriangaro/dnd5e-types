@@ -1301,6 +1301,12 @@ declare global {
       allowedActorFlags: (CharacterFlags.AllowedKeys | CharacterFlags.Keys)[]
     }
   }
+
+  namespace Actor.Database {
+    interface UpdateOperation {
+      isRest?: boolean
+    }
+  } 
 }
 
 declare module "fvtt-types/configuration" {

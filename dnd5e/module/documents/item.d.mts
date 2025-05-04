@@ -936,6 +936,12 @@ declare global {
       spellScrollValues: Record<number, Item5e.SpellScrollValues>
     }
   }
+
+  namespace Item.Database {
+    interface UpdateOperation {
+      isRest?: boolean
+    }
+  }
 }
 
 type d = TextEditor.EnrichmentOptions

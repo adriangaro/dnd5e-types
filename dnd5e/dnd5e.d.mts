@@ -591,6 +591,33 @@ declare global {
       }
 
       export type DND5EConfigKey = ExtractKeys<DND5EConfig>
+
+      namespace StatusEffect {
+        interface DefaultStatusTypes {
+        }
+  
+        /**
+         * Override interface for declaration merging.
+         * Add custom condition types here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.Conditions {
+         * interface OverrideTypes {
+         * 'dazed': true
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> { }
+  
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultStatusTypes,
+          OverrideTypes
+        >;
+  
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
     }
 
     export import dataModels = _dataModels;
@@ -599,13 +626,19 @@ declare global {
     export import utils = _utils;
     export import dice = _dice;
     export import canvas = _canvas;
+    
   }
 
   interface CONFIG {
     DND5E: dnd5e.types.DND5EConfig
   }
-}
 
+  namespace CONFIG {
+    
+  }
+
+}
+type d = typeof CONFIG['statusEffects']
 export {
   applications,
   canvas,
