@@ -255,7 +255,7 @@ declare namespace BasicRoll {
     dnd5e.types.DeepMerge<
       {
         /** Configuration data for individual rolls. */
-        rolls: Cfg[];
+        rolls?: Cfg[];
 
         /**
          * Should the rolls be evaluated? If set to `false`, then no chat message

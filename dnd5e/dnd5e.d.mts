@@ -128,6 +128,10 @@ declare global {
       export type RemoveIndexSignatures<T> = {
         [K in keyof T as fvttUtils.OmitIndex<K>]: T[K];
       };
+
+      type IsKeyOptional<T, Keys extends keyof T> =
+        { [Key in Keys]?: T[Key] } extends Pick<T, Keys> ? true : false;
+
       export type DeepMerge<T, U> =
         // --- Handle top-level `never` cases first ---
         IsNever<U> extends true
@@ -145,21 +149,31 @@ declare global {
           : fvttUtils.IsObject<T> extends true // Check if T is an object (and not an array)
           ? fvttUtils.IsObject<U> extends true // Check if U is also an object
           // Both T and U are Objects: merge them
-          ? { // Combine properties
-            // Properties only in T
-            [K in Exclude<keyof T, keyof U>]: T[K];
+          ?
+          Pick<T, Exclude<keyof T, keyof U>>
+          &
+          // 2. Properties only in U: Use Pick to preserve optionality
+          Pick<U, Exclude<keyof U, keyof T>>
+          &
+          // 3. Properties in both T and U: Merge values.
+          //    Optionality is determined ONLY by U.
+          {
+            // 3a. Common Keys that are REQUIRED in U
+            [K in Extract<keyof T, keyof U> as
+            // Check if K is required in U
+            IsKeyOptional<U, K> extends false ? K : never
+            ]: DeepMerge<T[K], U[K]> // -> Make property required in result
           } & {
-            // Properties only in U
-            [K in Exclude<keyof U, keyof T>]: U[K];
-          } & {
-            // Properties in both T and U: recursively DeepMerge them
-            [K in Extract<keyof T, keyof U>]: DeepMerge<T[K], U[K]>;
+            // 3b. Common Keys that are OPTIONAL in U
+            [K in Extract<keyof T, keyof U> as
+            // Check if K is optional in U (i.e., NOT required)
+            IsKeyOptional<U, K> extends false ? never : K
+            ]?: DeepMerge<T[K], U[K]> // -> Make property optional '?' in result
           }
           : U // T is object, U is not: U takes priority
 
           : U // T is neither array nor object: U takes priority
         >;
-
 
       export type ExtractKeys<_T extends object, T = fvttUtils.RemoveIndexSignatures<_T>> = {
         [K in keyof T]:
@@ -534,7 +548,7 @@ declare global {
       type TypeType = GetTypeFromPath<Data, 'type'>; // "a" | "b"
       type ExtraType = GetTypeFromPath<Data, 'extra'>; // boolean (as boolean | never simplifies to boolean)
       type MissingType = GetTypeFromPath<Data, 'missing'>; // never (as never | never simplifies to never)
-        
+
       type Schema = {
         id: string;
         config: {

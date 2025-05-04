@@ -1123,7 +1123,7 @@ declare namespace Actor5e {
   }
 
   interface HitDiceRollProcessConfiguration extends dnd5e.dice.BasicRoll.ProcessConfiguration {
-    denomination: string
+    denomination?: string
     modifyHitDice?: boolean,
     modifyHitPoints?: boolean
   }
