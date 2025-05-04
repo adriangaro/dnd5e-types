@@ -15,7 +15,7 @@ declare class AdvancementError extends Error {
  * Abstract base class which various advancement types can subclass.
  */
 declare class Advancement<
-  Type extends dnd5e.types.Advancement.TypeKey,
+  Type extends string,
   ConfigurationData extends AdvancementDataField.RequiredType,
   ValueData extends AdvancementDataField.RequiredType
 > extends PseudoDocumentMixin(BaseAdvancement)<

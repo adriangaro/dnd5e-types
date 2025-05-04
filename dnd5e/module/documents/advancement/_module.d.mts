@@ -1,4 +1,4 @@
-import Advancement from "./advancement.mjs";
+import _Advancement from "./advancement.mjs";
 
 import AbilityScoreImprovementAdvancement from "./ability-score-improvement.mjs";
 import HitPointsAdvancement from "./hit-points.mjs";
@@ -8,10 +8,9 @@ import ScaleValueAdvancement from "./scale-value.mjs";
 import SizeAdvancement from "./size.mjs";
 import SubclassAdvancement from "./subclass.mjs";
 import TraitAdvancement from "./trait.mjs";
-import type AdvancementConfig from "@dnd5e/module/applications/advancement/advancement-config-v2.mjs";
 
 export {
-  Advancement,
+  _Advancement as Advancement,
   AbilityScoreImprovementAdvancement,
   HitPointsAdvancement,
   ItemChoiceAdvancement,
@@ -25,7 +24,7 @@ export {
 declare global {
   namespace dnd5e.types {
     namespace Advancement {
-      interface DefaultAdvancementTypes {
+      interface DefaultAdvancementTypes extends Record<string, _Advancement.AnyConstructor | never> {
       }
 
       /**
@@ -40,7 +39,7 @@ declare global {
          * }
          * }
          */
-      interface OverrideTypes extends Record<string, typeof Advancement | never> { }
+      interface OverrideTypes extends Record<string, _Advancement.AnyConstructor | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<

@@ -101,3 +101,5 @@ declare class DamageApplicationElement extends TargetedApplicationMixin(ChatTray
    */
   _onChangeOptions(event:PointerEvent): Promise<void>
 }
+
+export default DamageApplicationElement

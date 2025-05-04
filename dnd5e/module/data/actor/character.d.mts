@@ -258,7 +258,6 @@ declare namespace CharacterData {
 
 export default CharacterData
 
-type d = CharacterData['attributes']['hd']
 /* -------------------------------------------- */
 
 export type ResourceDataSchema = {
