@@ -16,7 +16,7 @@ export default class DamageRollConfigurationDialog<
 > {}
 
 declare class AnyDamageRollConfigurationDialog extends DamageRollConfigurationDialog<{}, {}, {}> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace DamageRollConfigurationDialog {

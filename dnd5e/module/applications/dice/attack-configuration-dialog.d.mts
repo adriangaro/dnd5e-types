@@ -11,7 +11,7 @@ declare class AttackRollConfigurationDialog<
 > { }
 
 declare class AnyAttackRollConfigurationDialog extends AttackRollConfigurationDialog<{}, {}, {}> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace AttackRollConfigurationDialog {

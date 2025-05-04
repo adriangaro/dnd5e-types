@@ -373,7 +373,7 @@ declare class BaseActivityData<
 declare class AnyBaseActivityData extends BaseActivityData<string, {
   [k in keyof dnd5e.types.GetSchema<typeof BaseActivityData<string, {}>>]: never
 }> {
-  constructor(...args: never)
+  constructor(...args: any[])
 }
 
 declare namespace BaseActivityData {

@@ -138,7 +138,7 @@ declare class D20Roll<
 declare class AnyD20Roll extends D20Roll<
   any, any, any, any, any
 > {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace D20Roll {

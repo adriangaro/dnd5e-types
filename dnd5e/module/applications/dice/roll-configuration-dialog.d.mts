@@ -144,7 +144,7 @@ declare class AnyRollConfigurationDialog extends RollConfigurationDialog<
   typeof dnd5e.dice.BasicRoll<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject>,
   fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject
 > {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace RollConfigurationDialog {

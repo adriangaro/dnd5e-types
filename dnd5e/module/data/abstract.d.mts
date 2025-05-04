@@ -159,7 +159,7 @@ declare class SystemDataModel<
 }
 
 declare abstract class AnySystemDataModel extends SystemDataModel<any> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace SystemDataModel {
@@ -380,7 +380,7 @@ export declare class ActorDataModel<
 }
 
 declare abstract class AnyActorDataModel extends ActorDataModel<any> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 
@@ -478,7 +478,7 @@ export declare class ItemDataModel<
 }
 
 declare abstract class AnyItemDataModel extends ItemDataModel<any> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 export declare namespace ItemDataModel {

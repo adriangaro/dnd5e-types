@@ -21,7 +21,7 @@ export default class DocumentSheet5e<
 }
 
 declare class AnyDocumentSheet5e extends DocumentSheet5e<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
-  constructor(...args: never)
+  constructor(...args: any[])
 }
 
 declare namespace DocumentSheet5e {

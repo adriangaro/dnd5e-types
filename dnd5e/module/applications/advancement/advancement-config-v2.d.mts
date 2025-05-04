@@ -78,7 +78,7 @@ declare class AdvancementConfig<
 }
 
 declare class AnyAdvancementConfig extends AdvancementConfig<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
-  constructor(...args: never)
+  constructor(...args: any[])
 }
 type d = AnyAdvancementConfig['__RenderContext']
 declare namespace AdvancementConfig {

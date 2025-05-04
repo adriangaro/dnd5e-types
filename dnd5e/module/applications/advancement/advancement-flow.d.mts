@@ -53,7 +53,7 @@ declare class AdvancementFlow<
 }
 
 declare class AnyAdvancementFlow extends AdvancementFlow<any> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace AdvancementFlow {

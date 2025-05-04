@@ -19,7 +19,7 @@ declare class Application5e<
 }
 
 declare class AnyApplication5e extends Application5e<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
-  constructor(...args: never)
+  constructor(...args: any[])
 }
 
 declare namespace Application5e {

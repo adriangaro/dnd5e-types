@@ -173,7 +173,7 @@ declare class Advancement<
 }
 
 declare class AnyAdvancement extends Advancement<dnd5e.types.Advancement.TypeKey, any, any>{
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace Advancement {

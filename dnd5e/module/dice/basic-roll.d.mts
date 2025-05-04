@@ -212,7 +212,7 @@ declare class AnyBasicRoll extends BasicRoll<
   fvttUtils.EmptyObject, fvttUtils.EmptyObject, 
   fvttUtils.EmptyObject
 > {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace BasicRoll {

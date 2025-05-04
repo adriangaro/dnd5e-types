@@ -84,7 +84,7 @@ declare class DamageRoll<
 }
 
 declare class AnyDamageRoll extends DamageRoll<fvttUtils.EmptyObject, {}, {}, {}, {}> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 

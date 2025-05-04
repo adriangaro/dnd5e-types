@@ -91,7 +91,7 @@ declare class PseudoDocumentSheet<
 }
 
 declare class AnyPseudoDocumentSheet extends PseudoDocumentSheet<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
-  constructor(...args: never)
+  constructor(...args: any[])
 }
 
 declare namespace PseudoDocumentSheet {

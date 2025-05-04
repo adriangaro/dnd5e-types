@@ -214,7 +214,7 @@ declare class ActivitySheet<
 declare class AnyActivitySheet extends ActivitySheet<
 dnd5e.types.Activity.Any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject
 > {
-  constructor(...args: never)
+  constructor(...args: any[])
 }
 
 declare namespace ActivitySheet {

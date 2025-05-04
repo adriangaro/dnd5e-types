@@ -19,7 +19,7 @@ declare class D20RollConfigurationDialog<
 }
 
 declare class AnyD20RollConfigurationDialog extends D20RollConfigurationDialog {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 

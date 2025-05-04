@@ -38,7 +38,7 @@ declare class Dialog5e<
   _prepareFooterContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
 }
 declare class AnyDialog5e extends Dialog5e<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
-  constructor(...args: never)
+  constructor(...args: any[])
 }
 
 declare namespace Dialog5e {

@@ -17,7 +17,7 @@ declare class SkillToolRollConfigurationDialog<
 > {}
 
 declare class AnySkillToolRollConfigurationDialog extends SkillToolRollConfigurationDialog<{}, {}, {}> {
-  constructor(...args: never);
+  constructor(...args: any[]);
 }
 
 declare namespace SkillToolRollConfigurationDialog {
