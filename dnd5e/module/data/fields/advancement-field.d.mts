@@ -22,16 +22,20 @@ declare class AdvancementField<
 }
 
 declare namespace AdvancementField {
-  type BaseData = foundry.data.fields.SchemaField.AssignmentData<
-    dnd5e.types.Advancement.SchemaMap[dnd5e.types.Advancement.TypeKey]
+  type Options = foundry.data.fields.DataField.Options<
+    foundry.data.fields.SchemaField.AssignmentData<
+      dnd5e.types.Advancement.Schema
+    >
   >
-  type Options = foundry.data.fields.DataField.Options<BaseData>;
-  export import DefaultOptions = foundry.data.fields.ObjectField.DefaultOptions;
+  type DefaultOptions = foundry.data.fields.ObjectField.DefaultOptions
+
   type MergedOptions<Options extends AdvancementField.Options> = fvttUtils.SimpleMerge<DefaultOptions, Options>;
   type AssignmentType<
     Options extends AdvancementField.Options
   > = foundry.data.fields.DataField.DerivedAssignmentType<
-    BaseData,
+    foundry.data.fields.SchemaField.AssignmentData<
+      dnd5e.types.Advancement.Schema
+    >,
     MergedOptions<Options>
   >;
   type InitializedType<
@@ -43,7 +47,9 @@ declare namespace AdvancementField {
   type PersistedType<
     Options extends AdvancementField.Options
   > = foundry.data.fields.DataField.DerivedAssignmentType<
-    BaseData,
+  foundry.data.fields.SchemaField.SourceData<
+    dnd5e.types.Advancement.Schema
+  >,
     MergedOptions<Options>
   >;
 }

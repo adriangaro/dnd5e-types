@@ -253,6 +253,8 @@ declare global {
       type Any = ActivityInstances[TypeKey];
       type OfType<T extends TypeKey> = ActivityInstances[T]
       type ClassOfType<T extends TypeKey> = Types[T]
+      type Implementation<T extends TypeKey = TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
+      type ImplementationClass<T extends TypeKey = TypeKey> = Types[T]
     
 
 
@@ -274,14 +276,15 @@ declare global {
       type SchemaMap = {
         [K in keyof Types]: dnd5e.types.GetSchema<Types[K]>
       }
+      type Schema<T extends TypeKey = TypeKey> = SchemaMap[T]
 
       type SheetMap = {
         [K in keyof Types]: OfType<K>['sheet']
       }
-
-      type ActivityAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<
-        SchemaMap[T]
-      >
+      type Sheet<T extends TypeKey = TypeKey> = SheetMap[T]
+      type d = foundry.data.fields.SchemaField.AssignmentData<
+      dnd5e.types.Activity.Schema
+    >
 
       // types
       export import Metadata = ActivityMixin.Metadata;

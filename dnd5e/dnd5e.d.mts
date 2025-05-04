@@ -441,16 +441,17 @@ declare global {
        */
       export type GetSchema<
         T extends fvttUtils.AnyConcreteConstructor
-      > =
-        // Compute the core result first ({}, SpecificSchema_I, or SpecificSchema_D)
-        __ComputeSchemaCore<
-          __GetSchemaFromInstance_Never<T>,
-          __GetSchemaFromDefine_Never<T>
-        > extends infer CoreResult extends foundry.data.fields.DataSchema // Assign result to a variable
-        // Apply RemoveIndexSignatures to the final computed result
-        ? fvttUtils.RemoveIndexSignatures<CoreResult>
-        // This branch should logically not be hit
-        : {};
+      > = fvttUtils.PrettifyType<
+          // Compute the core result first ({}, SpecificSchema_I, or SpecificSchema_D)
+          __ComputeSchemaCore<
+            __GetSchemaFromInstance_Never<T>,
+            __GetSchemaFromDefine_Never<T>
+          > extends infer CoreResult extends foundry.data.fields.DataSchema // Assign result to a variable
+          // Apply RemoveIndexSignatures to the final computed result
+          ? fvttUtils.RemoveIndexSignatures<CoreResult>
+          // This branch should logically not be hit
+          : {}
+        >;
 
 
       /**

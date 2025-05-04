@@ -37,11 +37,14 @@ export class ActivitiesField<
  */
 export class ActivityField<
   const Options extends ActivityField.Options = ActivityField.DefaultOptions,
+  const AssignmentType = ActivityField.AssignmentType<Options>,
+  const InitializedType = ActivityField.InitializedType<Options>,
+  const PersistedType extends fvttUtils.AnyObject | null | undefined = ActivityField.PersistedType<Options>,
 > extends foundry.data.fields.ObjectField<
   Options,
-  ActivityField.AssignmentType<Options>,
-  ActivityField.InitializedType<Options>,
-  ActivityField.PersistedType<Options>
+  AssignmentType,
+  InitializedType,
+  PersistedType
 > {
   /**
    * Get the document type for this activity.
@@ -59,28 +62,32 @@ export class ActivityField<
 }
 
 export namespace ActivityField {
-  type Options = foundry.data.fields.DataField.Options<fvttUtils.AnyObject>
+  type Options = foundry.data.fields.DataField.Options<
+    foundry.data.fields.SchemaField.AssignmentData<
+      dnd5e.types.Activity.Schema
+    >
+  >
   type DefaultOptions = foundry.data.fields.ObjectField.DefaultOptions
 
   type AssignmentType<
     Opts extends Options
   > = foundry.data.fields.DataField.DerivedAssignmentType<
-    foundry.data.fields.SchemaField.SourceData<
-      dnd5e.types.Activity.SchemaMap[dnd5e.types.Activity.TypeKey]
+    foundry.data.fields.SchemaField.AssignmentData<
+      dnd5e.types.Activity.Schema
     >,
     fvttUtils.SimpleMerge<DefaultOptions, Opts>
   >
   type InitializedType<
     Opts extends Options
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    dnd5e.types.Activity.Any extends any ? dnd5e.types.Activity.Any : never,
+    dnd5e.types.Activity.Any,
     fvttUtils.SimpleMerge<DefaultOptions, Opts>
   >
   type PersistedType<
     Opts extends Options
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     foundry.data.fields.SchemaField.SourceData<
-      dnd5e.types.Activity.SchemaMap[dnd5e.types.Activity.TypeKey]
+      dnd5e.types.Activity.Schema
     >,
     fvttUtils.SimpleMerge<DefaultOptions, Opts>
   >
@@ -119,7 +126,7 @@ export class ActivityCollection extends Collection<
    * Fetch an array of activities of a certain type.
    */
   getByType(type: string): dnd5e.types.Activity.Any[]
-  getByType<T extends dnd5e.types.Activity.TypeKey>(type: T): dnd5e.types.Activity.Types[T][]
+  getByType<T extends dnd5e.types.Activity.TypeKey>(type: T): dnd5e.types.Activity.OfType<T>[]
 
   /* -------------------------------------------- */
 
@@ -127,7 +134,7 @@ export class ActivityCollection extends Collection<
    * Generator that yields activities for each of the provided types.
    */
   getByTypes(...types: string[]): IterableIterator<dnd5e.types.Activity.Any>;
-  getByTypes<T extends dnd5e.types.Activity.TypeKey>(...types: T[]): IterableIterator<dnd5e.types.Activity.Types[T]>
+  getByTypes<T extends dnd5e.types.Activity.TypeKey>(...types: T[]): IterableIterator<dnd5e.types.Activity.OfType<T>>
 
   /* -------------------------------------------- */
 
@@ -144,6 +151,6 @@ export class ActivityCollection extends Collection<
    * Convert the ActivityCollection to an array of simple objects.
    */
   toObject(source?: boolean): foundry.data.fields.SchemaField.SourceData<
-    dnd5e.types.Activity.SchemaMap[dnd5e.types.Activity.TypeKey]
-  >
+    dnd5e.types.Activity.Schema
+  >[]
 }

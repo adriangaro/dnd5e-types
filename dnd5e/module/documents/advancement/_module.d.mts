@@ -51,6 +51,9 @@ declare global {
       type AnyClass = Types[TypeKey];
       type Any = fvttUtils.FixedInstanceType<Types[TypeKey]>;
       type OfType<T extends TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
+      type ClassOfType<T extends TypeKey> = Types[T]
+      type Implementation<T extends TypeKey = TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
+      type ImplementationClass<T extends TypeKey = TypeKey> = Types[T]
 
       /**
        * Configuration information for advancement types.
@@ -73,14 +76,12 @@ declare global {
       type SchemaMap = {
         [K in keyof Types]: dnd5e.types.GetSchema<Types[K]>
       }
+      type Schema<T extends TypeKey = TypeKey> = SchemaMap[T]
 
       type ConfigSheetMap = {
         [K in keyof Types]: OfType<K>['sheet']
       }
-
-      type AdvancementAssignmentData<T extends TypeKey = TypeKey> = foundry.data.fields.SchemaField.AssignmentData<
-        SchemaMap[T]
-      >
+      type ConfigSheet<T extends TypeKey = TypeKey> = ConfigSheetMap[T]
     }
     interface DND5EConfig {
       /**
