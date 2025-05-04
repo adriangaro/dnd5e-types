@@ -1,12 +1,8 @@
-import { filteredKeys, formatNumber, simplifyBonus } from "../../utils.mjs";
-import type { ActorHitPointsConfig } from "../actor/_module.mjs";
 import Dialog5e from "../api/dialog.mjs";
-import type { CreateInputFunction } from "../fields.d.mts";
 
 /**
  * Dialog for configuring the usage of an activity.
  */
-// @ts-expect-error
 declare class ActivityUsageDialog<
   Document extends dnd5e.types.Activity.Any,
   RenderContext extends fvttUtils.AnyObject = {},

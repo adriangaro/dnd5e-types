@@ -972,7 +972,7 @@ declare class Actor5e<
    */
   static addDirectoryContextOptions(
     html: JQuery | HTMLElement,
-    entryOptions: ContextMenu.Entry[]
+    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
   )
 
   /* -------------------------------------------- */

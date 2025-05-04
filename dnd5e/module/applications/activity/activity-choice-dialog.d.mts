@@ -3,7 +3,6 @@ import Application5e from "../api/application.mjs";
 /**
  * Dialog for choosing an activity to use on an Item.
  */
-// @ts-expect-error
 declare class ActivityChoiceDialog extends Application5e<{
   controlHint?: string | null,
   activities: ActivityChoiceDialog.ActivityChoice[]
@@ -63,7 +62,7 @@ declare class ActivityChoiceDialog extends Application5e<{
   /**
    * Display the activity choice dialog.
    */
-  static override create(item: Item.Implementation, options: ActivityChoiceDialog['__Configuration']): Promise<dnd5e.types.Activity.Any | null> 
+  static create(item: Item.Implementation, options: ActivityChoiceDialog['__Configuration']): Promise<dnd5e.types.Activity.Any | null> 
 }
 
 declare namespace ActivityChoiceDialog {

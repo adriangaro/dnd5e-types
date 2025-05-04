@@ -4,7 +4,7 @@ import ApplicationV2Mixin from "./application-v2-mixin.mjs";
  * Base document sheet from which all document-based application should be based.
  */
 export default class DocumentSheet5e<
-  Document extends foundry.abstract.Document.Any | foundry.applications.api.DocumentSheetV2.UnsetDocument,
+  Document extends foundry.abstract.Document.Any,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
@@ -33,7 +33,7 @@ declare namespace DocumentSheet5e {
     Ctx
   >
   type Configuration<
-    Document extends foundry.abstract.Document.Any | foundry.applications.api.DocumentSheetV2.UnsetDocument = foundry.applications.api.DocumentSheetV2.UnsetDocument,
+    Document extends foundry.abstract.Document.Any = foundry.abstract.Document.Any,
     Cfg extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<

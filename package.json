@@ -2,7 +2,7 @@
   "devDependencies": {
     "copyfiles": "^2.4.1",
     "dnd5e": "github:foundryvtt/dnd5e#4.3.x",
-    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#documents-v2"
+    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main"
   },
   "scripts": {
     "copy-dnd5e": "npx copyfiles --all --up 2 ./node_modules/dnd5e/**/* ./dnd5e/ "

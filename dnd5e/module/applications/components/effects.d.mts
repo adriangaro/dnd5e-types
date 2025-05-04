@@ -58,7 +58,7 @@ export default class EffectsElement extends HTMLElement {
    * @returns {ContextMenuEntry[]}   An array of context menu options offered for the ActiveEffect.
    * @protected
    */
-  _getContextOptions(effect: ActiveEffect.Implementation): ContextMenu.Entry[]
+  _getContextOptions(effect: ActiveEffect.Implementation): foundry.applications.ux.ContextMenu.Entry<JQuery>[]
   /* -------------------------------------------- */
 
   /**

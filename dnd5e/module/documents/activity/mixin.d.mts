@@ -93,7 +93,7 @@ declare class _ActivityMixin {
 
   activateChatListeners(message: ChatMessage, html: HTMLElement): void
 
-  getContextMenuOptions(): ContextMenu.Entry[]
+  getContextMenuOptions(): foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[][]
 
   #onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>
   _onChatAction(event: PointerEvent, target: HTMLElement, message: ChatMessage.Implementation): Promise<void>

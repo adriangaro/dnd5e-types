@@ -5,8 +5,8 @@
 declare class AdvancementFlow<
   Document extends dnd5e.documents.advancement.Advancement.Any,
 > extends FormApplication<
-  FormApplication.Options,
-  Item.Implementation
+  Item.Implementation,
+  FormApplication.Options
 > {
   item: Item.Implementation
   _advancementId: string

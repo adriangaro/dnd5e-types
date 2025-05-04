@@ -1,15 +1,11 @@
-import ActiveEffect5e from "../../documents/active-effect.mjs";
-
 /**
  * An abstract class containing common functionality between actor sheet configuration apps.
  * @extends {DocumentSheet}
  * @abstract
  */
-export default class BaseConfigSheet extends DocumentSheet<DocumentSheet.Options<
-  foundry.abstract.Document.Any
-> & {
-  sheetConfig: boolean
-}> {
+export default class BaseConfigSheet extends DocumentSheet<
+  Actor.Implementation
+> {
 
 
   /* -------------------------------------------- */

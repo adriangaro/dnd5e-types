@@ -721,8 +721,8 @@ declare class Item5e<
    */
   static addCompendiumContextOptions(
     html: JQuery,
-    entryOptions: ContextMenu.Entry[]
-  ): ContextMenu.Entry[]
+    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
+  ): foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
 
   /* -------------------------------------------- */
 
@@ -733,8 +733,8 @@ declare class Item5e<
    */
   static addDirectoryContextOptions(
     app: ItemDirectory,
-    entryOptions: ContextMenu.Entry[]
-  ): ContextMenu.Entry[]
+    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
+  ): foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
 
   /* -------------------------------------------- */
 

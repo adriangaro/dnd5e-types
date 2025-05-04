@@ -162,7 +162,7 @@ declare class Advancement<
   /**
    * Construct context menu options for this Activity.
    */
-  getContextMenuOptions(): ContextMenu.Entry[]
+  getContextMenuOptions(): foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
 
   /* -------------------------------------------- */
 

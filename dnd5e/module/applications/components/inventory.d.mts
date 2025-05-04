@@ -72,9 +72,9 @@ export default class InventoryElement extends HTMLElement {
    * Prepare an array of context menu options which are available for inventory items.
    * @param item           The Item for which the context menu is activated.
    * @param element The element the context menu was spawned from.
-   * @returns {ContextMenuEntry[]}  An array of context menu options offered for the Item.
+   * @returns  An array of context menu options offered for the Item.
    */
-  _getContextOptions(item: Item.Implementation, element?: HTMLElement): ContextMenu.Entry[];
+  _getContextOptions(item: Item.Implementation, element?: HTMLElement): foundry.applications.ux.ContextMenu.Entry<JQuery>[];
 
   /* -------------------------------------------- */
 
