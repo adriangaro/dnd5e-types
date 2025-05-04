@@ -1,7 +1,6 @@
 
 // // Import Configuration
 import DND5E from "./module/config.mjs";
-import { registerSystemKeybindings, registerSystemSettings, registerDeferredSettings } from "./module/settings.mjs";
 
 // // Import Submodules
 import * as applications from "./module/applications/_module.mjs";
@@ -13,12 +12,13 @@ import * as enrichers from "./module/enrichers.mjs";
 import * as Filter from "./module/filter.mjs";
 import * as migrations from "./module/migration.mjs";
 import ModuleArt from "./module/module-art.mjs";
-// import { registerModuleData, setupModulePacks } from "./module/module-registration.mjs";
-// import parseUuid from "./module/parse-uuid.mjs";
-// import { default as registry } from "./module/registry.mjs";
-// import Tooltips5e from "./module/tooltips.mjs";
-// import * as utils from "./module/utils.mjs";
-// import { extendDragDrop } from "./module/drag-drop.mjs";
+import { registerModuleData, setupModulePacks } from "./module/module-registration.mjs";
+import parseUuid from "./module/parse-uuid.mjs";
+import { default as registry } from "./module/registry.mjs";
+import Tooltips5e from "./module/tooltips.mjs";
+import * as utils from "./module/utils.mjs";
+import { extendDragDrop } from "./module/drag-drop.mjs";
+import { registerSystemKeybindings, registerSystemSettings, registerDeferredSettings } from "./module/settings.mjs";
 
 // Normal imports above to keep types
 
