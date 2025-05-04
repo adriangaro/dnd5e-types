@@ -281,7 +281,7 @@ declare global {
        * Enumerate the valid consumable types which are recognized by the system.
        */
       consumableTypes: {
-        [K in Consumable.TypeKey]: dnd5e.types.ItemTypes.ItemTypeConfig<Consumable.Types[K]>
+        [K in Consumable.TypeKey]: dnd5e.types.ItemTypes.StrictItemTypeConfig<Consumable.Types[K]>
       }
     }
   }

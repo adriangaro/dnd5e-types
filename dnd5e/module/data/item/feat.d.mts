@@ -373,7 +373,7 @@ declare global {
        * Types of "features" items.
        */
       featureTypes: {
-        [K in Feat.TypeKey]: ItemTypes.ItemTypeConfig<Feat.Types[K]>
+        [K in Feat.TypeKey]: ItemTypes.StrictItemTypeConfig<Feat.Types[K]>
       }
       /**
        * Periods at which enchantments can be re-bound to new items.

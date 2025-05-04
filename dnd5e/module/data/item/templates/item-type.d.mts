@@ -53,6 +53,12 @@ declare global {
          */
         subtypes: ([Subtypes] extends [string] ? { [K in Subtypes]: string } : never)
       }
+      
+      type StrictItemTypeConfig<S extends string | null = null> =
+        [S] extends [string]
+        ? ItemTypeConfig<S>
+        : Omit<ItemTypeConfig<null>, "subtypes">;
+
 
       interface ItemTypeMap extends Record<Item.SubType, Record<string, ItemTypeConfig<null> | ItemTypeConfig<any>>> {
       }
