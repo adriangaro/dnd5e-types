@@ -11,11 +11,11 @@ declare class AdvancementConfig<
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends PseudoDocumentSheet<
   Document,
-  AdvancementConfig.RenderContext<Document, RenderContext>,
-  AdvancementConfig.Configuration<Configuration>,
-  AdvancementConfig.RenderOptions<RenderOptions>
+  AdvancementConfig.MakeRenderContext<Document, RenderContext>,
+  AdvancementConfig.MakeConfiguration<Configuration>,
+  AdvancementConfig.MakeRenderOptions<RenderOptions>
 > {
-  constructor(advancement: Document, options?: fvttUtils.DeepPartial<AdvancementConfig.Configuration<Configuration>>)
+  constructor(advancement: Document, options?: fvttUtils.DeepPartial<AdvancementConfig.MakeConfiguration<Configuration>>)
 
   /* -------------------------------------------- */
   /*  Properties                                  */
@@ -24,7 +24,7 @@ declare class AdvancementConfig<
   /**
    * The advancement being created or edited.
    */
-  get advancement(): Document 
+  get advancement(): Document
 
   /* -------------------------------------------- */
   /*  Event Listeners and Handlers                */
@@ -78,14 +78,14 @@ declare class AdvancementConfig<
 }
 
 declare class AnyAdvancementConfig extends AdvancementConfig<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
-  constructor (...args: never)
+  constructor(...args: never)
 }
-
+type d = AnyAdvancementConfig['__RenderContext']
 declare namespace AdvancementConfig {
-  interface Any extends AnyAdvancementConfig {}
-  interface AnyConstructor extends fvttUtils.Identity<typeof AnyAdvancementConfig> {}
-  
-  type RenderContext<
+  interface Any extends AnyAdvancementConfig { }
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyAdvancementConfig> { }
+
+  type MakeRenderContext<
     Document extends dnd5e.documents.advancement.Advancement.Any,
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
@@ -124,18 +124,28 @@ declare namespace AdvancementConfig {
     },
     Ctx
   >
-  type Configuration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type RenderContext = AdvancementConfig<
+    dnd5e.documents.advancement.Advancement.Any
+  >['__RenderContext']
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Cfg
   >
-  type RenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type Configuration = AdvancementConfig<
+    dnd5e.documents.advancement.Advancement.Any
+  >['__Configuration']
+  type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Opt
   >
+  type RenderOptions = AdvancementConfig<
+    dnd5e.documents.advancement.Advancement.Any
+  >['__RenderOptions']
 }
 
 export default AdvancementConfig

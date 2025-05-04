@@ -155,25 +155,46 @@ declare global {
           // 2. Properties only in U: Use Pick to preserve optionality
           Pick<U, Exclude<keyof U, keyof T>>
           &
-          // 3. Properties in both T and U: Merge values.
-          //    Optionality is determined ONLY by U.
+          // 3. Properties in both T and U: Merge with omission logic for optional-never
           {
-            // 3a. Common Keys that are REQUIRED in U
+            // 3a. Common Keys that result in REQUIRED properties in the final type
             [K in Extract<keyof T, keyof U> as
-            // Check if K is required in U
-            IsKeyOptional<U, K> extends false ? K : never
-            ]: DeepMerge<T[K], U[K]> // -> Make property required in result
-          } & {
-            // 3b. Common Keys that are OPTIONAL in U
+                // When is the result REQUIRED?
+                ( U[K] extends never
+                    // If U[K] is never, require it only if T[K] is required.
+                    ? (IsKeyOptional<T, K> extends false ? K : never)
+                    // If U[K] is not never, require it if U[K] is required.
+                    : (IsKeyOptional<U, K> extends false ? K : never)
+                )
+            ]: (
+                // Determine type: never if U[K] was never, otherwise merge.
+                U[K] extends never ? never : DeepMerge<T[K], U[K]>
+               )
+        } &
+        {
+            // 3b. Common Keys that result in OPTIONAL properties in the final type
             [K in Extract<keyof T, keyof U> as
-            // Check if K is optional in U (i.e., NOT required)
-            IsKeyOptional<U, K> extends false ? never : K
-            ]?: DeepMerge<T[K], U[K]> // -> Make property optional '?' in result
-          }
+                // When is the result OPTIONAL? ONLY if U[K] is NOT never AND U[K] IS optional.
+                ( U[K] extends never
+                    // If U[K] is never, it's either required (handled above) or omitted (so 'never' here).
+                    ? never
+                    // If U[K] is not never, make it optional if U[K] is optional.
+                    : (IsKeyOptional<U, K> extends true ? K : never)
+                )
+            ]?: (
+                // Determine type: merge (we know U[K] is not never here).
+                DeepMerge<T[K], U[K]>
+                )
+        }
           : U // T is object, U is not: U takes priority
 
           : U // T is neither array nor object: U takes priority
         >;
+
+      type d = DeepMerge<
+        { a?: 23 },
+        { a?: 2}
+      >
 
       export type ExtractKeys<_T extends object, T = fvttUtils.RemoveIndexSignatures<_T>> = {
         [K in keyof T]:
@@ -459,14 +480,14 @@ declare global {
       }[U];
 
       /**
- * Helper type to recursively split a dot-separated string path into a tuple of keys.
- * Handles numeric keys correctly for array/tuple access.
- * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
- * @example SplitPath<'a.0.c'> // Result: ['a', 0, 'c']
- * @example SplitPath<'a'> // Result: ['a']
- * @example SplitPath<'0'> // Result: [0]
- * @example SplitPath<''> // Result: []
- */
+       * Helper type to recursively split a dot-separated string path into a tuple of keys.
+       * Handles numeric keys correctly for array/tuple access.
+       * @example SplitPath<'a.b.c'> // Result: ['a', 'b', 'c']
+       * @example SplitPath<'a.0.c'> // Result: ['a', 0, 'c']
+       * @example SplitPath<'a'> // Result: ['a']
+       * @example SplitPath<'0'> // Result: [0]
+       * @example SplitPath<''> // Result: []
+       */
       type SplitPath<S extends string> =
         S extends `${infer Key}.${infer Rest}`
         // Check if Key is purely numeric after converting to string representation of number
@@ -543,30 +564,27 @@ declare global {
         T extends unknown // Or `T extends any`
         ? NavigatePath<T, SplitPath<P>>
         : never; // This branch is unlikely to be hit unless T is `never` itself
-      type Data = { type: "a", value: number } | { type: "b", value: string, extra: boolean };
-      type ValueType = GetTypeFromPath<Data, 'value'>; // number | string
-      type TypeType = GetTypeFromPath<Data, 'type'>; // "a" | "b"
-      type ExtraType = GetTypeFromPath<Data, 'extra'>; // boolean (as boolean | never simplifies to boolean)
-      type MissingType = GetTypeFromPath<Data, 'missing'>; // never (as never | never simplifies to never)
 
-      type Schema = {
-        id: string;
-        config: {
-          values: number[]; // Array of numbers
-          params: [string, boolean]; // Tuple
-          metadata?: { // Optional object
-            tags: string[];
-          } | null; // Can also be null
-        };
-      };
 
       type IsExactly<T, U> = (<V>() => V extends T ? true : false) extends (<V>() => V extends U ? true : false)
         ? true
         : false
 
       type EnsureAnyIfNever<T> = {
-        [K in keyof T]: T[K] extends never ? any : T[K]
+        // 3a. Common Keys that are REQUIRED in U
+        [K in keyof T as
+        // Check if K is required in U
+        IsKeyOptional<T, K> extends false ? K : never
+        ]: T[K] extends never ? any : T[K]
+      } & {
+        // 3b. Common Keys that are OPTIONAL in U
+        [K in keyof T as
+        // Check if K is optional in U (i.e., NOT required)
+        IsKeyOptional<T, K> extends false ? never : K
+        ]?: T[K] extends never ? any : T[K]
       }
+
+
       export interface DND5EConfig {
 
       }
