@@ -147,7 +147,7 @@ declare class VehicleData extends CommonTemplate<
       }
     >,
     fvttUtils.RemoveIndexSignatures<
-      VehicleData.OverrideSchema
+      dnd5e.types.DataModelConfig.Actor.vehicle.OverrideSchema
     >
   >
 > {
@@ -169,9 +169,6 @@ declare class VehicleData extends CommonTemplate<
 
 declare namespace VehicleData {
   type Schema = dnd5e.types.GetSchema<typeof VehicleData>
-  interface OverrideSchema extends foundry.data.fields.DataSchema {
-
-  }
 }
 
 export default VehicleData;
@@ -238,8 +235,10 @@ declare global {
         vehicle: typeof VehicleData,
       }
 
-      namespace Actor {
-        export import vehicle = VehicleData
+      namespace Actor.vehicle {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

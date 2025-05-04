@@ -91,7 +91,7 @@ declare class GroupActor extends _ActorDataModel.mixin(CurrencyTemplate)<
       }
     >,
     fvttUtils.RemoveIndexSignatures<
-      GroupActor.OverrideSchema
+      dnd5e.types.DataModelConfig.Actor.group.OverrideSchema
     >
   >
 > {
@@ -170,9 +170,6 @@ declare class GroupActor extends _ActorDataModel.mixin(CurrencyTemplate)<
 
 declare namespace GroupActor {
   type Schema = dnd5e.types.GetSchema<typeof GroupActor>
-  interface OverrideSchema extends foundry.data.fields.DataSchema {
-
-  }
 }
 
 export default GroupActor;
@@ -212,8 +209,10 @@ declare global {
       interface Actor {
         group: typeof GroupActor,
       }
-      namespace Actor {
-        export import group = GroupActor
+      namespace Actor.group {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

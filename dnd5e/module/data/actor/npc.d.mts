@@ -207,7 +207,7 @@ dnd5e.types.MergeSchemas<
     }
   >,
     fvttUtils.RemoveIndexSignatures<
-      NPCData.OverrideSchema
+      dnd5e.types.DataModelConfig.Actor.npc.OverrideSchema
     >
   >
 > {
@@ -335,9 +335,6 @@ dnd5e.types.MergeSchemas<
 
 declare namespace NPCData {
   type Schema = dnd5e.types.GetSchema<typeof NPCData>
-  interface OverrideSchema extends foundry.data.fields.DataSchema {
-
-  }
 }
 
 export default NPCData;
@@ -349,8 +346,10 @@ declare global {
       interface Actor {
         npc: typeof NPCData,
       }
-      namespace Actor {
-        export import npc = NPCData
+      namespace Actor.npc {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

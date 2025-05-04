@@ -195,7 +195,7 @@ declare class CharacterData extends CreatureTemplate<
       }
     >,
     fvttUtils.RemoveIndexSignatures<
-      CharacterData.OverrideSchema
+      dnd5e.types.DataModelConfig.Actor.character.OverrideSchema
     >
   >
 > {
@@ -256,9 +256,6 @@ declare class CharacterData extends CreatureTemplate<
 
 declare namespace CharacterData {
   type Schema = dnd5e.types.GetSchema<typeof CharacterData>
-  interface OverrideSchema extends foundry.data.fields.DataSchema {
-
-  }
 
   type FavoriteType = "activity" | "effect" | "item" | "skill" | "slots" | "tool";
   type ActorFavorite5e = CharacterData['favorites'][number]
@@ -292,8 +289,10 @@ declare global {
       interface Actor {
         character: typeof CharacterData
       }
-      namespace Actor {
-        export import character = CharacterData
+      namespace Actor.character {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
   }
