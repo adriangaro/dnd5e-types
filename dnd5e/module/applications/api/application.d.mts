@@ -18,7 +18,6 @@ declare class Application5e<
   __RenderContext: Application5e.MakeRenderContext<RenderContext>;
 }
 
-
 declare namespace Application5e {
   type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     ApplicationV2Mixin.RenderContext,

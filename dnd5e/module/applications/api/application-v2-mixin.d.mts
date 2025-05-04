@@ -2,7 +2,6 @@ declare class BaseApplication5e {
   /** @privateRemarks All mixin classses should accept anything for its constructor. */
   constructor(...args: any[]);
 
-
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */

@@ -123,7 +123,7 @@ declare class Advancement<
   /**
    * Locally apply this advancement to the actor.
    */
-  apply(level: number, data: object): Promise<any>
+  apply(level: number, data: this['value']): Promise<any>
 
 
   /* -------------------------------------------- */
@@ -139,14 +139,14 @@ declare class Advancement<
    * Locally apply this advancement from stored data, if possible. If stored data can not be restored for any reason,
    * throw an AdvancementError to display the advancement flow UI.
    */
-  restore(level: number, data: object): Promise<void>
+  restore(level: number, data: this['value']): Promise<any>
 
   /* -------------------------------------------- */
 
   /**
    * Locally remove this advancement's changes from the actor.
    */
-  reverse(level: number): Promise<object> 
+  reverse(level: number): Promise<object | null | void> 
 
   /* -------------------------------------------- */
 
