@@ -53,7 +53,8 @@ declare class CommonTemplate<
             },
             attack: number,
             dc: number,
-            max: number
+            max: number,
+            mod: number
           }
         >
       >

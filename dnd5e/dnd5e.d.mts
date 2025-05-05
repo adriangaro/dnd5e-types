@@ -638,11 +638,13 @@ declare global {
   }
 
   namespace CONFIG {
-    
+    // interface StatusEffect {
+    //   reference?: string
+    // }
   }
-
 }
-type d = typeof CONFIG['statusEffects']
+
+
 export {
   applications,
   canvas,
