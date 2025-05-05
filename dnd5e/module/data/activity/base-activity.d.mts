@@ -6,7 +6,18 @@ import TargetField from "../shared/target-field.mjs";
 import UsesField from "../shared/uses-field.mjs";
 import AppliedEffectField from "./fields/applied-effect-field.mjs";
 import ConsumptionTargetsField from "./fields/consumption-targets-field.mjs";
-
+export type DamageIndexesPrep = {
+  damage: foundry.data.fields.SchemaField<
+    {},
+    foundry.data.fields.SchemaField.DefaultOptions,
+    {},
+    {
+      parts: {
+        _index: number
+      }[]
+    }
+  >
+}
 /**
  * Data model for activities.
  */
@@ -16,45 +27,77 @@ declare class BaseActivityData<
 > extends foundry.abstract.DataModel<
   dnd5e.types.FilterNever<
     dnd5e.types.MergeSchemas<
-      {
-        _id: foundry.data.fields.DocumentIdField<{ initial: () => string }>,
-        type: foundry.data.fields.StringField<
-          {
-            blank: false, required: true, readOnly: true, initial: () => string
-          },
-          Type
-        >,
-        name: foundry.data.fields.StringField<{ initial: undefined }>,
-        img: foundry.data.fields.FilePathField<{ initial: undefined, categories: ["IMAGE"], base64: false }>,
-        sort: foundry.data.fields.IntegerSortField,
-        activation: ActivationField<{
-          override: foundry.data.fields.BooleanField
-        }>,
-        consumption: foundry.data.fields.SchemaField<{
-          scaling: foundry.data.fields.SchemaField<{
-            allowed: foundry.data.fields.BooleanField,
-            max: FormulaField<{ deterministic: true }>
+      dnd5e.types.MergeSchemas<
+        {
+          _id: foundry.data.fields.DocumentIdField<{ initial: () => string }>,
+          type: foundry.data.fields.StringField<
+            {
+              blank: false, required: true, readOnly: true, initial: () => string
+            },
+            Type
+          >,
+          name: foundry.data.fields.StringField<{ initial: undefined }>,
+          img: foundry.data.fields.FilePathField<{ initial: undefined, categories: ["IMAGE"], base64: false }>,
+          sort: foundry.data.fields.IntegerSortField,
+          activation: ActivationField<{
+            override: foundry.data.fields.BooleanField
           }>,
-          spellSlot: foundry.data.fields.BooleanField<{ initial: true }>,
-          targets: ConsumptionTargetsField
-        }>,
-        description: foundry.data.fields.SchemaField<{
-          chatFlavor: foundry.data.fields.StringField
-        }>,
-        duration: DurationField<{
-          concentration: foundry.data.fields.BooleanField,
-          override: foundry.data.fields.BooleanField
-        }>,
-        effects: foundry.data.fields.ArrayField<AppliedEffectField>,
-        range: RangeField<{
-          override: foundry.data.fields.BooleanField
-        }>,
-        target: TargetField<{
-          override: foundry.data.fields.BooleanField,
-          prompt: foundry.data.fields.BooleanField<{ initial: true }>
-        }>,
-        uses: UsesField
-      },
+          consumption: foundry.data.fields.SchemaField<{
+            scaling: foundry.data.fields.SchemaField<{
+              allowed: foundry.data.fields.BooleanField,
+              max: FormulaField<{ deterministic: true }>
+            }>,
+            spellSlot: foundry.data.fields.BooleanField<{ initial: true }>,
+            targets: ConsumptionTargetsField
+          }>,
+          description: foundry.data.fields.SchemaField<{
+            chatFlavor: foundry.data.fields.StringField
+          }>,
+          duration: DurationField<{
+            concentration: foundry.data.fields.BooleanField,
+            override: foundry.data.fields.BooleanField
+          }>,
+          effects: foundry.data.fields.ArrayField<AppliedEffectField>,
+          range: RangeField<{
+            override: foundry.data.fields.BooleanField
+          }>,
+          target: TargetField<{
+            override: foundry.data.fields.BooleanField,
+            prompt: foundry.data.fields.BooleanField<{ initial: true }>
+          }>,
+          uses: UsesField
+        },
+        {
+          consumption: foundry.data.fields.SchemaField<
+            {},
+            foundry.data.fields.SchemaField.DefaultOptions,
+            {},
+            {
+              targets: {
+                _index: number
+              }[]
+            }
+          >
+          effects: foundry.data.fields.ArrayField<
+            AppliedEffectField,
+            foundry.data.fields.ArrayField.DefaultOptions<AppliedEffectField>,
+            foundry.data.fields.ArrayField.AssignmentElementType<AppliedEffectField>,
+            foundry.data.fields.ArrayField.InitializedElementType<AppliedEffectField> & {
+              _index: number
+            }
+          >
+          uses: foundry.data.fields.SchemaField<
+            {},
+            foundry.data.fields.SchemaField.DefaultOptions,
+            {},
+            {
+              recovery: {
+                _index: number
+              }[]
+            }
+          >
+        }
+      >,
       Schema
     >
   >,
@@ -258,6 +301,7 @@ declare class BaseActivityData<
   /**
    * Prepare data related to this activity.
    */
+  prepareData()
   // prepareData() {
   //   this.name = this.name || game.i18n.localize(this.metadata?.title);
   //   this.img = this.img || this.metadata?.img;
@@ -275,48 +319,7 @@ declare class BaseActivityData<
    * Perform final preparation after containing item is prepared.
    * @param {object} [rollData]  Deterministic roll data from the activity.
    */
-  // prepareFinalData(rollData) {
-  //   rollData ??= this.getRollData({ deterministic: true });
-
-  //   if (this.activation) this._setOverride("activation");
-  //   if (this.duration) this._setOverride("duration");
-  //   if (this.range) this._setOverride("range");
-  //   if (this.target) this._setOverride("target");
-
-  //   Object.defineProperty(this, "_inferredSource", {
-  //     value: Object.freeze(this.toObject(false)),
-  //     configurable: false,
-  //     enumerable: false,
-  //     writable: false
-  //   });
-
-  //   if (this.activation) ActivationField.prepareData.call(this, rollData, this.labels);
-  //   if (this.duration) DurationField.prepareData.call(this, rollData, this.labels);
-  //   if (this.range) RangeField.prepareData.call(this, rollData, this.labels);
-  //   if (this.target) TargetField.prepareData.call(this, rollData, this.labels);
-  //   if (this.uses) UsesField.prepareData.call(this, rollData, this.labels);
-
-  //   const actor = this.item.actor;
-  //   if (!actor || !("consumption" in this)) return;
-  //   for (const target of this.consumption.targets) {
-  //     if (!["itemUses", "material"].includes(target.type) || !target.target) continue;
-
-  //     // Re-link UUIDs in consumption fields to explicit items on the actor
-  //     if (target.target.includes(".")) {
-  //       const item = actor.sourcedItems?.get(target.target, { legacy: false })?.first();
-  //       if (item) target.target = item.id;
-  //     }
-
-  //     // If targeted item isn't found, display preparation warning
-  //     if (!actor.items.get(target.target)) {
-  //       const message = game.i18n.format("DND5E.CONSUMPTION.Warning.MissingItem", {
-  //         activity: this.name, item: this.item.name
-  //       });
-  //       actor._preparationWarnings.push({ message, link: this.uuid, type: "warning" });
-  //     }
-  //   }
-  // }
-
+  prepareFinalData(rollData: object)
   /* -------------------------------------------- */
 
   getRollData(...args: any[]): any

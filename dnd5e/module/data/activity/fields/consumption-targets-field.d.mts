@@ -1,5 +1,3 @@
-import type ActivityMixin from "@dnd5e/module/documents/activity/mixin.mjs"
-
 export class ConsumptionTargetData extends foundry.abstract.DataModel<{
   type: dnd5e.types.fields.RestrictedStringField<
     dnd5e.types.ActivityConsumption.TypeKey

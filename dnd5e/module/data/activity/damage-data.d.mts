@@ -1,6 +1,6 @@
 import FormulaField from "../fields/formula-field.mjs";
 import DamageField from "../shared/damage-field.mjs";
-import BaseActivityData from "./base-activity.mjs";
+import BaseActivityData, { type DamageIndexesPrep } from "./base-activity.mjs";
 
 /**
  * Data model for an damage activity.
@@ -17,6 +17,6 @@ export default class DamageActivityData extends BaseActivityData<
         parts: foundry.data.fields.ArrayField<DamageField>
       }>
     },
-    {}
+    DamageIndexesPrep
   >
 > {}

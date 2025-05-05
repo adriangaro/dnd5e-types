@@ -1,9 +1,8 @@
 import { simplifyBonus } from "../../utils.mjs";
 import FormulaField from "../fields/formula-field.mjs";
 import DamageField from "../shared/damage-field.mjs";
-import BaseActivityData from "./base-activity.mjs";
+import BaseActivityData, { type DamageIndexesPrep } from "./base-activity.mjs";
 import AppliedEffectField from "./fields/applied-effect-field.mjs";
-
 /**
  * Data model for an save activity.
  */
@@ -34,11 +33,13 @@ declare class SaveActivityData extends BaseActivityData<
         foundry.data.fields.SchemaField.DefaultOptions,
         {},
         {
-          bonus: string,
-          value: number
+          dc: {
+            bonus: string,
+            value: number
+          }
         }
       >
-    }
+    } & DamageIndexesPrep
   >
 > {}
 
