@@ -3,7 +3,7 @@ declare class RollConfigField<
   const Config extends {
     rolls?: foundry.data.fields.DataSchema,
     ability?: dnd5e.types.Ability.TypeKey | '' | false
-  },
+  } & foundry.data.fields.DataSchema,
   const Options extends RollConfigField.Options<Config> = RollConfigField.DefaultOptions,
   const AssignmentType = RollConfigField.AssignmentType<Config, Options>,
   const InitializedType = RollConfigField.InitializedType<Config, Options>,
