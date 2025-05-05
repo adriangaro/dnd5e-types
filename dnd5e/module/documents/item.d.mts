@@ -354,7 +354,7 @@ declare class Item5e<
     byId: Record<string, dnd5e.types.Advancement.Any>,
     byLevel: Record<number, dnd5e.types.Advancement.Any>,
     byType: {
-      [K in dnd5e.types.Advancement.TypeKey]?: dnd5e.types.Advancement.Types[K][]
+      [K in dnd5e.types.Advancement.TypeKey]?: dnd5e.types.Advancement.OfType<K>[]
     },
     needingConfiguration: dnd5e.types.Advancement.Any[]
   }
