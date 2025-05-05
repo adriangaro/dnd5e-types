@@ -24,20 +24,25 @@ declare class ToolData extends _ItemDataModel.mixin(
   PhysicalItemTemplate, EquippableItemTemplate
 )<
   dnd5e.types.MergeSchemas<
-    {
-      type: ItemTypeField<'tool', { subtype: false }, { label: "DND5E.ItemToolType" }>,
-      ability: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey, { required: true, blank: true, label: "DND5E.DefaultAbilityCheck" }>,
-      chatFlavor: foundry.data.fields.StringField<{ required: true, label: "DND5E.ChatFlavor" }>,
-      proficient: foundry.data.fields.NumberField<{
-        required: true, initial: null, min: 0, max: 2, step: 0.5, label: "DND5E.ItemToolProficiency"
-      }>,
-      properties: foundry.data.fields.SetField<
-        dnd5e.types.fields.RestrictedStringField<dnd5e.types.Tool.TypeKey>,
-        { label: "DND5E.ItemToolProperties" }
-      >,
-      bonus: FormulaField<{ required: true, label: "DND5E.ItemToolBonus" }>
-    },
-    {}
+    dnd5e.types.MergeSchemas<
+      {
+        type: ItemTypeField<'tool', { subtype: false }, { label: "DND5E.ItemToolType" }>,
+        ability: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey, { required: true, blank: true, label: "DND5E.DefaultAbilityCheck" }>,
+        chatFlavor: foundry.data.fields.StringField<{ required: true, label: "DND5E.ChatFlavor" }>,
+        proficient: foundry.data.fields.NumberField<{
+          required: true, initial: null, min: 0, max: 2, step: 0.5, label: "DND5E.ItemToolProficiency"
+        }>,
+        properties: foundry.data.fields.SetField<
+          dnd5e.types.fields.RestrictedStringField<dnd5e.types.Tool.TypeKey>,
+          { label: "DND5E.ItemToolProperties" }
+        >,
+        bonus: FormulaField<{ required: true, label: "DND5E.ItemToolBonus" }>
+      },
+      {}
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.tool.OverrideSchema
+    >
   >
 > {
   /* -------------------------------------------- */
@@ -119,6 +124,7 @@ declare class ToolData extends _ItemDataModel.mixin(
 }
 
 declare namespace ToolData {
+  type Schema = dnd5e.types.GetSchema<typeof ToolData>
   interface FavoriteData extends ItemDataModel.FavoriteData {
     subtitle: string,
     modifier: number
@@ -244,34 +250,34 @@ declare global {
     }
 
     namespace ItemProperties {
-      
+
       namespace Tool {
         // --- Base Definitions ---
-       interface DefaultToolProperties {
-         mgc: true; // Magical tool
-       }
+        interface DefaultToolProperties {
+          mgc: true; // Magical tool
+        }
 
-       /**
-        * Override interface for declaration merging.
-        * Add custom tool properties here.
-        * @example
-        * declare global {
-        * namespace dnd5e.types.ItemProperties.Tool {
-        * interface OverrideTypes {
-        * requiresCalibration: true
-        * }
-        * }
-        * }
-        */
-       interface OverrideTypes extends Record<string, boolean | never> {}
+        /**
+         * Override interface for declaration merging.
+         * Add custom tool properties here.
+         * @example
+         * declare global {
+         * namespace dnd5e.types.ItemProperties.Tool {
+         * interface OverrideTypes {
+         * requiresCalibration: true
+         * }
+         * }
+         * }
+         */
+        interface OverrideTypes extends Record<string, boolean | never> { }
 
-       // --- Derived Types ---
-       type Types = dnd5e.types.MergeOverrideDefinition<
-         DefaultToolProperties,
-         OverrideTypes
-       >;
-       type TypeKey = dnd5e.types.ExtractKeys<Types>;
-     }
+        // --- Derived Types ---
+        type Types = dnd5e.types.MergeOverrideDefinition<
+          DefaultToolProperties,
+          OverrideTypes
+        >;
+        type TypeKey = dnd5e.types.ExtractKeys<Types>;
+      }
 
 
       interface ValidPropertyMap {
@@ -285,13 +291,18 @@ declare global {
           [K in Tool.GroupTypeKey]: Tool.GetToolTypesByGroup<K> extends never ? never : ItemTypes.ItemTypeConfig<Tool.GetToolTypesByGroup<K>>
         } & {
           "": ItemTypes.ItemTypeConfig<Tool.GetToolTypesByGroup<boolean>>
-        }> 
+        }>
       }
     }
 
     namespace DataModelConfig {
       interface Item {
         tool: typeof ToolData;
+      }
+      namespace Item.tool {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

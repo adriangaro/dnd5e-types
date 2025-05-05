@@ -210,7 +210,7 @@ export function replaceFormulaData(formula: string, data: object, { actor, item,
  * @param [data={}]          Data to use for replacing @ strings.
  * @protected
  */
-export function simplifyBonus(bonus: number | string | null, data?: object): number;
+export function simplifyBonus(bonus: number | string | null | undefined, data?: object): number;
 
 /* -------------------------------------------- */
 /*  IDs                                         */

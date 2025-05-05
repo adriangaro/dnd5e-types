@@ -10,7 +10,9 @@ declare class _ItemDataModel extends ItemDataModel {}
  * @mixes ItemDescriptionTemplate
  */
 declare class RaceData extends _ItemDataModel.mixin(ItemDescriptionTemplate<'race'>)<
-  dnd5e.types.MergeSchemas<
+ 
+dnd5e.types.MergeSchemas<
+ dnd5e.types.MergeSchemas<
     // Base schema fields defined directly in RaceData.defineSchema()
     {
       advancement: foundry.data.fields.ArrayField<AdvancementField, { label: "DND5E.AdvancementTitle" }>,
@@ -20,7 +22,11 @@ declare class RaceData extends _ItemDataModel.mixin(ItemDescriptionTemplate<'rac
     },
     // The second object for derived properties added to inherited fields is empty.
     {}
-  >
+  >,
+      fvttUtils.RemoveIndexSignatures<
+        dnd5e.types.DataModelConfig.Item.race.OverrideSchema
+      >
+    >
 > {
   /* -------------------------------------------- */
   /* Model Configuration                         */
@@ -59,11 +65,20 @@ declare class RaceData extends _ItemDataModel.mixin(ItemDescriptionTemplate<'rac
   get typeLabel(): string;
 }
 
+declare namespace RaceData {
+  type Schema = dnd5e.types.GetSchema<typeof RaceData>
+}
+
 declare global {
   namespace dnd5e.types {
     namespace DataModelConfig {
       interface Item {
         race: typeof RaceData;
+      }
+      namespace Item.race {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
   }

@@ -19,25 +19,30 @@ declare class FeatData extends _ItemDataModel.mixin(
   ActivitiesTemplate, ItemDescriptionTemplate<'feat'>, ItemTypeTemplate<'feat'>
 )<
   dnd5e.types.MergeSchemas<
-    {
-      advancement: foundry.data.fields.ArrayField<AdvancementField, { label: "DND5E.AdvancementTitle" }>,
-      cover: foundry.data.fields.NumberField<{ min: 0, max: 1 }>,
-      crewed: foundry.data.fields.BooleanField,
-      enchant: foundry.data.fields.SchemaField<{
-        max: FormulaField<{ deterministic: true }>,
-        period: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Feat.Enchantment.PeriodTypeKey | ''>
-      }>,
-      prerequisites: foundry.data.fields.SchemaField<{
-        level: foundry.data.fields.NumberField<{ integer: true, min: 0 }>,
-        repeatable: foundry.data.fields.BooleanField
-      }>,
-      properties: foundry.data.fields.SetField<
-        dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Feat.TypeKey>
-      >,
-      requirements: foundry.data.fields.StringField<{ required: true, nullable: true }>,
-      type: ItemTypeField<'feat', { baseItem: false }>
-    },
-    {}
+    dnd5e.types.MergeSchemas<
+      {
+        advancement: foundry.data.fields.ArrayField<AdvancementField, { label: "DND5E.AdvancementTitle" }>,
+        cover: foundry.data.fields.NumberField<{ min: 0, max: 1 }>,
+        crewed: foundry.data.fields.BooleanField,
+        enchant: foundry.data.fields.SchemaField<{
+          max: FormulaField<{ deterministic: true }>,
+          period: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Feat.Enchantment.PeriodTypeKey | ''>
+        }>,
+        prerequisites: foundry.data.fields.SchemaField<{
+          level: foundry.data.fields.NumberField<{ integer: true, min: 0 }>,
+          repeatable: foundry.data.fields.BooleanField
+        }>,
+        properties: foundry.data.fields.SetField<
+          dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Feat.TypeKey>
+        >,
+        requirements: foundry.data.fields.StringField<{ required: true, nullable: true }>,
+        type: ItemTypeField<'feat', { baseItem: false }>
+      },
+      {}
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.feat.OverrideSchema
+    >
   >
 > {
   /* -------------------------------------------- */
@@ -116,6 +121,7 @@ declare class FeatData extends _ItemDataModel.mixin(
 }
 
 declare namespace FeatData {
+  type Schema = dnd5e.types.GetSchema<typeof FeatData>
   interface FavoriteData<This> extends ItemDataModel.FavoriteData {
     subtitle: [string, string]
     uses: dnd5e.types.GetKeyReturn<This, 'getUsesData'> | null
@@ -231,7 +237,7 @@ declare global {
           "fightingStyle": true,
           "general": true,
           "origin": true
-      }
+        }
 
         /**
          * Override interface for declaration merging.
@@ -260,7 +266,7 @@ declare global {
           "blessing": true,
           "charm": true,
           "epicBoon": true
-      }
+        }
 
         /**
          * Override interface for declaration merging.
@@ -365,6 +371,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         feat: typeof FeatData;
+      }
+      namespace Item.feat {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

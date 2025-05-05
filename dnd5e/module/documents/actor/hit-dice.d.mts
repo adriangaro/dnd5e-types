@@ -110,7 +110,7 @@ export default class HitDice {
    * @param {boolean} [config.largest]      Whether to restore the largest hit dice first.
    * @param {RestResult} [result={}]        Rest result being constructed.
    */
-  createHitDiceUpdates(config?: dnd5e.documents.Actor5e.RestConfiguration & {
+  createHitDiceUpdates(config?: Partial<dnd5e.documents.Actor5e.RestConfiguration> & {
     maxHitDice?: number,
     fraction?: number,
     largest?: boolean

@@ -28,6 +28,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
   ActivitiesTemplate, ItemDescriptionTemplate<'weapon'>, IdentifiableTemplate, ItemTypeTemplate<'weapon'>,
   PhysicalItemTemplate, EquippableItemTemplate, MountableTemplate
 )<
+dnd5e.types.MergeSchemas<
   dnd5e.types.MergeSchemas<
     {
       type: ItemTypeField<'weapon', { value: "simpleM", subtype: false }, { required: true, label: "DND5E.ItemWeaponType" }>,
@@ -58,7 +59,11 @@ declare class WeaponData extends _ItemDataModel.mixin(
       }>
     },
     {}
-  >
+  >,
+      fvttUtils.RemoveIndexSignatures<
+        dnd5e.types.DataModelConfig.Item.weapon.OverrideSchema
+      >
+    >
 > {
   /* -------------------------------------------- */
 
@@ -222,6 +227,7 @@ declare class WeaponData extends _ItemDataModel.mixin(
 }
 
 declare namespace WeaponData {
+  type Schema = dnd5e.types.GetSchema<typeof WeaponData>
   interface FavoriteData<This> extends ItemDataModel.FavoriteData {
     subtitle: string,
     modifier: number,
@@ -557,6 +563,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         weapon: typeof WeaponData;
+      }
+      namespace Item.weapon {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

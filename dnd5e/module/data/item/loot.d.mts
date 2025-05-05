@@ -18,36 +18,41 @@ declare class LootData extends _ItemDataModel.mixin(
   ItemDescriptionTemplate<'loot'>, IdentifiableTemplate, ItemTypeTemplate<'loot'>, PhysicalItemTemplate
 )<
   dnd5e.types.MergeSchemas<
-    {
-      properties: foundry.data.fields.SetField<
-        dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Loot.TypeKey>,
-        { label: "DND5E.ItemLootProperties" }
-      >,
-      type: ItemTypeField<'loot', { baseItem: false }, { label: "DND5E.ItemLootType" }>
-    },
-    {}
+    dnd5e.types.MergeSchemas<
+      {
+        properties: foundry.data.fields.SetField<
+          dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Loot.TypeKey>,
+          { label: "DND5E.ItemLootProperties" }
+        >,
+        type: ItemTypeField<'loot', { baseItem: false }, { label: "DND5E.ItemLootType" }>
+      },
+      {}
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.loot.OverrideSchema
+    >
   >
 > {
 
 
   /* -------------------------------------------- */
 
-    metadata: fvttUtils.SimpleMerge<
-      ItemDataModel['metadata'],
-      {
-        enchantable: true,
-        inventoryItem: true,
-        inventoryOrder: 600
-      }
-    >;
-    static get metadata(): fvttUtils.SimpleMerge<
-      ItemDataModel['metadata'],
-      {
-        enchantable: true,
-        inventoryItem: true,
-        inventoryOrder: 600
-      }
-    >;
+  metadata: fvttUtils.SimpleMerge<
+    ItemDataModel['metadata'],
+    {
+      enchantable: true,
+      inventoryItem: true,
+      inventoryOrder: 600
+    }
+  >;
+  static get metadata(): fvttUtils.SimpleMerge<
+    ItemDataModel['metadata'],
+    {
+      enchantable: true,
+      inventoryItem: true,
+      inventoryOrder: 600
+    }
+  >;
 
 
   /* -------------------------------------------- */
@@ -60,7 +65,7 @@ declare class LootData extends _ItemDataModel.mixin(
   get chatProperties(): string[]
 }
 declare namespace LootData {
-  
+  type Schema = dnd5e.types.GetSchema<typeof LootData>
 }
 
 export default LootData
@@ -131,7 +136,7 @@ declare global {
          * }
          * }
          */
-        interface OverrideTypes extends Record<string, boolean | never> {}
+        interface OverrideTypes extends Record<string, boolean | never> { }
 
         // --- Derived Types ---
         type Types = dnd5e.types.MergeOverrideDefinition<
@@ -157,6 +162,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         loot: typeof LootData;
+      }
+      namespace Item.loot {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

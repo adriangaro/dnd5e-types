@@ -19,28 +19,33 @@ declare class ContainerData extends _ItemDataModel.mixin(
   ItemDescriptionTemplate<'container'>, IdentifiableTemplate, PhysicalItemTemplate, EquippableItemTemplate, CurrencyTemplate
 )<
   dnd5e.types.MergeSchemas<
-    // Base schema fields defined directly in ContainerData.defineSchema()
-    {
-      capacity: foundry.data.fields.SchemaField<{
-        count: foundry.data.fields.NumberField<{ min: 0, integer: true }>,
-        volume: foundry.data.fields.SchemaField<{
-          value: foundry.data.fields.NumberField<{ min: 0 }>,
-          units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Volume.TypeKey>
+    dnd5e.types.MergeSchemas<
+      // Base schema fields defined directly in ContainerData.defineSchema()
+      {
+        capacity: foundry.data.fields.SchemaField<{
+          count: foundry.data.fields.NumberField<{ min: 0, integer: true }>,
+          volume: foundry.data.fields.SchemaField<{
+            value: foundry.data.fields.NumberField<{ min: 0 }>,
+            units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Volume.TypeKey>
+          }>,
+          weight: foundry.data.fields.SchemaField<{
+            value: foundry.data.fields.NumberField<{ min: 0 }>,
+            units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Weight.TypeKey>
+          }>
         }>,
-        weight: foundry.data.fields.SchemaField<{
-          value: foundry.data.fields.NumberField<{ min: 0 }>,
-          units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Weight.TypeKey>
-        }>
-      }>,
-      properties: foundry.data.fields.SetField<
-        dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Container.TypeKey>
-      >,
-      // This overrides the quantity field from PhysicalItemTemplate to ensure the correct type is used
-      quantity: foundry.data.fields.NumberField<{ min: 1, max: 1 }>
-    },
-    // The second object for derived properties added to inherited fields is empty,
-    // as derived properties from mixins should be typed in the mixins' .d.mts files.
-    {}
+        properties: foundry.data.fields.SetField<
+          dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Container.TypeKey>
+        >,
+        // This overrides the quantity field from PhysicalItemTemplate to ensure the correct type is used
+        quantity: foundry.data.fields.NumberField<{ min: 1, max: 1 }>
+      },
+      // The second object for derived properties added to inherited fields is empty,
+      // as derived properties from mixins should be typed in the mixins' .d.mts files.
+      {}
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.container.OverrideSchema
+    >
   >
 > {
 
@@ -109,7 +114,7 @@ declare class ContainerData extends _ItemDataModel.mixin(
   /**
    * Get all of the items contained in this container. A promise if item is within a compendium.
    */
-  
+
   get contents(): Collection<Item.Implementation> | Promise<Collection<Item.Implementation>>;
 
   /**
@@ -158,6 +163,7 @@ declare class ContainerData extends _ItemDataModel.mixin(
 
 
 declare namespace ContainerData {
+  type Schema = dnd5e.types.GetSchema<typeof ContainerData>
   /**
    * @typedef {object} ItemCapacityDescriptor
    * @property {number} value  The current total weight or number of items in the container.
@@ -219,6 +225,11 @@ declare global {
       interface Item {
         container: typeof ContainerData;
       }
+      namespace Item.container {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
+      }
     }
 
     namespace Volume {
@@ -228,14 +239,14 @@ declare global {
       }
 
       interface OverrideTypes extends Record<string, true | never> {
-    
+
       }
-    
+
       type Types = dnd5e.types.MergeOverrideDefinition<
         DefaultVolumeUnits,
         OverrideTypes
       >
-    
+
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
     }
 
@@ -248,14 +259,14 @@ declare global {
       }
 
       interface OverrideTypes extends Record<string, true | never> {
-    
+
       }
-    
+
       type Types = dnd5e.types.MergeOverrideDefinition<
         DefaultWeightUnits,
         OverrideTypes
       >
-    
+
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
     }
 

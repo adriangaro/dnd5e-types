@@ -1,4 +1,4 @@
-import { ActorDataModel, ItemDataModel } from "../abstract.mjs";
+import { ItemDataModel } from "../abstract.mjs";
 import AdvancementField from "../fields/advancement-field.mjs";
 import FormulaField from "../fields/formula-field.mjs";
 import SpellcastingField from "./fields/spellcasting-field.mjs";
@@ -12,6 +12,7 @@ declare class _ItemDataModel extends ItemDataModel {}
 declare class ClassData extends _ItemDataModel.mixin(
   ItemDescriptionTemplate<'class'>, StartingEquipmentTemplate
 )<
+dnd5e.types.MergeSchemas<
   dnd5e.types.MergeSchemas<
     {
       levels: foundry.data.fields.NumberField<{ required: true, nullable: false, integer: true, min: 0, initial: 1 }>,
@@ -54,7 +55,11 @@ declare class ClassData extends _ItemDataModel.mixin(
         }
       >
     }
-  >
+  >,
+      fvttUtils.RemoveIndexSignatures<
+        dnd5e.types.DataModelConfig.Item.class.OverrideSchema
+      >
+    >
 > {
   isOriginalClass: boolean;
 
@@ -102,6 +107,7 @@ declare class ClassData extends _ItemDataModel.mixin(
   static _migrateTraitAdvancement(source: ClassData['_source'])
 }
 declare namespace ClassData {
+  type Schema = dnd5e.types.GetSchema<typeof ClassData>
   interface FavoriteData extends ItemDataModel.FavoriteData {
     subtitle?: string,
     value: number
@@ -120,6 +126,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         class: typeof ClassData;
+      }
+      namespace Item.class {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
   }

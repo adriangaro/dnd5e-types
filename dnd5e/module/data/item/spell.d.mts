@@ -14,35 +14,41 @@ declare class _ItemDataModel extends ItemDataModel { }
  * @mixes ItemDescriptionTemplate
  */
 declare class SpellData extends _ItemDataModel.mixin(ActivitiesTemplate, ItemDescriptionTemplate<'spell'>)<
+
   dnd5e.types.MergeSchemas<
-    // Base schema fields defined directly in SpellData.defineSchema()
-    {
-      ability: foundry.data.fields.StringField<{ label: "DND5E.SpellAbility" }>,
-      activation: ActivationField,
-      duration: DurationField,
-      level: foundry.data.fields.NumberField<{ required: true, integer: true, initial: 1, min: 0, label: "DND5E.SpellLevel" }>,
-      materials: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.StringField<{ required: true, label: "DND5E.SpellMaterialsDescription" }>,
-        consumed: foundry.data.fields.BooleanField<{ required: true, label: "DND5E.SpellMaterialsConsumed" }>,
-        cost: foundry.data.fields.NumberField<{ required: true, initial: 0, min: 0, label: "DND5E.SpellMaterialsCost" }>,
-        supply: foundry.data.fields.NumberField<{ required: true, initial: 0, min: 0, label: "DND5E.SpellMaterialsSupply" }>
-      }, { label: "DND5E.SpellMaterials" }>,
-      preparation: foundry.data.fields.SchemaField<{
-        mode: foundry.data.fields.StringField<{ required: true, initial: "prepared", label: "DND5E.SpellPreparation.Mode" }>,
-        prepared: foundry.data.fields.BooleanField<{ required: true, label: "DND5E.SpellPrepared" }>
-      }, { label: "DND5E.SpellPreparation.Label" }>,
-      properties: foundry.data.fields.SetField<
-        dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Spell.TypeKey>,
-        { label: "DND5E.SpellComponents" }
-      >,
-      range: RangeField,
-      school: foundry.data.fields.StringField<{ required: true, label: "DND5E.SpellSchool" }>,
-      sourceClass: foundry.data.fields.StringField<{ label: "DND5E.SpellSourceClass" }>,
-      target: TargetField
-    },
-    // The second object for derived properties added to inherited fields is empty,
-    // as derived properties from mixins should be typed in the mixins' .d.mts files.
-    {}
+    dnd5e.types.MergeSchemas<
+      // Base schema fields defined directly in SpellData.defineSchema()
+      {
+        ability: foundry.data.fields.StringField<{ label: "DND5E.SpellAbility" }>,
+        activation: ActivationField,
+        duration: DurationField,
+        level: foundry.data.fields.NumberField<{ required: true, integer: true, initial: 1, min: 0, label: "DND5E.SpellLevel" }>,
+        materials: foundry.data.fields.SchemaField<{
+          value: foundry.data.fields.StringField<{ required: true, label: "DND5E.SpellMaterialsDescription" }>,
+          consumed: foundry.data.fields.BooleanField<{ required: true, label: "DND5E.SpellMaterialsConsumed" }>,
+          cost: foundry.data.fields.NumberField<{ required: true, initial: 0, min: 0, label: "DND5E.SpellMaterialsCost" }>,
+          supply: foundry.data.fields.NumberField<{ required: true, initial: 0, min: 0, label: "DND5E.SpellMaterialsSupply" }>
+        }, { label: "DND5E.SpellMaterials" }>,
+        preparation: foundry.data.fields.SchemaField<{
+          mode: foundry.data.fields.StringField<{ required: true, initial: "prepared", label: "DND5E.SpellPreparation.Mode" }>,
+          prepared: foundry.data.fields.BooleanField<{ required: true, label: "DND5E.SpellPrepared" }>
+        }, { label: "DND5E.SpellPreparation.Label" }>,
+        properties: foundry.data.fields.SetField<
+          dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Spell.TypeKey>,
+          { label: "DND5E.SpellComponents" }
+        >,
+        range: RangeField,
+        school: foundry.data.fields.StringField<{ required: true, label: "DND5E.SpellSchool" }>,
+        sourceClass: foundry.data.fields.StringField<{ label: "DND5E.SpellSourceClass" }>,
+        target: TargetField
+      },
+      // The second object for derived properties added to inherited fields is empty,
+      // as derived properties from mixins should be typed in the mixins' .d.mts files.
+      {}
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.spell.OverrideSchema
+    >
   >
 > {
   /* -------------------------------------------- */
@@ -109,6 +115,9 @@ declare class SpellData extends _ItemDataModel.mixin(ActivitiesTemplate, ItemDes
   _applySpellShims(): void; // Private method
 }
 
+declare namespace SpellData {
+  type Schema = dnd5e.types.GetSchema<typeof SpellData>
+}
 
 declare global {
   namespace dnd5e.types {
@@ -135,7 +144,7 @@ declare global {
          * }
          * }
          */
-        interface OverrideTypes extends Record<string, boolean | never> {}
+        interface OverrideTypes extends Record<string, boolean | never> { }
 
         // --- Derived Types ---
         type Types = dnd5e.types.MergeOverrideDefinition<
@@ -153,6 +162,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         spell: typeof SpellData;
+      }
+      namespace Item.spell {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
   }

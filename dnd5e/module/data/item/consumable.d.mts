@@ -17,6 +17,7 @@ declare class ConsumableData extends _ItemDataModel.mixin(
   ActivitiesTemplate, ItemDescriptionTemplate<'consumable'>, IdentifiableTemplate, ItemTypeTemplate<'consumable'>,
   PhysicalItemTemplate, EquippableItemTemplate
 )<
+dnd5e.types.MergeSchemas<
   dnd5e.types.MergeSchemas<
     {
       type: ItemTypeField<'consumable', {}, { label: "DND5E.ItemConsumableType" }>,
@@ -42,7 +43,11 @@ declare class ConsumableData extends _ItemDataModel.mixin(
         }
       >
     }
-  >
+  >,
+      fvttUtils.RemoveIndexSignatures<
+        dnd5e.types.DataModelConfig.Item.consumable.OverrideSchema
+      >
+    >
 > {
   /* -------------------------------------------- */
 
@@ -118,6 +123,7 @@ declare class ConsumableData extends _ItemDataModel.mixin(
 }
 
 declare namespace ConsumableData {
+  type Schema = dnd5e.types.GetSchema<typeof ConsumableData>
   interface FavoriteData<This> extends ItemDataModel.FavoriteData {
     subtitle: [string, string],
     uses: dnd5e.types.GetKeyReturn<This, 'getUsesData'> | null,
@@ -266,6 +272,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         consumable: typeof ConsumableData;
+      }
+      namespace Item.consumable {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

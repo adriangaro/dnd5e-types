@@ -26,32 +26,37 @@ declare class EquipmentData extends _ItemDataModel.mixin(
   PhysicalItemTemplate, EquippableItemTemplate, MountableTemplate
 )<
   dnd5e.types.MergeSchemas<
-    {
-      type: ItemTypeField<'equipment', { subtype: false }, { label: "DND5E.ItemEquipmentType" }>,
-      armor: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, label: "DND5E.ArmorClass" }>,
-        magicalBonus: foundry.data.fields.NumberField<{ min: 0, integer: true, label: "DND5E.MagicalBonus" }>,
-        dex: foundry.data.fields.NumberField<{ required: true, integer: true, label: "DND5E.ItemEquipmentDexMod" }>
-      }>,
-      properties: foundry.data.fields.SetField<
-        dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Equipment.TypeKey>,
-        { label: "DND5E.ItemEquipmentProperties" }
-      >,
-      strength: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, label: "DND5E.ItemRequiredStr" }>,
-      proficient: foundry.data.fields.NumberField<{
-        required: true, min: 0, max: 1, integer: true, initial: null, label: "DND5E.ProficiencyLevel"
-      }>
-    },
-    {
-      armor: foundry.data.fields.SchemaField<
-        {},
-        foundry.data.fields.SchemaField.DefaultOptions,
-        {},
-        {
-          base: number
-        }
-      >,
-    }
+    dnd5e.types.MergeSchemas<
+      {
+        type: ItemTypeField<'equipment', { subtype: false }, { label: "DND5E.ItemEquipmentType" }>,
+        armor: foundry.data.fields.SchemaField<{
+          value: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, label: "DND5E.ArmorClass" }>,
+          magicalBonus: foundry.data.fields.NumberField<{ min: 0, integer: true, label: "DND5E.MagicalBonus" }>,
+          dex: foundry.data.fields.NumberField<{ required: true, integer: true, label: "DND5E.ItemEquipmentDexMod" }>
+        }>,
+        properties: foundry.data.fields.SetField<
+          dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Equipment.TypeKey>,
+          { label: "DND5E.ItemEquipmentProperties" }
+        >,
+        strength: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, label: "DND5E.ItemRequiredStr" }>,
+        proficient: foundry.data.fields.NumberField<{
+          required: true, min: 0, max: 1, integer: true, initial: null, label: "DND5E.ProficiencyLevel"
+        }>
+      },
+      {
+        armor: foundry.data.fields.SchemaField<
+          {},
+          foundry.data.fields.SchemaField.DefaultOptions,
+          {},
+          {
+            base: number
+          }
+        >,
+      }
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.equipment.OverrideSchema
+    >
   >
 > {
 
@@ -171,6 +176,7 @@ declare class EquipmentData extends _ItemDataModel.mixin(
 }
 
 declare namespace EquipmentData {
+  type Schema = dnd5e.types.GetSchema<typeof EquipmentData>
   interface FavoriteData<This> extends ItemDataModel.FavoriteData {
     subtitle: [string, string],
     uses: dnd5e.types.GetKeyReturn<This, 'getUsesData'> | null
@@ -347,9 +353,9 @@ declare global {
       }
 
       type DefaultFromArmorProficiency = {
-        [K in dnd5e.types.ArmorProficiency.ProficiencyTypeKey]: dnd5e.types.ArmorProficiency.GetArmorTypesByProficiency<K> extends never 
-          ? null 
-          : dnd5e.types.ArmorProficiency.GetArmorTypesByProficiency<K> 
+        [K in dnd5e.types.ArmorProficiency.ProficiencyTypeKey]: dnd5e.types.ArmorProficiency.GetArmorTypesByProficiency<K> extends never
+        ? null
+        : dnd5e.types.ArmorProficiency.GetArmorTypesByProficiency<K>
       }
 
       /**
@@ -425,6 +431,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         equipment: typeof EquipmentData;
+      }
+      namespace Item.equipment {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

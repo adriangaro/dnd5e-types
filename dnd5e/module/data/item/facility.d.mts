@@ -17,67 +17,73 @@ declare class _ItemDataModel extends ItemDataModel { }
  * @mixes ItemDescriptionTemplate
  */
 declare class FacilityData extends _ItemDataModel.mixin(ActivitiesTemplate, ItemDescriptionTemplate<'facility'>)<
+
   dnd5e.types.MergeSchemas<
-    {
-      building: foundry.data.fields.SchemaField<{
-        built: foundry.data.fields.BooleanField<{ required: true }>;
-        size: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Facility.Sizes.TypeKey, { initial: "cramped", blank: false, nullable: false, required: true }>
-      }>;
-      craft: foundry.data.fields.SchemaField<{
-        item: foundry.data.fields.DocumentUUIDField;
-        quantity: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true, initial: 1, nullable: false }>;
-      }>;
-      defenders: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.ArrayField<foundry.data.fields.DocumentUUIDField<{ type: "Actor" }>>,
-        max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>
-      }>;
-      disabled: foundry.data.fields.BooleanField<{ required: true }>;
-      enlargeable: foundry.data.fields.BooleanField<{ required: true }>;
-      free: foundry.data.fields.BooleanField<{ required: true }>;
-      hirelings: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.ArrayField<foundry.data.fields.DocumentUUIDField<{ type: "Actor" }>>,
-        max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>
-      }>;
-      level: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true, initial: 5 }>;
-      order: foundry.data.fields.StringField<{ required: true }>;
-      progress: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, nullable: false, initial: 0 }>;
-        max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>;
-        order: foundry.data.fields.StringField<{ required: true }>;
-      }>;
-      size: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Facility.Sizes.TypeKey, { initial: "cramped", blank: false, nullable: false, required: true }>
-      trade: foundry.data.fields.SchemaField<{
-        creatures: foundry.data.fields.SchemaField<{
+    dnd5e.types.MergeSchemas<
+      {
+        building: foundry.data.fields.SchemaField<{
+          built: foundry.data.fields.BooleanField<{ required: true }>;
+          size: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Facility.Sizes.TypeKey, { initial: "cramped", blank: false, nullable: false, required: true }>
+        }>;
+        craft: foundry.data.fields.SchemaField<{
+          item: foundry.data.fields.DocumentUUIDField;
+          quantity: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true, initial: 1, nullable: false }>;
+        }>;
+        defenders: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.ArrayField<foundry.data.fields.DocumentUUIDField<{ type: "Actor" }>>,
           max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>
         }>;
-        pending: foundry.data.fields.SchemaField<{
-          creatures: foundry.data.fields.ArrayField<foundry.data.fields.DocumentUUIDField>;
-          operation: foundry.data.fields.StringField<{ required: true, nullable: true, options: ["buy", "sell"], initial: null }>;
-          stocked: foundry.data.fields.BooleanField<{ required: true }>;
-          value: foundry.data.fields.NumberField<{ required: true, min: 0, integer: true }>;
+        disabled: foundry.data.fields.BooleanField<{ required: true }>;
+        enlargeable: foundry.data.fields.BooleanField<{ required: true }>;
+        free: foundry.data.fields.BooleanField<{ required: true }>;
+        hirelings: foundry.data.fields.SchemaField<{
+          value: foundry.data.fields.ArrayField<foundry.data.fields.DocumentUUIDField<{ type: "Actor" }>>,
+          max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>
         }>;
-        profit: foundry.data.fields.NumberField<{ required: true, min: 0, integer: true }>;
-        stock: foundry.data.fields.SchemaField<{
-          stocked: foundry.data.fields.BooleanField<{ required: true }>;
-          value: foundry.data.fields.NumberField<{ required: true, min: 0, integer: true }>;
+        level: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true, initial: 5 }>;
+        order: foundry.data.fields.StringField<{ required: true }>;
+        progress: foundry.data.fields.SchemaField<{
+          value: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, nullable: false, initial: 0 }>;
           max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>;
+          order: foundry.data.fields.StringField<{ required: true }>;
         }>;
-      }>;
-      type: ItemTypeField<'facility', { value: "basic", baseItem: false }>;
-    },
-    // The second object for derived properties added to inherited fields is empty,
-    // as derived properties from mixins should be typed in the mixins' .d.mts files.
-    {
-      progress: foundry.data.fields.SchemaField<
-        {},
-        foundry.data.fields.SchemaField.DefaultOptions,
-        {},
-        {
-          pct: number
-        }
-      >
-    }
+        size: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Facility.Sizes.TypeKey, { initial: "cramped", blank: false, nullable: false, required: true }>
+        trade: foundry.data.fields.SchemaField<{
+          creatures: foundry.data.fields.SchemaField<{
+            value: foundry.data.fields.ArrayField<foundry.data.fields.DocumentUUIDField<{ type: "Actor" }>>,
+            max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>
+          }>;
+          pending: foundry.data.fields.SchemaField<{
+            creatures: foundry.data.fields.ArrayField<foundry.data.fields.DocumentUUIDField>;
+            operation: foundry.data.fields.StringField<{ required: true, nullable: true, options: ["buy", "sell"], initial: null }>;
+            stocked: foundry.data.fields.BooleanField<{ required: true }>;
+            value: foundry.data.fields.NumberField<{ required: true, min: 0, integer: true }>;
+          }>;
+          profit: foundry.data.fields.NumberField<{ required: true, min: 0, integer: true }>;
+          stock: foundry.data.fields.SchemaField<{
+            stocked: foundry.data.fields.BooleanField<{ required: true }>;
+            value: foundry.data.fields.NumberField<{ required: true, min: 0, integer: true }>;
+            max: foundry.data.fields.NumberField<{ required: true, integer: true, positive: true }>;
+          }>;
+        }>;
+        type: ItemTypeField<'facility', { value: "basic", baseItem: false }>;
+      },
+      // The second object for derived properties added to inherited fields is empty,
+      // as derived properties from mixins should be typed in the mixins' .d.mts files.
+      {
+        progress: foundry.data.fields.SchemaField<
+          {},
+          foundry.data.fields.SchemaField.DefaultOptions,
+          {},
+          {
+            pct: number
+          }
+        >
+      }
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.facility.OverrideSchema
+    >
   >
 > {
 
@@ -97,9 +103,9 @@ declare class FacilityData extends _ItemDataModel.mixin(ActivitiesTemplate, Item
 
   /* -------------------------------------------- */
 
-  price?: { 
-    value: number, 
-    days: number, 
+  price?: {
+    value: number,
+    days: number,
     denomination: dnd5e.types.Currency.TypeKey
   } | null
 
@@ -183,7 +189,7 @@ declare global {
         interface OrdersConfig {
           /**
            * The human-readable name of the order.  
-           */ 
+           */
           label: string,
           /**
            * The SVG icon for this order.
@@ -392,6 +398,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         facility: typeof FacilityData;
+      }
+      namespace Item.facility {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
 

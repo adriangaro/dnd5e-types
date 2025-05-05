@@ -12,6 +12,8 @@ declare class _ItemDataModel extends ItemDataModel {}
  * @mixes ItemDescriptionTemplate
  */
 declare class SubclassData extends _ItemDataModel.mixin(ItemDescriptionTemplate<'subclass'>)<
+
+dnd5e.types.MergeSchemas<
   dnd5e.types.MergeSchemas<
     // Base schema fields defined directly in SubclassData.defineSchema()
     {
@@ -23,7 +25,11 @@ declare class SubclassData extends _ItemDataModel.mixin(ItemDescriptionTemplate<
     },
     // The second object for derived properties added to inherited fields is empty.
     {}
-  >
+  >,
+      fvttUtils.RemoveIndexSignatures<
+        dnd5e.types.DataModelConfig.Item.subclass.OverrideSchema
+      >
+    >
 > {
 
   /* -------------------------------------------- */
@@ -32,6 +38,10 @@ declare class SubclassData extends _ItemDataModel.mixin(ItemDescriptionTemplate<
 
   /** @inheritDoc */
   prepareFinalData()
+}
+
+declare namespace SubclassData {
+  type Schema = dnd5e.types.GetSchema<typeof SubclassData>
 }
 
 declare global {
@@ -45,6 +55,11 @@ declare global {
     namespace DataModelConfig {
       interface Item {
         subclass: typeof SubclassData;
+      }
+      namespace Item.subclass {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
   }

@@ -4,7 +4,7 @@ import ItemDescriptionTemplate from "./templates/item-description.mjs";
 import StartingEquipmentTemplate from "./templates/starting-equipment.mjs";
 
 
-declare class _ItemDataModel extends ItemDataModel {}
+declare class _ItemDataModel extends ItemDataModel { }
 
 /**
  * Data definition for Background items.
@@ -13,12 +13,17 @@ declare class BackgroundData extends _ItemDataModel.mixin(
   ItemDescriptionTemplate<'background'>, StartingEquipmentTemplate
 )<
   dnd5e.types.MergeSchemas<
-    {
-      advancement: foundry.data.fields.ArrayField<AdvancementField, { label: "DND5E.AdvancementTitle" }>
-    },
-    {
+    dnd5e.types.MergeSchemas<
+      {
+        advancement: foundry.data.fields.ArrayField<AdvancementField, { label: "DND5E.AdvancementTitle" }>
+      },
+      {
 
-    }
+      }
+    >,
+    fvttUtils.RemoveIndexSignatures<
+      dnd5e.types.DataModelConfig.Item.background.OverrideSchema
+    >
   >
 > {
 
@@ -40,6 +45,10 @@ declare class BackgroundData extends _ItemDataModel.mixin(
   >;
 }
 
+declare namespace BackgroundData {
+  type Schema = dnd5e.types.GetSchema<typeof BackgroundData>
+}
+
 declare global {
   namespace dnd5e.types {
     namespace ItemProperties {
@@ -47,10 +56,15 @@ declare global {
         background: never
       }
     }
-    
+
     namespace DataModelConfig {
       interface Item {
         background: typeof BackgroundData;
+      }
+      namespace Item.background {
+        interface OverrideSchema extends foundry.data.fields.DataSchema {
+
+        }
       }
     }
   }
