@@ -1,9 +1,9 @@
 
 declare class RollConfigField<
-  const Config extends {
+  const Config extends fvttUtils.ShapeWithIndexSignature<Config, {
     rolls?: foundry.data.fields.DataSchema,
     ability?: dnd5e.types.Ability.TypeKey | '' | false
-  } & foundry.data.fields.DataSchema,
+  }, string, foundry.data.fields.DataField.Any>,
   const Options extends RollConfigField.Options<Config> = RollConfigField.DefaultOptions,
   const AssignmentType = RollConfigField.AssignmentType<Config, Options>,
   const InitializedType = RollConfigField.InitializedType<Config, Options>,
@@ -15,7 +15,7 @@ declare class RollConfigField<
   InitializedType,
   PersistedType
 > {
-  constructor(config: Config, options: Options)
+  constructor(config: { [K in keyof Config]: Config[K] }, options: Options)
 }
 
 declare namespace RollConfigField {
