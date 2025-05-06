@@ -1087,8 +1087,8 @@ declare namespace Actor5e {
    */
   interface DamageDescription {
     value: number;
-    type: string;
-    properties: Set<string>;
+    type: dnd5e.types.Damage.TypeKey | dnd5e.types.Healing.TypeKey;
+    properties: Set<dnd5e.types.Damage.Bypass>;
     active?: {
       multiplier?: number;
       modifications?: boolean;
@@ -1102,13 +1102,13 @@ declare namespace Actor5e {
    * Options for damage application.
    */
   interface DamageApplicationOptions {
-    downgrade?: boolean | Set<string>;
+    downgrade?: boolean | Set<dnd5e.types.Damage.TypeKey>;
     multiplier?: number;
     ignore?: object | boolean;
-    immunity?: boolean | Set<string>;
-    resistance?: boolean | Set<string>;
-    vulnerability?: boolean | Set<string>;
-    modification?: boolean | Set<string>;
+    immunity?: boolean | Set<dnd5e.types.Damage.TypeKey>;
+    resistance?: boolean | Set<dnd5e.types.Damage.TypeKey>;
+    vulnerability?: boolean | Set<dnd5e.types.Damage.TypeKey>;
+    modification?: boolean | Set<dnd5e.types.Damage.TypeKey>;
     invertHealing?: boolean;
     only?: keyof DamageApplicationRestriction;
   }
