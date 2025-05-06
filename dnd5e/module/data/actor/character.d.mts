@@ -171,24 +171,14 @@ declare class CharacterData extends CreatureTemplate<
             nullable: false
           },
           {},
-          foundry.data.fields.SchemaField.InitializedData<{
-            hp: foundry.data.fields.SchemaField<
-              {},
-              {
-                required: true,
-                nullable: false
-              },
-              {},
-              {
-                max: number,
-                effectiveMax: number,
-                value: number,
-                damage: number,
-                pct: number
-              },
-              {}
-            >
-          }> & {
+          {
+            hp: {
+              max: number,
+              effectiveMax: number,
+              value: number,
+              damage: number,
+              pct: number
+            }
             hd: HitDice
           }
         >
@@ -262,7 +252,7 @@ declare namespace CharacterData {
 }
 
 export default CharacterData
-
+type d = CharacterData['attributes']['hp']['value']
 /* -------------------------------------------- */
 
 export type ResourceDataSchema = {

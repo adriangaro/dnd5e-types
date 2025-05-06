@@ -175,6 +175,13 @@ dnd5e.types.MergeSchemas<
         },
         {},
         {
+          hp: {
+            max: number,
+            effectiveMax: number,
+            value: number,
+            damage: number,
+            pct: number
+          }
           hd: {
             denomination: number,
             max: number,

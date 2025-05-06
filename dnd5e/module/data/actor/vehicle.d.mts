@@ -128,6 +128,13 @@ declare class VehicleData extends CommonTemplate<
           },
           {},
           {
+            hp: {
+              max: number,
+              effectiveMax: number,
+              value: number,
+              damage: number,
+              pct: number
+            }
             prof: number
           }
         >,
