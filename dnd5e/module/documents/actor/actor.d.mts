@@ -1110,7 +1110,12 @@ declare namespace Actor5e {
     vulnerability?: boolean | Set<string>;
     modification?: boolean | Set<string>;
     invertHealing?: boolean;
-    only?: "damage" | "healing";
+    only?: keyof DamageApplicationRestriction;
+  }
+
+  interface DamageApplicationRestriction {
+    damage: true,
+    healing: true
   }
 
   interface AbilityRollProcessConfiguration extends dnd5e.dice.D20Roll.ProcessConfiguration {
