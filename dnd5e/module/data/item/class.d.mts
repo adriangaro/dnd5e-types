@@ -21,7 +21,7 @@ dnd5e.types.MergeSchemas<
         all: foundry.data.fields.BooleanField<{ initial: true }>
       }>,
       hd: foundry.data.fields.SchemaField<{
-        additional: FormulaField<{ deterministic: true, required: true }>,
+        additional: FormulaField<{ deterministic: true, required: true }, string, number>,
         denomination: dnd5e.types.fields.RestrictedStringField<`d${number}`, {
           required: true,
           initial: "d6",
@@ -67,6 +67,9 @@ dnd5e.types.MergeSchemas<
   /* -------------------------------------------- */
   /*  Data Preparation                            */
   /* -------------------------------------------- */
+
+  prepareFinalData()
+
   /* -------------------------------------------- */
 
   /** @inheritDoc */
