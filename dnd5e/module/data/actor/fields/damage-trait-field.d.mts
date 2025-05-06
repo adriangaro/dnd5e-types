@@ -32,9 +32,7 @@ declare class DamageTraitField<
 declare namespace DamageTraitField {
   type BaseFields<BypassType extends string> = {
     bypasses: foundry.data.fields.SetField<
-      foundry.data.fields.StringField<{
-        choices: BypassType[]
-      }, BypassType, BypassType, BypassType>
+      dnd5e.types.fields.RestrictedStringField<BypassType>
     >
   }
   type GetSchema<

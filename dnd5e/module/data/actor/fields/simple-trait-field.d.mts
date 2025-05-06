@@ -27,9 +27,7 @@ declare class SimpleTraitField<
 declare namespace SimpleTraitField {
   type BaseFields<TraitType extends string = string> = {
     value: foundry.data.fields.SetField<
-      foundry.data.fields.StringField<{
-        choices: TraitType[]
-      }, TraitType, TraitType, TraitType>
+      dnd5e.types.fields.RestrictedStringField<TraitType>
     >,
     custom: foundry.data.fields.StringField<{
       required: true

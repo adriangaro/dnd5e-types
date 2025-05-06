@@ -644,13 +644,6 @@ declare global {
         : never; // This branch should typically not be reached if U is a well-formed type union.
 
 
-
-      type a = { a: { 0: {} } } | { a: { c: {} } }
-
-      type b = FilterUnionByPathExistence<a, 'a'> // -> { a: { b: {}} | { a: { c:{}}
-
-      type c = FilterUnionByPathExistence<a, 'a.0'> // -> { a: { b: {}}
-
       export interface DND5EConfig {
 
       }
