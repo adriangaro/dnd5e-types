@@ -245,7 +245,23 @@ declare global {
       type ExtractPersistedType<F extends foundry.data.fields.DataField<any, any, any, any>> =
         F extends foundry.data.fields.DataField<any, any, any, infer P> ? P : never;
 
-
+      /**
+       * Determines how to merge two derived types (TypeT from OrigFieldT and TypeU from OrigFieldU)
+       * based on whether they are plain objects (as determined by `IsObject<T>`).
+       *
+       * - If both `TypeT` and `TypeU` are plain objects, they are intersected (`TypeT & TypeU`).
+       * - In all other cases (i.e., if `TypeT` is not an object, or if `TypeT` is an object but `TypeU` is not),
+       * `TypeU` is chosen.
+       *
+       * @template TypeT The first type to consider for merging.
+       * @template TypeU The second type to consider for merging.
+       */
+      type MergeDerivedType<TypeT, TypeU> =
+        fvttUtils.IsObject<TypeT> extends true         // Check if the first type is an object
+        ? fvttUtils.IsObject<TypeU> extends true     // If so, check if the second type is also an object
+        ? TypeT & TypeU                  // Both are objects: intersect them.
+        : TypeU                          // First is object, second is not: take second.
+        : TypeU;                           // First is not an object: take second (regardless of the second).
       /**
        * NEW VERSION: Helper to reconstruct a SchemaField with explicitly intersected derived types.
        * This version takes the original SchemaField types from T and U to extract
@@ -259,9 +275,9 @@ declare global {
         MergedSchema,                                                            // 1. Merged inner schema
         ExtractSchemaOptions<OrigFieldT>,                                        // 2. Options from T[K]
         // --- Explicitly provide intersected derived types ---
-        ExtractAssignmentType<OrigFieldT> & ExtractAssignmentType<OrigFieldU>,   // 3. Intersected AssignmentType
-        ExtractInitializedType<OrigFieldT> & ExtractInitializedType<OrigFieldU>, // 4. Intersected InitializedType
-        ExtractPersistedType<OrigFieldT> & ExtractPersistedType<OrigFieldU>      // 5. Intersected PersistedType
+        MergeDerivedType<ExtractAssignmentType<OrigFieldT>, ExtractAssignmentType<OrigFieldU>>,   // 3. Intersected AssignmentType
+        MergeDerivedType<ExtractInitializedType<OrigFieldT>, ExtractInitializedType<OrigFieldU>>, // 4. Intersected InitializedType
+        MergeDerivedType<ExtractPersistedType<OrigFieldT>, ExtractPersistedType<OrigFieldU>>      // 5. Intersected PersistedType
       // We rely on the SchemaField constructor's type signature compatibility.
       // Note: Intersection (&) with null/undefined follows standard TS rules
       // (e.g., (T | null) & T = T; (T | null) & (U | null) = (T & U) | null)
