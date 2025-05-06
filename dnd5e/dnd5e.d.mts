@@ -159,33 +159,33 @@ declare global {
           {
             // 3a. Common Keys that result in REQUIRED properties in the final type
             [K in Extract<keyof T, keyof U> as
-                // When is the result REQUIRED?
-                ( U[K] extends never
-                    // If U[K] is never, require it only if T[K] is required.
-                    ? (IsKeyOptional<T, K> extends false ? K : never)
-                    // If U[K] is not never, require it if U[K] is required.
-                    : (IsKeyOptional<U, K> extends false ? K : never)
-                )
+            // When is the result REQUIRED?
+            (U[K] extends never
+              // If U[K] is never, require it only if T[K] is required.
+              ? (IsKeyOptional<T, K> extends false ? K : never)
+              // If U[K] is not never, require it if U[K] is required.
+              : (IsKeyOptional<U, K> extends false ? K : never)
+            )
             ]: (
-                // Determine type: never if U[K] was never, otherwise merge.
-                U[K] extends never ? never : DeepMerge<T[K], U[K]>
-               )
-        } &
-        {
+              // Determine type: never if U[K] was never, otherwise merge.
+              U[K] extends never ? never : DeepMerge<T[K], U[K]>
+            )
+          } &
+          {
             // 3b. Common Keys that result in OPTIONAL properties in the final type
             [K in Extract<keyof T, keyof U> as
-                // When is the result OPTIONAL? ONLY if U[K] is NOT never AND U[K] IS optional.
-                ( U[K] extends never
-                    // If U[K] is never, it's either required (handled above) or omitted (so 'never' here).
-                    ? never
-                    // If U[K] is not never, make it optional if U[K] is optional.
-                    : (IsKeyOptional<U, K> extends true ? K : never)
-                )
+            // When is the result OPTIONAL? ONLY if U[K] is NOT never AND U[K] IS optional.
+            (U[K] extends never
+              // If U[K] is never, it's either required (handled above) or omitted (so 'never' here).
+              ? never
+              // If U[K] is not never, make it optional if U[K] is optional.
+              : (IsKeyOptional<U, K> extends true ? K : never)
+            )
             ]?: (
-                // Determine type: merge (we know U[K] is not never here).
-                DeepMerge<T[K], U[K]>
-                )
-        }
+              // Determine type: merge (we know U[K] is not never here).
+              DeepMerge<T[K], U[K]>
+            )
+          }
           : U // T is object, U is not: U takes priority
 
           : U // T is neither array nor object: U takes priority
@@ -193,7 +193,7 @@ declare global {
 
       type d = DeepMerge<
         { a?: 23 },
-        { a?: 2}
+        { a?: 2 }
       >
 
       export type ExtractKeys<_T extends object, T = fvttUtils.RemoveIndexSignatures<_T>> = {
@@ -442,16 +442,16 @@ declare global {
       export type GetSchema<
         T extends fvttUtils.AnyConcreteConstructor
       > = fvttUtils.PrettifyType<
-          // Compute the core result first ({}, SpecificSchema_I, or SpecificSchema_D)
-          __ComputeSchemaCore<
-            __GetSchemaFromInstance_Never<T>,
-            __GetSchemaFromDefine_Never<T>
-          > extends infer CoreResult extends foundry.data.fields.DataSchema // Assign result to a variable
-          // Apply RemoveIndexSignatures to the final computed result
-          ? fvttUtils.RemoveIndexSignatures<CoreResult>
-          // This branch should logically not be hit
-          : {}
-        >;
+        // Compute the core result first ({}, SpecificSchema_I, or SpecificSchema_D)
+        __ComputeSchemaCore<
+          __GetSchemaFromInstance_Never<T>,
+          __GetSchemaFromDefine_Never<T>
+        > extends infer CoreResult extends foundry.data.fields.DataSchema // Assign result to a variable
+        // Apply RemoveIndexSignatures to the final computed result
+        ? fvttUtils.RemoveIndexSignatures<CoreResult>
+        // This branch should logically not be hit
+        : {}
+      >;
 
 
       /**
@@ -589,6 +589,67 @@ declare global {
         parent: This
       }
 
+      /**
+       * Recursive helper type: Checks if a path (represented as a tuple of segments)
+       * exists in type T.
+       *
+       * @template T - The type to check.
+       * @template PathTuple - A readonly array of path segments (string or number).
+       *
+       * If the path exists in T, this type resolves to T. Otherwise, it resolves to never.
+       *
+       * Note on numeric keys: If SplitPath provides a `number` (e.g., 0) for a segment,
+       * and T is an object like `{ '0': string }`, the `Head extends keyof T` check
+       * (0 extends '0') will be false. The path will be considered non-existent.
+       * This path would be found if T was an array `string[]` or had a numeric index
+       * signature where `keyof T` includes `number`. This behavior is a direct
+       * consequence of using the provided SplitPath with number conversion and strict keyof checking.
+       */
+      type HasPathWithTuple<T, PathTuple extends ReadonlyArray<string | number>> =
+        PathTuple extends readonly [infer Head, ...infer Tail] // PathTuple is [Head, ...Tail]
+        ? Head extends keyof T // Check if Head is a valid key in T (type-wise)
+        // If Head is a key, recurse on the type of T[Head] and the Tail of the path.
+        // Use Extract<Head, keyof T> for T[...] to ensure Head is narrowed to actual keys of T.
+        // NonNullable is crucial for properties that might be Type | undefined or Type | null.
+        ? HasPathWithTuple<
+          NonNullable<T[Extract<Head, keyof T>]>,
+          // Ensure Tail is correctly typed for the recursive call.
+          Tail extends ReadonlyArray<string | number> ? Tail : []
+        > extends never
+        ? never // Sub-path (Tail) does not exist in T[Head], so full path does not exist in T.
+        : T     // Sub-path exists, thus the original path exists in the original T.
+        : never   // Head is not a type that extends keyof T. Path is broken.
+        : T;        // PathTuple is empty [], meaning path successfully traversed or was initially empty.
+      // An empty path relative to T means T itself "exists".
+
+      /**
+      * Top-level helper type: Checks if a property path P exists in type T by first
+      * splitting P using SplitPath.
+      *
+      * @template T - The type to check.
+      * @template P - The dot-separated property path string (e.g., 'a.b.c').
+      */
+      type HasPath<T, P extends string> = HasPathWithTuple<T, SplitPath<P>>;
+
+      /**
+      * Filters a union type U to include only those members where the property path P exists.
+      *
+      * @template U - The union type to filter.
+      * @template P - The dot-separated property path string (e.g., 'a.b.c').
+      */
+      type FilterUnionByPathExistence<U, P extends string> = U extends unknown // Distribute over the union U
+        ? HasPath<U, P> extends never // For each member type of U, check if path P exists.
+        ? never // If HasPath<CurrentMember, P> is never, the path doesn't exist; discard CurrentMember.
+        : U     // If HasPath<CurrentMember, P> is CurrentMember (i.e., not never), path exists; keep CurrentMember.
+        : never; // This branch should typically not be reached if U is a well-formed type union.
+
+
+
+      type a = { a: { 0: {} } } | { a: { c: {} } }
+
+      type b = FilterUnionByPathExistence<a, 'a'> // -> { a: { b: {}} | { a: { c:{}}
+
+      type c = FilterUnionByPathExistence<a, 'a.0'> // -> { a: { b: {}}
 
       export interface DND5EConfig {
 
@@ -599,7 +660,7 @@ declare global {
       namespace StatusEffect {
         interface DefaultStatusTypes {
         }
-  
+
         /**
          * Override interface for declaration merging.
          * Add custom condition types here.
@@ -613,13 +674,13 @@ declare global {
          * }
          */
         interface OverrideTypes extends Record<string, boolean | never> { }
-  
+
         // --- Derived Types ---
         type Types = dnd5e.types.MergeOverrideDefinition<
           DefaultStatusTypes,
           OverrideTypes
         >;
-  
+
         type TypeKey = dnd5e.types.ExtractKeys<Types>;
       }
     }
@@ -630,7 +691,7 @@ declare global {
     export import utils = _utils;
     export import dice = _dice;
     export import canvas = _canvas;
-    
+
   }
 
   interface CONFIG {

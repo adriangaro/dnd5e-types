@@ -1091,7 +1091,7 @@ declare namespace Actor5e {
     properties: Set<dnd5e.types.Damage.Bypass>;
     active?: {
       multiplier?: number;
-      modifications?: boolean;
+      modification?: boolean;
       resistance?: boolean;
       vulnerability?: boolean;
       immunity?: boolean;
