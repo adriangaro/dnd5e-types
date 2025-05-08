@@ -3,7 +3,7 @@ import ApplicationV2Mixin from "./application-v2-mixin.mjs";
 /**
  * Base document sheet from which all document-based application should be based.
  */
-export default class DocumentSheet5e<
+declare class DocumentSheet5e<
   Document extends foundry.abstract.Document.Any = foundry.abstract.Document.Any,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
@@ -25,6 +25,8 @@ export default class DocumentSheet5e<
 declare class AnyDocumentSheet5e extends DocumentSheet5e<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
   constructor(...args: any[])
 }
+
+export default DocumentSheet5e
 
 declare namespace DocumentSheet5e {
   interface Any extends AnyDocumentSheet5e { }
