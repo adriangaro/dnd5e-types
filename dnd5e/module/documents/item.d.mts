@@ -830,6 +830,11 @@ declare class Item5e<
 }
 
 declare namespace Item5e {
+  type Implementation<Type extends Item.ConfiguredSubTypes = Item.ConfiguredSubTypes> = ItemMap[Type]
+  type ItemMap = {
+    [K in Item.ConfiguredSubTypes]: Item.OfType<K>
+  }
+
   interface SpellcastingDescription {
     type: string;
     progression: string | null;
