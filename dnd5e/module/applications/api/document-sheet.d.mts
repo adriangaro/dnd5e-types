@@ -20,6 +20,20 @@ declare class DocumentSheet5e<
   __RenderContext: DocumentSheet5e.MakeRenderContext<Document, RenderContext>;
 
   _prepareContext(options: fvttUtils.DeepPartial<this['__RenderOptions']> & { isFirstRender: boolean }): Promise<this['__RenderContext']>;
+
+  // @ts-expect-error
+  override _renderHTML(
+    context: this['__RenderContext'],
+    options: this['__RenderOptions'],
+  ): Promise<Record<string, HTMLElement>>;
+
+  
+  // @ts-expect-error
+  override _preparePartContext(
+    partId: string,
+    context: this['__RenderContext'],
+    options: this['__RenderOptions'],
+  ): Promise<this['__RenderContext']>;
 }
 
 declare class AnyDocumentSheet5e extends DocumentSheet5e<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {

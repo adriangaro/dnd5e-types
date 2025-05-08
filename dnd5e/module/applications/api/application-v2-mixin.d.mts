@@ -17,6 +17,7 @@ declare class BaseApplication5e {
    * Disable form fields that aren't marked with the `interface-only` class.
    */
   _disableFields()
+
 }
 
 /**
@@ -24,10 +25,7 @@ declare class BaseApplication5e {
  */
 declare function ApplicationV2Mixin<
   T extends foundry.applications.api.HandlebarsApplicationMixin.BaseClass
->(Base: T): fvttUtils.Mixin<
-  typeof BaseApplication5e,
-  ReturnType<typeof foundry.applications.api.HandlebarsApplicationMixin<T>>
->
+>(Base: T): typeof BaseApplication5e & ReturnType<typeof foundry.applications.api.HandlebarsApplicationMixin<T>>
 
 declare namespace ApplicationV2Mixin {
   type MixinClass = BaseApplication5e

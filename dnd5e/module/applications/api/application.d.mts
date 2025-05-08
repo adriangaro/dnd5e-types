@@ -16,6 +16,22 @@ declare class Application5e<
   __Configuration: Application5e.MakeConfiguration<Configuration>;
   __RenderOptions: Application5e.MakeRenderOptions<RenderOptions>;
   __RenderContext: Application5e.MakeRenderContext<RenderContext>;
+
+  _prepareContext(options: fvttUtils.DeepPartial<this['__RenderOptions']> & { isFirstRender: boolean }): Promise<this['__RenderContext']>;
+
+  // @ts-expect-error
+  override _renderHTML(
+    context: this['__RenderContext'],
+    options: this['__RenderOptions'],
+  ): Promise<Record<string, HTMLElement>>;
+
+
+  // @ts-expect-error
+  override _preparePartContext(
+    partId: string,
+    context: this['__RenderContext'],
+    options: this['__RenderOptions'],
+  ): Promise<this['__RenderContext']>;
 }
 
 declare class AnyApplication5e extends Application5e<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
@@ -23,8 +39,8 @@ declare class AnyApplication5e extends Application5e<fvttUtils.EmptyObject, fvtt
 }
 
 declare namespace Application5e {
-  interface Any extends AnyApplication5e {}
-  interface AnyConstructor extends fvttUtils.Identity<typeof AnyApplication5e> {}
+  interface Any extends AnyApplication5e { }
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyApplication5e> { }
 
   type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     ApplicationV2Mixin.RenderContext,
