@@ -52,8 +52,6 @@ declare type ItemType<Type extends Item.SubType, FieldInitials extends {
   }[dnd5e.types.ItemTypes.GetItemTypeKey<K>]
 }[Type]
 
-
-
 declare namespace ItemTypeField {
   type Schema = {
     value: foundry.data.fields.StringField<{

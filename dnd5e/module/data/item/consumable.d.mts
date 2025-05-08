@@ -33,16 +33,7 @@ dnd5e.types.MergeSchemas<
         autoDestroy: foundry.data.fields.BooleanField<{ required: true }>
       }>
     },
-    {
-      type: foundry.data.fields.SchemaField<
-        {},
-        ItemTypeField.DefaultOptions,
-        {},
-        {
-          label: string
-        }
-      >
-    }
+    {}
   >,
       fvttUtils.RemoveIndexSignatures<
         dnd5e.types.DataModelConfig.Item.consumable.OverrideSchema
