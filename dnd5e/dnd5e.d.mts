@@ -39,7 +39,7 @@ declare global {
   namespace dnd5e {
     namespace types {
       export import canvas = _canvas;
-      export interface FormSelectOption<T extends string = string> {
+      export interface FormSelectOption<T extends string | number = string> {
         value: T;
         label: string;
         group?: string;

@@ -22,7 +22,14 @@ declare global {
       >,
       string
     >;
+    namespace RestrictedStringField {
+      type DerivedType<
+        Allowed extends string
+      > = Strict extends { strict: true } ? Allowed : Allowed | (string & {})
 
+      interface Strict {
+      }
+    }
   }
 }
 export { }
