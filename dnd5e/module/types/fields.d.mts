@@ -14,7 +14,7 @@ declare global {
         >
       >,
       foundry.data.fields.DataField.DerivedInitializedType<
-        Allowed | (string & {}),
+        RestrictedStringField.DerivedType<Allowed>,
         fvttUtils.SimpleMerge<
           foundry.data.fields.StringField.DefaultOptions,
           Options
