@@ -202,12 +202,22 @@ declare class BasicRoll<
    * @param other     The configuration to merge.
    * @returns         The original instance.
    */
-  static mergeConfigs<T extends Partial<BasicRoll.Configuration>, V extends Partial<BasicRoll.Configuration>>(
+  static mergeConfigs<
+    T extends Partial<BasicRoll.Configuration>,
+    V extends Partial<BasicRoll.Configuration>,
+  >(
     original: T,
     other?: V,
-  ): Omit<T, 'data' | 'options'> & {
-    data: fvttUtils.SimpleMerge<T['data'], V['data']>;
-    options: foundry.utils.MergeObject<T['options'], V['options'], {enforceTypes: true}>;
+  ): Omit<T, "data" | "options" | "parts"> & {
+    parts: NonNullable<T["parts"] & V["parts"]>;
+    data: NonNullable<fvttUtils.SimpleMerge<T["data"], V["data"]>>;
+    options: NonNullable<
+      foundry.utils.MergeObject<
+        T["options"],
+        V["options"],
+        { enforceTypes: true }
+      >
+    >;
   };
 }
 
