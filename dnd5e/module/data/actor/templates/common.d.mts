@@ -7,21 +7,39 @@ import RollConfigField from "../../shared/roll-config-field.mjs";
 
 type AbilityData = {
   value: foundry.data.fields.NumberField<{
-    required: true, nullable: false, integer: true, min: 0, initial: 10, label: "DND5E.AbilityScore"
-  }>,
+    required: true;
+    nullable: false;
+    integer: true;
+    min: 0;
+    initial: 10;
+    label: "DND5E.AbilityScore";
+  }>;
   proficient: foundry.data.fields.NumberField<{
-    required: true, integer: true, min: 0, max: 1, initial: 0, label: "DND5E.ProficiencyLevel"
-  }>,
+    required: true;
+    integer: true;
+    min: 0;
+    max: 1;
+    initial: 0;
+    label: "DND5E.ProficiencyLevel";
+  }>;
   max: foundry.data.fields.NumberField<{
-    required: true, integer: true, nullable: true, min: 0, initial: null, label: "DND5E.AbilityScoreMax"
-  }>,
-  bonuses: foundry.data.fields.SchemaField<{
-    check: FormulaField<{ required: true, label: "DND5E.AbilityCheckBonus" }>,
-    save: FormulaField<{ required: true, label: "DND5E.SaveBonus" }>
-  }, { label: "DND5E.AbilityBonuses" }>,
-  check: RollConfigField<{ ability: false }>,
-  save: RollConfigField<{ ability: false }>
-}
+    required: true;
+    integer: true;
+    nullable: true;
+    min: 0;
+    initial: null;
+    label: "DND5E.AbilityScoreMax";
+  }>;
+  bonuses: foundry.data.fields.SchemaField<
+    {
+      check: FormulaField<{ required: true; label: "DND5E.AbilityCheckBonus" }>;
+      save: FormulaField<{ required: true; label: "DND5E.SaveBonus" }>;
+    },
+    { label: "DND5E.AbilityBonuses" }
+  >;
+  check: RollConfigField<{ ability: false }>;
+  save: RollConfigField<{ ability: false }>;
+};
 
 declare class _ActorDataModel extends ActorDataModel {}
 
@@ -34,56 +52,60 @@ declare class CommonTemplate<
         foundry.data.fields.SchemaField<AbilityData>,
         dnd5e.types.Ability.TypeKey,
         {
-          initialKeys: dnd5e.types.Ability.TypeKey[],
-          initialKeysOnly: true,
-          label: "DND5E.Abilities"
+          initialKeys: dnd5e.types.Ability.TypeKey[];
+          initialKeysOnly: true;
+          label: "DND5E.Abilities";
         },
-        MappingField.AssignmentType<AbilityData, dnd5e.types.Ability.TypeKey>,
-        dnd5e.types.DeepMerge<
-          MappingField.InitializedType<AbilityData, dnd5e.types.Ability.TypeKey>,
-          {
-            checkProf: Proficiency,
-            checkBonus: number,
-            saveProf: Proficiency,
-            saveBonus: number,
-            save: {
-              value: number,
-              toString(): string,
-              toJson(): string
-            },
-            attack: number,
-            dc: number,
-            max: number,
-            mod: number
-          }
-        >
-      >
+        MappingField.AssignmentElementType<
+          foundry.data.fields.SchemaField<AbilityData>
+        >,
+        MappingField.InitializedElementType<
+          foundry.data.fields.SchemaField<AbilityData>
+        > & {
+          checkProf: Proficiency;
+          checkBonus: number;
+          saveProf: Proficiency;
+          saveBonus: number;
+          save: {
+            value: number;
+            toString(): string;
+            toJson(): string;
+          };
+          attack: number;
+          dc: number;
+          max: number;
+          mod: number;
+        }
+      >;
     },
     Schema
   >
 > {
-
   /* -------------------------------------------- */
 
   /**
    * Populate the proper initial value for abilities.
    * @private
    */
-  static _initialAbilityValue(key: dnd5e.types.Ability.TypeKey, initial: object, existing: object): object
+  static _initialAbilityValue(
+    key: dnd5e.types.Ability.TypeKey,
+    initial: object,
+    existing: object,
+  ): object;
 
   /* -------------------------------------------- */
 
   /**
    * Migrate the actor ac.value to new ac.flat override field.
-    */
-  static #migrateACData(source: CommonTemplate['_source'])
+   */
+  static #migrateACData(source: CommonTemplate["_source"]);
 
   /* -------------------------------------------- */
 
   /**
    * Migrate the actor speed string to movement object.
    */
-  static #migrateMovementData(source: CommonTemplate['_source'])
+  static #migrateMovementData(source: CommonTemplate["_source"]);
 
   /* -------------------------------------------- */
   /*  Data Preparation                            */
@@ -93,9 +115,9 @@ declare class CommonTemplate<
    * Prepare modifiers and other values for abilities.
    */
   prepareAbilities(options?: {
-    rollData?: object,
-    originalSaves?: CommonTemplate['_source']['abilities']
-  })
+    rollData?: object;
+    originalSaves?: CommonTemplate["_source"]["abilities"];
+  });
 
   /* -------------------------------------------- */
   /*  Helpers                                     */
@@ -105,7 +127,10 @@ declare class CommonTemplate<
    * Create the proficiency object for an ability, skill, or tool, taking remarkable athlete and Jack of All Trades
    * into account.
    */
-  calculateAbilityCheckProficiency(multiplier: number, ability: dnd5e.types.Ability.TypeKey): Proficiency
+  calculateAbilityCheckProficiency(
+    multiplier: number,
+    ability: dnd5e.types.Ability.TypeKey,
+  ): Proficiency;
 }
 
 declare global {
@@ -113,14 +138,14 @@ declare global {
     namespace Ability {
       // --- Base Ability Definitions ---
       interface DefaultAbilityTypes {
-        "str": true; // Strength
-        "dex": true; // Dexterity
-        "con": true; // Constitution
-        "int": true; // Intelligence
-        "wis": true; // Wisdom
-        "cha": true; // Charisma
-        "hon": true; // Honor (Optional Rule)
-        "san": true; // Sanity (Optional Rule)
+        str: true; // Strength
+        dex: true; // Dexterity
+        con: true; // Constitution
+        int: true; // Intelligence
+        wis: true; // Wisdom
+        cha: true; // Charisma
+        hon: true; // Honor (Optional Rule)
+        san: true; // Sanity (Optional Rule)
       }
 
       /**
@@ -135,7 +160,7 @@ declare global {
        * }
        * }
        */
-      interface OverrideTypes extends Record<string, boolean | never> { }
+      interface OverrideTypes extends Record<string, boolean | never> {}
 
       type Types = dnd5e.types.MergeOverrideDefinition<
         DefaultAbilityTypes,
@@ -143,14 +168,13 @@ declare global {
       >;
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
-
       // --- Default Ability Mapping for derived stats/checks ---
       interface DefaultAbilityDefaults {
-        concentration: 'con'; // Default ability for concentration saves
-        hitPoints: 'con';     // Default ability modifier for hit points per level
-        initiative: 'dex';    // Default ability for initiative rolls
-        meleeAttack: 'str';   // Default ability modifier for generic melee attacks
-        rangedAttack: 'dex';  // Default ability modifier for generic ranged attacks
+        concentration: "con"; // Default ability for concentration saves
+        hitPoints: "con"; // Default ability modifier for hit points per level
+        initiative: "dex"; // Default ability for initiative rolls
+        meleeAttack: "str"; // Default ability modifier for generic melee attacks
+        rangedAttack: "dex"; // Default ability modifier for generic ranged attacks
         // Add other common defaults as needed, e.g., spellcasting defaults per class type
       }
 
@@ -169,7 +193,8 @@ declare global {
        * }
        * }
        */
-      interface OverrideAbilityDefaults extends Record<string, TypeKey | never> { }
+      interface OverrideAbilityDefaults
+        extends Record<string, TypeKey | never> {}
 
       type AbilityDefaults = dnd5e.types.MergeOverrideDefinition<
         DefaultAbilityDefaults,
@@ -183,7 +208,7 @@ declare global {
         icon?: string; // Icon representation
         label: string; // Display name, e.g., "Strength"
         reference?: string; // Link to rules reference
-        type: 'mental' | 'physical'; // Categorization
+        type: "mental" | "physical"; // Categorization
         improvement?: boolean; // Whether this ability typically improves via ASIs (usually true for core 6)
         /** Default score values for different actor subtypes (e.g., NPCs might default to 10) */
         defaults?: Partial<{
@@ -192,22 +217,21 @@ declare global {
       };
     }
 
-    
     interface DND5EConfig {
       /**
        * The set of Ability Scores used within the system.
        */
       abilities: {
-        [K in dnd5e.types.Ability.TypeKey]: dnd5e.types.Ability.AbilityTypeConfig<K>
-      },
+        [K in dnd5e.types.Ability.TypeKey]: dnd5e.types.Ability.AbilityTypeConfig<K>;
+      };
       /**
        * Configure which ability score is used as the default modifier for initiative rolls,
        * when calculating hit points per level and hit dice, and as the default modifier for
        * saving throws to maintain concentration.
        */
       defaultAbilities: {
-        [K in keyof dnd5e.types.Ability.AbilityDefaults]: dnd5e.types.Ability.AbilityDefaults[K]
-      },
+        [K in keyof dnd5e.types.Ability.AbilityDefaults]: dnd5e.types.Ability.AbilityDefaults[K];
+      };
     }
   }
 }
