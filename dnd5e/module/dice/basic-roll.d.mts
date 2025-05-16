@@ -280,7 +280,7 @@ declare namespace BasicRoll {
         hookNames?: string[];
 
         /** Document that initiated this roll. */
-        subject?: Document;
+        subject?: foundry.abstract.Document.Any;
 
         /** Default target value for all rolls. */
         target?: number;
