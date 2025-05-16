@@ -55,7 +55,7 @@ declare class BasicRoll<
     config?: InstanceType<This>["__ProcessConfiguration"],
     dialog?: InstanceType<This>["__DialogConfiguration"],
     message?: InstanceType<This>["__MessageConfiguration"],
-  ): Promise<InstanceType<This>>;
+  ): Promise<InstanceType<This>[]>;
 
   /* -------------------------------------------- */
 
@@ -67,7 +67,7 @@ declare class BasicRoll<
     config?: InstanceType<This>["__ProcessConfiguration"],
     dialog?: InstanceType<This>["__DialogConfiguration"],
     message?: InstanceType<This>["__MessageConfiguration"],
-  ): Promise<InstanceType<This>>;
+  ): Promise<InstanceType<This>[]>;
 
   /* -------------------------------------------- */
 
