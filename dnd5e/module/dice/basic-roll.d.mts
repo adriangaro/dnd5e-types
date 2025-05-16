@@ -18,6 +18,10 @@ declare class BasicRoll<
   __DialogConfiguration: BasicRoll.MakeDialogConfiguration<DialogConfiguration>;
   __MessageConfiguration: BasicRoll.MakeMessageConfiguration<MessageConfiguration>;
 
+  options: NonNullable<
+    dnd5e.types.GetTypeFromPath<this, "__Configuration.options">
+  >;
+
   /**
    * Default application used for the roll configuration prompt.
    */
@@ -307,7 +311,7 @@ declare namespace BasicRoll {
   /**
    * Options allowed on a basic roll.
    */
-  interface Options {
+  interface Options extends Roll.Options {
     /** The total roll result that must be met for the roll to be considered a success. */
     target?: number;
   }
@@ -376,5 +380,4 @@ declare namespace BasicRoll {
     BasicRoll["__MessageConfiguration"]
   >;
 }
-
 export default BasicRoll;
