@@ -202,11 +202,13 @@ declare class BasicRoll<
    * @param other     The configuration to merge.
    * @returns         The original instance.
    */
-  static mergeConfigs<This extends BasicRoll.AnyConstructor>(
-    this: This,
-    original: Partial<InstanceType<This>["__Configuration"]>,
-    other?: Partial<InstanceType<This>["__Configuration"]>,
-  ): Partial<InstanceType<This>["__Configuration"]>;
+  static mergeConfigs<T extends Partial<BasicRoll.Configuration>, V extends Partial<BasicRoll.Configuration>>(
+    original: T,
+    other?: V,
+  ): Partial<Omit<T, 'data' | 'options'> & {
+    data?: fvttUtils.SimpleMerge<T['data'], V['data']>;
+    options?: foundry.utils.MergeObject<T['options'], V['options'], {enforceTypes: true}>;
+  }>;
 }
 
 declare class AnyBasicRoll extends BasicRoll<
