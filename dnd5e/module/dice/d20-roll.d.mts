@@ -1,7 +1,6 @@
 import D20RollConfigurationDialog from "../applications/dice/d20-configuration-dialog.mjs";
 import BasicRoll from "./basic-roll.mjs";
 
-
 /* -------------------------------------------- */
 
 declare class D20Roll<
@@ -13,7 +12,10 @@ declare class D20Roll<
 > extends BasicRoll<
   D,
   D20Roll.MakeConfiguration<Configuration>,
-  D20Roll.MakeProcessConfiguration<ProcessConfiguration, D20Roll.MakeConfiguration<Configuration>>,
+  D20Roll.MakeProcessConfiguration<
+    ProcessConfiguration,
+    D20Roll.MakeConfiguration<Configuration>
+  >,
   D20Roll.MakeDialogConfiguration<DialogConfiguration>,
   D20Roll.MakeMessageConfiguration<MessageConfiguration>
 > {
@@ -23,9 +25,9 @@ declare class D20Roll<
    * Advantage mode of a 5e d20 roll
    */
   static ADV_MODE: {
-    NORMAL: 0,
-    ADVANTAGE: 1,
-    DISADVANTAGE: -1
+    NORMAL: 0;
+    ADVANTAGE: 1;
+    DISADVANTAGE: -1;
   };
 
   /* -------------------------------------------- */
@@ -42,9 +44,8 @@ declare class D20Roll<
    */
   static fromRoll<This extends typeof D20Roll>(
     this: This,
-    roll: foundry.dice.Roll
-  ): InstanceType<This>
-
+    roll: foundry.dice.Roll,
+  ): InstanceType<This>;
 
   /* -------------------------------------------- */
   /*  Properties                                  */
@@ -53,50 +54,49 @@ declare class D20Roll<
   /**
    * The primary die used in this d20 roll.
    */
-  get d20(): dnd5e.dice.D20Die | undefined
+  get d20(): dnd5e.dice.D20Die | undefined;
 
   /* -------------------------------------------- */
 
   /**
    * Set the d20 for this roll.
    */
-  set d20(die: dnd5e.dice.D20Die)
+  set d20(die: dnd5e.dice.D20Die);
 
   /* -------------------------------------------- */
 
   /**
    * A convenience reference for whether this D20Roll has advantage.
    */
-  get hasAdvantage(): boolean
+  get hasAdvantage(): boolean;
 
   /* -------------------------------------------- */
 
   /**
    * A convenience reference for whether this D20Roll has disadvantage.
    */
-  get hasDisadvantage(): boolean
+  get hasDisadvantage(): boolean;
 
   /* -------------------------------------------- */
 
   /**
    * Is this roll a critical success? Returns undefined if roll isn't evaluated.
    */
-  get isCritical(): boolean | undefined
+  get isCritical(): boolean | undefined;
 
   /* -------------------------------------------- */
 
   /**
    * Is this roll a critical failure? Returns undefined if roll isn't evaluated.
    */
-  get isFumble(): boolean | undefined
+  get isFumble(): boolean | undefined;
 
   /* -------------------------------------------- */
 
   /**
    * Does this roll start with a d20?
    */
-  get validD20Roll(): boolean
-
+  get validD20Roll(): boolean;
 
   /* -------------------------------------------- */
   /*  Roll Configuration                          */
@@ -105,14 +105,14 @@ declare class D20Roll<
   /**
    * Apply optional modifiers which customize the behavior of the d20term
    */
-  configureModifiers()
+  configureModifiers();
 
   /* -------------------------------------------- */
 
   /**
    * Ensure the d20 die for this roll is actually a D20Die instance.
    */
-  #createD20Die()
+  #createD20Die();
 
   /* -------------------------------------------- */
   /*  Configuration Dialog                        */
@@ -121,22 +121,28 @@ declare class D20Roll<
   /**
    * Create a Dialog prompt used to configure evaluation of an existing D20Roll instance.
    */
-  configureDialog(data?: {
-    title?: string,
-    defaultRollMode?: D20Roll.AdvantageMode,
-    defaultAction?: number,
-    ammunitionOptions?: dnd5e.types.FormSelectOption[],
-    attackModes?: dnd5e.types.FormSelectOption[],
-    chooseModifier?: boolean,
-    defaultAbility?: dnd5e.types.Ability.TypeKey,
-    masteryOptions?: dnd5e.types.FormSelectOption[],
-    template?: string
-  }, options?: object): Promise<this | null>
+  configureDialog(
+    data?: {
+      title?: string;
+      defaultRollMode?: D20Roll.AdvantageMode;
+      defaultAction?: number;
+      ammunitionOptions?: dnd5e.types.FormSelectOption[];
+      attackModes?: dnd5e.types.FormSelectOption[];
+      chooseModifier?: boolean;
+      defaultAbility?: dnd5e.types.Ability.TypeKey;
+      masteryOptions?: dnd5e.types.FormSelectOption[];
+      template?: string;
+    },
+    options?: object,
+  ): Promise<this | null>;
 }
 
-
 declare class AnyD20Roll extends D20Roll<
-  any, any, any, any, any
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject
 > {
   constructor(...args: any[]);
 }
@@ -144,26 +150,31 @@ declare class AnyD20Roll extends D20Roll<
 declare namespace D20Roll {
   interface Any extends AnyD20Roll {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyD20Roll> {}
+  interface DefaultConstructor
+    extends fvttUtils.Identity<
+      typeof D20Roll<fvttUtils.AnyObject, {}, {}, {}, {}>
+    > {}
 
-  type AdvantageMode = -1 | 0 | 1
+  type AdvantageMode = -1 | 0 | 1;
 
-  type MakeConfiguration<
-    Cfg extends fvttUtils.AnyObject = {}
-  > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
-    {
-      /** Parts used to construct the roll formula, not including the d20 die. */
-      parts: string[]; // Overrides optional parts in base to be required
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> =
+    fvttUtils.PrettifyType<
+      dnd5e.types.DeepMerge<
+        {
+          /** Parts used to construct the roll formula, not including the d20 die. */
+          parts: string[]; // Overrides optional parts in base to be required
 
-      /** Options passed through to the roll. */
-      options: Options; // Overrides options type in base
-    },
-    Cfg
-  >>
-  type Configuration = D20Roll['__Configuration']
+          /** Options passed through to the roll. */
+          options: Options; // Overrides options type in base
+        },
+        Cfg
+      >
+    >;
+  type Configuration = D20Roll["__Configuration"];
 
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
-    Cfg extends MakeConfiguration<any> = MakeConfiguration
+    Cfg extends MakeConfiguration<any> = MakeConfiguration,
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
       {
@@ -187,8 +198,8 @@ declare namespace D20Roll {
       },
       PrcCfg
     >
-  >
-  type ProcessConfiguration = D20Roll['__ProcessConfiguration']
+  >;
+  type ProcessConfiguration = D20Roll["__ProcessConfiguration"];
 
   /* -------------------------------------------- */
 
@@ -221,35 +232,24 @@ declare namespace D20Roll {
     minimum?: number;
   }
 
-  type MakeDialogConfiguration<
-    DlgCfg extends fvttUtils.AnyObject = {},
-  > = fvttUtils.PrettifyType<
-    dnd5e.types.DeepMerge<
-      BasicRoll.MakeDialogAppConfig<
-        typeof D20RollConfigurationDialog
-      >,
-      DlgCfg
-    >
-  >
-  type DialogConfiguration = D20Roll['__DialogConfiguration']
+  type MakeDialogConfiguration<DlgCfg extends fvttUtils.AnyObject = {}> =
+    fvttUtils.PrettifyType<
+      dnd5e.types.DeepMerge<
+        BasicRoll.MakeDialogAppConfig<typeof D20RollConfigurationDialog>,
+        DlgCfg
+      >
+    >;
+  type DialogConfiguration = D20Roll["__DialogConfiguration"];
 
   /* -------------------------------------------- */
 
   /**
-  * Configuration data for creating a roll message.
-  */
+   * Configuration data for creating a roll message.
+   */
 
-  type MakeMessageConfiguration<
-    MsgCfg extends fvttUtils.AnyObject = {},
-  > = fvttUtils.PrettifyType<
-    dnd5e.types.DeepMerge<
-      {
-      },
-      MsgCfg
-    >
-  >
-  type MessageConfiguration = D20Roll['__MessageConfiguration']
-
+  type MakeMessageConfiguration<MsgCfg extends fvttUtils.AnyObject = {}> =
+    fvttUtils.PrettifyType<dnd5e.types.DeepMerge<{}, MsgCfg>>;
+  type MessageConfiguration = D20Roll["__MessageConfiguration"];
 }
 
 export default D20Roll;
@@ -261,10 +261,10 @@ export default D20Roll;
  * @internal
  */
 export function _createDeprecatedD20Config(
-  rollConfig: D20Roll.ProcessConfiguration, 
-  dialogConfig: BasicRoll.DialogConfiguration, 
-  messageConfig: BasicRoll.MessageConfiguration
-): dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration
+  rollConfig: D20Roll.ProcessConfiguration,
+  dialogConfig: BasicRoll.DialogConfiguration,
+  messageConfig: BasicRoll.MessageConfiguration,
+): dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration;
 
 /* -------------------------------------------- */
 
@@ -273,9 +273,8 @@ export function _createDeprecatedD20Config(
  * @internal
  */
 export function _applyDeprecatedD20Configs(
-  rollConfig: D20Roll.ProcessConfiguration, 
-  dialogConfig: BasicRoll.DialogConfiguration, 
+  rollConfig: D20Roll.ProcessConfiguration,
+  dialogConfig: BasicRoll.DialogConfiguration,
   messageConfig: BasicRoll.MessageConfiguration,
-  options: dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration
-)
-
+  options: dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration,
+);

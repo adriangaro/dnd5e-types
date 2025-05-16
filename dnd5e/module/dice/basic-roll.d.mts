@@ -11,7 +11,10 @@ declare class BasicRoll<
   MessageConfiguration extends fvttUtils.AnyObject = {},
 > extends Roll<D> {
   __Configuration: BasicRoll.MakeConfiguration<Configuration>;
-  __ProcessConfiguration: BasicRoll.MakeProcessConfiguration<ProcessConfiguration, BasicRoll.MakeConfiguration<Configuration>>;
+  __ProcessConfiguration: BasicRoll.MakeProcessConfiguration<
+    ProcessConfiguration,
+    BasicRoll.MakeConfiguration<Configuration>
+  >;
   __DialogConfiguration: BasicRoll.MakeDialogConfiguration<DialogConfiguration>;
   __MessageConfiguration: BasicRoll.MakeMessageConfiguration<MessageConfiguration>;
 
@@ -29,75 +32,77 @@ declare class BasicRoll<
    */
   static fromConfig<This extends typeof BasicRoll>(
     this: This,
-    config: InstanceType<This>['__Configuration'],
-    process: InstanceType<This>['__ProcessConfiguration']
-  ): InstanceType<This>
+    config: InstanceType<This>["__Configuration"],
+    process: InstanceType<This>["__ProcessConfiguration"],
+  ): InstanceType<This>;
 
   /* -------------------------------------------- */
 
   /**
    * Construct roll parts and populate its data object.
    */
-  static constructParts(parts: object, data?: object): { parts: string[], data: object }
+  static constructParts(
+    parts: object,
+    data?: object,
+  ): { parts: string[]; data: object };
 
   /* -------------------------------------------- */
 
   /**
    * Construct and perform a roll through the standard workflow.
    */
-  static build<This extends typeof BasicRoll>(
-    this: This,
-    config?: InstanceType<This>['__ProcessConfiguration'],
-    dialog?: InstanceType<This>['__DialogConfiguration'],
-    message?: InstanceType<This>['__MessageConfiguration']
-  ): Promise<InstanceType<This>>
+  static build<This extends BasicRoll.AnyConstructor>(
+    config?: InstanceType<This>["__ProcessConfiguration"],
+    dialog?: InstanceType<This>["__DialogConfiguration"],
+    message?: InstanceType<This>["__MessageConfiguration"],
+  ): Promise<InstanceType<This>>;
 
   /* -------------------------------------------- */
 
   /**
    * Stage one of the standard rolling workflow, configuring the roll.
    */
-  static buildConfigure<This extends typeof BasicRoll>(
+  static buildConfigure<This extends BasicRoll.AnyConstructor>(
     this: This,
-    config?: InstanceType<This>['__ProcessConfiguration'],
-    dialog?: InstanceType<This>['__DialogConfiguration'],
-    message?: InstanceType<This>['__MessageConfiguration']
-  ): Promise<InstanceType<This>>
+    config?: InstanceType<This>["__ProcessConfiguration"],
+    dialog?: InstanceType<This>["__DialogConfiguration"],
+    message?: InstanceType<This>["__MessageConfiguration"],
+  ): Promise<InstanceType<This>>;
 
   /* -------------------------------------------- */
 
   /**
    * Stage two of the standard rolling workflow, evaluating the rolls.
    */
-  static buildEvaluate<This extends typeof BasicRoll>(
+  static buildEvaluate<This extends BasicRoll.AnyConstructor>(
     this: This,
     rolls: InstanceType<This>[],
-    config?: InstanceType<This>['__ProcessConfiguration'],
-    message?: InstanceType<This>['__MessageConfiguration']
-  ): Promise<InstanceType<This>>
+    config?: InstanceType<This>["__ProcessConfiguration"],
+    message?: InstanceType<This>["__MessageConfiguration"],
+  ): Promise<InstanceType<This>>;
   /* -------------------------------------------- */
 
   /**
    * Stage three of the standard rolling workflow, posting a message to chat.
    */
-  static buildPost<This extends typeof BasicRoll>(
+  static buildPost<This extends BasicRoll.AnyConstructor>(
     this: This,
     rolls: InstanceType<This>[],
-    config?: InstanceType<This>['__ProcessConfiguration'],
-    message?: InstanceType<This>['__MessageConfiguration']
-  ): Promise<ChatMessage.Implementation>
+    config?: InstanceType<This>["__ProcessConfiguration"],
+    message?: InstanceType<This>["__MessageConfiguration"],
+  ): Promise<ChatMessage.Implementation>;
 
   /* -------------------------------------------- */
 
   /**
    * Determines whether the roll process should be fast forwarded.
    */
-  static applyKeybindings<This extends typeof BasicRoll>(
+  static applyKeybindings<This extends BasicRoll.AnyConstructor>(
     this: This,
-    config: InstanceType<This>['__ProcessConfiguration'],
-    dialog: InstanceType<This>['__DialogConfiguration'],
-    message: InstanceType<This>['__MessageConfiguration']
-  )
+    config: InstanceType<This>["__ProcessConfiguration"],
+    dialog: InstanceType<This>["__DialogConfiguration"],
+    message: InstanceType<This>["__MessageConfiguration"],
+  );
 
   /* -------------------------------------------- */
   /*  Properties                                  */
@@ -106,14 +111,14 @@ declare class BasicRoll<
   /**
    * Is the result of this roll a failure? Returns `undefined` if roll isn't evaluated.
    */
-  get isFailure(): boolean | undefined
+  get isFailure(): boolean | undefined;
 
   /* -------------------------------------------- */
 
   /**
    * Is the result of this roll a success? Returns `undefined` if roll isn't evaluated.
    */
-  get isSuccess(): boolean | undefined
+  get isSuccess(): boolean | undefined;
 
   /* -------------------------------------------- */
   /*  Chat Messages                               */
@@ -132,26 +137,26 @@ declare class BasicRoll<
    * @returns {Promise<ChatMessage|object>}  A promise which resolves to the created ChatMessage document if create is
    *                                         true, or the Object of prepared chatData otherwise.
    */
-  static toMessage<This extends typeof BasicRoll>(
+  static toMessage<This extends BasicRoll.AnyConstructor>(
     this: This,
     rolls: InstanceType<This>[],
     messageData: object,
     options?: {
-      rollMode?: string,
-      create?: boolean
-    }
-  ): Promise<ChatMessage.Implementation>
+      rollMode?: string;
+      create?: boolean;
+    },
+  ): Promise<ChatMessage.Implementation>;
 
   /* -------------------------------------------- */
 
   /**
    * Perform specific changes to message data before creating message.
    */
-  static _prepareMessageData<This extends typeof BasicRoll>(
+  static _prepareMessageData<This extends BasicRoll.AnyConstructor>(
     this: This,
     rolls: InstanceType<This>[],
-    messageData: object
-  )
+    messageData: object,
+  );
 
   /* -------------------------------------------- */
   /*  Maximize/Minimize Methods                   */
@@ -160,10 +165,7 @@ declare class BasicRoll<
   /**
    * Replaces all dice terms that have modifiers with their maximum/minimum value.
    */
-  preCalculateDiceTerms(options?: {
-    maximize?: boolean,
-    minimize?: boolean
-  })
+  preCalculateDiceTerms(options?: { maximize?: boolean; minimize?: boolean });
 
   /* -------------------------------------------- */
 
@@ -178,8 +180,8 @@ declare class BasicRoll<
    */
   static preCalculateTerm(
     die: foundry.dice.terms.DiceTerm,
-    preCalculateOptions?: { minimize?: boolean }
-  ): number | null
+    preCalculateOptions?: { minimize?: boolean },
+  ): number | null;
 
   /* -------------------------------------------- */
   /*  Simplification Methods                      */
@@ -188,7 +190,7 @@ declare class BasicRoll<
   /**
    * Replace number and faces of dice terms with numeric values where possible.
    */
-  simplify()
+  simplify(): void;
 
   /* -------------------------------------------- */
   /*  Helpers                                     */
@@ -196,61 +198,68 @@ declare class BasicRoll<
 
   /**
    * Merge two roll configurations.
-   * @param {Partial<BasicRollConfiguration>} original  The initial configuration that will be merged into.
-   * @param {Partial<BasicRollConfiguration>} other     The configuration to merge.
-   * @returns {Partial<BasicRollConfiguration>}         The original instance.
+   * @param original  The initial configuration that will be merged into.
+   * @param other     The configuration to merge.
+   * @returns         The original instance.
    */
-  static mergeConfigs<This extends typeof BasicRoll>(
+  static mergeConfigs<This extends BasicRoll.AnyConstructor>(
     this: This,
-    original: Partial<InstanceType<This>['__Configuration']>,
-    other?: Partial<InstanceType<This>['__Configuration']>
-  ): Partial<InstanceType<This>['__Configuration']>
+    original: Partial<InstanceType<This>["__Configuration"]>,
+    other?: Partial<InstanceType<This>["__Configuration"]>,
+  ): Partial<InstanceType<This>["__Configuration"]>;
 }
 
 declare class AnyBasicRoll extends BasicRoll<
-  fvttUtils.EmptyObject, fvttUtils.EmptyObject, 
-  fvttUtils.EmptyObject, fvttUtils.EmptyObject, 
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
   fvttUtils.EmptyObject
 > {
   constructor(...args: any[]);
 }
 
 declare namespace BasicRoll {
-  interface Any extends AnyBasicRoll { }
-  interface AnyConstructor extends fvttUtils.Identity<typeof AnyBasicRoll> { }
+  interface Any extends AnyBasicRoll {}
+  interface AnyConstructor extends fvttUtils.Identity<typeof AnyBasicRoll> {}
+  interface DefaultConstructor
+    extends fvttUtils.Identity<
+      typeof BasicRoll<fvttUtils.AnyObject, {}, {}, {}, {}>
+    > {}
 
-  type MakeConfiguration<
-    Cfg extends fvttUtils.AnyObject = {}
-  > = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
-    {
-      /**
-     * Parts used to construct the roll formula.
-     * @defaultValue `[]`
-     */
-      parts?: string[];
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> =
+    dnd5e.types.EnsureAnyIfNever<
+      dnd5e.types.DeepMerge<
+        {
+          /**
+           * Parts used to construct the roll formula.
+           * @defaultValue `[]`
+           */
+          parts?: string[];
 
-      /**
-       * Data used to resolve placeholders in the formula.
-       * @defaultValue `{}`
-       */
-      data?: Record<string, any>; // Using Record<string, any> for a generic object type
+          /**
+           * Data used to resolve placeholders in the formula.
+           * @defaultValue `{}`
+           */
+          data?: Record<string, any>; // Using Record<string, any> for a generic object type
 
-      /**
-       * Whether the situational bonus can be added to this roll in the prompt.
-       * @defaultValue `true`
-       */
-      situational?: boolean;
+          /**
+           * Whether the situational bonus can be added to this roll in the prompt.
+           * @defaultValue `true`
+           */
+          situational?: boolean;
 
-      /** Additional options passed through to the created roll. */
-      options?: Options;
-    },
-    Cfg
-  >>
-  type Configuration = BasicRoll['__Configuration']
+          /** Additional options passed through to the created roll. */
+          options?: Options;
+        },
+        Cfg
+      >
+    >;
+  type Configuration = BasicRoll["__Configuration"];
 
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
-    Cfg extends MakeConfiguration<any> = MakeConfiguration
+    Cfg extends MakeConfiguration<any> = MakeConfiguration,
   > = dnd5e.types.EnsureAnyIfNever<
     dnd5e.types.DeepMerge<
       {
@@ -278,13 +287,12 @@ declare namespace BasicRoll {
       },
       PrcCfg
     >
-  >
-  type ProcessConfiguration = BasicRoll['__ProcessConfiguration']
-
+  >;
+  type ProcessConfiguration = BasicRoll["__ProcessConfiguration"];
 
   /**
-  * Options allowed on a basic roll.
-  */
+   * Options allowed on a basic roll.
+   */
   interface Options {
     /** The total roll result that must be met for the roll to be considered a success. */
     target?: number;
@@ -292,67 +300,63 @@ declare namespace BasicRoll {
 
   /* -------------------------------------------- */
 
-  type MakeDialogConfiguration<
-    DlgCfg extends fvttUtils.AnyObject = {},
-  > = dnd5e.types.EnsureAnyIfNever<
-    dnd5e.types.DeepMerge<
-      {
-        /**
-       * Display a configuration dialog for the rolling process.
-       * @defaultValue `true`
-       */
-        configure?: boolean;
-      } & MakeDialogAppConfig<
-        typeof RollConfigurationDialog
-      >,
-      DlgCfg
-    >
-  >
-  type DialogConfiguration = BasicRoll['__DialogConfiguration']
+  type MakeDialogConfiguration<DlgCfg extends fvttUtils.AnyObject = {}> =
+    dnd5e.types.EnsureAnyIfNever<
+      dnd5e.types.DeepMerge<
+        {
+          /**
+           * Display a configuration dialog for the rolling process.
+           * @defaultValue `true`
+           */
+          configure?: boolean;
+        } & MakeDialogAppConfig<typeof RollConfigurationDialog>,
+        DlgCfg
+      >
+    >;
+  type DialogConfiguration = BasicRoll["__DialogConfiguration"];
 
-  type MakeDialogAppConfig<
-    DialogClass extends fvttUtils.AnyConstructor
-  > = {
+  type MakeDialogAppConfig<DialogClass extends fvttUtils.AnyConstructor> = {
     /** Alternate configuration application to use. */
     applicationClass?: DialogClass;
 
     /** Additional options passed to the dialog. */
-    options?: dnd5e.types.GetKey<fvttUtils.FixedInstanceType<DialogClass>, '__Configuration'>;
-  }
+    options?: dnd5e.types.GetKey<
+      fvttUtils.FixedInstanceType<DialogClass>,
+      "__Configuration"
+    >;
+  };
   /* -------------------------------------------- */
 
   /**
-  * Configuration data for creating a roll message.
-  */
+   * Configuration data for creating a roll message.
+   */
 
-  type MakeMessageConfiguration<
-    MsgCfg extends fvttUtils.AnyObject = {},
-  > = dnd5e.types.EnsureAnyIfNever<
-    dnd5e.types.DeepMerge<
-      {
-        /**
-     * Create a message when the rolling is complete.
-     * @defaultValue `true`
-     */
-        create?: boolean;
+  type MakeMessageConfiguration<MsgCfg extends fvttUtils.AnyObject = {}> =
+    dnd5e.types.EnsureAnyIfNever<
+      dnd5e.types.DeepMerge<
+        {
+          /**
+           * Create a message when the rolling is complete.
+           * @defaultValue `true`
+           */
+          create?: boolean;
 
-        /** Final created chat message document once process is completed. */
-        document?: ChatMessage.Implementation;
+          /** Final created chat message document once process is completed. */
+          document?: ChatMessage.Implementation;
 
-        /** The roll mode to apply to this message from `CONFIG.Dice.rollModes`. */
-        rollMode?: string; // Consider using a literal type if rollModes are known constants
+          /** The roll mode to apply to this message from `CONFIG.Dice.rollModes`. */
+          rollMode?: string; // Consider using a literal type if rollModes are known constants
 
-        /**
-         * Additional data used when creating the message.
-         * @defaultValue `{}`
-         */
-        data?: Record<string, any>; // Using Record<string, any> for a generic object type
-      },
-      MsgCfg
-    >
-  >
-  type MessageConfiguration = BasicRoll['__MessageConfiguration']
-
+          /**
+           * Additional data used when creating the message.
+           * @defaultValue `{}`
+           */
+          data?: Record<string, any>; // Using Record<string, any> for a generic object type
+        },
+        MsgCfg
+      >
+    >;
+  type MessageConfiguration = BasicRoll["__MessageConfiguration"];
 }
 
-export default BasicRoll
+export default BasicRoll;

@@ -2,8 +2,6 @@ import DamageRollConfigurationDialog from "../applications/dice/damage-configura
 import { areKeysPressed } from "../utils.mjs";
 import BasicRoll from "./basic-roll.mjs";
 
-
-
 /* -------------------------------------------- */
 
 /**
@@ -18,7 +16,10 @@ declare class DamageRoll<
 > extends BasicRoll<
   D,
   DamageRoll.MakeConfiguration<Configuration>,
-  DamageRoll.MakeProcessConfiguration<ProcessConfiguration, DamageRoll.MakeConfiguration<Configuration>>,
+  DamageRoll.MakeProcessConfiguration<
+    ProcessConfiguration,
+    DamageRoll.MakeConfiguration<Configuration>
+  >,
   DamageRoll.MakeDialogConfiguration<DialogConfiguration>,
   DamageRoll.MakeMessageConfiguration<MessageConfiguration>
 > {
@@ -27,14 +28,14 @@ declare class DamageRoll<
   /** @inheritDoc */
   static DefaultConfigurationDialog: typeof DamageRollConfigurationDialog;
 
-  /* -------------------------------------------- 
+  /* --------------------------------------------
   /*  Properties                                  */
   /* -------------------------------------------- */
 
   /**
    * Is this damage critical.
    */
-  get isCritical(): boolean
+  get isCritical(): boolean;
 
   /* -------------------------------------------- */
   /*  Roll Configuration                          */
@@ -44,7 +45,7 @@ declare class DamageRoll<
    * Perform any term-merging required to ensure that criticals can be calculated successfully.
    * @protected
    */
-  preprocessFormula() 
+  preprocessFormula();
 
   /* -------------------------------------------- */
 
@@ -52,7 +53,9 @@ declare class DamageRoll<
    * Apply optional modifiers which customize the behavior of the d20term.
    * @protected
    */
-  configureDamage(options?: { critical?: DamageRoll.CriticalDamageConfiguration })
+  configureDamage(options?: {
+    critical?: DamageRoll.CriticalDamageConfiguration;
+  });
 
   /* -------------------------------------------- */
   /*  Configuration Dialog                        */
@@ -61,72 +64,94 @@ declare class DamageRoll<
   /**
    * Create a Dialog prompt used to configure evaluation of an existing D20Roll instance.
    */
-  configureDialog(data?: {
-    title?: string,
-    defaultRollMode?: dnd5e.dice.D20Roll.AdvantageMode,
-    defaultCritical?: boolean,
-    template?: string,
-    allowCritical?: boolean
-  }, options?: object): Promise<dnd5e.dice.D20Roll | null>
+  configureDialog(
+    data?: {
+      title?: string;
+      defaultRollMode?: dnd5e.dice.D20Roll.AdvantageMode;
+      defaultCritical?: boolean;
+      template?: string;
+      allowCritical?: boolean;
+    },
+    options?: object,
+  ): Promise<dnd5e.dice.D20Roll | null>;
 
   /* -------------------------------------------- */
 
   /**
    * Create a Dialog prompt used to configure evaluation of one or more damage rolls.
    */
-  static configureDialog(data?: {
-    title?: string,
-    defaultRollMode?: dnd5e.dice.D20Roll.AdvantageMode,
-    defaultCritical?: boolean,
-    template?: string,
-    allowCritical?: boolean
-  }, options?: object): Promise<dnd5e.dice.D20Roll | null>
+  static configureDialog(
+    data?: {
+      title?: string;
+      defaultRollMode?: dnd5e.dice.D20Roll.AdvantageMode;
+      defaultCritical?: boolean;
+      template?: string;
+      allowCritical?: boolean;
+    },
+    options?: object,
+  ): Promise<dnd5e.dice.D20Roll | null>;
 }
 
-declare class AnyDamageRoll extends DamageRoll<fvttUtils.EmptyObject, {}, {}, {}, {}> {
+declare class AnyDamageRoll extends DamageRoll<
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject,
+  fvttUtils.EmptyObject
+> {
   constructor(...args: any[]);
 }
-
 
 declare namespace DamageRoll {
   interface Any extends AnyDamageRoll {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyDamageRoll> {}
-  type DefaultConstructor = typeof DamageRoll<fvttUtils.EmptyObject, {}, {}, {}, {}>
+  interface DefaultConstructor
+    extends fvttUtils.Identity<
+      typeof DamageRoll<fvttUtils.AnyObject, {}, {}, {}, {}>
+    > {}
 
-  type MakeConfiguration<
-    Cfg extends fvttUtils.AnyObject = {}
-  > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
-    {
-      options?: Options
-    },
-    Cfg
-  >>
-  type Configuration = DamageRoll['__Configuration']
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> =
+    fvttUtils.PrettifyType<
+      dnd5e.types.DeepMerge<
+        {
+          options?: Options;
+        },
+        Cfg
+      >
+    >;
+  type Configuration = DamageRoll["__Configuration"];
 
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
-    Cfg extends MakeConfiguration<any> = MakeConfiguration
+    Cfg extends MakeConfiguration<any> = MakeConfiguration,
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
       {
-        rolls: Cfg[],
-        critical?: CriticalDamageConfiguration,
-        isCritical?: boolean,
-        scaling?: number
+        rolls: Cfg[];
+        critical?: CriticalDamageConfiguration;
+        isCritical?: boolean;
+        scaling?: number;
       },
       PrcCfg
     >
-  >
-  type ProcessConfiguration = DamageRoll['__ProcessConfiguration']
+  >;
+  type ProcessConfiguration = DamageRoll["__ProcessConfiguration"];
 
   /* -------------------------------------------- */
 
   interface Options extends BasicRoll.Options {
-    isCritical?: boolean,
-    critical?: CriticalDamageConfiguration,
-    properties?: (dnd5e.types.ItemProperties.TypeKey | (string & {}))[]
-    type: dnd5e.types.Damage.TypeKey |  dnd5e.types.Healing.TypeKey | (string & {})
-    types: (dnd5e.types.Damage.TypeKey |  dnd5e.types.Healing.TypeKey | (string & {}))[]
+    isCritical?: boolean;
+    critical?: CriticalDamageConfiguration;
+    properties?: (dnd5e.types.ItemProperties.TypeKey | (string & {}))[];
+    type:
+      | dnd5e.types.Damage.TypeKey
+      | dnd5e.types.Healing.TypeKey
+      | (string & {});
+    types: (
+      | dnd5e.types.Damage.TypeKey
+      | dnd5e.types.Healing.TypeKey
+      | (string & {})
+    )[];
   }
 
   /**
@@ -142,35 +167,19 @@ declare namespace DamageRoll {
     powerfulCritical?: string;
   }
 
-  type MakeDialogConfiguration<
-    DlgCfg extends fvttUtils.AnyObject = {},
-  > = fvttUtils.PrettifyType<
-    dnd5e.types.DeepMerge<
-      {
-
-      },
-      DlgCfg
-    >
-  >
-  type DialogConfiguration = DamageRoll['__DialogConfiguration']
+  type MakeDialogConfiguration<DlgCfg extends fvttUtils.AnyObject = {}> =
+    fvttUtils.PrettifyType<dnd5e.types.DeepMerge<{}, DlgCfg>>;
+  type DialogConfiguration = DamageRoll["__DialogConfiguration"];
 
   /* -------------------------------------------- */
 
   /**
-  * Configuration data for creating a roll message.
-  */
+   * Configuration data for creating a roll message.
+   */
 
-  type MakeMessageConfiguration<
-    MsgCfg extends fvttUtils.AnyObject = {},
-  > = fvttUtils.PrettifyType<
-    dnd5e.types.DeepMerge<
-      {
-      },
-      MsgCfg
-    >
-  >
-  type MessageConfiguration = DamageRoll['__MessageConfiguration']
-
+  type MakeMessageConfiguration<MsgCfg extends fvttUtils.AnyObject = {}> =
+    fvttUtils.PrettifyType<dnd5e.types.DeepMerge<{}, MsgCfg>>;
+  type MessageConfiguration = DamageRoll["__MessageConfiguration"];
 }
 
 export default DamageRoll;
