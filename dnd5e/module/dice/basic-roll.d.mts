@@ -205,10 +205,10 @@ declare class BasicRoll<
   static mergeConfigs<T extends Partial<BasicRoll.Configuration>, V extends Partial<BasicRoll.Configuration>>(
     original: T,
     other?: V,
-  ): Partial<Omit<T, 'data' | 'options'> & {
-    data?: fvttUtils.SimpleMerge<T['data'], V['data']>;
-    options?: foundry.utils.MergeObject<T['options'], V['options'], {enforceTypes: true}>;
-  }>;
+  ): Omit<T, 'data' | 'options'> & {
+    data: fvttUtils.SimpleMerge<T['data'], V['data']>;
+    options: foundry.utils.MergeObject<T['options'], V['options'], {enforceTypes: true}>;
+  };
 }
 
 declare class AnyBasicRoll extends BasicRoll<
