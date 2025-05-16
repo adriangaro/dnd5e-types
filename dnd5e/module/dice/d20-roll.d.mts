@@ -170,7 +170,7 @@ declare namespace D20Roll {
         Cfg
       >
     >;
-  type Configuration = D20Roll["__Configuration"];
+  type Configuration = fvttUtils.PrettifyType<D20Roll["__Configuration"]>;
 
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
@@ -199,7 +199,7 @@ declare namespace D20Roll {
       PrcCfg
     >
   >;
-  type ProcessConfiguration = D20Roll["__ProcessConfiguration"];
+  type ProcessConfiguration = fvttUtils.PrettifyType<D20Roll["__ProcessConfiguration"]>;
 
   /* -------------------------------------------- */
 
@@ -239,7 +239,7 @@ declare namespace D20Roll {
         DlgCfg
       >
     >;
-  type DialogConfiguration = D20Roll["__DialogConfiguration"];
+  type DialogConfiguration = fvttUtils.PrettifyType<D20Roll["__DialogConfiguration"]>;
 
   /* -------------------------------------------- */
 
@@ -249,7 +249,7 @@ declare namespace D20Roll {
 
   type MakeMessageConfiguration<MsgCfg extends fvttUtils.AnyObject = {}> =
     fvttUtils.PrettifyType<dnd5e.types.DeepMerge<{}, MsgCfg>>;
-  type MessageConfiguration = D20Roll["__MessageConfiguration"];
+  type MessageConfiguration = fvttUtils.PrettifyType<D20Roll["__MessageConfiguration"]>;
 }
 
 export default D20Roll;

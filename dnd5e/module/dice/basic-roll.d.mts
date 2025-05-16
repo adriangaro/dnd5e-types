@@ -267,7 +267,7 @@ declare namespace BasicRoll {
         Cfg
       >
     >;
-  type Configuration = BasicRoll["__Configuration"];
+  type Configuration = fvttUtils.PrettifyType<BasicRoll["__Configuration"]>;
 
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
@@ -300,7 +300,9 @@ declare namespace BasicRoll {
       PrcCfg
     >
   >;
-  type ProcessConfiguration = BasicRoll["__ProcessConfiguration"];
+  type ProcessConfiguration = fvttUtils.PrettifyType<
+    BasicRoll["__ProcessConfiguration"]
+  >;
 
   /**
    * Options allowed on a basic roll.
@@ -325,7 +327,9 @@ declare namespace BasicRoll {
         DlgCfg
       >
     >;
-  type DialogConfiguration = BasicRoll["__DialogConfiguration"];
+  type DialogConfiguration = fvttUtils.PrettifyType<
+    BasicRoll["__DialogConfiguration"]
+  >;
 
   type MakeDialogAppConfig<DialogClass extends fvttUtils.AnyConstructor> = {
     /** Alternate configuration application to use. */
@@ -368,7 +372,9 @@ declare namespace BasicRoll {
         MsgCfg
       >
     >;
-  type MessageConfiguration = BasicRoll["__MessageConfiguration"];
+  type MessageConfiguration = fvttUtils.PrettifyType<
+    BasicRoll["__MessageConfiguration"]
+  >;
 }
 
 export default BasicRoll;

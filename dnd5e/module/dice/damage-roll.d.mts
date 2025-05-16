@@ -119,7 +119,7 @@ declare namespace DamageRoll {
         Cfg
       >
     >;
-  type Configuration = DamageRoll["__Configuration"];
+  type Configuration = fvttUtils.PrettifyType<DamageRoll["__Configuration"]>;
 
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
@@ -135,7 +135,7 @@ declare namespace DamageRoll {
       PrcCfg
     >
   >;
-  type ProcessConfiguration = DamageRoll["__ProcessConfiguration"];
+  type ProcessConfiguration = fvttUtils.PrettifyType<DamageRoll["__ProcessConfiguration"]>;
 
   /* -------------------------------------------- */
 
@@ -169,7 +169,7 @@ declare namespace DamageRoll {
 
   type MakeDialogConfiguration<DlgCfg extends fvttUtils.AnyObject = {}> =
     fvttUtils.PrettifyType<dnd5e.types.DeepMerge<{}, DlgCfg>>;
-  type DialogConfiguration = DamageRoll["__DialogConfiguration"];
+  type DialogConfiguration = fvttUtils.PrettifyType<DamageRoll["__DialogConfiguration"]>;
 
   /* -------------------------------------------- */
 
@@ -179,7 +179,7 @@ declare namespace DamageRoll {
 
   type MakeMessageConfiguration<MsgCfg extends fvttUtils.AnyObject = {}> =
     fvttUtils.PrettifyType<dnd5e.types.DeepMerge<{}, MsgCfg>>;
-  type MessageConfiguration = DamageRoll["__MessageConfiguration"];
+  type MessageConfiguration = fvttUtils.PrettifyType<DamageRoll["__MessageConfiguration"]>;
 }
 
 export default DamageRoll;
