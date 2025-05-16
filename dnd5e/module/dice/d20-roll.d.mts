@@ -205,31 +205,31 @@ declare namespace D20Roll {
 
   interface Options extends BasicRoll.Options {
     /** Does this roll potentially have advantage? */
-    advantage?: boolean;
+    advantage?: boolean | null;
 
     /** Does this roll potentially have disadvantage? */
-    disadvantage?: boolean;
+    disadvantage?: boolean | null;
 
     /** Final advantage mode. */
-    advantageMode?: AdvantageMode;
+    advantageMode?: AdvantageMode | null;
 
     /** The value of the d20 die to be considered a critical success. */
-    criticalSuccess?: number;
+    criticalSuccess?: number | null;
 
     /** The value of the d20 die to be considered a critical failure. */
-    criticalFailure?: number;
+    criticalFailure?: number | null;
 
     /** Use three dice when rolling with advantage. */
-    elvenAccuracy?: boolean;
+    elvenAccuracy?: boolean | null;
 
     /** Add a re-roll once modifier to the d20 die. */
-    halflingLucky?: boolean;
+    halflingLucky?: boolean | null;
 
     /** Maximum number the d20 die can roll. */
-    maximum?: number;
+    maximum?: number | null;
 
     /** Minimum number the d20 die can roll. */
-    minimum?: number;
+    minimum?: number | null;
   }
 
   type MakeDialogConfiguration<DlgCfg extends fvttUtils.AnyObject = {}> =
