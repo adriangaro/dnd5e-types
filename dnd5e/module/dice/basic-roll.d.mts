@@ -210,7 +210,7 @@ declare class BasicRoll<
 }
 
 declare class AnyBasicRoll extends BasicRoll<
-  fvttUtils.EmptyObject,
+  fvttUtils.AnyObject,
   fvttUtils.EmptyObject,
   fvttUtils.EmptyObject,
   fvttUtils.EmptyObject,

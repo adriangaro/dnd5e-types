@@ -138,7 +138,7 @@ declare class D20Roll<
 }
 
 declare class AnyD20Roll extends D20Roll<
-  fvttUtils.EmptyObject,
+  fvttUtils.AnyObject,
   fvttUtils.EmptyObject,
   fvttUtils.EmptyObject,
   fvttUtils.EmptyObject,

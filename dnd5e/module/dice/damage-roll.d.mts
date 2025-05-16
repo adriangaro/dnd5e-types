@@ -93,7 +93,7 @@ declare class DamageRoll<
 }
 
 declare class AnyDamageRoll extends DamageRoll<
-  fvttUtils.EmptyObject,
+  fvttUtils.AnyObject,
   fvttUtils.EmptyObject,
   fvttUtils.EmptyObject,
   fvttUtils.EmptyObject,
