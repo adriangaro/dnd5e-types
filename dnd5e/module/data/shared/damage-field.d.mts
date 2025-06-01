@@ -45,7 +45,6 @@ declare namespace DamageField {
 }
 
 export default DamageField;
-type d = DamageField.Data<dnd5e.types.Damage.TypeKey>['denomination']
 
 export class DamageData<
   Types extends string = dnd5e.types.Damage.TypeKey

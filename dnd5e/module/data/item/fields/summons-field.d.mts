@@ -98,13 +98,18 @@ declare namespace SummonsField {
       initial: null
     }
   >;
+
+  type MergedOptions<
+    Opts extends Options
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Opts extends Options,
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     foundry.data.fields.SchemaField.AssignmentData<SummonsDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
-      Opts
+      MergedOptions<Opts>
     >
   >;
   type InitializedType<
@@ -113,7 +118,7 @@ declare namespace SummonsField {
     foundry.data.fields.SchemaField.InitializedData<SummonsDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
-      Opts
+      MergedOptions<Opts>
     >
   >;
   type PersistedType<
@@ -122,7 +127,7 @@ declare namespace SummonsField {
     foundry.data.fields.SchemaField.SourceData<SummonsDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
-      Opts
+      MergedOptions<Opts>
     >
   >;
 }

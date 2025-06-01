@@ -52,12 +52,16 @@ declare namespace SourceField {
 
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
 
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   export type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   export type InitializedType<
@@ -65,7 +69,8 @@ declare namespace SourceField {
     Opts extends Options<Fields> = DefaultOptions,
   > = fvttUtils.Merge<
     foundry.data.fields.SchemaField.Internal.InitializedType<
-      GetSchema<Fields>, Opts
+      GetSchema<Fields>,
+      MergedOptions<Fields, Opts>
     >,
     {
       bookPlaceholder: string,
@@ -82,7 +87,7 @@ declare namespace SourceField {
     Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 }
 

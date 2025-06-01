@@ -30,7 +30,7 @@ declare class ActivationField<
 }
 
 type d = foundry.data.fields.SchemaField.CreateData<
-dnd5e.types.Activity.Schema<'utility'>
+  dnd5e.types.Activity.Schema<'utility'>
 >['activation']
 
 declare namespace ActivationField {
@@ -56,18 +56,26 @@ declare namespace ActivationField {
     GetSchema<Fields>
   >
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
+
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
   type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = fvttUtils.Merge<
-    foundry.data.fields.SchemaField.Internal.InitializedType<GetSchema<Fields>, Opts>,
+    foundry.data.fields.SchemaField.Internal.InitializedType<
+      GetSchema<Fields>,
+      MergedOptions<Fields, Opts>
+    >,
     {
       scaler: boolean
     }
@@ -78,10 +86,9 @@ declare namespace ActivationField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 }
-
 
 declare global {
   namespace dnd5e.types {

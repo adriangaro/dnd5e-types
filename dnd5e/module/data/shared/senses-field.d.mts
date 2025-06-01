@@ -61,12 +61,16 @@ declare namespace SensesField {
     }
   >
 
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   type InitializedType<
@@ -74,7 +78,7 @@ declare namespace SensesField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.InitializedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   type PersistedType<
@@ -82,7 +86,7 @@ declare namespace SensesField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 }
 

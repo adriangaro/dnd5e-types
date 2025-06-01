@@ -42,13 +42,16 @@ declare namespace EnchantmentField {
       initial: null
     }
   >;
+  type MergedOptions<
+    Opts extends Options
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
   type AssignmentType<
     Opts extends Options,
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     foundry.data.fields.SchemaField.AssignmentData<EnchantmentDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
-      Opts
+      MergedOptions<Opts>
     >
   >;
   type InitializedType<
@@ -57,7 +60,7 @@ declare namespace EnchantmentField {
     foundry.data.fields.SchemaField.InitializedData<EnchantmentDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
-      Opts
+      MergedOptions<Opts> 
     >
   >;
   type PersistedType<
@@ -66,7 +69,7 @@ declare namespace EnchantmentField {
     foundry.data.fields.SchemaField.SourceData<EnchantmentDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
-      Opts
+      MergedOptions<Opts>
     >
   >;
 }

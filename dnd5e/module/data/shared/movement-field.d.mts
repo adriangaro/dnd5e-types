@@ -42,7 +42,7 @@ declare namespace MovementField {
       required: true
     }>
   }
-  
+
   type GetSchema<
     Fields extends foundry.data.fields.DataSchema,
   > = fvttUtils.SimpleMerge<
@@ -67,20 +67,25 @@ declare namespace MovementField {
       initialUnits: null
     }
   >
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
+
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.InitializedType<
-    GetSchema<Fields>, 
-    Opts
+    GetSchema<Fields>,
+    MergedOptions<Fields, Opts>
   >
 
   type PersistedType<
@@ -88,7 +93,7 @@ declare namespace MovementField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 }
 
@@ -115,11 +120,11 @@ declare global {
        * @example No overrides are supported by default.
        */
       // Defined with `never` key to prevent accidental merging in standard setups.
-      interface OverrideTypes extends Record<never, boolean | never> {}
+      interface OverrideTypes extends Record<never, boolean | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<
-      DefaultMovementTypes,
+        DefaultMovementTypes,
         OverrideTypes
       >;
       type TypeKey = dnd5e.types.ExtractKeys<Types>;

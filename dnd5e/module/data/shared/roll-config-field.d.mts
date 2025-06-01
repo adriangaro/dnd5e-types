@@ -53,6 +53,13 @@ declare namespace RollConfigField {
     SchemaFromConfig<Config>
   >;
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions;
+  type MergedOptions<
+  Config extends {
+    rolls?: foundry.data.fields.DataSchema,
+    ability?: dnd5e.types.Ability.TypeKey | '' | false
+  }, Opts extends Options<Config>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Config extends {
       rolls?: foundry.data.fields.DataSchema,
@@ -61,7 +68,7 @@ declare namespace RollConfigField {
     Options extends RollConfigField.Options<Config>,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     SchemaFromConfig<Config>,
-    Options
+    MergedOptions<Config, Options>
   >
   type InitializedType<
     Config extends {
@@ -71,7 +78,7 @@ declare namespace RollConfigField {
     Options extends RollConfigField.Options<Config>,
   > = foundry.data.fields.SchemaField.Internal.InitializedType<
     SchemaFromConfig<Config>,
-    Options
+    MergedOptions<Config, Options>
   >
   type PersistedType<
     Config extends {
@@ -81,7 +88,7 @@ declare namespace RollConfigField {
     Options extends RollConfigField.Options<Config>,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     SchemaFromConfig<Config>,
-    Options
+    MergedOptions<Config, Options>
   >
 }
 

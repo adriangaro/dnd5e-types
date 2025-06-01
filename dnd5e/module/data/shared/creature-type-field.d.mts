@@ -29,7 +29,7 @@ declare namespace CreatureTypeField {
   export type BaseFields = {
     value: dnd5e.types.fields.RestrictedStringField<
       dnd5e.types.Creature.TypeKey | 'custom',
-      { blank: true, label: "DND5E.CreatureType" } 
+      { blank: true, label: "DND5E.CreatureType" }
     >,
     subtype: foundry.data.fields.StringField<{ label: "DND5E.CreatureTypeSelectorSubtype" }>,
     swarm: foundry.data.fields.StringField<{ blank: true, label: "DND5E.CreatureSwarmSize" }>,
@@ -48,19 +48,28 @@ declare namespace CreatureTypeField {
     Fields
   >
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
+
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
+
   export type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   export type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = fvttUtils.Merge<
-    foundry.data.fields.SchemaField.Internal.InitializedType<GetSchema<Fields>, Opts>,
+    foundry.data.fields.SchemaField.Internal.InitializedType<
+      GetSchema<Fields>,
+      MergedOptions<Fields, Opts>
+    >,
     {
       label: string
       config: any
@@ -72,7 +81,7 @@ declare namespace CreatureTypeField {
     Opts extends Options<Fields> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 }
 
@@ -109,7 +118,7 @@ declare global {
        * }
        * }
        */
-      interface OverrideTypes extends Record<string, boolean | never> {}
+      interface OverrideTypes extends Record<string, boolean | never> { }
 
       // --- Derived Types ---
       type Types = dnd5e.types.MergeOverrideDefinition<
@@ -131,7 +140,7 @@ declare global {
         /**
          * Icon path
          */
-        icon?: string; 
+        icon?: string;
         /**
          * Is this type detectable by spells such as "Detect Evil and Good"?
          */

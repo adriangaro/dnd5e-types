@@ -55,19 +55,28 @@ declare namespace DurationField {
     GetSchema<Fields>
   >
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
+
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
+
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = fvttUtils.Merge<
-    foundry.data.fields.SchemaField.Internal.InitializedType<GetSchema<Fields>, Opts>,
+    foundry.data.fields.SchemaField.Internal.InitializedType<
+      GetSchema<Fields>,
+      MergedOptions<Fields, Opts>
+    >,
     {
       scalar: boolean
       getEffectData(): ActiveEffect.DurationData
@@ -79,18 +88,18 @@ declare namespace DurationField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 }
 
 declare global {
   namespace dnd5e.types {
     namespace DurationUnits {
-      
+
       interface DefaultDurationUnits extends Record<string, 'special' | 'scalar' | 'permanent'> {
         inst: 'special',
         spec: 'special'
-        
+
         day: 'scalar',
         hour: 'scalar',
         minute: 'scalar',
@@ -107,14 +116,14 @@ declare global {
       }
 
       interface OverrideTypes extends Record<string, 'special' | 'scalar' | 'permanent' | never> {
-    
+
       }
-    
+
       type Types = dnd5e.types.MergeOverrideDefinition<
         DefaultDurationUnits,
         OverrideTypes
       >
-    
+
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
       type PermanentTypeKey = dnd5e.types.FilterKeysByValue<Types, TypeKey, 'permanent'>

@@ -64,12 +64,17 @@ declare namespace SpellcastingField {
     {
     }
   >
+
+  type MergedOptions<
+  Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+> = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   type InitializedType<
@@ -78,7 +83,7 @@ declare namespace SpellcastingField {
   > = dnd5e.types.DeepMerge<
     foundry.data.fields.SchemaField.Internal.InitializedType<
       GetSchema<Fields>,
-      Opts
+      MergedOptions<Fields, Opts>
     >,
     {
       preparation: {
@@ -96,7 +101,7 @@ declare namespace SpellcastingField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts> 
   >
 }
 declare global {

@@ -88,19 +88,23 @@ declare namespace UsesField {
 
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
 
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
-    foundry.data.fields.SchemaField.Internal.InitializedType<GetSchema<Fields>, Opts>,
+    foundry.data.fields.SchemaField.Internal.InitializedType<GetSchema<Fields>, MergedOptions<Fields, Opts>>,
     {
       recovery: {
         recharge?: {
@@ -115,7 +119,7 @@ declare namespace UsesField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
 

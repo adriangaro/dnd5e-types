@@ -77,6 +77,10 @@ declare namespace ItemTypeField {
     }
   >
 
+  type MergedOptions<
+    Opts extends Options
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Type extends Item.SubType,
     FieldInitials extends {
@@ -87,7 +91,7 @@ declare namespace ItemTypeField {
     Opts extends Options = DefaultOptions,
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     ItemType<Type, FieldInitials>,
-    Opts
+    MergedOptions<Opts> 
   >
 
   type InitializedType<
@@ -105,7 +109,7 @@ declare namespace ItemTypeField {
       ? never
       : string
     },
-    Opts
+    MergedOptions<Opts>
   >
 
   type PersistedType<
@@ -118,7 +122,7 @@ declare namespace ItemTypeField {
     Opts extends Options = DefaultOptions,
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     ItemType<Type, FieldInitials>,
-    Opts
+    MergedOptions<Opts>
   >
 }
 

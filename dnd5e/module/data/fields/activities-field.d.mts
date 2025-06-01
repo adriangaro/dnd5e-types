@@ -69,19 +69,23 @@ export namespace ActivityField {
   >
   type DefaultOptions = foundry.data.fields.ObjectField.DefaultOptions
 
+  type MergedOptions<
+    Opts extends Options
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Opts extends Options
   > = foundry.data.fields.DataField.DerivedAssignmentType<
     foundry.data.fields.SchemaField.AssignmentData<
       dnd5e.types.Activity.Schema
     >,
-    fvttUtils.SimpleMerge<DefaultOptions, Opts>
+    MergedOptions<Opts>
   >
   type InitializedType<
     Opts extends Options
   > = foundry.data.fields.DataField.DerivedInitializedType<
     dnd5e.types.Activity.Implementation,
-    fvttUtils.SimpleMerge<DefaultOptions, Opts>
+    MergedOptions<Opts>
   >
   type PersistedType<
     Opts extends Options
@@ -89,7 +93,7 @@ export namespace ActivityField {
     foundry.data.fields.SchemaField.SourceData<
       dnd5e.types.Activity.Schema
     >,
-    fvttUtils.SimpleMerge<DefaultOptions, Opts>
+    MergedOptions<Opts>
   >
 }
 

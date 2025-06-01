@@ -49,13 +49,17 @@ declare namespace RangeField {
     GetSchema<Fields>
   >
   export import DefaultOptions = foundry.data.fields.SchemaField.DefaultOptions
-  
+
+  type MergedOptions<
+    Fields extends foundry.data.fields.DataSchema, Opts extends Options<GetSchema<Fields>>
+  > = fvttUtils.SimpleMerge<DefaultOptions, Opts>;
+
   type AssignmentType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.AssignmentType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 
   type InitializedType<
@@ -63,7 +67,8 @@ declare namespace RangeField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = fvttUtils.Merge<
     foundry.data.fields.SchemaField.Internal.InitializedType<
-      GetSchema<Fields>, Opts
+      GetSchema<Fields>,
+      MergedOptions<Fields, Opts>
     >,
     {
       scalar: boolean
@@ -75,7 +80,7 @@ declare namespace RangeField {
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
   > = foundry.data.fields.SchemaField.Internal.PersistedType<
     GetSchema<Fields>,
-    Opts
+    MergedOptions<Fields, Opts>
   >
 }
 

@@ -49,5 +49,5 @@ declare namespace AdvantageModeField {
     MergedOptions<Opts>
   >;
 }
-type d = AdvantageModeField.InitializedType<{}>
+
 export default AdvantageModeField;
