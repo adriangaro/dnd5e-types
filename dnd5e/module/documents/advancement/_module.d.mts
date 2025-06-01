@@ -47,12 +47,18 @@ declare global {
         OverrideTypes
       >;
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
+
+      
+      type AdvancementInstances = {
+        [K in TypeKey]: fvttUtils.FixedInstanceType<Types[K]>
+      }
+    
       
       type AnyClass = Types[TypeKey];
-      type Any = fvttUtils.FixedInstanceType<Types[TypeKey]>;
-      type OfType<T extends TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
+      type Any = Implementation;
+      type OfType<T extends TypeKey> = AdvancementInstances[T]
       type ClassOfType<T extends TypeKey> = Types[T]
-      type Implementation<T extends TypeKey = TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
+      type Implementation<T extends TypeKey = TypeKey> = AdvancementInstances[T]
       type ImplementationClass<T extends TypeKey = TypeKey> = Types[T]
 
       /**

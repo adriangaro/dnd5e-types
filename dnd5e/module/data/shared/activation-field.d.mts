@@ -29,6 +29,10 @@ declare class ActivationField<
   static prepareData(this: BaseActivityData | ItemDataModel, rollData: object, labels?: object): void
 }
 
+type d = foundry.data.fields.SchemaField.CreateData<
+dnd5e.types.Activity.Schema<'utility'>
+>['activation']
+
 declare namespace ActivationField {
   type BaseFields = {
     type: dnd5e.types.fields.RestrictedStringField<

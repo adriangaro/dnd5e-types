@@ -250,10 +250,10 @@ declare global {
       }
     
       type AnyClass = Types[TypeKey];
-      // type Any = Implementation;
+      type Any = Implementation; 
       type OfType<T extends TypeKey> = ActivityInstances[T]
       type ClassOfType<T extends TypeKey> = Types[T]
-      type Implementation<T extends TypeKey = TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
+      type Implementation<T extends TypeKey = TypeKey> = ActivityInstances[T]
       type ImplementationClass<T extends TypeKey = TypeKey> = Types[T]
     
 

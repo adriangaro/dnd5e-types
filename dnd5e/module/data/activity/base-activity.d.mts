@@ -18,6 +18,7 @@ export type DamageIndexesPrep = {
     }
   >
 }
+
 /**
  * Data model for activities.
  */
@@ -103,6 +104,7 @@ declare class BaseActivityData<
   >,
   null
 > {
+  type: Type;
   labels: Record<
     string,
     string
