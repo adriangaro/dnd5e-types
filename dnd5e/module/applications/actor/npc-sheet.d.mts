@@ -1,4 +1,4 @@
-import type { prosemirror } from "node_modules/fvtt-types/src/foundry/client-esm/client.d.mts";
+import type { prosemirror } from "node_modules/fvtt-types/src/foundry/client/client.d.mts";
 import ActorSheet5e from "./base-sheet.mjs";
 
 /**

@@ -7,7 +7,7 @@ export default class EnchantmentData extends foundry.abstract.TypeDataModel<{}, 
    */
   _applyLegacy(
     item: Item.Implementation, 
-    change: ActiveEffect.EffectChangeData, 
+    change: ActiveEffect.ChangeData, 
     changes: Record<string, any>
   ): boolean | void
 }

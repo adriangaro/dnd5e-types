@@ -63,7 +63,7 @@ declare namespace EnchantmentField {
   type PersistedType<
     Opts extends Options,
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    foundry.data.fields.SchemaField.PersistedData<EnchantmentDataSchema>,
+    foundry.data.fields.SchemaField.SourceData<EnchantmentDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
       Opts

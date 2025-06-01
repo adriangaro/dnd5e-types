@@ -20,9 +20,9 @@ declare class ActivityChoiceDialog extends Application5e<{
   /**
    * The chosen activity.
    */
-  get activity(): dnd5e.types.Activity.Any | null
+  get activity(): dnd5e.types.Activity.Implementation | null
 
-  #activity: dnd5e.types.Activity.Any | null;
+  #activity: dnd5e.types.Activity.Implementation | null;
 
   /* -------------------------------------------- */
 
@@ -44,7 +44,7 @@ declare class ActivityChoiceDialog extends Application5e<{
    * Prepare rendering context for a given activity.
    * @protected
    */
-  _prepareActivityContext(activity: dnd5e.types.Activity.Any): ActivityChoiceDialog.ActivityChoice
+  _prepareActivityContext(activity: dnd5e.types.Activity.Implementation): ActivityChoiceDialog.ActivityChoice
 
   /* -------------------------------------------- */
   /*  Event Listeners & Handlers                  */
@@ -62,7 +62,7 @@ declare class ActivityChoiceDialog extends Application5e<{
   /**
    * Display the activity choice dialog.
    */
-  static create(item: Item.Implementation, options: ActivityChoiceDialog['__Configuration']): Promise<dnd5e.types.Activity.Any | null> 
+  static create(item: Item.Implementation, options: ActivityChoiceDialog['__Configuration']): Promise<dnd5e.types.Activity.Implementation | null> 
 }
 
 declare namespace ActivityChoiceDialog {

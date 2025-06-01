@@ -39,7 +39,7 @@ declare class SummonActivity extends ActivityMixin(SummonActivityData) {
    * Process for summoning actor to the scene.
    * @param options  Configuration data for summoning behavior.
    */
-  placeSummons(options: SummonActivity.SummoningConfiguration): Promise<Token.Object[] | void>
+  placeSummons(options: SummonActivity.SummoningConfiguration): Promise<Token.Implementation[] | void>
 
   /* -------------------------------------------- */
 
@@ -126,7 +126,7 @@ declare namespace SummonActivity {
   }
 
   interface UsageResults extends dnd5e.types.Activity.UsageResults {
-    summoned: Token.Object[]
+    summoned: Token.Implementation[]
   }
 
   type SummonsProfile = SummonActivity['profiles'][number]

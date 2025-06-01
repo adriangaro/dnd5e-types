@@ -107,7 +107,7 @@ declare class _ActivityMixin {
 
   getFavoriteData(): Promise<dnd5e.types.FavoriteData5e>
 
-  getLinkedActivity(relativeUUID: string): dnd5e.types.Activity.Any | null
+  getLinkedActivity(relativeUUID: string): dnd5e.types.Activity.Implementation | null
 
   getRollData(options?: {
     deterministic?: boolean | undefined;
@@ -246,11 +246,11 @@ declare global {
 
 
       type ActivityInstances = {
-        [K in keyof Types]: fvttUtils.FixedInstanceType<Types[K]>
+        [K in TypeKey]: fvttUtils.FixedInstanceType<Types[K]>
       }
     
       type AnyClass = Types[TypeKey];
-      type Any = ActivityInstances[TypeKey];
+      // type Any = Implementation;
       type OfType<T extends TypeKey> = ActivityInstances[T]
       type ClassOfType<T extends TypeKey> = Types[T]
       type Implementation<T extends TypeKey = TypeKey> = fvttUtils.FixedInstanceType<Types[T]>
@@ -311,6 +311,3 @@ declare global {
 
 
 export default ActivityMixin
-
-type c = dnd5e.types.Activity.OfType<'order'>
-type d = dnd5e.types.FindKeyByValue<dnd5e.types.Activity.ActivityInstances, dnd5e.types.Activity.OfType<'order'>>

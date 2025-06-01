@@ -51,7 +51,7 @@ export class ActivityField<
    * @param {object} value            Activity data being prepared.
    * @returns {typeof Activity|null}  Activity document type.
    */
-  getModel(value: ActivityField.AssignmentType<Options>): dnd5e.types.Activity.AnyClass | null
+  getModel(value: ActivityField.AssignmentType<Options>): dnd5e.types.Activity.ImplementationClass | null
 
   /* -------------------------------------------- */
 
@@ -80,7 +80,7 @@ export namespace ActivityField {
   type InitializedType<
     Opts extends Options
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    dnd5e.types.Activity.Any,
+    dnd5e.types.Activity.Implementation,
     fvttUtils.SimpleMerge<DefaultOptions, Opts>
   >
   type PersistedType<
@@ -98,9 +98,9 @@ export namespace ActivityField {
  * Specialized collection type for stored activities.
  */
 export class ActivityCollection extends Collection<
-  dnd5e.types.Activity.Any
+  dnd5e.types.Activity.Implementation
 > {
-  constructor(model: foundry.abstract.DataModel.Any, entries: dnd5e.types.Activity.Any[])
+  constructor(model: foundry.abstract.DataModel.Any, entries: dnd5e.types.Activity.Implementation[])
 
   /* -------------------------------------------- */
   /*  Properties                                  */
@@ -125,7 +125,7 @@ export class ActivityCollection extends Collection<
   /**
    * Fetch an array of activities of a certain type.
    */
-  getByType(type: string): dnd5e.types.Activity.Any[]
+  getByType(type: string): dnd5e.types.Activity.Implementation[]
   getByType<T extends dnd5e.types.Activity.TypeKey>(type: T): dnd5e.types.Activity.OfType<T>[]
 
   /* -------------------------------------------- */
@@ -133,7 +133,7 @@ export class ActivityCollection extends Collection<
   /**
    * Generator that yields activities for each of the provided types.
    */
-  getByTypes(...types: string[]): IterableIterator<dnd5e.types.Activity.Any>;
+  getByTypes(...types: string[]): IterableIterator<dnd5e.types.Activity.Implementation>;
   getByTypes<T extends dnd5e.types.Activity.TypeKey>(...types: T[]): IterableIterator<dnd5e.types.Activity.OfType<T>>
 
   /* -------------------------------------------- */
@@ -142,7 +142,7 @@ export class ActivityCollection extends Collection<
    * Test the given predicate against every entry in the Collection.
    */
   every(
-    predicate: (value: dnd5e.types.Activity.Any, index: number, collection: this) => boolean
+    predicate: (value: dnd5e.types.Activity.Implementation, index: number, collection: this) => boolean
   ): boolean;
 
   /* -------------------------------------------- */

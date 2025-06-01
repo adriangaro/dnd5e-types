@@ -48,7 +48,7 @@ declare class UsesField<
   >
 
   static rollRecharge(
-    this: Item.Implementation | dnd5e.types.Activity.Any,
+    // this: Item.Implementation | dnd5e.types.Activity.Implementation,
     config?: UsesField.RechargeRollProcessConfiguration,
     dialog?: dnd5e.dice.BasicRoll.DialogConfiguration,
     message?: dnd5e.dice.BasicRoll.MessageConfiguration

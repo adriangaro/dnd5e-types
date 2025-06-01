@@ -14,7 +14,7 @@ export default class AbilityTemplate extends MeasuredTemplate {
   /**
    * Current token that is highlighted when using adjusted size template.
    */
-  #hoveredToken: Token.Object;
+  #hoveredToken: Token.Implementation;
 
   /* -------------------------------------------- */
 
@@ -37,7 +37,7 @@ export default class AbilityTemplate extends MeasuredTemplate {
    */
   static fromActivity<This extends typeof AbilityTemplate>(
     this: This,
-    activity: dnd5e.types.Activity.Any, options?: object
+    activity: dnd5e.types.Activity.Implementation, options?: object
   ): InstanceType<This>[] | null
   /* -------------------------------------------- */
 

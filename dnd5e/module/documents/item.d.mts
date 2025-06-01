@@ -706,7 +706,7 @@ declare class Item5e<
   ): EmbeddedName extends Item.Embedded.CollectionName ? 
     (Item.Embedded.DocumentFor<EmbeddedName> | undefined) : 
     EmbeddedName extends 'Activity' ? 
-      (dnd5e.types.Activity.Any | undefined) :
+      (dnd5e.types.Activity.Implementation | undefined) :
       (EmbeddedName extends 'Advancement' ? (dnd5e.types.Advancement.Any | undefined) : undefined)
 
   /* -------------------------------------------- */
@@ -820,13 +820,9 @@ declare class Item5e<
    * @returns {Promise<Item5e|null>}
    */
   static createDialog(
-    data?: fvttUtils.DeepPartial<Item.CreateData>, 
-    context?: { 
-      parent?: Actor.Implementation, 
-      pack?: string | null, 
-      types?: Item.SubType[] | null, 
-    }
-  ): Promise<Item.Implementation | null>
+    data?: foundry.abstract.Document.CreateDialogData<Item.CreateData>, 
+    context?: foundry.abstract.Document.CreateDialogContext<"Item", Item.Parent>
+  ): Promise<Item.Stored | null | undefined>
 }
 
 declare namespace Item5e {

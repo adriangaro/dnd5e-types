@@ -1,12 +1,11 @@
-import type { FormInputConfig, SelectInputConfig } from "node_modules/fvtt-types/src/foundry/client-esm/applications/forms/fields.d.mts";
-export type CreateInputFunction = fvttUtils.ToMethod<(field: foundry.data.fields.DataField.Any, config: FormInputConfig<any>) => HTMLElement | HTMLCollection>
+export type CreateInputFunction = fvttUtils.ToMethod<(field: foundry.data.fields.DataField.Any, config: foundry.applications.fields.FormInputConfig<any>) => HTMLElement | HTMLCollection>
 
 /**
  * Create a checkbox input for a BooleanField.
  */
 export function createCheckboxInput(
   field: foundry.data.fields.BooleanField<any, any, any, any>, 
-  config: FormInputConfig<boolean>
+  config: foundry.applications.fields.FormInputConfig<boolean>
 ): HTMLElement
 /* -------------------------------------------- */
 
@@ -15,7 +14,7 @@ export function createCheckboxInput(
  */
 export function createMultiCheckboxInput(
   field: foundry.data.fields.DataField,
-  config: SelectInputConfig
+  config: foundry.applications.fields.SelectInputConfig
 ): HTMLCollection
 
 /* -------------------------------------------- */
@@ -25,7 +24,7 @@ export function createMultiCheckboxInput(
  */
 export function createNumberInput(
   field: foundry.data.fields.NumberField, 
-  config: FormInputConfig<number>
+  config: foundry.applications.fields.FormInputConfig<number>
 ): HTMLElement | HTMLCollection
 
 /* -------------------------------------------- */
@@ -35,5 +34,5 @@ export function createNumberInput(
  */
 export function createTextInput(
   field: foundry.data.fields.StringField, 
-  config: FormInputConfig<string>
+  config: foundry.applications.fields.FormInputConfig<string>
 ): HTMLElement | HTMLCollection

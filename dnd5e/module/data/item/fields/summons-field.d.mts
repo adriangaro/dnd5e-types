@@ -119,7 +119,7 @@ declare namespace SummonsField {
   type PersistedType<
     Opts extends Options,
   > = foundry.data.fields.DataField.DerivedInitializedType<
-    foundry.data.fields.SchemaField.PersistedData<SummonsDataSchema>,
+    foundry.data.fields.SchemaField.SourceData<SummonsDataSchema>,
     fvttUtils.SimpleMerge<
       DefaultOptions,
       Opts

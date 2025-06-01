@@ -9,7 +9,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
     formula: dnd5e.dataModels.fields.FormulaField
   }>
 }> {
-  get activity(): dnd5e.types.Activity.Any
+  get activity(): dnd5e.types.Activity.Implementation
   /* -------------------------------------------- */
 
   /**

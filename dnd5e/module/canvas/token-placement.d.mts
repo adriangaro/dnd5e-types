@@ -48,7 +48,7 @@ declare class TokenPlacement {
   /**
    * Preview tokens. Should match 1-to-1 with placements.
    */
-  #previews: Token.Object[];
+  #previews: Token.Implementation[];
 
   /* -------------------------------------------- */
 

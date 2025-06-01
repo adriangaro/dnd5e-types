@@ -1,4 +1,3 @@
-import type { FormInputConfig } from "node_modules/fvtt-types/src/foundry/client-esm/applications/forms/fields.d.mts";
 import BaseConfigSheet from "../actor/api/base-config-sheet.mjs";
 import type { CreateInputFunction } from "../fields.d.mts";
 
@@ -11,7 +10,7 @@ export default class MovementSensesConfig extends BaseConfigSheet<
     fields: foundry.data.fields.DataSchema,
     extras: {
       field: foundry.data.fields.DataField,
-      input: (field: foundry.data.fields.DataField, config: FormInputConfig<any>) => HTMLElement,
+      input: (field: foundry.data.fields.DataField, config: foundry.applications.fields.FormInputConfig<any>) => HTMLElement,
       value: any
     }[],
     types: {

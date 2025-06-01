@@ -16,7 +16,7 @@ declare class ChatMessage5e<
   /**
    * The currently highlighted token for attack roll evaluation.
    */
-  _highlighted: Token.Object | null;
+  _highlighted: Token.Implementation | null;
 
   /* -------------------------------------------- */
 
@@ -298,7 +298,7 @@ declare class ChatMessage5e<
   /**
    * Get the Activity that created this chat card.
    */
-  getAssociatedActivity(): dnd5e.types.Activity.Any | null
+  getAssociatedActivity(): dnd5e.types.Activity.Implementation | null
 
   /* -------------------------------------------- */
 

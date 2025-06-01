@@ -185,7 +185,7 @@ export function parseInputDelta(input: HTMLInputElement, target: Document): numb
  * @param label                          Label to use in preparation warnings.
  * @param rollData                       Roll data to use when replacing formula values.
  */
-export function prepareFormulaValue(model: Item.Implementation['system'] | dnd5e.types.Activity.Any, keyPath: string, label: string, rollData: object): void;
+export function prepareFormulaValue(model: Item.Implementation['system'] | dnd5e.types.Activity.Implementation, keyPath: string, label: string, rollData: object): void;
 
 /* -------------------------------------------- */
 

@@ -49,7 +49,7 @@ declare class CastActivity extends ActivityMixin(CastActivityData) {
   /**
    * Create spell changes based on the activity's configuration.
    */
-  getSpellChanges(): ActiveEffect.EffectChangeData[]
+  getSpellChanges(): ActiveEffect.ChangeData[]
 }
 
 declare namespace CastActivity {

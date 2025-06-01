@@ -4,7 +4,7 @@ import Dialog5e from "../api/dialog.mjs";
  * Dialog for configuring the usage of an activity.
  */
 declare class ActivityUsageDialog<
-  Document extends dnd5e.types.Activity.Any,
+  Document extends dnd5e.types.Activity.Implementation,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
@@ -181,7 +181,7 @@ declare class ActivityUsageDialog<
    * @returns           Form data object with results of the activation.
    */
   static create(
-    activity: dnd5e.types.Activity.Any,
+    activity: dnd5e.types.Activity.Implementation,
     config: dnd5e.types.Activity.UseConfiguration,
     options: ActivityUsageDialog.Configuration
   ): Promise<dnd5e.types.Activity.UseConfiguration>
@@ -194,12 +194,12 @@ declare namespace ActivityUsageDialog {
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyActivityUsageDialog> {}
 
   type MakeRenderContext<
-    Document extends dnd5e.types.Activity.Any,
+    Document extends dnd5e.types.Activity.Implementation,
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {
       activity: Document
-      linkedActivity: dnd5e.types.Activity.Any | null
+      linkedActivity: dnd5e.types.Activity.Implementation | null
       hasConcentration: boolean
       hasConsumption: boolean
       hasCreation: boolean
@@ -222,7 +222,7 @@ declare namespace ActivityUsageDialog {
   >
   type RenderContext = ActivityUsageDialog<any>['__RenderContext']
   type MakeConfiguration<
-    Document extends dnd5e.types.Activity.Any,
+    Document extends dnd5e.types.Activity.Implementation,
     Cfg extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {

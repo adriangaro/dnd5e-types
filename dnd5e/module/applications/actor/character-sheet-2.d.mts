@@ -117,7 +117,7 @@ export default class ActorSheet5eCharacter2 extends ActorSheetV2Mixin(ActorSheet
    * @param data      The Activity drag data.
    * @protected
    */
-  _onDropActivity(event: DragEvent, data: ReturnType<dnd5e.types.Activity.Any['toDragData']>): Promise<Actor.Implementation | void>
+  _onDropActivity(event: DragEvent, data: ReturnType<dnd5e.types.Activity.Implementation['toDragData']>): Promise<Actor.Implementation | void>
 
 
   /* -------------------------------------------- */

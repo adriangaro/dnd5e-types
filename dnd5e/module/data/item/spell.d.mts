@@ -89,7 +89,7 @@ declare class SpellData extends _ItemDataModel.mixin(ActivitiesTemplate, ItemDes
   /**
    * Retrieve a linked activity that granted this spell using the stored `cachedFor` value.
    */
-  get linkedActivity(): dnd5e.types.Activity.Any | null;
+  get linkedActivity(): dnd5e.types.Activity.Implementation | null;
 
   /**
    * The proficiency multiplier for this item.
@@ -105,7 +105,7 @@ declare class SpellData extends _ItemDataModel.mixin(ActivitiesTemplate, ItemDes
     subtitle: [string, string],
     modifier: string,
     range: SpellData['range'],
-    save: dnd5e.types.Activity.ActivityInstances['save']['save'] | null
+    save: dnd5e.types.Activity.OfType<'save'>['save'] | null
   }>;
 
   /* -------------------------------------------- */

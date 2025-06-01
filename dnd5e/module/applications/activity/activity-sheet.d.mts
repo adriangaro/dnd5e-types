@@ -5,7 +5,7 @@ import PseudoDocumentSheet from "../api/pseudo-document-sheet.mjs";
  * Default sheet for activities.
  */
 declare class ActivitySheet<
-  Document extends dnd5e.types.Activity.Any,
+  Document extends dnd5e.types.Activity.Implementation,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
@@ -212,7 +212,7 @@ declare class ActivitySheet<
 }
 
 declare class AnyActivitySheet extends ActivitySheet<
-dnd5e.types.Activity.Any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject
+  dnd5e.types.Activity.Implementation, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject
 > {
   constructor(...args: any[])
 }
@@ -222,7 +222,7 @@ declare namespace ActivitySheet {
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyActivitySheet> {}
   
   type MakeRenderContext<
-    Document extends dnd5e.types.Activity.Any,
+    Document extends dnd5e.types.Activity.Implementation,
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
     {

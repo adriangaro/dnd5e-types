@@ -398,7 +398,7 @@ declare class Actor5e<
    * @returns     A promise that resolves to the created effect.
    */
   beginConcentrating(
-    activity: dnd5e.types.Activity.Any,
+    activity: dnd5e.types.Activity.Implementation,
     effectData?: fvttUtils.DeepPartial<ActiveEffect.CreateData>
   ): Promise<ActiveEffect.OfType<'base'> | undefined>
 
@@ -948,7 +948,7 @@ declare class Actor5e<
     target: Actor.Implementation,
     options?: Actor5e.TransformationOptions,
     sheetOptions?: { renderSheet?: boolean }
-  ): Promise<Token.Object[]> | null
+  ): Promise<Token.Implementation[]> | null
 
   /* -------------------------------------------- */
 

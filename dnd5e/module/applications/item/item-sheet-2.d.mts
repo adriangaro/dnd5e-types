@@ -79,7 +79,7 @@ export default class ItemSheet5e2 extends ItemSheetV2Mixin(ItemSheet5e) {
    * @param transfer.data  The Activity data.
    * @protected
    */
-  _onDropActivity(event: DragEvent, transfer: { data: dnd5e.types.Activity.Any }): void;
+  _onDropActivity(event: DragEvent, transfer: { data: dnd5e.types.Activity.Implementation }): void;
 
   /* -------------------------------------------- */
 

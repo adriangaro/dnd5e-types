@@ -19,7 +19,7 @@ declare class ActivationsField extends foundry.data.fields.SetField<
    * Prepare activations for display on chat card.
    * @param actor  Actor to which this activations can be used.
    */
-  static processActivations(this: ActivationsField, actor: Actor.Implementation): dnd5e.types.Activity.Any[]
+  static processActivations(this: ActivationsField, actor: Actor.Implementation): dnd5e.types.Activity.Implementation[]
 }
 
 export default ActivationsField

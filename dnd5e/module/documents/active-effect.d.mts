@@ -48,7 +48,7 @@ declare class ActiveEffect5e<
    */
   applyActivity(
     item: Item.Implementation,
-    change: ActiveEffect.EffectChangeData
+    change: ActiveEffect.ChangeData
   ): Record<string, any>
 
   /* -------------------------------------------- */
@@ -58,8 +58,8 @@ declare class ActiveEffect5e<
    */
   _prepareFlagChange(
     actor: Actor.Implementation,
-    change: ActiveEffect.EffectChangeData
-  ): ActiveEffect.EffectChangeData
+    change: ActiveEffect.ChangeData
+  ): ActiveEffect.ChangeData
 
   /* --------------------------------------------- */
 
@@ -119,7 +119,7 @@ declare class ActiveEffect5e<
    * @returns {object}           Created data for the ActiveEffect.
    */
   static createConcentrationEffectData(
-    activity: dnd5e.types.Activity.Any,
+    activity: dnd5e.types.Activity.Implementation,
     data?: fvttUtils.DeepPartial<
       ActiveEffect.CreateData
     >

@@ -13,7 +13,7 @@ export default class Token5e extends Token {
    */
   static onTargetToken(
     user: User.Implementation, 
-    token: Token.Object, 
+    token: Token.Implementation, 
     targeted: boolean
   )
 

@@ -608,7 +608,7 @@ declare function rollDamage(event: Event): Promise<void>;
  * @param scaling  Scaling increase to apply.
  * @returns
  */
-declare function _fetchActivity(uuid: string, scaling: number): Promise<dnd5e.types.Activity.Any|void>;
+declare function _fetchActivity(uuid: string, scaling: number): Promise<dnd5e.types.Activity.Implementation | void>;
 
 /* -------------------------------------------- */
 

@@ -24,7 +24,7 @@ export default class TokenDocument5e extends SystemFlagsMixin(TokenDocument) {
 
   /* -------------------------------------------- */
 
-  static getTrackedAttributeChoices(attributes?: TokenDocument.TrackedAttributesDescription): Record<string, string[]>
+  static getTrackedAttributeChoices(attributes?: TokenDocument.TrackedAttributesDescription): TokenDocument.TrackedAttributesChoice[]
 
   /* -------------------------------------------- */
 
