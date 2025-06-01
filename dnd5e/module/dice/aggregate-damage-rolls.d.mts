@@ -6,7 +6,7 @@ export default function aggregateDamageRolls(
   rolls: dnd5e.dice.DamageRoll[], options?: { 
     respectProperties?: boolean
   }
-): dnd5e.dice.DamageRoll[]
+): dnd5e.dice.DamageRoll[];
 
 /* -------------------------------------------- */
 

@@ -194,7 +194,7 @@ declare namespace D20Roll {
         reliableTalent?: boolean;
 
         /** Configuration data for individual rolls. */
-        rolls: Cfg[]; // Overrides rolls type in base
+        rolls: BasicRoll.MakeConfiguration<Cfg>[];
       },
       PrcCfg
     >

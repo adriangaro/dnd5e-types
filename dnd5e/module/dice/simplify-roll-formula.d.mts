@@ -14,7 +14,7 @@ export default function simplifyRollFormula(
     preserveFlavor?: boolean, 
     deterministic?: boolean
   }
-): string 
+): string;
 
 /* -------------------------------------------- */
 

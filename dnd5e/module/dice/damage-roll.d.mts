@@ -127,7 +127,7 @@ declare namespace DamageRoll {
   > = fvttUtils.PrettifyType<
     dnd5e.types.DeepMerge<
       {
-        rolls: Cfg[];
+        rolls: BasicRoll.MakeConfiguration<Cfg>[];
         critical?: CriticalDamageConfiguration;
         isCritical?: boolean;
         scaling?: number;

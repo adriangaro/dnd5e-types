@@ -99,7 +99,7 @@ declare namespace UsesField {
   type InitializedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
-  > = dnd5e.types.DeepMerge<
+  > = fvttUtils.PrettifyType<dnd5e.types.DeepMerge<
     foundry.data.fields.SchemaField.Internal.InitializedType<GetSchema<Fields>, Opts>,
     {
       recovery: {
@@ -109,7 +109,7 @@ declare namespace UsesField {
       }[],
       rollRecharge: typeof UsesField['rollRecharge']
     }
-  >
+  >>
   type PersistedType<
     Fields extends foundry.data.fields.DataSchema,
     Opts extends Options<GetSchema<Fields>> = DefaultOptions,
