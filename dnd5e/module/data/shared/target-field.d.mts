@@ -33,15 +33,15 @@ declare namespace TargetField {
     template: foundry.data.fields.SchemaField<{
       count: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
       contiguous: foundry.data.fields.BooleanField,
-      type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Target.TemplateTypeKey>,
+      type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Target.TemplateTypeKey | ''>,
       size: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
       width: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
       height: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
-      units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Distance.TypeKey>
+      units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Distance.TypeKey | ''>
     }>,
     affects: foundry.data.fields.SchemaField<{
       count: dnd5e.dataModels.fields.FormulaField<{ deterministic: true }>,
-      type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Target.TypeKey>,
+      type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Target.TypeKey | ''>,
       choice: foundry.data.fields.BooleanField,
       special: foundry.data.fields.StringField
     }>,

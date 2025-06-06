@@ -583,14 +583,39 @@ declare class Item5e<
    * @returns {Promise<ActivitySheet|null>}
    */
   createActivity<
-    Type extends dnd5e.types.Activity.TypeKey = dnd5e.types.Activity.TypeKey
+    Type extends dnd5e.types.Activity.TypeKey = dnd5e.types.Activity.TypeKey,
+    Data extends fvttUtils.ShapeWithIndexSignature<
+      Data,
+      foundry.data.fields.SchemaField.CreateData<
+        dnd5e.types.Activity.SchemaMap[Type]
+      >,
+      string,
+      any
+    > = fvttUtils.ShapeWithIndexSignature<
+      foundry.data.fields.SchemaField.CreateData<
+        dnd5e.types.Activity.SchemaMap[Type]
+      >,
+      foundry.data.fields.SchemaField.CreateData<
+        dnd5e.types.Activity.SchemaMap[Type]
+      >,
+      string,
+      any
+    >
   >(
     type?: Type,
-    data?: foundry.abstract.DataModel.CreateData<
+    data?: Data,
+    options?: { renderSheet?: boolean }
+  ): Promise<dnd5e.types.Activity.SheetMap[Type] | null>
+
+  createActivity<
+    Type extends dnd5e.types.Activity.TypeKey = dnd5e.types.Activity.TypeKey,
+  >(
+    type?: Type,
+    data?: foundry.abstract.DataModel<
       dnd5e.types.Activity.SchemaMap[Type]
     >,
     options?: { renderSheet?: boolean }
-  ): Promise<ActivitySheet<dnd5e.types.Activity.OfType<Type>> | null>
+  ): Promise<dnd5e.types.Activity.SheetMap[Type] | null>
 
   /* -------------------------------------------- */
 
@@ -624,17 +649,47 @@ declare class Item5e<
    *                                               is `false`, or item with newly added advancement.
    */
   createAdvancement<
-    Type extends dnd5e.types.Advancement.TypeKey = dnd5e.types.Advancement.TypeKey
+    Type extends dnd5e.types.Advancement.TypeKey = dnd5e.types.Advancement.TypeKey,
+    Data extends fvttUtils.ShapeWithIndexSignature<
+      Data,
+      foundry.data.fields.SchemaField.CreateData<
+        dnd5e.types.Advancement.SchemaMap[Type]
+      >,
+      string,
+      any
+    > = fvttUtils.ShapeWithIndexSignature<
+      foundry.data.fields.SchemaField.CreateData<
+        dnd5e.types.Advancement.SchemaMap[Type]
+      >,
+      foundry.data.fields.SchemaField.CreateData<
+        dnd5e.types.Advancement.SchemaMap[Type]
+      >,
+      string,
+      any
+    >
   >(
     type?: Type,
-    data?: foundry.abstract.DataModel.CreateData<
-      dnd5e.types.Advancement.SchemaMap[Type]
-    >,
+    data?: Data,
     options?: {
       showConfig?: boolean,
       source?: boolean
     }
   ): (
+      dnd5e.types.GetKey<this['system'], 'advancement'> extends never
+      ? this
+      : Promise<dnd5e.types.Advancement.ConfigSheetMap[Type]>
+    )
+
+    
+    createAdvancement<
+      Type extends dnd5e.types.Advancement.TypeKey = dnd5e.types.Advancement.TypeKey,
+    >(
+      type?: Type,
+      data?: foundry.abstract.DataModel<
+        dnd5e.types.Advancement.SchemaMap[Type]
+      >,
+      options?: { renderSheet?: boolean }
+    ): (
       dnd5e.types.GetKey<this['system'], 'advancement'> extends never
       ? this
       : Promise<dnd5e.types.Advancement.ConfigSheetMap[Type]>
