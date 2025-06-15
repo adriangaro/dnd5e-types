@@ -1308,14 +1308,14 @@ declare global {
     }
   }
 
+}
+
+declare module "fvtt-types/configuration" {
   namespace Actor.Database {
     interface UpdateOperation {
       isRest?: boolean
     }
   } 
-}
-
-declare module "fvtt-types/configuration" {
   interface DocumentClassConfig {
     Actor: typeof Actor5e<Actor.SubType>
   }

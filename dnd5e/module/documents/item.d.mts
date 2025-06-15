@@ -968,12 +968,6 @@ declare module "fvtt-types/configuration" {
 }
 
 declare global {
-  namespace Item.Metadata {
-    interface Embedded {
-      // Activity: 'Activity',
-      // Advancement: 'Advancement'
-    }
-  }
 
   namespace dnd5e.types {
     interface DND5EConfig {
@@ -993,6 +987,16 @@ declare global {
     }
   }
 
+}
+
+declare module 'fvtt-types/configuration' {  
+  namespace Item.Metadata {
+    interface Embedded {
+      // Activity: 'Activity',
+      // Advancement: 'Advancement'
+    }
+  }
+
   namespace Item.Database {
     interface UpdateOperation {
       isRest?: boolean
@@ -1000,4 +1004,4 @@ declare global {
   }
 }
 
-type d = TextEditor.EnrichmentOptions
+type d = Parameters<Item5e<'consumable'>['createEmbeddedDocuments']>[0]
