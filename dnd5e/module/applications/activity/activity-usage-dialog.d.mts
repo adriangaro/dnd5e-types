@@ -74,7 +74,7 @@ declare class ActivityUsageDialog<
    * @returns
    * @protected
    */
-  _prepareConcentrationContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareConcentrationContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
@@ -85,7 +85,7 @@ declare class ActivityUsageDialog<
    * @returns
    * @protected
    */
-  _prepareConsumptionContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareConsumptionContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
@@ -96,18 +96,8 @@ declare class ActivityUsageDialog<
    * @returns
    * @protected
    */
-  _prepareCreationContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareCreationContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
-  /* -------------------------------------------- */
-
-  /**
-   * Prepare rendering context for the footer.
-   * @param context  Context being prepared.
-   * @param options   Options which configure application rendering behavior.
-   * @returns
-   * @protected
-   */
-  _prepareFooterContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
@@ -118,7 +108,7 @@ declare class ActivityUsageDialog<
    * @returns
    * @protected
    */
-  _prepareScalingContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareScalingContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 

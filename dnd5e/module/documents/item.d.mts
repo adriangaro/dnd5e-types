@@ -922,7 +922,7 @@ declare namespace Item5e {
     event: Event;
   }
 
-  type RollData<This extends Item5e> = fvttUtils.InterfaceToObject<(
+  type RollData<This extends Item.Implementation> = fvttUtils.InterfaceToObject<(
     dnd5e.types.GetKeyReturn<This['system'], 'getRollData'> extends never ?
     (
       ReturnType<Actor.Implementation['getRollData']> & {
@@ -963,7 +963,7 @@ declare module "fvtt-types/configuration" {
   }
 
   interface ConfiguredItem<SubType extends Item.SubType> {
-    document: Item5e<SubType>;
+    document: SubType extends unknown ? Item5e<SubType> : never; 
   }
 }
 

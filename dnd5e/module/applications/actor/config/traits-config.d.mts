@@ -5,11 +5,14 @@ import BaseConfigSheet from "../api/base-config-sheet.mjs";
  * Base application for selecting an actor's proficiencies.
  */
 declare class TraitsConfig<
+  Trait extends dnd5e.types.Trait.TypeKey = dnd5e.types.Trait.TypeKey,
+  Document extends TraitsConfig.ValidDocument<Trait> = TraitsConfig.ValidDocument<Trait>,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseConfigSheet<
-  TraitsConfig.MakeRenderContext<RenderContext>,
+  Document,
+  TraitsConfig.MakeRenderContext<RenderContext, Trait, Document>,
   TraitsConfig.MakeConfiguration<Configuration>,
   TraitsConfig.MakeRenderOptions<RenderOptions>
 > {
@@ -61,10 +64,34 @@ declare class TraitsConfig<
 }
 
 declare namespace TraitsConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type _PathToObject<T extends string> = T extends `${infer First}.${infer Rest}`
+    ? First extends `${infer F}`
+    ? { [K in F]: _PathToObject<Rest> }
+    : never
+    : T extends `${infer F}`
+    ? { [K in F]: any }
+    : never
+
+  // ValidDocument for traits - checks if the trait path exists
+  type ValidDocument<Trait extends dnd5e.types.Trait.TypeKey> = Extract<
+    Actor.OfType<Actor.SubType>,
+    _PathToObject<dnd5e.types.Trait.TraitKeyPath<Trait>>
+  >
+
+  type MapToSchemaPath<T extends string> = T extends `system.${infer Rest}`
+    ? MapToSchemaPath<Rest>
+    : T extends `${infer First}.${infer Second}`
+    ? `${First}.fields.${MapToSchemaPath<Second>}`
+    : T
+
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Trait extends dnd5e.types.Trait.TypeKey = dnd5e.types.Trait.TypeKey,
+    Document extends ValidDocument<Trait> = ValidDocument<Trait>  
+  > = dnd5e.types.DeepMerge<
     {
-      keyPath: string,
-      data: any,
+      keyPath: dnd5e.types.Trait.TraitKeyPath<Trait>,
+      data: dnd5e.types.GetTypeFromPath<Document, dnd5e.types.Trait.TraitKeyPath<Trait>>,
       checkbox: foundry.data.fields.DataField.Any,
       choices: SelectChoices.Instance<any> & {
         OTHER: {
@@ -73,7 +100,7 @@ declare namespace TraitsConfig {
           otherGroup: boolean
         }
       },
-      fields: foundry.data.fields.DataSchema
+      fields: dnd5e.types.GetTypeFromPath<Document, `system.schema.fields.${MapToSchemaPath<dnd5e.types.Trait.TraitKeyPath<Trait>>}.fields`>
     },
     Ctx
   >

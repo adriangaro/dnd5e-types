@@ -263,7 +263,7 @@ declare class ChatMessage5e<
    * @param app  The ChatPopout Application instance.
    * @param html     The rendered Application HTML.
    */
-  static onRenderChatPopout(app: ChatPopout, html: JQuery)
+  static onRenderChatPopout(app: foundry.applications.sidebar.apps.ChatPopout, html: JQuery)
 
   /* -------------------------------------------- */
 

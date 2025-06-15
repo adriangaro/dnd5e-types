@@ -4,10 +4,19 @@ import BaseProficiencyConfig from "./base-proficiency-config.mjs";
  * Configuration application for an actor's abilities.
  */
 declare class AbilityConfig<
+  Key extends BaseProficiencyConfig.ValidKeysOfTrait<'saves'> = BaseProficiencyConfig.ValidKeysOfTrait<'saves'>,
+  Document extends BaseProficiencyConfig.ValidDocument<
+    `${dnd5e.types.Trait.TraitKeyPath<'saves'>}.${Key}`
+  > = BaseProficiencyConfig.ValidDocument<
+    `${dnd5e.types.Trait.TraitKeyPath<'saves'>}.${Key}`
+  >,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseProficiencyConfig<
+  'saves',
+  Key,
+  Document,
   AbilityConfig.MakeRenderContext<RenderContext>,
   AbilityConfig.MakeConfiguration<Configuration>,
   AbilityConfig.MakeRenderOptions<RenderOptions>

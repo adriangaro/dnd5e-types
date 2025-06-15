@@ -4,7 +4,6 @@ import Dialog5e from "../api/dialog.mjs";
  * Dialog for configuring one or more rolls.
  */
 
-type d = ConstructorParameters<dnd5e.dice.BasicRoll.AnyConstructor>
 declare class RollConfigurationDialog<
   RollType extends dnd5e.dice.BasicRoll.AnyConstructor = typeof dnd5e.dice.BasicRoll<{}, {}, {}, {}, {}>,
   RenderContext extends fvttUtils.AnyObject = {},
@@ -71,21 +70,21 @@ declare class RollConfigurationDialog<
   /**
    * Prepare the context for the buttons.
    */
-  _prepareButtonsContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareButtonsContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
   /**
    * Prepare the context for the roll configuration section.
    */
-  _prepareConfigurationContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareConfigurationContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
   /**
    * Prepare the context for the formulas list.
    */
-  _prepareFormulasContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareFormulasContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
   /*  Roll Handling                               */

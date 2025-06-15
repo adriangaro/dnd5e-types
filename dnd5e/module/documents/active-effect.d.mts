@@ -254,7 +254,7 @@ declare module "fvtt-types/configuration" {
   }
 
   interface ConfiguredActiveEffect<SubType extends ActiveEffect.SubType> {
-    document: ActiveEffect5e<SubType>;
+    document: SubType extends unknown ? ActiveEffect5e<SubType> : never; 
   }
 }
 

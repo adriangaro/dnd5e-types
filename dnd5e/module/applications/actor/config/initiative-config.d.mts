@@ -3,11 +3,13 @@ import BaseConfigSheet from "../api/base-config-sheet.mjs";
  * Configuration application for an actor's initiative.
  */
 declare class InitiativeConfig<
+  Document extends InitiativeConfig.ValidDocument = InitiativeConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseConfigSheet<
-  InitiativeConfig.MakeRenderContext<RenderContext>,
+  Document,
+  InitiativeConfig.MakeRenderContext<RenderContext, Document>,
   InitiativeConfig.MakeConfiguration<Configuration>,
   InitiativeConfig.MakeRenderOptions<RenderOptions>
 > {
@@ -15,18 +17,23 @@ declare class InitiativeConfig<
 }
 
 declare namespace InitiativeConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { attributes: { init: any } } }>
+
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
       abilityOptions: dnd5e.types.FormSelectOption[];
       ability: {
         label: string;
         global: {
-          field: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.schema.fields.bonuses.fields.abilities.fields.check'>;
+          field: dnd5e.types.GetTypeFromPath<Document, 'system.schema.fields.bonuses.fields.abilities.fields.check'>;
           name: string;
           value: any;
         };
         local: {
-          field: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.schema.fields.abilities.model.fields.bonuses.fields.check'>;
+          field: dnd5e.types.GetTypeFromPath<Document, 'system.schema.fields.abilities.model.fields.bonuses.fields.check'>;
           name: string;
           value: any;
         };

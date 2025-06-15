@@ -28,14 +28,20 @@ declare class Dialog5e<
   /**
    * Prepare rendering context for the content section.
    */
-  _prepareContentContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareContentContext(
+    context: this['__RenderContext'],
+     options: fvttUtils.DeepPartial<this['__RenderOptions']>
+    ): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
   /**
    * Prepare rendering context for the footer.
    */
-  _prepareFooterContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareFooterContext(
+    context: this['__RenderContext'],
+    options: fvttUtils.DeepPartial<this['__RenderOptions']>
+  ): Promise<this['__RenderContext']>
 }
 declare class AnyDialog5e extends Dialog5e<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
   constructor(...args: any[])

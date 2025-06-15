@@ -58,7 +58,7 @@ export default class OrderUsageDialog extends ActivityUsageDialog<
    * @param options   Render options.
    * @protected
    */
-  _prepareBuildContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareBuildContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
@@ -70,7 +70,7 @@ export default class OrderUsageDialog extends ActivityUsageDialog<
    * @param options.gold               The cost in gold.
    * @protected
    */
-  _prepareCostsContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareCostsContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
   /* -------------------------------------------- */
 
   /**
@@ -79,7 +79,7 @@ export default class OrderUsageDialog extends ActivityUsageDialog<
    * @param options   Render options.
    * @protected
    */
-   _prepareCraftContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+   _prepareCraftContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
   /* -------------------------------------------- */
 
   /**
@@ -89,12 +89,12 @@ export default class OrderUsageDialog extends ActivityUsageDialog<
    * @returns The costs associated with performing this order.
    * @protected
    */
-  _prepareEnlargeContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareEnlargeContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
 
   /* -------------------------------------------- */
 
   /** @override */
-  _prepareFooterContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>
+  _prepareFooterContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>
    
 
   /* -------------------------------------------- */
@@ -105,7 +105,7 @@ export default class OrderUsageDialog extends ActivityUsageDialog<
    * @param options   Render options.
    * @protected
    */
-  _prepareOrderContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<void>
+  _prepareOrderContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<void>
 
 
   /* -------------------------------------------- */
@@ -116,7 +116,7 @@ export default class OrderUsageDialog extends ActivityUsageDialog<
    * @param options   Render options.
    * @protected
    */
-  _prepareTradeContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<void>
+  _prepareTradeContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<void>
 
   /* -------------------------------------------- */
   /*  Event Listeners & Handlers                  */

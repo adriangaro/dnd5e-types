@@ -14,24 +14,20 @@ declare class Application5e<
   Application5e.MakeRenderOptions<RenderOptions>
 > {
   __Configuration: Application5e.MakeConfiguration<Configuration>;
-  __RenderOptions: Application5e.MakeRenderOptions<RenderOptions>;
-  __RenderContext: Application5e.MakeRenderContext<RenderContext>;
-
-  _prepareContext(options: fvttUtils.DeepPartial<this['__RenderOptions']> & { isFirstRender: boolean }): Promise<this['__RenderContext']>;
-
-  // @ts-expect-error
-  override _renderHTML(
-    context: this['__RenderContext'],
-    options: this['__RenderOptions'],
-  ): Promise<Record<string, HTMLElement>>;
-
-
-  // @ts-expect-error
-  override _preparePartContext(
-    partId: string,
-    context: this['__RenderContext'],
-    options: this['__RenderOptions'],
-  ): Promise<this['__RenderContext']>;
+  __RenderOptions: foundry.applications.api.ApplicationV2.RenderOptionsOf<
+    foundry.applications.api.ApplicationV2<
+      Application5e.MakeRenderContext<RenderContext>,
+      Application5e.MakeConfiguration<Configuration>,
+      Application5e.MakeRenderOptions<RenderOptions>
+    >
+  >;
+  __RenderContext: foundry.applications.api.ApplicationV2.RenderContextOf<
+    foundry.applications.api.ApplicationV2<
+      Application5e.MakeRenderContext<RenderContext>,
+      Application5e.MakeConfiguration<Configuration>,
+      Application5e.MakeRenderOptions<RenderOptions>
+    >
+  >;
 }
 
 declare class AnyApplication5e extends Application5e<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {

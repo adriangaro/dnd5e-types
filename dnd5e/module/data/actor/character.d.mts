@@ -15,7 +15,7 @@ type DetailsData = fvttUtils.PrettifyType<fvttUtils.SimpleMerge<
   fvttUtils.SimpleMerge<
     typeof DetailsFields['creature'],
     {
-      background: LocalDocumentField<typeof foundry.documents.BaseItem<'background'>, {
+      background: LocalDocumentField<typeof Item<'background'>, {
         required: true, fallback: true, label: "DND5E.Background"
       }>,
       originalClass: foundry.data.fields.StringField<{ required: true, label: "DND5E.ClassOriginal" }>,

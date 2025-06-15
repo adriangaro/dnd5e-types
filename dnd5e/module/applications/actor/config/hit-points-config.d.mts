@@ -6,11 +6,13 @@ import BaseConfigSheet from "../api/base-config-sheet.mjs";
  * Configuration application for hit point bonuses and current values.
  */
 declare class HitPointsConfig<
+  Document extends HitPointsConfig.ValidDocument = HitPointsConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseConfigSheet<
-  HitPointsConfig.MakeRenderContext<RenderContext>,
+  Document,
+  HitPointsConfig.MakeRenderContext<RenderContext, Document>,
   HitPointsConfig.MakeConfiguration<Configuration>,
   HitPointsConfig.MakeRenderOptions<RenderOptions>
 > {
@@ -30,7 +32,12 @@ declare class HitPointsConfig<
 }
 
 declare namespace HitPointsConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { attributes: { hp: any } } }>
+
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
       classes: {
         name: string

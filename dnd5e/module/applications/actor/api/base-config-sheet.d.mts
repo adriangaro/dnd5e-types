@@ -4,11 +4,12 @@ import DocumentSheet5e from "../../api/document-sheet.mjs";
  * Base document sheet from which all actor configuration sheets should be based.
  */
 declare class BaseConfigSheet<
+  Document extends Actor.Implementation = Actor.Implementation,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends DocumentSheet5e<
-  Actor.Implementation,
+  Document,
   BaseConfigSheet.MakeRenderContext<RenderContext>,
   BaseConfigSheet.MakeConfiguration<Configuration>,
   BaseConfigSheet.MakeRenderOptions<RenderOptions>

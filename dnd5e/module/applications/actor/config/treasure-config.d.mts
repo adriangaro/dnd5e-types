@@ -4,17 +4,23 @@ import BaseConfigSheet from "../api/base-config-sheet.mjs";
  * Configuration application for an NPC's treasure categories.
  */
 declare class TreasureConfig<
+  Document extends TreasureConfig.ValidDocument = TreasureConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseConfigSheet<
-  TreasureConfig.MakeRenderContext<RenderContext>,
+  Document,
+  TreasureConfig.MakeRenderContext<RenderContext, Document>,
   TreasureConfig.MakeConfiguration<Configuration>,
   TreasureConfig.MakeRenderOptions<RenderOptions>
 > {}
 
 declare namespace TreasureConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { details: { treasure: any } } }>
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
       treasure: dnd5e.types.FormSelectOption[]
     },

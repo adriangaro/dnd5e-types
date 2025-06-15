@@ -5,11 +5,14 @@ import TraitsConfig from "./traits-config.mjs";
  * Configuration application for actor's tools.
  */
 declare class ToolsConfig<
+  Document extends ToolsConfig.ValidDocument = ToolsConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends TraitsConfig<
-  ToolsConfig.MakeRenderContext<RenderContext>,
+  'tool',
+  Document,
+  ToolsConfig.MakeRenderContext<RenderContext, Document>,
   ToolsConfig.MakeConfiguration<Configuration>,
   ToolsConfig.MakeRenderOptions<RenderOptions>
 > {
@@ -28,7 +31,11 @@ declare class ToolsConfig<
 }
 
 declare namespace ToolsConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { tools: any } }>
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
       
     },

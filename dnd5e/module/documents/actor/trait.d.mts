@@ -10,12 +10,14 @@ import SelectChoices from "./select-choices.mjs"; // Adjust path as needed
 export declare function actorFields<T extends string>(actor: Actor.Implementation, trait: T): dnd5e.types.GetTypeFromPath<Actor.Implementation, `${T}.fields`> | undefined;
 export declare function actorFields(actor: Actor.Implementation, trait: string): foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>['fields'] | undefined;
 
+
+
 /**
 * Get the key path to the specified trait on an actor.
 * @param trait Trait as defined in `CONFIG.DND5E.traits`.
 * @returns Key path to this trait's object within an actor's system data.
 */
-export declare function actorKeyPath<T extends dnd5e.types.Trait.TypeKey>(trait: dnd5e.types.Trait.TypeKey): `system.traits.${T}`;
+export declare function actorKeyPath<T extends dnd5e.types.Trait.TypeKey>(trait: dnd5e.types.Trait.TypeKey): dnd5e.types.Trait.TraitKeyPath<T>;
 
 /**
 * Get the current trait values for the provided actor.
@@ -195,9 +197,12 @@ declare global {
       }
 
       // Define a minimal structure for the trait configuration within CONFIG.DND5E.traits
-      export interface TraitConfig {
-        actorKeyPath?: string;
-        configKey?: keyof DND5EConfig;
+      export interface TraitConfig<
+        KeyPath extends string | undefined = undefined,
+        ConfigKey extends keyof DND5EConfig | undefined = undefined
+      > {
+        actorKeyPath?: KeyPath;
+        configKey?: ConfigKey;
         children?: Record<string, string>; // Maps category key to a CONFIG key (e.g., "art": "armorProficiencies")
         subtypes?: {
           ids: string[]; // List of CONFIG keys containing base item IDs (e.g., ["weaponIds"])
@@ -217,22 +222,28 @@ declare global {
       }
 
       export interface TraitConfigTypeMap {
-        saves: TraitConfig
-        skills: TraitConfig
+        saves: TraitConfig<'system.abilities', 'abilities'>
+        skills: TraitConfig<"system.skills", 'skills'>
         languages: TraitConfig
-        armor: TraitConfig
-        weapon: TraitConfig
-        tool: TraitConfig
-        di: TraitConfig
-        dr: TraitConfig
-        dv: TraitConfig
-        dm: TraitConfig
-        ci: TraitConfig
-        da: TraitConfig
+        armor: TraitConfig<'system.traits.armorProf', 'armorProficiencies'>
+        weapon: TraitConfig<'system.traits.weaponProf', 'weaponProficiencies'>
+        tool: TraitConfig<'system.tools', 'toolProficiencies'>
+        di: TraitConfig<undefined, 'damageTypes'>
+        dr: TraitConfig<undefined, 'damageTypes'>
+        dv: TraitConfig<undefined, 'damageTypes'>
+        dm: TraitConfig<undefined, 'damageTypes'>
+        ci: TraitConfig<undefined, 'conditionTypes'>
+        da: TraitConfig<undefined, 'damageTypes'>
       }
 
       export type TypeKey = keyof fvttUtils.RemoveIndexSignatures<TraitConfigTypeMap>;
 
+      export type TraitKeyPath<T extends dnd5e.types.Trait.TypeKey> = 
+        TraitConfigTypeMap[T] extends TraitConfig<infer Path, any>
+          ? Path extends string
+            ? Path
+            : `system.traits.${T}`
+          : `system.traits.${T}`
       interface DefaultTraitModes {
         default: true,
         expertise: true,

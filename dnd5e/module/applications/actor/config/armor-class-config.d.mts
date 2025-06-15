@@ -4,21 +4,28 @@ import BaseConfigSheet from "../api/base-config-sheet.mjs";
  * Configuration application for armor class calculation.
  */
 declare class ArmorClassConfig<
+  Document extends ArmorClassConfig.ValidDocument = ArmorClassConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseConfigSheet<
-  ArmorClassConfig.MakeRenderContext<RenderContext>,
+  Document,
+  ArmorClassConfig.MakeRenderContext<RenderContext, Document>,
   ArmorClassConfig.MakeConfiguration<Configuration>,
   ArmorClassConfig.MakeRenderOptions<RenderOptions>
 > {}
 
 declare namespace ArmorClassConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { attributes: { ac: any } } }>
+
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
-      data: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.attributes.ac'>
-      fields: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.schema.fields.attributes.fields.ac.fields'>
-      source: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system._source.attributes.ac'>
+      data: dnd5e.types.GetTypeFromPath<Document, 'system.attributes.ac'>
+      fields: dnd5e.types.GetTypeFromPath<Document, 'system.schema.fields.attributes.fields.ac.fields'>
+      source: dnd5e.types.GetTypeFromPath<Document, 'system._source.attributes.ac'>
       calculationOptions: dnd5e.types.FormSelectOption[]
       formula: {
         disabled: boolean,

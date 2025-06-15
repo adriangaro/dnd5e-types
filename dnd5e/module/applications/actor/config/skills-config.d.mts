@@ -1,15 +1,18 @@
-import BaseProficiencyConfig from "./base-proficiency-config.mjs";
+import type { SelectChoices } from "@dnd5e/module/documents/_module.mjs";
 import TraitsConfig from "./traits-config.mjs";
 
 /**
  * Configuration application for an actor's skills.
  */
 declare class SkillsConfig<
+  Document extends SkillsConfig.ValidDocument = SkillsConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends TraitsConfig<
-  SkillsConfig.MakeRenderContext<RenderContext>,
+  'skills',
+  Document,
+  SkillsConfig.MakeRenderContext<RenderContext, Document>,
   SkillsConfig.MakeConfiguration<Configuration>,
   SkillsConfig.MakeRenderOptions<RenderOptions>
 > {
@@ -23,9 +26,14 @@ declare class SkillsConfig<
 }
 
 declare namespace SkillsConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { skills: any } }> 
+
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
-      skills: any
+      skills: SelectChoices.Instance<any>
       rows: number
     },
     Ctx

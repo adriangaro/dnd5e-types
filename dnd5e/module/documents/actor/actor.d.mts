@@ -1321,7 +1321,7 @@ declare module "fvtt-types/configuration" {
   }
 
   interface ConfiguredActor<SubType extends Actor.SubType> {
-    document: Actor5e<SubType>;
+    document: SubType extends unknown ? Actor5e<SubType> : never;
   }
 
   namespace FlagConfig {

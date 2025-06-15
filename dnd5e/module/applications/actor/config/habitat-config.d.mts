@@ -4,11 +4,13 @@ import type BaseConfigSheet from "../api/base-config-sheet.mjs";
  * Configuration application for an actor's habitat.
  */
 declare class HabitatConfig<
+  Document extends HabitatConfig.ValidDocument = HabitatConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseConfigSheet<
-  HabitatConfig.MakeRenderContext<RenderContext>,
+  Document,
+  HabitatConfig.MakeRenderContext<RenderContext, Document>,
   HabitatConfig.MakeConfiguration<Configuration>,
   HabitatConfig.MakeRenderOptions<RenderOptions>
 > { 
@@ -24,14 +26,26 @@ declare class HabitatConfig<
 }
 
 declare namespace HabitatConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { details: { habitat: any } } }>
+
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
       custom: {
         field: foundry.data.fields.DataField.Any,
         value: string,
         name: string
       }
-      habitats: dnd5e.types.FormSelectOption[]
+      habitats: {
+        label: string,
+        id: string,
+        checked: boolean,
+        disabled?: boolean,
+        subtype?: string | undefined,
+        subtypes?: boolean
+      }[]
       rows: number
     },
     Ctx

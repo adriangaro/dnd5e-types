@@ -4,13 +4,15 @@ import BaseConfigSheet from "../api/base-config-sheet.mjs";
  * Configuration application for adjusting hit dice amounts and rolling.
  */
 declare class HitDiceConfig<
+  Document extends HitDiceConfig.ValidDocument = HitDiceConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends BaseConfigSheet<
-HitDiceConfig.MakeRenderContext<RenderContext>,
-HitDiceConfig.MakeConfiguration<Configuration>,
-HitDiceConfig.MakeRenderOptions<RenderOptions>
+  Document,
+  HitDiceConfig.MakeRenderContext<RenderContext, Document>,
+  HitDiceConfig.MakeConfiguration<Configuration>,
+  HitDiceConfig.MakeRenderOptions<RenderOptions>
 > {
   /* -------------------------------------------- */
   /*  Event Listeners and Handlers                */
@@ -34,12 +36,16 @@ HitDiceConfig.MakeRenderOptions<RenderOptions>
    */
   static #stepValue(this: HitDiceConfig, event: PointerEvent, target: HTMLElement): Promise<void>
 }
-
 declare namespace HitDiceConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { attributes: { hd: any } } }>
+
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
       classes: {
-        data: Item.OfType<'class'>['system']['hd']
+        data: dnd5e.types.GetTypeFromPath<Document, 'system.attributes.hd.classes'>
         denomination: number,
         id: string,
         label: string

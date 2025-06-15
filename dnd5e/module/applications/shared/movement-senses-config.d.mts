@@ -4,27 +4,18 @@ import type { CreateInputFunction } from "../fields.d.mts";
 /**
  * Configuration application for an actor or species's movement & senses.
  */
-export default class MovementSensesConfig extends BaseConfigSheet<
-  {
-    data: any
-    fields: foundry.data.fields.DataSchema,
-    extras: {
-      field: foundry.data.fields.DataField,
-      input: (field: foundry.data.fields.DataField, config: foundry.applications.fields.FormInputConfig<any>) => HTMLElement,
-      value: any
-    }[],
-    types: {
-      field: foundry.data.fields.DataField,
-      value: any,
-      placeholder: string
-    }[],
-    unitsOptions: ({ value: string, label: string } | { rule: true })[]
-  },
-  {},
-  {}
+declare class MovementSensesConfig<
+  Type extends 'movement' | 'senses' = 'movement' | 'senses',
+  Document extends MovementSensesConfig.ValidDocument = MovementSensesConfig.ValidDocument,
+  RenderContext extends fvttUtils.AnyObject = {},
+  Configuration extends fvttUtils.AnyObject = {},
+  RenderOptions extends fvttUtils.AnyObject = {},
+> extends BaseConfigSheet<
+  Document,
+  MovementSensesConfig.MakeRenderContext<RenderContext, Document>,
+  MovementSensesConfig.MakeConfiguration<Configuration>,
+  MovementSensesConfig.MakeRenderOptions<RenderOptions>
 > {
-
-
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
@@ -58,3 +49,48 @@ export default class MovementSensesConfig extends BaseConfigSheet<
     value: any
   }[]
 }
+
+declare namespace MovementSensesConfig {
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { senses: any } }>
+
+  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}, Document extends ValidDocument = ValidDocument> = dnd5e.types.DeepMerge<
+    Ctx,
+    {
+      data: dnd5e.types.GetTypeFromPath<Document, 'system._source.attributes.concentration'>
+      fields: dnd5e.types.GetTypeFromPath<Document, 'system.schema.fields.attributes.fields.concentration.fields'>,
+      extras: {
+        field: foundry.data.fields.DataField,
+        input: (field: foundry.data.fields.DataField, config: foundry.applications.fields.FormInputConfig<any>) => HTMLElement,
+        value: any
+      }[],
+      types: {
+        field: foundry.data.fields.DataField,
+        value: any,
+        placeholder: string
+      }[],
+      unitsOptions: ({ value: string, label: string } | { rule: true })[]
+    }
+  >
+
+  type RenderContext = MovementSensesConfig['__RenderContext'];
+
+  type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+    Cfg,
+    {
+      // No specific configuration properties identified
+    }
+  >
+
+  type Configuration = MovementSensesConfig['__Configuration'];
+
+  type MakeRenderOptions<Opts extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+    Opts,
+    {
+      // No specific render options identified
+    }
+  >
+
+  type RenderOptions = MovementSensesConfig['__RenderOptions'];
+}
+
+export default MovementSensesConfig;

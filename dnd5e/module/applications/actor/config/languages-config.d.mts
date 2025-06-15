@@ -5,11 +5,14 @@ import type TraitsConfig from "./traits-config.d.mts";
  * Configuration application for languages.
  */
 declare class LanguagesConfig<
+  Document extends LanguagesConfig.ValidDocument = LanguagesConfig.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends TraitsConfig<
-  LanguagesConfig.MakeRenderContext<RenderContext>,
+  'languages',
+  Document,
+  LanguagesConfig.MakeRenderContext<RenderContext, Document>,
   LanguagesConfig.MakeConfiguration<Configuration>,
   LanguagesConfig.MakeRenderOptions<RenderOptions>
 > {
@@ -17,13 +20,17 @@ declare class LanguagesConfig<
 }
 
 declare namespace LanguagesConfig {
-  type MakeRenderContext<Ctx extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
+  type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { traits: { languages: any } } }>
+  type MakeRenderContext<
+    Ctx extends fvttUtils.AnyObject = {},
+    Document extends ValidDocument = ValidDocument
+  > = dnd5e.types.DeepMerge<
     {
       communication: {
         label: string;
         unitOptions: dnd5e.types.FormSelectOption[]
-        data: any;
-        fields: foundry.data.fields.DataSchema;
+        data: dnd5e.types.GetTypeFromPath<Document, `system.traits.languages.communication.${dnd5e.types.Language.CommunicationTypeKey}`>;
+        fields: dnd5e.types.GetTypeFromPath<Document, 'system.schema.fields.traits.fields.languages.fields.communication.model.fields'>;
         keyPath: string;
       }[];
     },

@@ -219,7 +219,7 @@ declare class CompendiumBrowser extends Application5e<
    * @returns Context data for the footer part.
    * @protected
    */
-  _prepareFooterContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>;
+  _prepareFooterContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>;
 
   /**
    * Prepare the header context.
@@ -228,7 +228,7 @@ declare class CompendiumBrowser extends Application5e<
    * @returns Context data for the header part.
    * @protected
    */
-  _prepareHeaderContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>;
+  _prepareHeaderContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>;
 
   /**
    * Prepare the sidebar context (documentClass, types, filters).
@@ -238,7 +238,7 @@ declare class CompendiumBrowser extends Application5e<
    * @returns Context data for the sidebar part.
    * @protected
    */
-  _prepareSidebarContext(partId: "documentClass" | "types" | "filters", context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>;
+  _prepareSidebarContext(partId: "documentClass" | "types" | "filters", context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>;
 
   /**
    * Prepare the results context.
@@ -247,7 +247,7 @@ declare class CompendiumBrowser extends Application5e<
    * @returns Context data for the results part.
    * @protected
    */
-  _prepareResultsContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>;
+  _prepareResultsContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>;
 
   /**
    * Prepare the tabs context.
@@ -256,7 +256,7 @@ declare class CompendiumBrowser extends Application5e<
    * @returns Context data for the tabs part.
    * @protected
    */
-  _prepareTabsContext(context: this['__RenderContext'], options: this['__RenderOptions']): Promise<this['__RenderContext']>;
+  _prepareTabsContext(context: this['__RenderContext'], options: fvttUtils.DeepPartial<this['__RenderOptions']>): Promise<this['__RenderContext']>;
 
   /**
    * Render a single result entry.

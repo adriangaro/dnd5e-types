@@ -138,8 +138,16 @@ declare global {
         [K in keyof T as T[K] extends never ? never : K]: T[K];
       }>;
 
+      type OmitIndex<K extends PropertyKey> = string extends K
+        ? never
+        : number extends K
+          ? never
+          : symbol extends K
+            ? never
+            : K;
+
       export type RemoveIndexSignatures<T> = {
-        [K in keyof T as fvttUtils.OmitIndex<K>]: T[K];
+        [K in keyof T as OmitIndex<K>]: T[K];
       };
 
       type IsKeyOptional<T, Keys extends keyof T> =
@@ -771,6 +779,8 @@ declare global {
           ? never // If HasPath<CurrentMember, P> is never, the path doesn't exist; discard CurrentMember.
           : U // If HasPath<CurrentMember, P> is CurrentMember (i.e., not never), path exists; keep CurrentMember.
         : never; // This branch should typically not be reached if U is a well-formed type union.
+
+      type GenericConstructor<T> = new (...args: any[]) => T;
 
       export interface DND5EConfig {}
 
