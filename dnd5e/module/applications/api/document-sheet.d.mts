@@ -15,21 +15,9 @@ declare class DocumentSheet5e<
   DocumentSheet5e.MakeRenderOptions<RenderOptions>
 > {
   __Document: Document;
-  __Configuration: DocumentSheet5e.MakeConfiguration<Document, Configuration>;
-  __RenderOptions: foundry.applications.api.ApplicationV2.RenderOptionsOf<
-    foundry.applications.api.ApplicationV2<
-    DocumentSheet5e.MakeRenderContext<Document, RenderContext>,
-    DocumentSheet5e.MakeConfiguration<Document, Configuration>,
-    DocumentSheet5e.MakeRenderOptions<RenderOptions>
-    >
-  >;
-  __RenderContext: foundry.applications.api.ApplicationV2.RenderContextOf<
-    foundry.applications.api.ApplicationV2<
-    DocumentSheet5e.MakeRenderContext<Document, RenderContext>,
-    DocumentSheet5e.MakeConfiguration<Document, Configuration>,
-    DocumentSheet5e.MakeRenderOptions<RenderOptions>
-    >
-  >;
+  __Configuration: this[typeof foundry.applications.api.ApplicationV2.Internal.__Configuration]
+  __RenderOptions: this[typeof foundry.applications.api.ApplicationV2.Internal.__RenderOptions]
+  __RenderContext: this[typeof foundry.applications.api.ApplicationV2.Internal.__RenderContext]
 
   // Overrides no longer seem to be needed as issue is fixed in fvtt-types
   

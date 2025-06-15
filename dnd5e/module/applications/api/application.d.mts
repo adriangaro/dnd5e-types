@@ -13,21 +13,9 @@ declare class Application5e<
   Application5e.MakeConfiguration<Configuration>,
   Application5e.MakeRenderOptions<RenderOptions>
 > {
-  __Configuration: Application5e.MakeConfiguration<Configuration>;
-  __RenderOptions: foundry.applications.api.ApplicationV2.RenderOptionsOf<
-    foundry.applications.api.ApplicationV2<
-      Application5e.MakeRenderContext<RenderContext>,
-      Application5e.MakeConfiguration<Configuration>,
-      Application5e.MakeRenderOptions<RenderOptions>
-    >
-  >;
-  __RenderContext: foundry.applications.api.ApplicationV2.RenderContextOf<
-    foundry.applications.api.ApplicationV2<
-      Application5e.MakeRenderContext<RenderContext>,
-      Application5e.MakeConfiguration<Configuration>,
-      Application5e.MakeRenderOptions<RenderOptions>
-    >
-  >;
+  __Configuration: this[typeof foundry.applications.api.ApplicationV2.Internal.__Configuration]
+  __RenderOptions: this[typeof foundry.applications.api.ApplicationV2.Internal.__RenderOptions]
+  __RenderContext: this[typeof foundry.applications.api.ApplicationV2.Internal.__RenderContext]
 }
 
 declare class AnyApplication5e extends Application5e<fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
