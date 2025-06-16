@@ -153,7 +153,8 @@ declare global {
       type IsKeyOptional<T, Keys extends keyof T> =
         { [Key in Keys]?: T[Key] } extends Pick<T, Keys> ? true : false;
 
-      export type DeepMerge<T, U> =
+      // Internal DeepMerge with the original logic - used after empty object checks
+      export type _DeepMerge<T, U> =
         // --- Handle top-level `never` cases first ---
         IsNever<U> extends true
           ? never // If U is never, the result is always never.
@@ -165,7 +166,7 @@ declare global {
                 IsArray<T> extends true // Check if T is an array
                   ? IsArray<U> extends true // Check if U is also an array
                     ? Array<
-                        DeepMerge<InferArrayElement<T>, InferArrayElement<U>>
+                        _DeepMerge<InferArrayElement<T>, InferArrayElement<U>>
                       > // Both are arrays: Merge elements recursively
                     : U // T is array, U is not: U takes priority
                   : fvttUtils.IsObject<T> extends true // Check if T is an object (and not an array)
@@ -188,7 +189,7 @@ declare global {
                                 ? K
                                 : never]: U[K] extends never // Determine type: never if U[K] was never, otherwise merge. // When is the result REQUIRED?
                               ? never
-                              : DeepMerge<T[K], U[K]>;
+                              : _DeepMerge<T[K], U[K]>;
                           } & {
                             // 3b. Common Keys that result in OPTIONAL properties in the final type
                             [K in Extract<
@@ -200,13 +201,19 @@ declare global {
                               : // If U[K] is not never, make it optional if U[K] is optional.
                                 IsKeyOptional<U, K> extends true
                                 ? K
-                                : never]?: DeepMerge<T[K], U[K]>; // Determine type: merge (we know U[K] is not never here). // When is the result OPTIONAL? ONLY if U[K] is NOT never AND U[K] IS optional.
+                                : never]?: _DeepMerge<T[K], U[K]>; // Determine type: merge (we know U[K] is not never here). // When is the result OPTIONAL? ONLY if U[K] is NOT never AND U[K] IS optional.
                           }
                       : U // T is object, U is not: U takes priority
                     : U // T is neither array nor object: U takes priority
               >;
 
-      type d = DeepMerge<{ a?: 23 }, { a?: 2 }>;
+      // DeepMerge with short circuit for empty objects
+      export type DeepMerge<T, U> =
+        IsExactly<T, {}> extends true
+          ? U
+          : IsExactly<U, {}> extends true
+            ? T
+            : _DeepMerge<T, U>;
 
       export type ExtractKeys<
         _T extends object,
