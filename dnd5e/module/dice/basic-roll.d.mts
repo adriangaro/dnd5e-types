@@ -4,7 +4,7 @@ import RollConfigurationDialog from "../applications/dice/roll-configuration-dia
  * Custom base roll type with methods for building rolls, presenting prompts, and creating messages.
  */
 declare class BasicRoll<
-  D extends fvttUtils.AnyObject = fvttUtils.AnyObject,
+  D extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
   Configuration extends fvttUtils.AnyObject = {},
   ProcessConfiguration extends fvttUtils.AnyObject = {},
   DialogConfiguration extends fvttUtils.AnyObject = {},

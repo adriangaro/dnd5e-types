@@ -4,7 +4,7 @@ import BasicRoll from "./basic-roll.mjs";
 /* -------------------------------------------- */
 
 declare class D20Roll<
-  D extends fvttUtils.AnyObject = fvttUtils.AnyObject,
+  D extends fvttUtils.AnyObject = fvttUtils.EmptyObject,
   Configuration extends fvttUtils.AnyObject = {},
   ProcessConfiguration extends fvttUtils.AnyObject = {},
   DialogConfiguration extends fvttUtils.AnyObject = {},
