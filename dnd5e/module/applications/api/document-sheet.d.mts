@@ -5,12 +5,12 @@ import ApplicationV2Mixin from "./application-v2-mixin.mjs";
  */
 declare class DocumentSheet5e<
   Document extends foundry.abstract.Document.Any = foundry.abstract.Document.Any,
-  RenderContext extends fvttUtils.AnyObject = {},
+  RenderContext extends fvttUtils.AnyObject = fvttUtils.InterfaceToObject<foundry.applications.api.DocumentSheetV2.RenderContext<Document>>,
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends ApplicationV2Mixin(foundry.applications.api.DocumentSheetV2)<
   Document,
-  DocumentSheet5e.MakeRenderContext<Document, RenderContext>,
+  DocumentSheet5e.MakeRenderContext<RenderContext>,
   DocumentSheet5e.MakeConfiguration<Document, Configuration>,
   DocumentSheet5e.MakeRenderOptions<RenderOptions>
 > {
@@ -46,15 +46,11 @@ declare namespace DocumentSheet5e {
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyDocumentSheet5e> { }
 
   type MakeRenderContext<
-    Document extends foundry.abstract.Document.Any = foundry.abstract.Document.Any,
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
-    dnd5e.types.DeepMerge<
-      foundry.applications.api.DocumentSheetV2.RenderContext<Document>,
-      ApplicationV2Mixin.RenderOptions
-    >,
+    ApplicationV2Mixin.RenderOptions,
     Ctx
-  > & foundry.applications.api.DocumentSheetV2.RenderContext<Document>
+  >
   type RenderContext = DocumentSheet5e['__RenderContext']
   type MakeConfiguration<
     Document extends foundry.abstract.Document.Any = foundry.abstract.Document.Any,

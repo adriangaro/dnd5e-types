@@ -1,6 +1,7 @@
 import type PseudoDocumentMixin from "@dnd5e/module/documents/mixins/pseudo-document.mjs";
 import Application5e from "./application.mjs";
 
+type d = Application5e extends fvttUtils.AnyObject ? true : false;
 /**
  * Default sheet for activities.
  */
