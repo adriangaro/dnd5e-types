@@ -90,14 +90,14 @@ if (tokenActor?.type === 'character') {
 
 #### Avoiding Base and Module Subtypes
 
-`Actor.OfType<Actor.SubType>` includes two problematic subtypes:
+`Actor.OfType<Actor.SubType>` (and `Item` equivalent) includes two subtypes which don't necessarily help much if not specifically intending compatibility:
 
-1. **Base subtype** - dnd5e explicitly doesn't use this, and no module should declare it
-2. **Module subtypes** - Types like `<MODULE_ID>.<name>` where `.system` is always `unknown`
+1. **Base subtype** - dnd5e explicitly doesn't use this, and no module should declare it, so it is in most cases gonna make `.system` essentially be `{}` and not allow drilling of the system object.
+2. **Module subtypes** - Types like `<MODULE_ID>.<name>` where `.system` is always `unknown` which is not really useful again, but one should technically account if intending a module for maximum compatibility
 
-#### Using Actor.Known and Item.Known
+#### Using `Actor.Known` and `Item.Known`
 
-For most cases, use the cleaner approach that excludes problematic subtypes:
+For most cases, use the cleaner approach that excludes problematic subtypes, only using the ones configured by dnd5e-types and your module:
 
 ```typescript
 // Cleaner approach - excludes base and module subtypes
@@ -111,7 +111,7 @@ if (actor.type === 'character') {
 }
 ```
 
-**Recommendation**: Use `Actor.Known` and `Item.Known` unless you specifically need to handle module-defined subtypes. This pattern is only necessary for Actor and Item documents, which are the most commonly used.
+**Recommendation**: Use `Actor.Known` and `Item.Known` unless you specifically need to handle module-defined subtypes. This pattern is only necessary for Actor and Item documents, which are the most commonly used. ChatMessage/ActiveEffect etc do use the `base` type in dnd5e, so this is not as necessary there, in most cases `ChatMessage.Implementation` and such is good enough.
 
 ### dnd5e-Specific Type System
 
