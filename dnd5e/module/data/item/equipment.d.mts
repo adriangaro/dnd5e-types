@@ -187,8 +187,6 @@ export default EquipmentData;
 
 declare global {
   namespace dnd5e.types {
-
-
     namespace ArmorProficiency {
       // --- Armor Group Definitions ---
       interface DefaultArmorGroupTypes {

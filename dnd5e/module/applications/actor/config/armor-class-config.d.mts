@@ -17,7 +17,7 @@ declare class ArmorClassConfig<
 
 declare namespace ArmorClassConfig {
   type ValidDocument = Extract<Actor.OfType<Actor.SubType>, { system: { attributes: { ac: any } } }>
-
+  
   type MakeRenderContext<
     Ctx extends fvttUtils.AnyObject = {},
     Document extends ValidDocument = ValidDocument

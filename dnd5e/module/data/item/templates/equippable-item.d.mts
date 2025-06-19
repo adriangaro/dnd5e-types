@@ -78,9 +78,9 @@ declare global {
   namespace dnd5e.types {
     namespace Attunement {
       // --- Base Definitions ---
-      interface DefaultAttunementTypes {
-        required: string,
-        optional: string
+      interface DefaultAttunementTypes extends Record<string, boolean | never> {
+        required: true,
+        optional: true
       }
 
       /**

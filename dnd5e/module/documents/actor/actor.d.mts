@@ -1104,7 +1104,7 @@ declare namespace Actor5e {
   interface DamageApplicationOptions {
     downgrade?: boolean | Set<dnd5e.types.Damage.TypeKey>;
     multiplier?: number;
-    ignore?: object | boolean;
+    ignore?: boolean | Record<'immunity' | 'resistance' | 'vulnerability' | 'modification', boolean | Set<dnd5e.types.Damage.TypeKey | dnd5e.types.Healing.TypeKey>>;
     immunity?: boolean | Set<dnd5e.types.Damage.TypeKey>;
     resistance?: boolean | Set<dnd5e.types.Damage.TypeKey>;
     vulnerability?: boolean | Set<dnd5e.types.Damage.TypeKey>;
@@ -1273,8 +1273,8 @@ declare global {
 
       // --- Derived Types ---
       type AllowedFlags = dnd5e.types.MergeOverrideDefinition<
-        DefaultFlags,
-        OverrideFlags
+        DefaultAllowedFlags,
+        OverrideAllowedFlags
       >;
       type AllowedKeys = dnd5e.types.ExtractKeys<AllowedFlags>;
 
