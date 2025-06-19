@@ -23,8 +23,8 @@ declare class PseudoDocument {
   get relativeID(): string;
   get uuid(): string;
 
-  get item(): Item.Implementation;
-  get actor(): Actor.Implementation | null;
+  get item(): Item.OfType<Item.SubType>;
+  get actor(): Actor.OfType<Actor.SubType> | null;
 
   // this.constructor.metadata.sheetClass ?? this.constructor.metadata.apps?.config;
   get sheet(): dnd5e.types.GetTypeFromPath<this, 'metadata.sheetClass'> extends never
