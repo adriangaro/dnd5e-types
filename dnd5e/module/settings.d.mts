@@ -27,6 +27,13 @@ export function registerDeferredSettings(): void;
 /* -------------------------------------------- */
 
 /**
+ * Update configuration data when legacy rules are set.
+ */
+export function applyLegacyRules(): void;
+
+/* -------------------------------------------- */
+
+/**
  * Set the theme on an element, removing the previous theme class in the process.
  * @param element     Body or sheet element on which to set the theme data.
  * @param theme  Theme key to set.

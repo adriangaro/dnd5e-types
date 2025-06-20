@@ -1,6 +1,5 @@
 import AttackRollConfigurationDialog from "../../applications/dice/attack-configuration-dialog.mjs";
 import AttackActivityData from "../../data/activity/attack-data.mjs";
-import { _applyDeprecatedD20Configs, _createDeprecatedD20Config } from "../../dice/d20-roll.mjs";
 import ActivityMixin from "./mixin.mjs";
 import BasicRoll from "../../dice/basic-roll.mjs";
 

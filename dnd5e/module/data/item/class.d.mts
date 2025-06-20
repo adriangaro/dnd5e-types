@@ -75,6 +75,9 @@ dnd5e.types.MergeSchemas<
   /** @inheritDoc */
   getFavoriteData(): Promise<ClassData.FavoriteData>
 
+  /** @inheritDoc */
+  getSheetData(context: ClassData.SheetData): Promise<void>
+
 
   /* -------------------------------------------- */
   /*  Migrations                                  */
@@ -114,6 +117,14 @@ declare namespace ClassData {
   interface FavoriteData extends ItemDataModel.FavoriteData {
     subtitle?: string,
     value: number
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    singleDescription: boolean,
+    parts: string[],
+    hitDieOptions: dnd5e.types.FormSelectOption[],
+    primaryAbilities: dnd5e.types.FormSelectOption[]
   }
 }
 

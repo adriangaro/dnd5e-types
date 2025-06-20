@@ -1,7 +1,7 @@
 /**
  * Custom element that handles displaying actor & container inventories.
  */
-export default class InventoryElement extends HTMLElement {
+declare class InventoryElement extends HTMLElement {
   connectedCallback(): void;
 
   /**
@@ -141,3 +141,37 @@ export default class InventoryElement extends HTMLElement {
    */
   protected _onOpenContextMenu(element: HTMLElement): void;
 }
+
+declare namespace InventoryElement {
+  interface InventorySectionDescriptor {
+    /** The section identifier. */
+    id: string;
+    /** Sections are displayed in ascending order of this value. */
+    order: number;
+    /** Group identifiers that this section belongs to. */
+    groups: Record<string, string>;
+    /** The name of the section. Will be localized. */
+    label: string;
+    /** The minimum width of the primary column in this section. */
+    minWidth?: number;
+    /** A list of column descriptors or IDs of well-known columns. */
+    columns: (string | InventoryColumnDescriptor)[];
+    /** Section data stored in the DOM. */
+    dataset?: Record<string, string>;
+  }
+
+  interface InventoryColumnDescriptor {
+    /** The column identifier. */
+    id: string;
+    /** The handlebars template used to render the column. */
+    template: string;
+    /** The amount of pixels of width allocated to represent this column. */
+    width: number;
+    /** Columns are displayed from left-to-right in ascending order of this value. */
+    order: number;
+    /** Columns with a higher priority take precedence when there is not enough space to display all columns. */
+    priority: number;
+  }
+}
+
+export default InventoryElement;

@@ -1,4 +1,5 @@
 import Scaling from "../../documents/scaling.mjs";
+import type EmbeddedDataField5e from "../fields/embedded-data-field.d.mts";
 
 type DamageDataSchema<Types extends string = dnd5e.types.Damage.TypeKey> = {
   number: foundry.data.fields.NumberField<{ min: 0, integer: true }>,
@@ -24,7 +25,7 @@ declare class DamageField<
   AssignmentType = DamageField.AssignmentType<typeof DamageData<Types>, Options>,
   InitializedType = DamageField.InitializedType<typeof DamageData<Types>, Options>,
   PersistedType extends fvttUtils.AnyObject | null | undefined = DamageField.PersistedType<typeof DamageData<Types>, Options>,
-> extends foundry.data.fields.EmbeddedDataField<
+> extends EmbeddedDataField5e<
   typeof DamageData<Types>,
   Options,
   AssignmentType,

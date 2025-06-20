@@ -33,7 +33,10 @@ declare namespace RangeField {
     value: dnd5e.dataModels.fields.FormulaField<{
       deterministic: true
     }>
-    units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Range.CompleteTypeKey>,
+    units: dnd5e.types.fields.RestrictedStringField<
+      dnd5e.types.Range.CompleteTypeKey,
+      { required: true, blank: false, initial: "self" }
+    >,
     special: foundry.data.fields.StringField
   }
 

@@ -56,40 +56,6 @@ declare class DamageRoll<
   configureDamage(options?: {
     critical?: DamageRoll.CriticalDamageConfiguration;
   });
-
-  /* -------------------------------------------- */
-  /*  Configuration Dialog                        */
-  /* -------------------------------------------- */
-
-  /**
-   * Create a Dialog prompt used to configure evaluation of an existing D20Roll instance.
-   */
-  configureDialog(
-    data?: {
-      title?: string;
-      defaultRollMode?: dnd5e.dice.D20Roll.AdvantageMode;
-      defaultCritical?: boolean;
-      template?: string;
-      allowCritical?: boolean;
-    },
-    options?: object,
-  ): Promise<dnd5e.dice.D20Roll | null>;
-
-  /* -------------------------------------------- */
-
-  /**
-   * Create a Dialog prompt used to configure evaluation of one or more damage rolls.
-   */
-  static configureDialog(
-    data?: {
-      title?: string;
-      defaultRollMode?: dnd5e.dice.D20Roll.AdvantageMode;
-      defaultCritical?: boolean;
-      template?: string;
-      allowCritical?: boolean;
-    },
-    options?: object,
-  ): Promise<dnd5e.dice.D20Roll | null>;
 }
 
 declare class AnyDamageRoll extends DamageRoll<

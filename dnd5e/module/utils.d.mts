@@ -581,7 +581,7 @@ export function localizeSchema(schema: foundry.data.fields.SchemaField<any>, pre
  * Split a semi-colon-separated list and clean out any empty entries.
  * @param input
  */
-export function splitSemicolons(input: string): string[];
+export function splitSemicolons(input?: string): string[];
 
 /* -------------------------------------------- */
 /*  Migration                                   */

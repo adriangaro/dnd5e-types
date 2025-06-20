@@ -37,6 +37,8 @@ declare namespace DurationField {
     units: dnd5e.types.fields.RestrictedStringField<
       dnd5e.types.DurationUnits.TypeKey,
       {
+        required: true, 
+        blank: false, 
         initial: 'inst'
       }
     >,

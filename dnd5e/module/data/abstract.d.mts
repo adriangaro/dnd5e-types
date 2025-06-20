@@ -312,8 +312,6 @@ declare namespace SystemDataModel {
   interface Metadata {
     /** Model that represents flags data within the system's namespace. */
     systemFlagsModel?: foundry.abstract.DataModel.AnyConstructor;
-    /** Does this model represent an item type that should only exist once on an owning actor? */
-    singleton?: boolean;
   }
 }
 
@@ -392,12 +390,10 @@ export declare namespace ActorDataModel {
     prof: Proficiency
   }>
 
-  type Metadata = fvttUtils.SimpleMerge<
-    SystemDataModel.Metadata,
-    {
-      supportsAdvancement: true
-    }
-  >
+  interface Metadata extends SystemDataModel.Metadata {
+    /** Can advancement be performed for this actor type? */
+    supportsAdvancement: boolean
+  }
 }
 
 // ITEM
@@ -431,6 +427,14 @@ export declare class ItemDataModel<
   get scalingIncrease(): number | null;
 
   /**
+   * Handle any specific item changes when an item is dropped onto an actor.
+   * @param event  The concluding DragEvent which provided the drop data.
+   * @param actor    Actor onto which the item was dropped.
+   * @param itemData  The item data requested for creation. **Will be mutated.**
+   */
+  static onDropCreate(event: DragEvent, actor: Actor.Implementation, itemData: object): void;
+
+  /**
    * Render a rich tooltip for this item.
    * @param [enrichmentOptions={}]   Options for text enrichment.
    * @returns A promise resolving to the tooltip content and classes.
@@ -443,7 +447,7 @@ export declare class ItemDataModel<
    * @param [options.activity]       Specific activity on item to use for customizing the data.
    * @returns A promise resolving to the card data object.
    */
-  getCardData(options?: TextEditor.EnrichmentOptions & { activity?: dnd5e.dataModels.activity.BaseActivityData.Any }): Promise<object>;
+  getCardData(options?: ItemDataModel.CardDataEnrichmentOptions): Promise<ItemDataModel.CardData>;
 
   /**
    * Determine the cost to craft this Item.
@@ -492,15 +496,17 @@ export declare namespace ItemDataModel {
   }>
   // dnd5e.types.GetKeyReturn<Actor.Implementation['system'], 'getRollData'>
 
-  type Metadata = fvttUtils.SimpleMerge<
-    SystemDataModel.Metadata,
-    {
+  interface Metadata extends SystemDataModel.Metadata {
+      /** Can this item be modified by enchantment effects? */
       enchantable: boolean,
-      inventoryItem: boolean,
-      inventoryOrder: number,
+      /** Display the effects tab on this item's sheet. */
+      hasEffects: boolean,
+      /** Should only a single item of this type be allowed on an actor? */
       singleton: boolean
-    }
-  >
+      /** Configuration for displaying this item type in its own section in creature inventories. */
+      inventory?: dnd5e.applications.components.InventoryElement.InventorySectionDescriptor
+  }
+
   export type FavoriteData = {
     img: string;
     title: string;
@@ -514,8 +520,8 @@ export declare namespace ItemDataModel {
       long?: string | null
     }
     save?: {
-      ability?: string,
-      dc?: string
+      ability?: string | Set<string>,
+      dc?: string | object
     },
     uses?: {
       value?: number,
@@ -525,6 +531,14 @@ export declare namespace ItemDataModel {
     toggle?: boolean;
     suppressed?: boolean | undefined;
   }
+
+  export type CardDataEnrichmentOptions = TextEditor.EnrichmentOptions & {
+    activity?: dnd5e.dataModels.activity.BaseActivityData.Any
+  }
+
+  export type CardData = fvttUtils.InterfaceToObject<{} & {
+    isSpell: boolean
+  }>
 }
 
 export declare class SparseDataModel<

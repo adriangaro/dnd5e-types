@@ -31,7 +31,6 @@ declare class WeaponData extends _ItemDataModel.mixin(
 dnd5e.types.MergeSchemas<
   dnd5e.types.MergeSchemas<
     {
-      type: ItemTypeField<'weapon', { value: "simpleM", subtype: false }, { required: true, label: "DND5E.ItemWeaponType" }>,
       ammunition: foundry.data.fields.SchemaField<{
         type: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Consumable.Ammo.TypeKey>
       }>,
@@ -56,7 +55,8 @@ dnd5e.types.MergeSchemas<
         long: foundry.data.fields.NumberField<{ min: 0 }>,
         reach: foundry.data.fields.NumberField<{ min: 0 }>,
         units: foundry.data.fields.StringField
-      }>
+      }>,
+      type: ItemTypeField<'weapon', { value: "simpleM", subtype: false }, { required: true, label: "DND5E.ItemWeaponType" }>,
     },
     {}
   >,
@@ -71,20 +71,25 @@ dnd5e.types.MergeSchemas<
   static metadata: fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
-      enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 100
+      hasEffects: true,
+      enchantable: true
     }
   >;
 
   override metadata: fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
-      enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 100
+      hasEffects: true,
+      enchantable: true
     }
   >;
+
+  /* -------------------------------------------- */
+
+  /**
+   * Default configuration for this item type's inventory section.
+   */
+  static get inventorySection(): dnd5e.applications.components.InventoryElement.InventorySectionDescriptor
 
   /* -------------------------------------------- */
   /*  Data Migrations                             */
@@ -133,6 +138,12 @@ dnd5e.types.MergeSchemas<
   /** @inheritDoc */
   getFavoriteData(): Promise<WeaponData.FavoriteData<this>>
 
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  getSheetData(context: WeaponData.SheetData): Promise<void>
+
+ 
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
@@ -232,6 +243,13 @@ declare namespace WeaponData {
     subtitle: string,
     modifier: number,
     range: dnd5e.types.GetKey<This, 'range'>
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[],
+    itemType: string,
+    itemSubtypes: string[]
   }
 }
 
@@ -602,6 +620,7 @@ declare global {
       weaponMasteries: {
         [K in dnd5e.types.WeaponProficiency.MasteryTypeKey]: {
           label: string
+          reference: string
         }
       }
       /**

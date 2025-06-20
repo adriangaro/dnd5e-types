@@ -10,11 +10,24 @@ export default class SpellConfigurationData extends foundry.abstract.DataModel<{
   }>
 }> {
   /* -------------------------------------------- */
+  /*  Properties                                  */
+  /* -------------------------------------------- */
+
+  /**
+   * The item this advancement data belongs to.
+   */
+  get item(): Item.OfType<Item.SubType> | null
+
+
+  /* -------------------------------------------- */
   /*  Helpers                                     */
   /* -------------------------------------------- */
 
   /**
    * Apply changes to a spell item based on this spell configuration.
+   * @param itemData          Data for the item to modify.
+   * @param config            Configuration object.
+   * @param config.ability    Spellcasting ability selected during advancement process.
    */
   applySpellChanges(
     itemData: Item.OfType<'spell'>, 
@@ -22,12 +35,4 @@ export default class SpellConfigurationData extends foundry.abstract.DataModel<{
       ability?: dnd5e.types.Ability.TypeKey
     }
   )
-
-  /* -------------------------------------------- */
-
-  /**
-   * Changes that this spell configuration indicates should be performed on spells.
-   * @deprecated since DnD5e 4.0, available until DnD5e 4.4
-   */
-  getSpellChanges(data?: object): object
 }

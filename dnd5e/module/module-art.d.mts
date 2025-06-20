@@ -14,7 +14,9 @@ declare class ModuleArt {
   /**
    * Set to true to temporarily prevent actors from loading module art.
    */
-  suppressArt: boolean;
+
+  get suppressArt(): boolean;
+  set suppressArt(value: boolean);
 
   /* -------------------------------------------- */
 

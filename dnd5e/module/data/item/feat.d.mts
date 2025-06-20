@@ -46,21 +46,35 @@ declare class FeatData extends _ItemDataModel.mixin(
   >
 > {
   /* -------------------------------------------- */
+  /*  Model Configuration                         */
+  /* -------------------------------------------- */
+
+
+  metadata: fvttUtils.SimpleMerge<
+    ItemDataModel['metadata'],
+    {
+      hasEffects: true,
+    }
+  >;
+  static get metadata(): fvttUtils.SimpleMerge<
+    ItemDataModel['metadata'],
+    {
+      hasEffects: true,
+    }
+  >;
+
+  /* -------------------------------------------- */
   /*  Data Preparation                            */
   /* -------------------------------------------- */
 
-  /**
-   * @deprecated Check uses.recovery/uses.value
-   */
-  recharge: {
-    value: number
-    charge: boolean
-  }
-
-  /* -------------------------------------------- */
 
   /** @inheritDoc */
   getFavoriteData(): Promise<FeatData.FavoriteData<this>>
+
+   /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  getSheetData(context: FeatData.SheetData): Promise<void>
 
   /* -------------------------------------------- */
   /*  Migrations                                  */
@@ -125,6 +139,13 @@ declare namespace FeatData {
   interface FavoriteData<This> extends ItemDataModel.FavoriteData {
     subtitle: [string, string]
     uses: dnd5e.types.GetKeyReturn<This, 'getUsesData'> | null
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[],
+    itemType: string,
+    itemSubtypes: string[]
   }
 }
 

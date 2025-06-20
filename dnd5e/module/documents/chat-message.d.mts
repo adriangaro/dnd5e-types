@@ -65,7 +65,7 @@ declare class ChatMessage5e<
    * @param html     Rendered contents of the message.
    * @protected
    */
-  _displayChatActionButtons(html: JQuery)
+  _displayChatActionButtons(html: HTMLElement)
 
   /* -------------------------------------------- */
 
@@ -74,7 +74,7 @@ declare class ChatMessage5e<
    * @param html     Rendered contents of the message.
    * @protected
    */
-  _highlightCriticalSuccessFailure(html: JQuery)
+  _highlightCriticalSuccessFailure(html: HTMLElement)
 
   /* -------------------------------------------- */
 

@@ -115,6 +115,31 @@ declare class FacilityData extends _ItemDataModel.mixin(ActivitiesTemplate, Item
 
   /** @inheritDoc */
   prepareFinalData()
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  getSheetData(context: FacilityData.SheetData): Promise<void>
+}
+
+declare namespace FacilityData {
+  interface SheetData {
+    subtitles: { label: string }[],
+    singleDescription: boolean,
+    parts: string[],
+    facilitySubtypes: Record<string, string>,
+    orders: {
+      available: dnd5e.types.FormSelectOption[],
+      executable: dnd5e.types.FormSelectOption[]
+    },
+    canCraft: boolean,
+    isHarvesting: boolean,
+    craft?: {
+      img: string,
+      name: string,
+      contentLink: string
+    }
+  }
 }
 
 declare global {

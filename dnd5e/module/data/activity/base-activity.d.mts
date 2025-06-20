@@ -319,15 +319,27 @@ declare class BaseActivityData<
 
   /**
    * Perform final preparation after containing item is prepared.
-   * @param {object} [rollData]  Deterministic roll data from the activity.
+   * @param rollData  Deterministic roll data from the activity.
    */
-  prepareFinalData(rollData: object)
+  prepareFinalData(rollData: ReturnType<this['getRollData']>)
   /* -------------------------------------------- */
 
+  
   getRollData(...args: any[]): any
 
   /**
    * Prepare the label for a compiled and simplified damage formula.
+   * @param rollData  Deterministic roll data from the item.
+   */
+
+  prepareDamageLabel(rollData: ReturnType<this['getRollData']>): {
+    formula: string,
+    damageType: dnd5e.types.Damage.TypeKey | null,
+    label: string,
+    base: object
+  }
+  /**
+   * @deprecated
    */
   prepareDamageLabel(parts: dnd5e.types.Damage.Data[], rollData: ReturnType<this['getRollData']>): {
     formula: string,
@@ -349,8 +361,14 @@ declare class BaseActivityData<
 
   /**
    * Get the roll parts used to create the damage rolls.
+   * @param config  Existing damage configuration to merge into this one.
+   * @param options Damage configuration options.
+   * @param options.rollData Use pre-existing roll data.
    */
-  getDamageConfig(config?: Partial<dnd5e.dice.DamageRoll.ProcessConfiguration>): dnd5e.dice.DamageRoll.ProcessConfiguration
+  getDamageConfig(
+    config?: Partial<dnd5e.dice.DamageRoll.ProcessConfiguration>,
+    options?: BaseActivityData.DamageConfigOptions<this>
+  ): dnd5e.dice.DamageRoll.ProcessConfiguration
 
   /* -------------------------------------------- */
 
@@ -384,6 +402,10 @@ declare class AnyBaseActivityData extends BaseActivityData<string, {
 declare namespace BaseActivityData {
   interface Any extends AnyBaseActivityData { }
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyBaseActivityData> { }
+
+  interface DamageConfigOptions<This extends Any> {
+    rollData?: ReturnType<This['getRollData']>
+  }
 }
 
 export default BaseActivityData;

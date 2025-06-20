@@ -1,6 +1,6 @@
+import type TransformationSetting from "@dnd5e/module/data/settings/transformation-setting.mjs";
 import SkillToolRollConfigurationDialog from "../../applications/dice/skill-tool-configuration-dialog.mjs";
 import { type AttributionDescription } from "../../applications/property-attribution.mjs";
-import { _applyDeprecatedD20Configs, _createDeprecatedD20Config } from "../../dice/d20-roll.mjs";
 import SystemDocumentMixin from "../mixins/document.mjs";
 import SelectChoices from "./select-choices.mjs";
 import type { CreatureTemplate } from "@dnd5e/module/data/actor/_module.mjs";
@@ -19,16 +19,9 @@ declare class Actor5e<
   system: Actor.SystemOfType<SubType> & dnd5e.types.CreateParentLink<this>
 
   /**
-   * The data source for Actor5e.classes allowing it to be lazily computed.
-   * @private
+   * Lazily computed store of classes, subclasses, background, and species.
    */
-  _classes: Record<string, Item.OfType<'class'>>;
-
-  /**
-   * Cached spellcasting classes.
-   * @private
-   */
-  _spellcastingClasses: Record<string, Item.OfType<'class'>>;
+  _lazy: Record<string, Record<string, Item.Implementation | Item.Implementation[]>>;
 
   /**
    * Mapping of item compendium source UUIDs to the items.
@@ -74,6 +67,13 @@ declare class Actor5e<
   /* -------------------------------------------- */
 
   /**
+   * A mapping of subclasses belonging to this Actor.
+   */
+  get subclasses(): Record<string, Item.OfType<'subclass'>>
+
+  /* -------------------------------------------- */
+
+  /**
    * Is this Actor currently polymorphed into some other creature?
    */
   get isPolymorphed(): boolean
@@ -108,6 +108,22 @@ declare class Actor5e<
    * Creatures summoned by this actor.
    */
   get summonedCreatures(): Actor.Implementation[]
+
+  /* -------------------------------------------- */
+  
+  /**
+   * Apply package-provided art to a compendium Document.
+   * @param source                  The Document's source data.
+   * @param pack      The Document's compendium.
+   * @param art          The art being applied.
+   */
+  static applyCompendiumArt(
+    source: Actor.Implementation['_source'], 
+    pack: foundry.documents.collections.CompendiumCollection<'Actor'>, 
+    art: foundry.helpers.media.CompendiumArt.Info
+  ): void;
+
+  /* -------------------------------------------- */
 
   /* -------------------------------------------- */
   /*  Methods                                     */
@@ -235,14 +251,14 @@ declare class Actor5e<
   /**
    * Contribute to the actor's spellcasting progression for a class with leveled spellcasting.
    * @param progression                    Spellcasting progression data. *Will be mutated.*
-   * @param actor                         Actor for whom the data is being prepared.
+   * @param actor                         Actor for whom the data is being prepared, if any.
    * @param cls                            Class for whom this progression is being computed.
    * @param spellcasting  Spellcasting descriptive object.
    * @param count                          Number of classes with this type of spellcasting.
    */
   static computeLeveledProgression(
     progression: Actor5e.SpellProgresionPrep,
-    actor: Actor.Implementation,
+    actor: Actor.Implementation | void,
     cls: Item.OfType<'class'>,
     spellcasting: dnd5e.documents.Item5e.SpellcastingDescription,
     count: number
@@ -253,14 +269,14 @@ declare class Actor5e<
   /**
    * Contribute to the actor's spellcasting progression for a class with pact spellcasting.
    * @param progression                    Spellcasting progression data. *Will be mutated.*
-   * @param actor                         Actor for whom the data is being prepared.
+   * @param actor                         Actor for whom the data is being prepared, if any.
    * @param cls                            Class for whom this progression is being computed.
    * @param spellcasting  Spellcasting descriptive object.
    * @param count                          Number of classes with this type of spellcasting.
    */
   static computePactProgression(
     progression: Actor5e.SpellProgresionPrep,
-    actor: Actor.Implementation,
+    actor: Actor.Implementation | void,
     cls: Item.OfType<'class'>,
     spellcasting: dnd5e.documents.Item5e.SpellcastingDescription,
     count: number
@@ -288,12 +304,12 @@ declare class Actor5e<
   /**
    * Prepare leveled spell slots using progression data.
    * @param spells        The `data.spells` object within actor's data. *Will be mutated.*
-   * @param actor        Actor for whom the data is being prepared.
+   * @param actor        Actor for whom the data is being prepared, if any.
    * @param progression   Spellcasting progression data.
    */
   static prepareLeveledSlots(
     spells: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.spells'>,
-    actor: Actor.Implementation,
+    actor: Actor.Implementation | void,
     progression: Actor5e.SpellProgresionPrep,
   )
 
@@ -302,14 +318,14 @@ declare class Actor5e<
   /**
    * Prepare non-leveled spell slots using progression data.
    * @param spells        The `data.spells` object within actor's data. *Will be mutated.*
-   * @param actor        Actor for whom the data is being prepared.
+   * @param actor        Actor for whom the data is being prepared, if any.
    * @param progression   Spellcasting progression data.
    * @param key           The internal key for these spell slots on the actor.
    * @param table         The table used for determining the progression of slots.
    */
   static prepareAltSlots(
     spells: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.spells'>,
-    actor: Actor.Implementation,
+    actor: Actor.Implementation | void,
     progression: Actor5e.SpellProgresionPrep,
     key: string,
     table: object
@@ -320,12 +336,12 @@ declare class Actor5e<
   /**
    * Convenience method for preparing pact slots specifically.
    * @param spells        The `data.spells` object within actor's data. *Will be mutated.*
-   * @param actor        Actor for whom the data is being prepared.
+   * @param actor        Actor for whom the data is being prepared, if any.
    * @param progression   Spellcasting progression data.
    */
   static preparePactSlots(
     spells: dnd5e.types.GetTypeFromPath<Actor.Implementation, 'system.spells'>,
-    actor: Actor.Implementation,
+    actor: Actor.Implementation | void,
     progression: Actor5e.SpellProgresionPrep,
   )
 
@@ -546,19 +562,6 @@ declare class Actor5e<
     message?: Partial<dnd5e.dice.BasicRoll.MessageConfiguration>
   ): Promise<dnd5e.dice.D20Roll[] | null>
 
-  /**
-   * Roll an Ability Test.
-   * @param config  Configuration information for the roll.
-   * @param dialog     Configuration for the roll dialog.
-   * @param message   Configuration for the roll message.
-   * @returns                        A Promise which resolves to the created Roll instance.
-   */
-  rollAbilityTest(
-    config?: Partial<Actor5e.AbilityRollProcessConfiguration>,
-    dialog?: Partial<dnd5e.dice.BasicRoll.DialogConfiguration>,
-    message?: Partial<dnd5e.dice.BasicRoll.MessageConfiguration>
-  ): Promise<dnd5e.dice.D20Roll[] | null>
-
   /* -------------------------------------------- */
 
   /**
@@ -569,19 +572,6 @@ declare class Actor5e<
    * @returns                        A Promise which resolves to the created Roll instances.
    */
   rollSavingThrow(
-    config?: Partial<Actor5e.AbilityRollProcessConfiguration>,
-    dialog?: Partial<dnd5e.dice.BasicRoll.DialogConfiguration>,
-    message?: Partial<dnd5e.dice.BasicRoll.MessageConfiguration>
-  ): Promise<dnd5e.dice.D20Roll[] | null>
-
-  /**
-   * Roll an Ability Saving Throw.
-   * @param config  Configuration information for the roll.
-   * @param dialog     Configuration for the roll dialog.
-   * @param message   Configuration for the roll message.
-   * @returns                         A Promise which resolves to the created Roll instances.
-   */
-  rollAbilitySave(
     config?: Partial<Actor5e.AbilityRollProcessConfiguration>,
     dialog?: Partial<dnd5e.dice.BasicRoll.DialogConfiguration>,
     message?: Partial<dnd5e.dice.BasicRoll.MessageConfiguration>
@@ -938,17 +928,17 @@ declare class Actor5e<
   /**
    * Transform this Actor into another one.
    *
-   * @param target                           The target Actor.
-   * @param options       Options that determine how the transformation is performed.
-   * @param sheetOptions
-   * @param sheetOptions.renderSheet  Render the sheet of the transformed actor after the polymorph
-   * @returns              Updated token if the transformation was performed.
+   * @param source                       The actor being transformed into.
+   * @param settings     Options that determine how the transformation is performed.
+   * @param options
+   * @param options.renderSheet        Render the sheet of the transformed actor after the polymorph.
+   * @returns {Promise<Array<Token>>|null}         Updated token if the transformation was performed.
    */
   transformInto(
-    target: Actor.Implementation,
-    options?: Actor5e.TransformationOptions,
-    sheetOptions?: { renderSheet?: boolean }
-  ): Promise<Token.Implementation[]> | null
+    source: Actor.Implementation, 
+    settings?: TransformationSetting, 
+    options?: { renderSheet?: boolean }
+  ): Promise<Token.Implementation[] | null>
 
   /* -------------------------------------------- */
 
@@ -968,12 +958,12 @@ declare class Actor5e<
 
   /**
    * Add additional system-specific sidebar directory context menu options for Actor documents
-   * @param html  The sidebar HTML
-   * @param entryOptions         The default array of context menu options
+   * @param app   The application being displayed.
+   * @param entryOptions  The default array of context menu options
    */
   static addDirectoryContextOptions(
-    html: JQuery | HTMLElement,
-    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
+    app: foundry.applications.api.ApplicationV2,
+    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement>[]
   )
 
   /* -------------------------------------------- */
@@ -981,7 +971,7 @@ declare class Actor5e<
   /**
    * Add class to actor entry representing the primary group.
    */
-  static onRenderActorDirectory(html: JQuery | HTMLElement)
+  static onRenderActorDirectory(html: HTMLElement): void
 
   /* -------------------------------------------- */
 
@@ -1347,7 +1337,6 @@ declare class SourcedItemsMap extends Map<string, Actor.Implementation> {
     key: null | undefined,
     options?: {
       remap?: boolean,
-      legacy?: boolean
     }
   ): Promise<undefined>
   // @ts-expect-error
@@ -1355,7 +1344,6 @@ declare class SourcedItemsMap extends Map<string, Actor.Implementation> {
     key: string | null | undefined,
     options?: {
       remap?: boolean,
-      legacy?: boolean
     }
   ): Promise<Actor.Implementation | undefined>
 

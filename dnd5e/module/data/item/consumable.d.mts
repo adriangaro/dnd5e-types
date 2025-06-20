@@ -20,7 +20,6 @@ declare class ConsumableData extends _ItemDataModel.mixin(
 dnd5e.types.MergeSchemas<
   dnd5e.types.MergeSchemas<
     {
-      type: ItemTypeField<'consumable', {}, { label: "DND5E.ItemConsumableType" }>,
       damage: foundry.data.fields.SchemaField<{
         base: DamageField,
         replace: foundry.data.fields.BooleanField
@@ -29,6 +28,7 @@ dnd5e.types.MergeSchemas<
       properties: foundry.data.fields.SetField<
         dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Consumable.TypeKey>
       >,
+      type: ItemTypeField<'consumable', {}, { label: "DND5E.ItemConsumableType" }>,
       uses: UsesField<{
         autoDestroy: foundry.data.fields.BooleanField<{ required: true }>
       }>
@@ -45,19 +45,24 @@ dnd5e.types.MergeSchemas<
   metadata: fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
+      hasEffects: true,
       enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 300
     }
   >;
   static get metadata(): fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
+      hasEffects: true,
       enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 300
     }
   >;
+
+  /* -------------------------------------------- */
+
+  /**
+   * Default configuration for this item type's inventory section.
+   */
+  static get inventorySection(): dnd5e.applications.components.InventoryElement.InventorySectionDescriptor
 
 
   /* -------------------------------------------- */
@@ -89,6 +94,9 @@ dnd5e.types.MergeSchemas<
     ConsumableData.FavoriteData<this>
   >
 
+  /** @inheritDoc */
+  getSheetData(context: ConsumableData.SheetData): Promise<void>
+
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
@@ -117,8 +125,17 @@ declare namespace ConsumableData {
   type Schema = dnd5e.types.GetSchema<typeof ConsumableData>
   interface FavoriteData<This> extends ItemDataModel.FavoriteData {
     subtitle: [string, string],
-    uses: dnd5e.types.GetKeyReturn<This, 'getUsesData'> | null,
+    uses?: dnd5e.types.GetKeyReturn<This, 'getUsesData'>,
     quantity: number
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[],
+    damageTypes: dnd5e.types.FormSelectOption[],
+    denominationOptions: dnd5e.types.FormSelectOption[],
+    itemType: string,
+    itemSubtypes: string[]
   }
 }
 
@@ -131,7 +148,6 @@ declare global {
           "crossbowBolt": true,
           "firearmBullet": true,
           "slingBullet": true,
-          "energyCell": true,
           "blowgunNeedle": true
         }
 

@@ -137,20 +137,7 @@ declare class VehicleData extends CommonTemplate<
             }
             prof: number
           }
-        >,
-        details: foundry.data.fields.SchemaField<
-          {
-
-          },
-          {
-            required: true,
-            nullable: false
-          },
-          {},
-          {
-            source: SourceField.InitializedType<{}>
-          }
-        >,
+        >
       }
     >,
     fvttUtils.RemoveIndexSignatures<

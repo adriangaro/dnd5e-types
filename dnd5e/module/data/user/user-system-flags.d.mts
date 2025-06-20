@@ -21,7 +21,7 @@ export default class UserSystemFlags extends foundry.abstract.DataModel<{
       tabs: MappingField<
         foundry.data.fields.SchemaField<{
           collapseSidebar: foundry.data.fields.BooleanField<{ required: false }>,
-          group: foundry.data.fields.BooleanField<{ required: false, initial: true }>,
+          group: foundry.data.fields.StringField<{ required: false }>,
           sort: foundry.data.fields.StringField<{ required: false, initial: "m", choices: [...(typeof foundry.documents.BaseFolder.SORTING_MODES), "p"] }>
         }>
       >

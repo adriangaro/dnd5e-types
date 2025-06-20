@@ -15,15 +15,12 @@ import {
   registerModuleData,
   setupModulePacks,
 } from "./module/module-registration.mjs";
-import parseUuid from "./module/parse-uuid.mjs";
 import { default as registry } from "./module/registry.mjs";
 import Tooltips5e from "./module/tooltips.mjs";
 import * as utils from "./module/utils.mjs";
-import { extendDragDrop } from "./module/drag-drop.mjs";
+import DragDrop5e from "./module/drag-drop.mjs";
 import {
-  registerSystemKeybindings,
-  registerSystemSettings,
-  registerDeferredSettings,
+  applyLegacyRules, registerDeferredSettings, registerSystemKeybindings, registerSystemSettings
 } from "./module/settings.mjs";
 
 // Normal imports above to keep types
@@ -846,6 +843,7 @@ declare global {
     DND5E: dnd5e.types.DND5EConfig;
   }
 
+
   namespace CONFIG {
     interface StatusEffect {
       reference?: string;
@@ -855,6 +853,10 @@ declare global {
       DamageRoll: typeof dnd5e.dice.DamageRoll;
       D20Die: typeof dnd5e.dice.D20Die;
       D20Roll: typeof dnd5e.dice.D20Roll;
+    }
+    interface UX {
+      // TODO
+      // DragDrop: typeof DragDrop5e;
     }
   }
 

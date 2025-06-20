@@ -41,19 +41,26 @@ declare class LootData extends _ItemDataModel.mixin(
     ItemDataModel['metadata'],
     {
       enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 600
     }
   >;
   static get metadata(): fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
       enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 600
     }
   >;
 
+  /* -------------------------------------------- */
+
+  /**
+   * Default configuration for this item type's inventory section.
+   */
+  static get inventorySection(): dnd5e.applications.components.InventoryElement.InventorySectionDescriptor
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  getSheetData(context: LootData.SheetData): Promise<void>
 
   /* -------------------------------------------- */
   /*  Getters                                     */
@@ -64,8 +71,16 @@ declare class LootData extends _ItemDataModel.mixin(
    */
   get chatProperties(): string[]
 }
+
 declare namespace LootData {
   type Schema = dnd5e.types.GetSchema<typeof LootData>
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[],
+    itemType: string,
+    itemSubtypes: string[]
+  }
 }
 
 export default LootData

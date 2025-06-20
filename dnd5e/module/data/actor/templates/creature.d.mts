@@ -7,8 +7,8 @@ import CommonTemplate from "./common.mjs";
 import type SystemDataModel from "../../abstract.d.mts";
 
 declare type AttackBonusesDataSchema = {
-  attack: FormulaField<{ required: true, label: "DND5E.BonusAttack" }>,
-  damage: FormulaField<{ required: true, label: "DND5E.BonusDamage" }>
+  attack: FormulaField<{ required: true }>,
+  damage: FormulaField<{ required: true }>
 }
 
 declare interface AttackBonusesDataSchemaField<
@@ -215,6 +215,9 @@ declare class CreatureTemplate<
       hitDice: number
       subclass?: dnd5e.types.GetTypeFromPath<Item.OfType<'class'>, 'subclass.system'> | null
     }>
+    subclasses?: {
+      levels: number
+    }
   }
 }
 

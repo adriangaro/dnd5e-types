@@ -53,9 +53,7 @@ declare class UsesField<
     dialog?: dnd5e.dice.BasicRoll.DialogConfiguration,
     message?: dnd5e.dice.BasicRoll.MessageConfiguration
   ): Promise<
-    dnd5e.dice.BasicRoll[] |
-    { rolls: dnd5e.dice.BasicRoll[], updates: object } |
-    void
+    { rolls: dnd5e.dice.BasicRoll[], updates: object } | void
   >
 }
 
@@ -124,6 +122,9 @@ declare namespace UsesField {
 
 
   interface RechargeRollProcessConfiguration extends dnd5e.dice.BasicRoll.Configuration {
+    /**
+     * Apply the uses updates back to the item or activity.
+     */
     apply?: boolean
   }
 }
@@ -151,7 +152,6 @@ declare global {
         lr: true
         sr: true
         day: true
-        charges: true
         dawn: true
         dusk: true
         initiative: 'special'
@@ -177,6 +177,10 @@ declare global {
          * Localized label.
          */
         label: string,
+        /**
+         * Localized label for the recovery period header.
+         */
+        header?: string,
         /**
          * Shorthand form of the label.
          */

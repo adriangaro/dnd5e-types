@@ -9,9 +9,7 @@ export class SizeConfigurationData extends foundry.abstract.DataModel<
     >
   },
   null
-> {
-  get hint(): string
-}
+> {}
 
 /**
  * Value data for the size advancement type.

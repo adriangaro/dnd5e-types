@@ -28,6 +28,7 @@ declare class ToolData extends _ItemDataModel.mixin(
       {
         type: ItemTypeField<'tool', { subtype: false }, { label: "DND5E.ItemToolType" }>,
         ability: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey, { required: true, blank: true, label: "DND5E.DefaultAbilityCheck" }>,
+        bonus: FormulaField<{ required: true, label: "DND5E.ItemToolBonus" }>,
         chatFlavor: foundry.data.fields.StringField<{ required: true, label: "DND5E.ChatFlavor" }>,
         proficient: foundry.data.fields.NumberField<{
           required: true, initial: null, min: 0, max: 2, step: 0.5, label: "DND5E.ItemToolProficiency"
@@ -36,7 +37,6 @@ declare class ToolData extends _ItemDataModel.mixin(
           dnd5e.types.fields.RestrictedStringField<dnd5e.types.Tool.TypeKey>,
           { label: "DND5E.ItemToolProperties" }
         >,
-        bonus: FormulaField<{ required: true, label: "DND5E.ItemToolBonus" }>
       },
       {}
     >,
@@ -49,19 +49,24 @@ declare class ToolData extends _ItemDataModel.mixin(
   metadata: fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
+      hasEffects: true,
       enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 400
     }
   >;
   static get metadata(): fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
-      enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 400
+      hasEffects: true,
+      enchantable: true
     }
   >;
+
+   /* -------------------------------------------- */
+
+  /**
+   * Default configuration for this item type's inventory section.
+   */
+  static get inventorySection(): dnd5e.applications.components.InventoryElement.InventorySectionDescriptor
 
 
   /* -------------------------------------------- */
@@ -91,6 +96,9 @@ declare class ToolData extends _ItemDataModel.mixin(
 
   /** @inheritDoc */
   getFavoriteData(): Promise<ToolData.FavoriteData>
+
+  /** @inheritDoc */
+  getSheetData(context: ToolData.SheetData): Promise<void>
 
   /* -------------------------------------------- */
   /*  Getters                                     */
@@ -128,6 +136,11 @@ declare namespace ToolData {
   interface FavoriteData extends ItemDataModel.FavoriteData {
     subtitle: string,
     modifier: number
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[],
   }
 }
 

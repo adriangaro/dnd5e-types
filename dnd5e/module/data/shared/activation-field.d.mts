@@ -126,6 +126,10 @@ declare global {
          */
         label: string,
         /**
+         * Localized label for the activation type header.
+         */
+        header?: string,
+        /**
          * Localized label for the presentational group.
          */
         group?: string,

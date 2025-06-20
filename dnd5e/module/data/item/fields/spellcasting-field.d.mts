@@ -457,6 +457,8 @@ declare global {
       spellSchools: {
         [K in dnd5e.types.Spellcasting.School.TypeKey]: dnd5e.types.Spellcasting.School.SpellSchoolConfig
       }
+
+      SPELL_LISTS: readonly string[]
       /**
        * Define the standard slot progression by character level.
        * The entries of this array represent the spell slot progression for a full spell-caster.

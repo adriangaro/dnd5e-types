@@ -113,6 +113,7 @@ declare class Advancement<
 
   /**
    * Can an advancement of this type be added to the provided item?
+   * @returns Should this be enabled as an option when creating an advancement.
    */
   static availableForItem(item: Item.Implementation): boolean
 
@@ -162,7 +163,7 @@ declare class Advancement<
   /**
    * Construct context menu options for this Activity.
    */
-  getContextMenuOptions(): foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
+  getContextMenuOptions(): foundry.applications.ux.ContextMenu.Entry<HTMLElement>[]
 
   /* -------------------------------------------- */
 
@@ -170,6 +171,19 @@ declare class Advancement<
    * Handle context menu events on activities.
    */
   static onContextMenu(item: Item.Implementation, target: HTMLElement)
+
+  /* -------------------------------------------- */
+  /*  Importing and Exporting                     */
+  /* -------------------------------------------- */
+
+  /** @override */
+  static _createDialogData(type: string, parent: Item.Implementation): {
+    type: string,
+    disabled: boolean,
+    label: string,
+    hint: string,
+    icon: string
+  }
 }
 
 declare class AnyAdvancement extends Advancement<dnd5e.types.Advancement.TypeKey, any, any>{

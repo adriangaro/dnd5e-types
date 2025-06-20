@@ -43,10 +43,18 @@ declare class BackgroundData extends _ItemDataModel.mixin(
       singleton: true
     }
   >;
+
+  /** @inheritDoc */
+  getSheetData(context: BackgroundData.SheetData): Promise<void>
 }
 
 declare namespace BackgroundData {
   type Schema = dnd5e.types.GetSchema<typeof BackgroundData>
+  interface SheetData {
+    subtitles: { label: string }[],
+    singleDescription: boolean,
+    parts: string[]
+  }
 }
 
 declare global {

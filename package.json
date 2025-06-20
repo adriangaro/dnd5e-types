@@ -1,13 +1,21 @@
 {
   "devDependencies": {
-    "copyfiles": "^2.4.1",
-    "dnd5e": "github:foundryvtt/dnd5e#4.3.x",
     "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main"
   },
   "overrides": {
     "@types/earcut": "^3.0.0"
   },
   "scripts": {
-    "copy-dnd5e": "npx copyfiles --all --up 2 ./node_modules/dnd5e/**/* ./dnd5e/ "
+    "dnd5e:setup": "bash scripts/setup-dnd5e-source.sh",
+    "dnd5e:cleanup": "bash scripts/cleanup-dnd5e-source.sh",
+    "dnd5e:diff": "bash scripts/generate-diff.sh",
+    "dnd5e:dev": "npm run dnd5e:setup && npm run dnd5e:diff"
+  },
+  "dnd5e": {
+    "currentVersion": "release-5.0.4",
+    "diff": {
+      "from": "4.3.x",
+      "to": "release-5.0.4"
+    }
   }
 }

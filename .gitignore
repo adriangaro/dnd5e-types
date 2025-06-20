@@ -1,9 +1,12 @@
 dnd5e/**/*
 !dnd5e/**/
 !dnd5e/**/*.d.mts
-repomix*
-plan.txt
-node_modules
+
+# Local cache for repositories
+.repos/
+
+node_modules/
+
 .idea
 .vscode
 dist

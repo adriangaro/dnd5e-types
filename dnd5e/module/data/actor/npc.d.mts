@@ -160,9 +160,6 @@ dnd5e.types.MergeSchemas<
             value: number
           },
           type: CreatureTypeField.InitializedType<{}>
-          // deprecated
-          spellLevel: number,
-          source: SourceField.InitializedType<{}>
         }
       >,
       attributes: foundry.data.fields.SchemaField<

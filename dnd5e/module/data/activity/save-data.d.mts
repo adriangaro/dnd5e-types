@@ -19,7 +19,7 @@ declare class SaveActivityData extends BaseActivityData<
       }>>,
       save: foundry.data.fields.SchemaField<{
         ability: foundry.data.fields.SetField<
-          dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey>
+          dnd5e.types.fields.RestrictedStringField<dnd5e.types.Ability.TypeKey, {required: true, nullable: false}>
         >,
         dc: foundry.data.fields.SchemaField<{
           calculation: foundry.data.fields.StringField<{ initial: "initial" }>,

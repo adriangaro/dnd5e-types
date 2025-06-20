@@ -113,28 +113,6 @@ declare class D20Roll<
    * Ensure the d20 die for this roll is actually a D20Die instance.
    */
   #createD20Die();
-
-  /* -------------------------------------------- */
-  /*  Configuration Dialog                        */
-  /* -------------------------------------------- */
-
-  /**
-   * Create a Dialog prompt used to configure evaluation of an existing D20Roll instance.
-   */
-  configureDialog(
-    data?: {
-      title?: string;
-      defaultRollMode?: D20Roll.AdvantageMode;
-      defaultAction?: number;
-      ammunitionOptions?: dnd5e.types.FormSelectOption[];
-      attackModes?: dnd5e.types.FormSelectOption[];
-      chooseModifier?: boolean;
-      defaultAbility?: dnd5e.types.Ability.TypeKey;
-      masteryOptions?: dnd5e.types.FormSelectOption[];
-      template?: string;
-    },
-    options?: object,
-  ): Promise<this | null>;
 }
 
 declare class AnyD20Roll extends D20Roll<
@@ -253,28 +231,3 @@ declare namespace D20Roll {
 }
 
 export default D20Roll;
-
-/* -------------------------------------------- */
-
-/**
- * Translate new config objects back into old config objects for deprecated hooks.
- * @internal
- */
-export function _createDeprecatedD20Config(
-  rollConfig: D20Roll.ProcessConfiguration,
-  dialogConfig: BasicRoll.DialogConfiguration,
-  messageConfig: BasicRoll.MessageConfiguration,
-): dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration;
-
-/* -------------------------------------------- */
-
-/**
- * Apply changes from old config objects back onto new config objects.
- * @internal
- */
-export function _applyDeprecatedD20Configs(
-  rollConfig: D20Roll.ProcessConfiguration,
-  dialogConfig: BasicRoll.DialogConfiguration,
-  messageConfig: BasicRoll.MessageConfiguration,
-  options: dnd5e.dice.d20Roll.DeprecatedD20RollConfiguration,
-);

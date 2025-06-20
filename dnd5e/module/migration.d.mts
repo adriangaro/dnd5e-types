@@ -27,7 +27,11 @@ declare function _shouldMigrateCompendium(pack: Compendium<any>): boolean;
  * @param options.strict  Migrate errors should stop the whole process.
  * @returns
  */
-export function migrateCompendium(pack: CompendiumCollection<any>, options?: { bypassVersionCheck?: boolean, strict?: boolean }): Promise<void>;
+export function migrateCompendium(pack: CompendiumCollection<any>, options?: { 
+  bypassVersionCheck?: boolean, 
+  strict?: boolean 
+  incrementProgress?: () => void;
+}): Promise<void>;
 
 /* -------------------------------------------- */
 
@@ -118,7 +122,7 @@ export function migrateItemData(item: Item.Implementation, itemData: object, mig
  * @param itemUpdateData  Update data for the item to apply changes back to item.
  * @returns Updates to apply on the embedded effects.
  */
-export function migrateEffects(parent: object, migrationData?: object, itemUpdateData?: object): object[];
+export function migrateEffects(parent: object, migrationData?: object, itemUpdateData?: object, flags?: object): object[];
 
 /* -------------------------------------------- */
 

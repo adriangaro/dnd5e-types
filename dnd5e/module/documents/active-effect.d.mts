@@ -146,10 +146,12 @@ declare class ActiveEffect5e<
 
   /**
    * Adjust exhaustion icon display to match current level.
+   * @param app            The TokenHUD application.
+   * @param html  The TokenHUD HTML.
    */
   static onTokenHUDRender(
     app: Application,
-    html: JQuery | HTMLElement
+    html: HTMLElement
   )
 
   /* -------------------------------------------- */
@@ -159,16 +161,6 @@ declare class ActiveEffect5e<
    */
   static _getExhaustionImage(level: number): string
 
-  /* -------------------------------------------- */
-
-  /**
-   * Map the duration of an item to an active effect duration.
-   * @param {Item5e} item           An item with a duration.
-   * @returns {EffectDurationData}  The active effect duration.
-   */
-  static getEffectDurationFromItem(
-    item: Item.Implementation
-  ): ActiveEffect.DurationData
 
   /* -------------------------------------------- */
 

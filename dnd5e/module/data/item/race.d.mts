@@ -63,10 +63,29 @@ dnd5e.types.MergeSchemas<
    * Sheet label for a race's creature type.
    */
   get typeLabel(): string;
+
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  getSheetData(context: RaceData.SheetData): Promise<void>
 }
 
 declare namespace RaceData {
   type Schema = dnd5e.types.GetSchema<typeof RaceData>
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    singleDescription: boolean,
+    parts: string[],
+    info: {
+      label: string,
+      classes: string,
+      value: string,
+      config: string,
+      tooltip: string
+    }[]
+  }
 }
 
 declare global {

@@ -21,10 +21,23 @@ declare class SourceField<
 > {
   constructor(fields?: { [K in keyof Schema]: Schema[K] }, options?: Options)
 
+  /**
+   * Prepare the source data.
+   * @param uuid  Compendium source or document UUID.
+   */
   static prepareData(uuid: string): void
+
+  /**
+   * Get the module book.
+   * @param pkg  Module package.
+   */
   static getModuleBook(pkg: ReadyGame['world'] | ReadyGame['system'] | Module | null): string | null
-  static getPackage(uuid: string): ReadyGame['world'] | ReadyGame['system'] | Module | null
-  static shimActor(this: Actor.Implementation['system'])
+
+  /**
+   * Get the package associated with the given UUID, if any.
+   * @param uuidOrCollection  The document UUID or its collection.
+   */
+  static getPackage(uuidOrCollection: string | foundry.documents.collections.CompendiumCollection<any>): ReadyGame['world'] | ReadyGame['system'] | Module | null
 }
 
 declare namespace SourceField {

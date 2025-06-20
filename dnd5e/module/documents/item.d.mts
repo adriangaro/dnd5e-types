@@ -1,5 +1,4 @@
 import EquipmentData from "../data/item/equipment.mjs";
-import { _applyDeprecatedD20Configs } from "../dice/d20-roll.mjs";
 import Scaling from "./scaling.mjs";
 import Proficiency from "./actor/proficiency.mjs";
 import SelectChoices from "./actor/select-choices.mjs";
@@ -85,15 +84,6 @@ declare class Item5e<
    */
   get criticalThreshold(): number | null;
 
-  /* --------------------------------------------- */
-
-  /**
-   * Does the Item implement an ability check as part of its usage?
-   * @see {@link ActionTemplate#hasAbilityCheck}
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  get hasAbilityCheck(): boolean
-
   /* -------------------------------------------- */
 
   /**
@@ -104,36 +94,10 @@ declare class Item5e<
   /* -------------------------------------------- */
 
   /**
-   * Does the Item have an area of effect target?
-   * @see {@link ActivatedEffectTemplate#hasAreaTarget}
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  get hasAreaTarget(): boolean
-  /* -------------------------------------------- */
-
-  /**
    * Does the Item implement an attack roll as part of its usage?
    * @see {@link ActionTemplate#hasAttack}
    */
   get hasAttack(): boolean
-
-  /* -------------------------------------------- */
-
-  /**
-   * Does the Item implement a damage roll as part of its usage?
-   * @see {@link ActionTemplate#hasDamage}
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  get hasDamage(): boolean
-
-  /* -------------------------------------------- */
-
-  /**
-   * Does the Item target one or more distinct targets?
-   * @see {@link ActivatedEffectTemplate#hasIndividualTarget}
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  get hasIndividualTarget(): boolean
 
   /* -------------------------------------------- */
 
@@ -147,37 +111,10 @@ declare class Item5e<
   /* -------------------------------------------- */
 
   /**
-   * Does this Item draw from a resource?
-   * @see {@link ActivatedEffectTemplate#hasResource}
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  get hasResource(): boolean
-
-  /* -------------------------------------------- */
-
-  /**
-   * Does this Item draw from ammunition?
-   * @see {@link ActivatedEffectTemplate#hasAmmo}
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  get hasAmmo(): boolean
-
-  /* -------------------------------------------- */
-
-  /**
    * Does the Item implement a saving throw as part of its usage?
    * @see {@link ActionTemplate#hasSave}
    */
   get hasSave(): boolean
-
-  /* -------------------------------------------- */
-
-  /**
-   * Does the Item have a target?
-   * @see {@link ActivatedEffectTemplate#hasTarget}
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  get hasTarget(): boolean
 
   /* -------------------------------------------- */
 
@@ -393,17 +330,6 @@ declare class Item5e<
    */
   _prepareLabels()
 
-  /* -------------------------------------------- */
-
-  /**
-   * Update a label to the Item detailing its total to hit bonus from the following sources:
-   * - item's actor's proficiency bonus if applicable
-   * - item's actor's global bonuses to the given item type
-   * - item document's innate & magical attack bonuses
-   * - item's ammunition if applicable
-   * @returns Data used in the item's Attack roll.
-   */
-  getAttackToHit(): { rollData: object, parts: string[] } | null
 
   /* -------------------------------------------- */
 
@@ -418,37 +344,20 @@ declare class Item5e<
 
   /**
    * Trigger an Item usage, optionally creating a chat message with followup actions.
-   * @param {ActivityUseConfiguration} config       Configuration info for the activation.
-   * @param {boolean} [config.legacy=true]          Whether this is a legacy invocation, using the old signature.
-   * @param {boolean} [config.chooseActivity=false] Force the activity selection prompt unless the fast-forward modifier
-   *                                                is held.
-   * @param {ActivityDialogConfiguration} dialog    Configuration info for the usage dialog.
-   * @param {ActivityMessageConfiguration} message  Configuration info for the created chat message.
-   * @returns {Promise<ActivityUsageResults|ChatMessage|object|void>}  Returns the usage results for the triggered
-   *                                                                   activity, or the chat message if the Item had no
-   *                                                                   activities and was posted directly to chat.
+   * @param config       Configuration info for the activation.
+   * @param dialog    Configuration info for the usage dialog.
+   * @param message  Configuration info for the created chat message.
+   * @returns  Returns the usage results for the triggered activity, or the chat message if the Item had no
+   *           activities and was posted directly to chat.
    */
   use(
-    config?: dnd5e.types.Activity.UseConfiguration,
+    config?: dnd5e.types.Activity.UseConfiguration & {
+      chooseActivity?: boolean
+    },
     dialog?: dnd5e.types.Activity.DialogConfiguration,
     message?: dnd5e.types.Activity.MessageConfiguration
   ): Promise<dnd5e.types.Activity.UsageResults | ChatMessage.Implementation | undefined>
 
-  /* -------------------------------------------- */
-
-  /**
-   * Handle item's consumption.
-   * @param item  Item or clone to use when calculating updates.
-   * @param config  Configuration data for the item usage being prepared.
-   * @param options       Additional options used for configuring item usage.
-   * @returns                 Returns `false` if any further usage should be canceled.
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  consume(
-    item: Item.Implementation,
-    config: Item5e.UseConfiguration,
-    options: Item5e.UseOptions
-  ): false | void
 
   /* -------------------------------------------- */
 
@@ -478,63 +387,6 @@ declare class Item5e<
   /* -------------------------------------------- */
 
   /**
-   * Place an attack roll using an item (weapon, feat, spell, or equipment)
-   * Rely upon the d20Roll logic for the core implementation
-   *
-   * @param options  Roll options which are configured and provided to the d20Roll function
-   * @returns      A Promise which resolves to the created Roll instance
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  rollAttack(options?: dnd5e.dice.D20Roll.Configuration & {
-    spellLevel?: number,
-  }): Promise<dnd5e.dice.D20Roll | null>
-
-  /* -------------------------------------------- */
-
-  /**
-   * Place a damage roll using an item (weapon, feat, spell, or equipment)
-   * Rely upon the damageRoll logic for the core implementation.
-   * @param {object} [config]
-   * @param {MouseEvent} [config.event]    An event which triggered this roll, if any
-   * @param {boolean} [config.critical]    Should damage be rolled as a critical hit?
-   * @param {number} [config.spellLevel]   If the item is a spell, override the level for damage scaling
-   * @param {boolean} [config.versatile]   If the item is a weapon, roll damage using the versatile formula
-   * @param {DamageRollConfiguration} [config.options]  Additional options passed to the damageRoll function
-   * @returns {Promise<DamageRoll[]>}      A Promise which resolves to the created Roll instances, or null if the action
-   *                                       cannot be performed.
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  rollDamage(config?: dnd5e.dice.D20Roll.Configuration & {
-    spellLevel?: number,
-    critical?: boolean,
-    versatile?: boolean,
-    event?: MouseEvent
-  })
-
-  /* -------------------------------------------- */
-
-  /**
-   * Prepare data needed to roll an attack using an item (weapon, feat, spell, or equipment)
-   * and then pass it off to `d20Roll`.
-   * @param options
-   * @param options.spellLevel  Level at which a spell is cast.
-   * @returns    A Promise which resolves to the created Roll instance.
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  rollFormula(options?: { spellLevel?: number }): Promise<Roll>
-
-  /* -------------------------------------------- */
-
-  /**
-   * Perform an ability recharge test for an item which uses the d6 recharge mechanic.
-   * @returns  A Promise which resolves to the created Roll instance
-   * @deprecated since DnD5e 4.0, targeted for removal in DnD5e 4.4
-   */
-  rollRecharge(): Promise<Roll | void>
-
-  /* -------------------------------------------- */
-
-  /**
    * Prepare data needed to roll a tool check and then pass it off to `d20Roll`.
    * @param {D20RollConfiguration} [options]  Roll configuration options provided to the d20Roll function.
    * @returns {Promise<Roll>}                 A Promise which resolves to the created Roll instance.
@@ -559,7 +411,7 @@ declare class Item5e<
    * Apply listeners to chat messages.
    * @param html  Rendered chat message.
    */
-  static chatListeners(html: JQuery | HTMLElement)
+  static chatListeners(html: HTMLElement)
 
   /* -------------------------------------------- */
 
@@ -769,27 +621,14 @@ declare class Item5e<
   /* -------------------------------------------- */
 
   /**
-   * Add additional system-specific compendium context menu options for Item documents.
-   * TODO: Remove when v12 support is dropped (handled in ItemCompendium5eV13).
-   * @param html            The compendium HTML.
-   * @param entryOptions  The default array of context menu options.
-   */
-  static addCompendiumContextOptions(
-    html: JQuery,
-    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
-  ): foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
-
-  /* -------------------------------------------- */
-
-  /**
    * Add additional system-specific sidebar directory context menu options for Item documents.
    * @param app      The sidebar application.
    * @param entryOptions  The default array of context menu options.
    */
   static addDirectoryContextOptions(
     app: ItemDirectory,
-    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
-  ): foundry.applications.ux.ContextMenu.Entry<HTMLElement | JQuery>[]
+    entryOptions: foundry.applications.ux.ContextMenu.Entry<HTMLElement>[]
+  ): foundry.applications.ux.ContextMenu.Entry<HTMLElement>[]
 
   /* -------------------------------------------- */
 

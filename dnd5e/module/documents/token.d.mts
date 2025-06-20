@@ -23,14 +23,6 @@ export default class TokenDocument5e extends SystemFlagsMixin(TokenDocument) {
   static getConsumedAttributes(data: object): string[]
 
   /* -------------------------------------------- */
-
-  static getTrackedAttributeChoices(attributes?: TokenDocument.TrackedAttributesDescription): TokenDocument.TrackedAttributesChoice[]
-
-  /* -------------------------------------------- */
-
-  static getTrackedAttributeChoicesV12(attributes?: TokenDocument.TrackedAttributesDescription): Record<string, string[]>
-
-  /* -------------------------------------------- */
   /*  Ring Animations                             */
   /* -------------------------------------------- */
 

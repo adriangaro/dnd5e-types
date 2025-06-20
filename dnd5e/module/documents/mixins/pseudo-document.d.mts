@@ -59,7 +59,33 @@ declare class PseudoDocument {
       parent: Item.Implementation,
       types: string[]
     }
-  ): Promise<Item.Implementation | null>
+  ): Promise<this | null>
+
+  
+    /* -------------------------------------------- */
+
+    /**
+     * Prepare the data needed for the creation dialog.
+     * @param type  Specific type of the PseudoDocument to prepare.
+     * @param parent  Parent document within which this PseudoDocument will be created.
+     * @protected
+     */
+    static _createDialogData(type: string, parent: Item.Implementation): {
+      type: string,
+      label: string,
+      icon: string,
+      hint?: string,
+      disabled?: boolean
+    }
+
+    /* -------------------------------------------- */
+
+    /**
+     * Prepare default list of types if none are specified.
+     * @param parent  Parent document within which this PseudoDocument will be created.
+     * @protected
+     */
+    static _createDialogTypes(parent: Item.Implementation): string[]
 }
 
 declare namespace PseudoDocument {

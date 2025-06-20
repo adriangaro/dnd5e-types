@@ -28,20 +28,20 @@ declare class EquipmentData extends _ItemDataModel.mixin(
   dnd5e.types.MergeSchemas<
     dnd5e.types.MergeSchemas<
       {
-        type: ItemTypeField<'equipment', { subtype: false }, { label: "DND5E.ItemEquipmentType" }>,
         armor: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, label: "DND5E.ArmorClass" }>,
           magicalBonus: foundry.data.fields.NumberField<{ min: 0, integer: true, label: "DND5E.MagicalBonus" }>,
           dex: foundry.data.fields.NumberField<{ required: true, integer: true, label: "DND5E.ItemEquipmentDexMod" }>
+        }>,
+        proficient: foundry.data.fields.NumberField<{
+          required: true, min: 0, max: 1, integer: true, initial: null, label: "DND5E.ProficiencyLevel"
         }>,
         properties: foundry.data.fields.SetField<
           dnd5e.types.fields.RestrictedStringField<dnd5e.types.ItemProperties.Equipment.TypeKey>,
           { label: "DND5E.ItemEquipmentProperties" }
         >,
         strength: foundry.data.fields.NumberField<{ required: true, integer: true, min: 0, label: "DND5E.ItemRequiredStr" }>,
-        proficient: foundry.data.fields.NumberField<{
-          required: true, min: 0, max: 1, integer: true, initial: null, label: "DND5E.ProficiencyLevel"
-        }>
+        type: ItemTypeField<'equipment', { subtype: false }, { label: "DND5E.ItemEquipmentType" }>,
       },
       {
         armor: foundry.data.fields.SchemaField<
@@ -68,19 +68,22 @@ declare class EquipmentData extends _ItemDataModel.mixin(
   metadata: fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
-      enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 200
+      hasEffects: true,
+      enchantable: true
     }
   >;
   static get metadata(): fvttUtils.SimpleMerge<
     ItemDataModel['metadata'],
     {
-      enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 200
+      hasEffects: true,
+      enchantable: true
     }
   >;
+
+  /**
+   * Default configuration for this item type's inventory section.
+   */
+  static get inventorySection(): dnd5e.applications.components.InventoryElement.InventorySectionDescriptor
 
   /* -------------------------------------------- */
   /*  Migrations                                  */
@@ -136,6 +139,9 @@ declare class EquipmentData extends _ItemDataModel.mixin(
   /** @inheritDoc */
   getFavoriteData(): Promise<EquipmentData.FavoriteData<this>>
 
+  /** @inheritDoc */
+  getSheetData(context: EquipmentData.SheetData): Promise<void>
+
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
@@ -180,6 +186,18 @@ declare namespace EquipmentData {
   interface FavoriteData<This> extends ItemDataModel.FavoriteData {
     subtitle: [string, string],
     uses: dnd5e.types.GetKeyReturn<This, 'getUsesData'> | null
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[],
+    equipmentTypeOptions: dnd5e.types.FormSelectOption[],
+    hasDexModifier: boolean,
+    info: {
+      label: string,
+      classes: string,
+      value: string
+    }[]
   }
 }
 

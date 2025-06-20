@@ -1,8 +1,7 @@
-// TODO: replace with foundry.canvas.placeables.MeasuredTemplate
 /**
  * A helper class for building MeasuredTemplates for 5e spells and abilities
  */
-export default class AbilityTemplate extends MeasuredTemplate {
+export default class AbilityTemplate extends foundry.canvas.placeables.MeasuredTemplate {
 
   /**
    * Track the timestamp when the last mouse move event was captured.
@@ -39,15 +38,6 @@ export default class AbilityTemplate extends MeasuredTemplate {
     this: This,
     activity: dnd5e.types.Activity.Implementation, options?: object
   ): InstanceType<This>[] | null
-  /* -------------------------------------------- */
-
-  /**
-   * A factory method to create an AbilityTemplate instance using provided data from an Item5e instance
-   */
-  static fromItem<This extends typeof AbilityTemplate>(
-    this: This, 
-    item: Item.Implementation, options?: object
-  ): InstanceType<This> | null
   /* -------------------------------------------- */
 
   /**

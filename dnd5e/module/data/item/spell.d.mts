@@ -51,6 +51,19 @@ declare class SpellData extends _ItemDataModel.mixin(ActivitiesTemplate, ItemDes
     >
   >
 > {
+  metadata: fvttUtils.SimpleMerge<
+    ItemDataModel['metadata'],
+    {
+      hasEffects: true,
+    }
+  >;
+  static get metadata(): fvttUtils.SimpleMerge<
+    ItemDataModel['metadata'],
+    {
+      hasEffects: true,
+    }
+  >;
+
   /* -------------------------------------------- */
   /*  Data Migrations                             */
   /* -------------------------------------------- */
@@ -100,23 +113,53 @@ declare class SpellData extends _ItemDataModel.mixin(ActivitiesTemplate, ItemDes
   /*  Methods                                     */
   /* -------------------------------------------- */
 
+  /* -------------------------------------------- */
+
   /** @inheritDoc */
-  getFavoriteData(): Promise<ItemDataModel.FavoriteData & {
-    subtitle: [string, string],
-    modifier: string,
-    range: SpellData['range'],
-    save: dnd5e.types.Activity.OfType<'save'>['save'] | null
-  }>;
+  getCardData(enrichmentOptions: ItemDataModel.CardDataEnrichmentOptions): Promise<SpellData.CardData>
+
+
+  /** @inheritDoc */
+  getFavoriteData(): Promise<SpellData.FavoriteData>
 
   /* -------------------------------------------- */
-  /*  Shims                                       */
-  /* -------------------------------------------- */
 
-  _applySpellShims(): void; // Private method
+  /** @inheritDoc */
+  getSheetData(context: SpellData.SheetData): Promise<void>
 }
 
 declare namespace SpellData {
   type Schema = dnd5e.types.GetSchema<typeof SpellData>
+
+  interface FavoriteData extends ItemDataModel.FavoriteData {
+    subtitle: string[],
+    modifier: string,
+    range: SpellData['range'],
+    save?: dnd5e.types.Activity.OfType<'save'>['save']
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[],
+    properties: {
+      active: string[],
+      passive: string[]
+    }
+    defaultAbility?: string,
+    spellcastingClasses?: dnd5e.types.FormSelectOption[],
+    activationTypes?: dnd5e.types.FormSelectOption[],
+    durationUnits?: dnd5e.types.FormSelectOption[],
+    targetTypes?: dnd5e.types.FormSelectOption[],
+    scalarTarget?: boolean,
+    affectsPlaceholder?: string,
+    dimensions?: SpellData['target']['template']['dimensions'],
+    rangeTypes?: dnd5e.types.FormSelectOption[]
+  }
+
+  interface CardData extends ItemDataModel.CardData {
+    subtitle: string,
+    properties: string[]
+  }
 }
 
 declare global {

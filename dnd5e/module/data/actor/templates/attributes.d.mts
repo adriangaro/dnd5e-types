@@ -168,8 +168,6 @@ export default class AttributesFields {
       },
       undefined
     >,
-    spelldc: foundry.data.fields.NumberField<{ required: false, nullable: true}, undefined, number, undefined>,
-    spellmod: foundry.data.fields.NumberField<{ required: false, nullable: true}, undefined, number, undefined>
   };
 
   /* -------------------------------------------- */

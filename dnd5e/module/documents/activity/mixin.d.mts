@@ -60,7 +60,23 @@ declare class _ActivityMixin {
 
   _usageChatContext(
     message: dnd5e.types.Activity.MessageConfiguration
-  ): Promise<object>
+  ): Promise<dnd5e.types.Activity.ChatContext<this>>
+
+  /* -------------------------------------------- */
+
+  /**
+   * Apply any final modifications to message config immediately before message is created.
+   * @param usageConfig        Configuration data for the activation.
+   * @param messageConfig  Configuration data for the chat message.
+   * @param results                Final details on the activation.
+   * @protected
+   */
+  _finalizeMessageConfig(
+    usageConfig: dnd5e.types.Activity.UseConfiguration, 
+    messageConfig: dnd5e.types.Activity.MessageConfiguration, 
+    results: dnd5e.types.Activity.UsageResults
+  ): void
+
 
   _usageChatButtons(
     message: dnd5e.types.Activity.MessageConfiguration
@@ -114,6 +130,12 @@ declare class _ActivityMixin {
   }): dnd5e.types.Activity.RollData<this>
 
   _mergeActivityUpdates(updates: dnd5e.types.Activity.UsageUpdates): void
+
+  /* -------------------------------------------- */
+  /*  Importing and Exporting                     */
+  /* -------------------------------------------- */
+
+  static _createDialogTypes(parent: any): dnd5e.types.Activity.TypeKey[]
 }
 
 declare namespace _ActivityMixin {}
@@ -151,6 +173,18 @@ declare namespace ActivityMixin {
   interface RollData<This> extends ReturnType<Item.Implementation['getRollData']> {
     activity: This,
     mod: number
+  }
+
+  interface ChatContext<This> {
+    activity: This,
+    actor: Actor.Implementation,
+    item: Item.Implementation,
+    token: Token.Implementation | null,
+    buttons: dnd5e.types.Activity.UsageChatButton[] | null,
+    description: string,
+    properties: string[],
+    subtitle: string,
+    supplements: string[]
   }
 
   interface UseConfiguration {
@@ -297,6 +331,7 @@ declare global {
       export import UsageResults = ActivityMixin.UsageResults;
       export import ConsumptionDescriptor = ActivityMixin.ConsumptionDescriptor;
       export import UsageChatButton = ActivityMixin.UsageChatButton;
+      export import ChatContext = ActivityMixin.ChatContext;
     }
     interface DND5EConfig {
       /**

@@ -59,8 +59,6 @@ declare class ContainerData extends _ItemDataModel.mixin(
     ItemDataModel['metadata'],
     {
       enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 500
     }
   >;
 
@@ -68,10 +66,15 @@ declare class ContainerData extends _ItemDataModel.mixin(
     ItemDataModel['metadata'],
     {
       enchantable: true,
-      inventoryItem: true,
-      inventoryOrder: 500
     }
   >;
+  
+  /* -------------------------------------------- */
+
+  /**
+   * Default configuration for this item type's inventory section.
+   */
+  static get inventorySection(): dnd5e.applications.components.InventoryElement.InventorySectionDescriptor
 
   /* -------------------------------------------- */
   /*  Data Migrations                             */
@@ -101,11 +104,15 @@ declare class ContainerData extends _ItemDataModel.mixin(
   /*  Data Preparation                            */
   /* -------------------------------------------- */
 
-  prepareFinalData(): void; // Included as it has specific logic in the mjs
+  prepareFinalData(): void;
 
+  /** @inheritDoc */
   getFavoriteData(): Promise<
     ContainerData.FavoriteData
   >
+
+  /** @inheritDoc */
+  getSheetData(context: ContainerData.SheetData): Promise<void>
 
   /* -------------------------------------------- */
   /*  Getters                                     */
@@ -164,22 +171,25 @@ declare class ContainerData extends _ItemDataModel.mixin(
 
 declare namespace ContainerData {
   type Schema = dnd5e.types.GetSchema<typeof ContainerData>
-  /**
-   * @typedef {object} ItemCapacityDescriptor
-   * @property {number} value  The current total weight or number of items in the container.
-   * @property {number} max    The maximum total weight or number of items in the container.
-   * @property {number} pct    The percentage of total capacity.
-   * @property {string} units  The units label.
-   */
-  type ItemCapacityDescriptor = {
+
+  interface ItemCapacityDescriptor {
+    /** The current total weight or number of items in the container. */
     value: number;
+    /** The maximum total weight or number of items in the container. */
     max: number;
+    /** The percentage of total capacity. */
     pct: number;
+    /** The units label. */
     units: string;
-  };
+  }
 
   interface FavoriteData extends ItemDataModel.FavoriteData {
-    uses: ItemCapacityDescriptor
+    uses?: ItemCapacityDescriptor
+  }
+
+  interface SheetData {
+    subtitles: { label: string }[],
+    parts: string[]
   }
 }
 

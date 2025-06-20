@@ -196,6 +196,7 @@ declare class ActivitiesTemplate extends SystemDataModel<{
 
   /**
    * Apply shims for data removed from ActionTemplate & ActivatedEffectTemplate.
+   * @deprecated
    */
   static _applyActivityShims()
 }

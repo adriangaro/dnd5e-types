@@ -83,41 +83,6 @@ declare class TraitsField {
     >
   };
 
-
-  /* -------------------------------------------- */
-
-  /**
-   * Produce the schema field for a simple trait.
-   */
-  static makeSimpleTrait<
-    TraitType extends string = string,
-    Schema extends foundry.data.fields.DataSchema = {},
-    Options extends SimpleTraitField.Options<
-      Schema,
-      TraitType
-    > = SimpleTraitField.DefaultOptions,
-  >(schemaOptions?: Options, options?: {
-    initial?: TraitType[];
-    extraFields?: Schema;
-  }): SimpleTraitField<TraitType, Schema, Options>
-
-  /* -------------------------------------------- */
-
-  /**
-   * Produce the schema field for a damage trait.
-   */
-  static makeDamageTrait<
-    TraitType extends string = dnd5e.types.Damage.TypeKey,
-    Schema extends foundry.data.fields.DataSchema = {},
-    Options extends SimpleTraitField.Options<
-      Schema,
-      TraitType
-    > = SimpleTraitField.DefaultOptions,
-  >(schemaOptions?: Options, options?: {
-    initial?: TraitType[];
-    extraFields?: Schema;
-  }): DamageTraitField<TraitType, dnd5e.types.Damage.Bypass, Schema, Options>
-
   /* -------------------------------------------- */
   /*  Data Preparation                            */
   /* -------------------------------------------- */
@@ -270,8 +235,7 @@ declare global {
 
       type TypeKey = dnd5e.types.ExtractKeys<Types>;
 
-      interface ConditionConfiguration extends Omit<dnd5e.types.DND5EConfig.StatusEffectConfig5e, 'name' | 'id'> {
-        label: string;
+      interface ConditionConfiguration extends Omit<dnd5e.types.DND5EConfig.StatusEffectConfig5e, 'id'> {
         pseudo?: boolean;
         levels?: number;
         reduction?: { rolls: number; speed: number; };

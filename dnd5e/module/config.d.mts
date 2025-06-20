@@ -74,16 +74,19 @@ declare global {
 
       /**
        * Settings to configure how actors are merged when polymorphing is applied.
+       * @deprecated { since: "DnD5e 4.4", until: "DnD5e 5.2", once: true }
        */
       polymorphSettings: Record<string, string>
 
       /**
        * Settings to configure how actors are effects are merged when polymorphing is applied.
+       * @deprecated { since: "DnD5e 4.4", until: "DnD5e 5.2", once: true }
        */
       polymorphEffectSettings: Record<string, string>
 
       /**
        * Settings to configure how actors are merged when preset polymorphing is applied.
+       * @deprecated { since: "DnD5e 4.4", until: "DnD5e 5.2", once: true }
        */
       transformationPresets: object
 
@@ -205,7 +208,10 @@ declare global {
        */
       interface EncumbranceConfiguration {
         currencyPerWeight: Record<string, number>;
-        effects: Record<string, object>;
+        effects: Record<string, {
+          name: string
+          img: string
+        }>;
         threshold: {
           encumbered: Record<string, number>;
           heavilyEncumbered: Record<string, number>;
@@ -231,11 +237,7 @@ declare global {
       /**
        * Configuration data for system status effects.
        */
-      interface StatusEffectConfig5e extends Omit<CONFIG.StatusEffect, 'img'> {
-        /**
-         * Icon used to represent the condition on the token.
-         */
-        icon: string;
+      interface StatusEffectConfig5e extends CONFIG.StatusEffect {
         /**
          * Order status to the start of the token HUD, rather than alphabetically.
          */

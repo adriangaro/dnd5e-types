@@ -1,3 +1,5 @@
+import type EmbeddedDataField5e from "../../fields/embedded-data-field.d.mts"
+
 export class ConsumptionTargetData extends foundry.abstract.DataModel<{
   type: dnd5e.types.fields.RestrictedStringField<
     dnd5e.types.ActivityConsumption.TypeKey
@@ -351,11 +353,11 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
 declare class ConsumptionTargetsField<
   const Options extends ConsumptionTargetsField.AnyOptions = ConsumptionTargetsField.DefaultOptions<
     ConsumptionTargetsField.AssignmentElementType<
-      foundry.data.fields.EmbeddedDataField<typeof ConsumptionTargetData>
+      EmbeddedDataField5e<typeof ConsumptionTargetData>
     >
   >,
 > extends foundry.data.fields.ArrayField<
-  foundry.data.fields.EmbeddedDataField<typeof ConsumptionTargetData>,
+  EmbeddedDataField5e<typeof ConsumptionTargetData>,
   Options
 > {
   constructor(options: Options)

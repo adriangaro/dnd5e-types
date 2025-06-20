@@ -78,6 +78,14 @@ declare interface SelectChoices<TInput extends Record<string, any> = Record<stri
      */
   [key: string]: any; // Or more specifically: SelectChoicesEntryOutput<any> | undefined;
 
+  /* -------------------------------------------- */
+
+  /**
+   * Are there no entries in this choices object.
+   */
+  get isEmpty(): boolean;
+
+  /* -------------------------------------------- */
 
   /**
    * Create a set of available choice keys (only leaf nodes).

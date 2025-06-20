@@ -1,9 +1,7 @@
-// TODO: replace with foundry.canvas.placeables.Token
-
 /**
  * Extend the base Token class to implement additional system-specific logic.
  */
-export default class Token5e extends Token {
+export default class Token5e extends foundry.canvas.placeables.Token {
 
   /**
    * Update the token ring when this token is targeted.

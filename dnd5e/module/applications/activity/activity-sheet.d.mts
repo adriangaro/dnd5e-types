@@ -212,7 +212,7 @@ declare class ActivitySheet<
 }
 
 declare class AnyActivitySheet extends ActivitySheet<
-  dnd5e.types.Activity.Implementation, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject
+  dnd5e.types.Activity.Implementation, any, any, any
 > {
   constructor(...args: any[])
 }
