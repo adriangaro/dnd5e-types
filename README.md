@@ -6,14 +6,16 @@ TypeScript definitions for the dnd5e system for Foundry VTT.
 
 **Current Target**: dnd5e system version **4.3.x**
 
+⚠️ **Important**: This package is partially compatible with dnd5e system version **5.0.x**. For dnd5e 5.0.x support progress, see our [Migration Progress Documentation](dnd5e_diff_checklist_4.3.x_to_release-5.0.4.md).
+
 This package provides TypeScript definitions for the dnd5e system and depends on [fvtt-types](https://github.com/League-of-Foundry-Developers/foundry-vtt-types) for core Foundry VTT type definitions.
 
-**Migration Plan**: We plan to skip dnd5e 4.4.x and jump directly to **dnd5e 5.x** support in a future major release. This approach will allow us to incorporate the significant architectural changes expected in dnd5e v5 while maintaining stability for current 4.3.x users.
+**Migration Plan**: I am currently working on dnd5e 5.x support to incorporate the changes in the new version.
 
 **Compatibility Notes**:
-- Use with dnd5e 4.3.x versions for best compatibility (even tho we are using the #main branch of fvtt-types which is technically V13)
+- Partially compatible with dnd5e 5.0.x or later
 - Requires fvtt-types for Foundry VTT core type definitions
-- Future dnd5e 5.x support is planned (skipping 4.4.x)
+- See [Migration Progress](dnd5e_diff_checklist_4.3.x_to_release-5.0.4.md) for dnd5e 5.x support status
 
 ## Usage
 
