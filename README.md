@@ -24,7 +24,7 @@ This package provides TypeScript definitions for the dnd5e system and depends on
 Add this package as a development dependency to your project:
 
 ```sh
-npm add -D dnd5e@github:adriangaro/dnd5e-types
+npm add -D dnd5e@github:adriangaro/dnd5e-types#5.0.x
 ```
 
 ### TypeScript Configuration
