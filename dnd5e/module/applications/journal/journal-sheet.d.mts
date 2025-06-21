@@ -1,8 +1,11 @@
-//TODO: foundry.appv1?.sheets?.JournalSheet
 /**
  * Variant of the standard journal sheet to handle custom TOC numbering.
  */
-export default class JournalSheet5e extends JournalSheet {
+export default class JournalSheet5e extends foundry.appv1.sheets.JournalSheet {
+  /** @override */
+  static _warnedAppV1: boolean;
+
+  /* --------------------------------------------- */
   /**
    * Add class to journal pages also.
    * @param page  The journal page application.

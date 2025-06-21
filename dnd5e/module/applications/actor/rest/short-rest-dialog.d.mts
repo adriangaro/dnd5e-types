@@ -32,19 +32,6 @@ declare class ShortRestDialog<
    * @param target  Button that was clicked.
    */
   static #rollHitDie(this: ShortRestDialog, event: Event, target: HTMLElement)
-
-  /* -------------------------------------------- */
-  /*  Factory Methods                             */
-  /* -------------------------------------------- */
-
-  /**
-   * A helper constructor function which displays the Short Rest dialog and returns a Promise once its workflow has
-   * been resolved.
-   * @param options
-   * @param options.actor    Actor that is taking the short rest.
-   * @returns                Promise that resolves when the rest is completed or rejects when canceled.
-   */
-  static shortRestDialog(options: { actor: Actor.Implementation }): ReturnType<typeof BaseRestDialog['configure']>
 }
 
 

@@ -1,12 +1,38 @@
-import Item5e from "../../documents/item.mjs";
 import DragDropApplicationMixin from "../mixins/drag-drop-mixin.mjs";
-import ItemSheet5e2 from "./item-sheet-2.mjs";
-// TODO foundry.applications?.sidebar?.tabs?.ItemDirectory
+
 
 /**
  * Items sidebar with added support for item containers.
  */
-export default class ItemDirectory5e extends DragDropApplicationMixin(
-  // @ts-expect-error
-  ItemDirectory
-) {}
+export default class ItemDirectory5e extends DragDropApplicationMixin(foundry.applications.sidebar.tabs.ItemDirectory) {
+  /* -------------------------------------------- */
+  /*  Drag & Drop                                 */
+  /* -------------------------------------------- */
+
+
+  /**
+   * Handle dropping an entry into the compendium, managing container relationships.
+   * @param target  The drop target element.
+   * @param data    The dropped data.
+   */
+  protected _handleDroppedEntry(target: HTMLElement, data: any): Promise<void>;
+
+  /* -------------------------------------------- */
+  /*  Event Handlers                             */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle clicking on a compendium entry to open its sheet.
+   * @param event  The click event.
+   */
+  protected _onClickEntry(event: Event): Promise<void>;
+
+  /**
+   * Check if an entry already exists in this compendium.
+   * @param item  The item to check.
+   * @returns     Whether the entry already exists.
+   * @protected
+   */
+  protected _entryAlreadyExists(item: Item.Implementation): boolean;
+
+}

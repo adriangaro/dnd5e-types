@@ -65,14 +65,14 @@ declare class PseudoDocumentSheet<
   /**
    * Handle form submission.
    */
-  static #onSubmitForm<This extends PseudoDocumentSheet.Any>(this: This, event: SubmitEvent, form: HTMLFormElement, formData: FormDataExtended): Promise<void>
+  static #onSubmitForm<This extends PseudoDocumentSheet.Any>(this: This, event: SubmitEvent, form: HTMLFormElement, formData: foundry.applications.ux.FormDataExtended): Promise<void>
 
   /* -------------------------------------------- */
 
   /**
    * Perform any pre-processing of the form data to prepare it for updating.
    */
-  _prepareSubmitData(event: SubmitEvent, formData: FormDataExtended): object
+  _prepareSubmitData(event: SubmitEvent, formData: foundry.applications.ux.FormDataExtended): object
 
   /* -------------------------------------------- */
 

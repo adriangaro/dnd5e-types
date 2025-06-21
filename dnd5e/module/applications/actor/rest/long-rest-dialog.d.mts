@@ -12,20 +12,7 @@ declare class LongRestDialog<
   LongRestDialog.MakeRenderContext<RenderContext>,
   LongRestDialog.MakeConfiguration<Configuration>,
   LongRestDialog.MakeRenderOptions<RenderOptions>
-> {
-  /* -------------------------------------------- */
-  /*  Factory Methods                             */
-  /* -------------------------------------------- */
-
-  /**
-   * A helper constructor function which displays the Long Rest confirmation dialog and returns a Promise once its
-   * workflow has been resolved.
-   * @param options
-   * @param options.actor  Actor that is taking the long rest.
-   * @returns              Promise that resolves when the rest is completed or rejects when canceled.
-   */
-  static longRestDialog(options: { actor: Actor.Implementation }): ReturnType<typeof BaseRestDialog['configure']> 
-}
+> {}
 
 
 declare namespace LongRestDialog {

@@ -1,8 +1,10 @@
-//TODO convert foundry.appv1?.sheets?.JournalPageSheet
 /**
  * Journal entry page the displays a list of spells for a class, subclass, background, or something else.
  */
-export default class JournalSpellListPageSheet extends JournalPageSheet {
+export default class JournalSpellListPageSheet extends foundry.appv1.sheets.JournalPageSheet {
+  /** @override */
+  static _warnedAppV1: boolean;
+
   /* -------------------------------------------- */
 
   /**

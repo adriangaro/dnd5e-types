@@ -7,6 +7,15 @@ declare class BaseApplication5e {
   /* -------------------------------------------- */
 
   /**
+   * Expanded states for collapsible sections to persist between renders.
+   */
+  #expandedSections: Map<string, boolean>;
+
+  get expandedSections(): Map<string, boolean>
+
+  /* -------------------------------------------- */
+
+  /**
    * A reference to the window subtitle.
    */
   get subtitle(): string
@@ -14,9 +23,31 @@ declare class BaseApplication5e {
   /* -------------------------------------------- */
 
   /**
-   * Disable form fields that aren't marked with the `interface-only` class.
+   * Disable form fields that aren't marked with the `always-interactive` class.
    */
-  _disableFields()
+  _disableFields(): void
+
+  /* -------------------------------------------- */
+  /*  Event Listeners and Handlers                */
+  /* -------------------------------------------- */
+
+  /* -------------------------------------------- */
+
+  /**
+   * Configure plugins for the ProseMirror instance.
+   * @param event
+   * @protected
+   */
+  _onConfigurePlugins(event: Event & { plugins: any }): void
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle toggling the collapsed state of collapsible sections.
+   * @param event         Triggering click event.
+   * @param target  Button that was clicked.
+   */
+  static #toggleCollapsed(event: Event, target: HTMLElement): void
 
 }
 

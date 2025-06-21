@@ -1,15 +1,11 @@
-import Item5e from "../../documents/item.mjs";
-import { formatCR, formatNumber } from "../../utils.mjs";
-import Award from "../award.mjs";
-import MovementSensesConfig from "../shared/movement-senses-config.mjs";
-import ActorSheetMixin from "./sheet-mixin.mjs";
-// TODO foundry.appv1?.sheets?.ActorSheet
+import ActorSheetMixin from "./deprecated/sheet-mixin.mjs";
+
 /**
  * A character sheet for group-type Actors.
  * The functionality of this sheet is sufficiently different from other Actor types that we extend the base
  * Foundry VTT ActorSheet instead of the ActorSheet5e abstraction used for character, npc, and vehicle types.
  */
-export default class GroupActorSheet extends ActorSheetMixin(ActorSheet) {
+export default class GroupActorSheet extends ActorSheetMixin(foundry.appv1?.sheets?.ActorSheet) {
 
   /**
    * IDs for items on the sheet that have been expanded.

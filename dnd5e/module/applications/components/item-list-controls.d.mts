@@ -1,76 +1,154 @@
-import type FilterStateElement from "./filter-state.d.mts";
+import type InventoryElement from "./inventory.d.mts";
 
 /**
- * @typedef {object} SortModeConfiguration5e
- * @property {string} icon
- * @property {string} label
- * @property {ItemListComparator5e} comparator
+ * Filter state for item lists, representing current filtering criteria.
  */
-/**
- * @callback ItemListComparator5e
- * @param {object} a
- * @param {object} b
- * @returns {number}
- */
-
-interface SortModeConfiguration5e {
-  icon: string;
-  label: string;
-  comparator: ItemListComparator5e;
+export interface FilterState5e {
+  /** Current name filter text. */
+  name: string;
+  /** Set of property filters currently applied. */
+  properties: Set<string>;
 }
 
-type ItemListComparator5e = (a: any, b: any) => number; // Using any for now, can refine if needed
+/**
+ * Comparator function for sorting items in lists.
+ */
+export type ItemListComparator5e = (a: Item.Implementation, b: Item.Implementation) => number;
 
-// Basic type for TabPreferences5e, can be refined if a definition is found elsewhere
-interface TabPreferences5e {
+/**
+ * Descriptor for a single control option (filter, sort, or group).
+ */
+export interface ListControlDescriptor {
+  /** Unique key to identify this control option. */
+  key: string;
+  /** Human-readable label for the option. */
+  label: string;
+  /** Optional Font Awesome icon classes. */
+  icon?: string;
+  /** Optional CSS classes applied when this option is active. */
+  classes?: string;
+  /** Optional dataset properties for rendering. */
+  dataset?: Record<string, string>;
+}
+
+/**
+ * Complete configuration for an item list control element.
+ */
+export interface ListControlConfiguration {
+  /** Placeholder text for the main search input. */
+  label: string;
+  /** CSS selector or identifier for the associated item list. */
+  list: string;
+  /** Available filter options. */
+  filters: ListControlDescriptor[];
+  /** Available sorting options. */
+  sorting: ListControlDescriptor[];
+  /** Available grouping options. */
+  grouping: ListControlDescriptor[];
+}
+
+/**
+ * User preferences for a specific tab in item list controls.
+ */
+export interface TabPreferences5e {
+  /** Current sort mode key. */
   sort?: string;
-  group?: boolean;
+  /** Current group mode key. */
+  group?: string;
+  /** Additional preference properties. */
   [key: string]: any;
 }
 
 /**
+ * Configuration for a sort mode option.
+ * @deprecated Use ListControlDescriptor instead.
+ */
+export interface SortModeConfiguration5e {
+  /** Icon class for the sort mode. */
+  icon: string;
+  /** Localization key for the sort mode label. */
+  label: string;
+  /** Comparator function for this sort mode. */
+  comparator: ItemListComparator5e;
+}
+
+/**
  * A custom element that encapsulates functionality for sorting, filtering, searching, and grouping lists of items.
+ * Provides a unified interface for managing item lists with search, filter, sort, and group capabilities.
  */
 export default class ItemListControlsElement extends HTMLElement {
-  /** @override */
-  connectedCallback(): void;
-
   /* -------------------------------------------- */
-  /*  Properties & Getters                        */
+  /*  Configuration                               */
   /* -------------------------------------------- */
 
   /**
-   * Sort mode configuration.
+   * Well-known controls configurations.
    */
-  static SORT_MODES: Record<string, SortModeConfiguration5e>;
+  static CONFIG: Record<string, ListControlConfiguration>;
+
+  /* -------------------------------------------- */
+  /*  Properties                                  */
+  /* -------------------------------------------- */
 
   /**
    * The amount of time to wait after a user's keypress before the name search filter is applied, in milliseconds.
    */
   static FILTER_DEBOUNCE_MS: number;
 
-  #app: FormApplication; // Assuming it's a FormApplication based on usage
-
   /**
    * The Application instance that houses this item control.
    */
-  get app(): FormApplication;
+  get app(): foundry.applications.api.ApplicationV2;
 
-  #list: HTMLElement;
+  /**
+   * Reference to the application that contains this component.
+   */
+  #app: foundry.applications.api.ApplicationV2;
+  
+  /**
+   * The configured filtering options.
+   */
+  get filters(): Record<string, string>;
+
+  /**
+   * Reference to the configured filtering options.
+   */
+  #filters: Record<string, string>;
+
+  /**
+   * The configured grouping modes.
+   */
+  #groups: Record<string, ListControlDescriptor>;
+
+  /**
+   * The managing inventory element.
+   */
+  #inventory: InventoryElement;
 
   /**
    * The list element that this element manages.
    */
   get list(): HTMLElement;
 
-  #state: FilterStateElement; // Assuming FilterState5e is FilterStateElement
+  /**
+   * Reference to the list element.
+   */
+  #list: HTMLElement;
+
+  /**
+   * The configured sort modes.
+   */
+  #modes: Record<string, ListControlDescriptor>;
 
   /**
    * The current filter state.
    */
-  get state(): FilterStateElement;
+  get state(): FilterState5e;
 
-  #tab: string;
+  /**
+   * Reference to the current filter state.
+   */
+  #state: FilterState5e;
 
   /**
    * The tab this element is part of.
@@ -78,19 +156,18 @@ export default class ItemListControlsElement extends HTMLElement {
   get tab(): string;
 
   /**
-   * The search input.
+   * Reference to the tab identifier.
+   */
+  #tab: string;
+
+  /**
+   * The search input element.
    * @protected
    */
   protected _inputElement: HTMLInputElement;
 
   /**
-   * The available filtering choices.
-   * @protected
-   */
-  protected _filterItems: NodeListOf<HTMLButtonElement>;
-
-  /**
-   * The individual filtering controls.
+   * Individual filtering control elements.
    * @protected
    */
   protected _controls: Record<string, HTMLButtonElement>;
@@ -101,17 +178,19 @@ export default class ItemListControlsElement extends HTMLElement {
   get prefs(): TabPreferences5e;
 
   /**
-   * Whether to keep empty sections visible.
+   * Whether to keep empty sections visible when filtering.
    */
   get keepEmpty(): boolean;
 
-  /**
-   * Get the current sort mode.
-   */
-  get sortMode(): "a" | "p" | "m";
+  /* -------------------------------------------- */
+  /*  Lifecycle                                   */
+  /* -------------------------------------------- */
+
+  /** @override */
+  connectedCallback(): void;
 
   /* -------------------------------------------- */
-  /*  Methods                                     */
+  /*  Initialization                              */
   /* -------------------------------------------- */
 
   /**
@@ -121,44 +200,40 @@ export default class ItemListControlsElement extends HTMLElement {
   #buildHTML(): void;
 
   /**
-   * Initialize the elements based on the filter state.
-   * @protected
-   */
-  protected _initFilters(): void;
-
-  /* -------------------------------------------- */
-
-  /**
-   * Initialize the elements based on the grouping preferences.
+   * Initialize controls based on grouping preferences.
    * @protected
    */
   protected _initGrouping(): void;
 
-  /* -------------------------------------------- */
-
   /**
-   * Initialize the element sorting.
+   * Initialize controls based on sorting preferences.
    * @protected
    */
   protected _initSorting(): void;
 
+  /**
+   * Parse configuration markup for this element.
+   * @param list - The configuration to parse.
+   * @returns Parsed control descriptors.
+   * @private
+   */
+  #parseControlOptions(list: string): Record<string, ListControlDescriptor>;
+
+  /* -------------------------------------------- */
+  /*  Filtering, Grouping, & Sorting              */
   /* -------------------------------------------- */
 
   /**
    * Apply the filters to the managed list.
-   * @protected
+   * @internal
    */
-  protected _applyFilters(): void;
-
-  /* -------------------------------------------- */
+  _applyFilters(): void;
 
   /**
    * Group the managed items.
    * @protected
    */
   protected _applyGrouping(): void;
-
-  /* -------------------------------------------- */
 
   /**
    * Sort the managed list.
@@ -167,37 +242,26 @@ export default class ItemListControlsElement extends HTMLElement {
   protected _applySorting(): void;
 
   /* -------------------------------------------- */
-
-  /**
-   * Handle toggling a filter item.
-   * @param event  The triggering event.
-   * @protected
-   */
-  protected _onToggleFilterItem(event: PointerEvent): void;
-
+  /*  Event Listeners & Handlers                  */
   /* -------------------------------------------- */
 
   /**
-   * Handle toggling the sorting or grouping modes.
-   * @param event  The triggering event.
-   * @protected
-   */
-  protected _onToggleMode(event: PointerEvent): Promise<void>;
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle the user filtering by name.
-   * @param event  The triggering event.
-   * @protected
-   */
-  protected _onFilterName(event: Event): void; // Changed to Event as input event is not PointerEvent
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle clearing the filters.
+   * Handle clearing all filters.
    * @protected
    */
   protected _onClearFilters(): void;
+
+  /**
+   * Handle cycling through the sorting or grouping modes.
+   * @param event - The triggering event.
+   * @protected
+   */
+  protected _onCycleMode(event: PointerEvent): Promise<void>;
+
+  /**
+   * Handle the user filtering by name.
+   * @param event - The triggering event.
+   * @protected
+   */
+  protected _onFilterName(event: KeyboardEvent): void;
 }

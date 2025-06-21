@@ -1,13 +1,12 @@
 import ContextMenu5e from "../context-menu.mjs";
 import { formatNumber, getPluralRules } from "../../utils.mjs";
-//TODO foundry.applications?.sidebar?.tabs?.CombatTracker
+
 
 
 /**
  * An extension of the base CombatTracker class to provide some 5e-specific functionality.
- * @extends {CombatTracker}
  */
-export default class CombatTracker5e extends CombatTracker {
+export default class CombatTracker5e extends foundry.applications?.sidebar?.tabs?.CombatTracker {
   /* -------------------------------------------- */
 
   /**
@@ -15,4 +14,14 @@ export default class CombatTracker5e extends CombatTracker {
    * @param html  The combat tracker being rendered.
    */
   renderGroups(html: HTMLElement)
+
+  /* -------------------------------------------- */
+  /*  Helpers                                     */
+  /* -------------------------------------------- */
+
+  /**
+   * Retrieve an appropriate group name for a list of combatants.
+   * @param combatants  The combatants.
+   */
+  static getGroupName(combatants: Combatant.Implementation[]): string
 }

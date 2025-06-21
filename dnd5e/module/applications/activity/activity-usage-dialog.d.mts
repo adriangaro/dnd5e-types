@@ -129,7 +129,7 @@ declare class ActivityUsageDialog<
    * @param form       The form that was submitted.
    * @param formData  Data from the submitted form.
    */
-  static #onSubmitForm<This extends ActivityUsageDialog.AnyConstructor>(this: This, event: SubmitEvent, form: HTMLFormElement, formData: FormDataExtended): Promise<void>;
+  static #onSubmitForm<This extends ActivityUsageDialog.AnyConstructor>(this: This, event: SubmitEvent, form: HTMLFormElement, formData: foundry.applications.ux.FormDataExtended): Promise<void>;
 
   /* -------------------------------------------- */
 
@@ -148,7 +148,7 @@ declare class ActivityUsageDialog<
    * @param formData  Data from the submitted form.
    * @returns
    */
-  _prepareSubmitData(event: SubmitEvent, formData: FormDataExtended): Promise<object>;
+  _prepareSubmitData(event: SubmitEvent, formData: foundry.applications.ux.FormDataExtended): Promise<object>;
 
   /* -------------------------------------------- */
 

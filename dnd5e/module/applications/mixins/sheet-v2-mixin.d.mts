@@ -165,9 +165,11 @@ declare namespace DocumentSheetV2 {
  * @param Base The base DocumentSheet class constructor being mixed into.
  * @typeParam TBase - The type of the base DocumentSheet constructor.
  * @returns A new class constructor that extends the Base class and includes V2 sheet features.
+ * @deprecated { since: "DnD5e 5.0", until: "DnD5e 5.2", once: true }
  */
 declare function DocumentSheetV2Mixin<TBase extends DocumentSheet.AnyConstructor>(
   Base: TBase
+  // @ts-expect-error
 ): ReturnType<typeof DragDropApplicationMixin<TBase>> & typeof DocumentSheetV2 & TBase; // Intersects static sides
 
 /**

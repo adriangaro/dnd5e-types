@@ -1,34 +1,48 @@
+import type { DropEffectValue } from "../../drag-drop.mjs";
 import Item5e from "../../documents/item.mjs";
 import DragDropApplicationMixin from "../mixins/drag-drop-mixin.mjs";
-import ItemSheet5e2 from "./item-sheet-2.mjs";
-// TODO foundry.applications?.sidebar?.tabs?.ItemDirectory
-// Assuming Foundry VTT types like Compendium, DragEvent, object, Set, HTMLElement, PointerEvent, CompendiumCollection, Folder, TextEditor, Document, Item.Implementation, CompendiumCollection.Options are globally available
-
-// TODO  fix this cause fvtt types broke it completely
+import ItemSheet5e from "./item-sheet.mjs";
 
 /**
  * Compendium with added support for item containers.
  */
-// @ts-expect-error
-declare class ItemCompendium5eV13 extends DragDropApplicationMixin(Compendium<any>) {
-  // No specific members declared based on user's edits
+declare class ItemCompendium5e extends DragDropApplicationMixin(foundry.applications.sidebar.apps.Compendium) {
+
+  /**
+   * The collection managed by this compendium.
+   */
+  get collection(): foundry.documents.collections.CompendiumCollection<any>;
+
+
+  /* -------------------------------------------- */
+  /*  Drag & Drop                                 */
+  /* -------------------------------------------- */
+
+
+  /**
+   * Handle dropping an entry into the compendium, managing container relationships.
+   * @param target  The drop target element.
+   * @param data    The dropped data.
+   */
+  protected _handleDroppedEntry(target: HTMLElement, data: any): Promise<void>;
+
+  /* -------------------------------------------- */
+  /*  Event Handlers                             */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle clicking on a compendium entry to open its sheet.
+   * @param event  The click event.
+   */
+  protected _onClickEntry(event: Event): Promise<void>;
+
+  /**
+   * Check if an entry already exists in this compendium.
+   * @param item  The item to check.
+   * @returns     Whether the entry already exists.
+   * @protected
+   */
+  protected _entryAlreadyExists(item: Item.Implementation): boolean;
 }
 
-/**
- * Compendium with added support for item containers.
- * TODO: Remove when v12 support is dropped.
- */
-// @ts-expect-error
-declare class ItemCompendium5eV12 extends DragDropApplicationMixin(
-  // @ts-expect-error
-  Compendium
-)<any> {
-  // No specific members declared based on user's edits
-}
-
-/**
- * Compendium with added support for item containers.
- */
-export default class ItemCompendium5e extends Compendium<any> {
-  constructor(...args: any[]);
-}
+export default ItemCompendium5e;

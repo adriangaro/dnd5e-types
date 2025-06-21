@@ -1,9 +1,9 @@
-
-//TODO foundry.appv1?.sheets?.JournalPageSheet
 /**
  * Journal entry page that displays an automatically generated summary of a class along with additional description.
  */
-export default class JournalClassPageSheet extends JournalPageSheet {
+export default class JournalClassPageSheet extends foundry.appv1.sheets.JournalPageSheet {
+  /** @override */
+  static _warnedAppV1: boolean;
 
   /* -------------------------------------------- */
   /*  Properties                                  */

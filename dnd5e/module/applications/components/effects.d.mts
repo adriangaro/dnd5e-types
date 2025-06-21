@@ -15,9 +15,8 @@ export default class EffectsElement extends HTMLElement {
 
   /**
    * Reference to the application that contains this component.
-   * @protected
    */
-  get _app(): Application
+  get app(): Application
 
   /* -------------------------------------------- */
 

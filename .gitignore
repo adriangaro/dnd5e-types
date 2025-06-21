@@ -7,6 +7,9 @@ dnd5e/**/*
 
 node_modules/
 
+# Cursor rules (local development preferences)
+.cursor/
+
 .idea
 .vscode
 dist

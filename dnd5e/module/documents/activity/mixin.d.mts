@@ -316,9 +316,12 @@ declare global {
         [K in keyof Types]: OfType<K>['sheet']
       }
       type Sheet<T extends TypeKey = TypeKey> = SheetMap[T]
-      type d = foundry.data.fields.SchemaField.AssignmentData<
-      dnd5e.types.Activity.Schema
-    >
+      
+      type SheetContext<T extends TypeKey = TypeKey> = {
+        [K in T]: dnd5e.types.GetKeyReturn<Types[K], 'prepareSheetContext'>
+      }[T]
+
+      type d= SheetContext
 
       // types
       export import Metadata = ActivityMixin.Metadata;

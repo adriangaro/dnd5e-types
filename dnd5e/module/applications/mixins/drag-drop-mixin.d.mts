@@ -19,7 +19,7 @@ declare class DragDropApplication {
    * @param data - The drag payload (type should be refined based on DragDrop5e.getPayload).
    * @returns The determined drop effect.
    */
-  protected _dropBehavior(event: DragEvent, data: any): DropEffectValue;
+  protected _dropBehavior(event: DragEvent, data?: any): DropEffectValue;
 
   /**
    * Types of allowed drop behaviors based on the origin & target of a drag event.
@@ -29,7 +29,7 @@ declare class DragDropApplication {
    * @returns A Set containing the allowed drop effect values.
    * @protected
    */
-  protected _allowedDropBehaviors(event: DragEvent, data: any): Set<DropEffectValue>;
+  protected _allowedDropBehaviors(event: DragEvent, data?: any): Set<DropEffectValue>;
 
   /**
    * Determine the default drop behavior for the provided operation.
@@ -39,7 +39,7 @@ declare class DragDropApplication {
    * @returns The default drop effect value.
    * @protected
    */
-  protected _defaultDropBehavior(event: DragEvent, data: any): DropEffectValue;
+  protected _defaultDropBehavior(event: DragEvent, data?: any): DropEffectValue;
 }
 
 declare namespace DragDropApplication {
@@ -50,7 +50,7 @@ declare namespace DragDropApplication {
  * @param Base - The base Application class constructor being mixed into.
  * @returns A new class constructor that extends the Base class and includes drag and drop handling features.
  */
-declare function DragDropApplicationMixin<TBase extends Application.AnyConstructor>(
+declare function DragDropApplicationMixin<TBase extends foundry.applications.api.ApplicationV2.AnyConstructor>(
   Base: TBase
 ): typeof DragDropApplication & TBase; // Intersects the static side of the mixin class and the base class
 

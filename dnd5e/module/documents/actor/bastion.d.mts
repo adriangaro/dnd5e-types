@@ -327,7 +327,7 @@ declare class BastionAttackDialog extends Dialog5e<{
    * @param formData  Data from the dialog.
    */
   static #handleFormSubmission(
-    this: BastionAttackDialog, event: SubmitEvent, form: HTMLFormElement, formData: FormDataExtended
+    this: BastionAttackDialog, event: SubmitEvent, form: HTMLFormElement, formData: foundry.applications.ux.FormDataExtended
   ): Promise<void>
 
   /* -------------------------------------------- */

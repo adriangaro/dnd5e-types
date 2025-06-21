@@ -50,7 +50,7 @@ declare class BaseRestDialog<
    * @param form       The submitted form.
    * @param formData  Data from the dialog.
    */
-  static #handleFormSubmission(this: BaseRestDialog, event: Event | SubmitEvent, form: HTMLFormElement, formData: FormDataExtended): Promise<void>
+  static #handleFormSubmission(this: BaseRestDialog, event: Event | SubmitEvent, form: HTMLFormElement, formData: foundry.applications.ux.FormDataExtended): Promise<void>
 
   /* -------------------------------------------- */
   /*  Factory Methods                             */

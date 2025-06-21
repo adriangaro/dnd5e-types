@@ -15,5 +15,5 @@ export default class ModuleArtSettingsConfig extends FormApplication {
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  _updateObject(event: Event, formData: FormDataExtended): Promise<any>
+  _updateObject(event: Event, formData: foundry.applications.ux.FormDataExtended): Promise<any>
 }

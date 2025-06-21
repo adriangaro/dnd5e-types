@@ -1,8 +1,7 @@
-// TODO: replace with foundry.applications?.sheets?.TokenConfig
 /**
  * Custom token configuration application for handling dynamic rings & resource labels.
  */
-export class TokenConfig5e extends TokenConfig {
+export class TokenConfig5e extends foundry.applications.sheets.TokenConfig {
   /**
    * Adds charge based items as attributes for the current token.
    * @param attributes The attribute groups to add the item entries to.
@@ -24,16 +23,5 @@ export class TokenConfig5e extends TokenConfig {
   _prepareResourceLabels(html: HTMLElement)
 }
 
-// TODO replace with foundry.applications?.sheets?.PrototypeTokenConfig
 
-export class PrototypeTokenConfig5e extends (class {}) {
-  // TODO: V13 Update
-  /** @inheritDoc */
-  _onRender(context, options): Promise<void>
-
-  /* -------------------------------------------- */
-
-  // TODO: V13 Update
-  /** @inheritDoc */
-  _prepareResourcesTab(): Promise<any>
-}
+export class PrototypeTokenConfig5e extends foundry.applications.sheets.PrototypeTokenConfig {}

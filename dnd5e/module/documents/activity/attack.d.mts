@@ -38,7 +38,7 @@ declare class AttackActivity extends ActivityMixin(AttackActivityData) {
   _buildAttackConfig(
     process: dnd5e.dice.D20Roll.ProcessConfiguration, 
     config: dnd5e.dice.D20Roll.Configuration, 
-    formData: FormDataExtended | null | undefined, 
+    formData: foundry.applications.ux.FormDataExtended | null | undefined, 
     index: number
   )
 

@@ -12,14 +12,6 @@ declare class Dialog5e<
   Dialog5e.MakeConfiguration<Configuration>,
   Dialog5e.MakeRenderOptions<RenderOptions>
 > {
-  /* -------------------------------------------- */
-  /*  Properties                                  */
-  /* -------------------------------------------- */
-
-  /**
-   * Form element within the dialog.
-   */
-  get form(): HTMLFormElement | null
 
   /* -------------------------------------------- */
   /*  Rendering                                   */

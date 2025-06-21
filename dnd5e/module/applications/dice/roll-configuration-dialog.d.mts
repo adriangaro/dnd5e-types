@@ -93,14 +93,14 @@ declare class RollConfigurationDialog<
   /**
    * Build a roll from the provided configuration objects.
    */
-  #buildRolls(config: InstanceType<RollType>['__ProcessConfiguration'], formData: FormDataExtended)
+  #buildRolls(config: InstanceType<RollType>['__ProcessConfiguration'], formData?: foundry.applications.ux.FormDataExtended): void
 
   /* -------------------------------------------- */
 
   /**
    * Prepare individual configuration object before building a roll.
    */
-  _buildConfig(config: InstanceType<RollType>['__Configuration'], formData: FormDataExtended, index: number): InstanceType<RollType>['__Configuration']
+  _buildConfig(config: InstanceType<RollType>['__Configuration'], formData: foundry.applications.ux.FormDataExtended | undefined, index: number): InstanceType<RollType>['__Configuration']
 
   /* -------------------------------------------- */
 
@@ -114,7 +114,12 @@ declare class RollConfigurationDialog<
   /**
    * Rebuild rolls based on an updated config and re-render the dialog.
    */
-  rebuild()
+  rebuild(): void
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  _onChangeForm(formConfig: foundry.applications.api.ApplicationV2.FormConfiguration, event: Event): void
 
   /* -------------------------------------------- */
   /*  Event Listeners and Handlers                */
@@ -123,7 +128,7 @@ declare class RollConfigurationDialog<
   /**
    * Handle submission of the dialog using the form buttons.
    */
-  static #handleFormSubmission(this: RollConfigurationDialog, event: Event | SubmitEvent, form: HTMLFormElement, formData: FormDataExtended): Promise<FormDataExtended>
+  static #handleFormSubmission(this: RollConfigurationDialog, event: Event | SubmitEvent, form: HTMLFormElement, formData: foundry.applications.ux.FormDataExtended): Promise<foundry.applications.ux.FormDataExtended>
 
   /* -------------------------------------------- */
   /*  Factory Methods                             */
@@ -201,7 +206,7 @@ declare namespace RollConfigurationDialog {
   type RollBuildConfigCallback = fvttUtils.ToMethod<(
     process: dnd5e.dice.BasicRoll.ProcessConfiguration,
     config: dnd5e.dice.BasicRoll.Configuration,
-    formData?: FormDataExtended,
+    formData?: foundry.applications.ux.FormDataExtended,
     index?: number
   ) => void>;
 

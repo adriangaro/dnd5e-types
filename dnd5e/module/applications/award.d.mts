@@ -23,8 +23,6 @@ declare class Award extends Application5e<{
 }, {
   
 }> {
-  constructor(options: Actor.OfType<'group'> | Award['__Configuration'], _options?: Award['__Configuration'])
-
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
@@ -85,7 +83,7 @@ declare class Award extends Application5e<{
     this: Award, 
     event: Event | SubmitEvent, 
     form: HTMLFormElement, 
-    formData: FormDataExtended
+    formData: foundry.applications.ux.FormDataExtended
   ): Promise<void>
 
   /* -------------------------------------------- */

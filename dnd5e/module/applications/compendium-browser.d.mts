@@ -345,7 +345,7 @@ declare class CompendiumBrowser extends Application5e<
    * @param form     The submitted form element.
    * @param formData The data from the submitted form.
    */
-  static #onHandleSubmit(this: CompendiumBrowser, event: SubmitEvent, form: HTMLFormElement, formData: FormDataExtended): Promise<void>;
+  static #onHandleSubmit(this: CompendiumBrowser, event: SubmitEvent, form: HTMLFormElement, formData: foundry.applications.ux.FormDataExtended): Promise<void>;
 
   /**
    * Handle opening a link to an item. (Static private)

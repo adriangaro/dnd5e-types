@@ -33,15 +33,6 @@ declare class ActivitySheet<
   get activity(): Document
 
   /* -------------------------------------------- */
-
-  /**
-   * Expanded states for additional settings sections.
-   */
-  #expandedSections: Map<string, boolean>
-
-  get expandedSections(): Map<string, boolean>
-
-  /* -------------------------------------------- */
   /*  Rendering                                   */
   /* -------------------------------------------- */
   /* -------------------------------------------- */
@@ -192,23 +183,11 @@ declare class ActivitySheet<
   static #dissociateEffect<This extends ActivitySheet.Any>(this: This, event: PointerEvent, target: HTMLElement)
 
   /* -------------------------------------------- */
-
-  /**
-   * Handle toggling the collapsed state of an additional settings section.
-   */
-  static #toggleCollapsed<This extends ActivitySheet.Any>(this: This, event: Event, target: HTMLElement)
-
-  /* -------------------------------------------- */
   /*  Form Handling                               */
   /* -------------------------------------------- */
 
-  /**
-   * Perform any pre-processing of the form data to prepare it for updating.
-   * @param event          Triggering submit event.
-   * @param formData  Data from the submitted form.
-   * @returns
-   */
-  _prepareSubmitData(event: SubmitEvent, formData: FormDataExtended): object
+  /** @inheritDoc */
+  _prepareSubmitData(event: SubmitEvent, formData: foundry.applications.ux.FormDataExtended): object
 }
 
 declare class AnyActivitySheet extends ActivitySheet<

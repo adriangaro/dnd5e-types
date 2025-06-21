@@ -35,7 +35,7 @@ declare class DocumentSheet5e<
   //   options: fvttUtils.DeepPartial<this['__RenderOptions']>,
   // ): Promise<this['__RenderContext']>;
 }
-declare class AnyDocumentSheet5e extends DocumentSheet5e<any, fvttUtils.EmptyObject, fvttUtils.EmptyObject, fvttUtils.EmptyObject> {
+declare class AnyDocumentSheet5e extends DocumentSheet5e<any, any, any, any> {
   constructor(...args: any[])
 }
 
@@ -47,30 +47,30 @@ declare namespace DocumentSheet5e {
 
   type MakeRenderContext<
     Ctx extends fvttUtils.AnyObject = {}
-  > = dnd5e.types.DeepMerge<
+  > = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     ApplicationV2Mixin.RenderOptions,
     Ctx
-  >
+  >>
   type RenderContext = DocumentSheet5e['__RenderContext']
   type MakeConfiguration<
     Document extends foundry.abstract.Document.Any = foundry.abstract.Document.Any,
     Cfg extends fvttUtils.AnyObject = {}
-  > = dnd5e.types.DeepMerge<
+  > = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
       foundry.applications.api.DocumentSheetV2.Configuration<Document>,
       ApplicationV2Mixin.Configuration
     >,
     Cfg
-  > & foundry.applications.api.DocumentSheetV2.Configuration<Document>
+  >> & foundry.applications.api.DocumentSheetV2.Configuration<Document>
   type Configuration = DocumentSheet5e['__Configuration']
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
-  > = dnd5e.types.DeepMerge<
+  > = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
       foundry.applications.api.DocumentSheetV2.RenderOptions,
       ApplicationV2Mixin.RenderOptions
     >,
     Opt
-  > & foundry.applications.api.DocumentSheetV2.RenderOptions
+  >> & foundry.applications.api.DocumentSheetV2.RenderOptions
   type RenderOptions = DocumentSheet5e['__RenderOptions']
 }

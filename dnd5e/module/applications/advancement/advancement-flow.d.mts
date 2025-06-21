@@ -14,6 +14,9 @@ declare class AdvancementFlow<
   retainedData: object | null
   constructor(item: Item.Implementation, advancementId: string, level: number, options?: FormApplication.Options)
 
+  /** @override */
+  static _warnedAppV1: boolean;
+
   /* -------------------------------------------- */
 
   /**

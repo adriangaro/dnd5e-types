@@ -42,14 +42,14 @@ declare class BaseSettingsConfig<
    * @this {BaseSettingsConfig}
    * @param {SubmitEvent} event          The submission event.
    * @param {HTMLFormElement} form       The submitted form element.
-   * @param {FormDataExtended} formData  The submitted form data.
+   * @param {foundry.applications.ux.FormDataExtended} formData  The submitted form data.
    * @returns {Promise}
    */
   static #onCommitChanges(
     this: BaseSettingsConfig,
     event: SubmitEvent, 
     form: HTMLFormElement, 
-    formData: FormDataExtended
+    formData: foundry.applications.ux.FormDataExtended
   ): Promise<void>
 }
 

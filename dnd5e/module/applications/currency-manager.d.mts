@@ -15,8 +15,6 @@ export default class CurrencyManager extends Application5e<{
 }, {
 
 }> {
-  constructor(options: Actor.Implementation | Item.Implementation | CurrencyManager['__Configuration'], _options?: CurrencyManager['__Configuration'])
-
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
@@ -68,7 +66,7 @@ export default class CurrencyManager extends Application5e<{
   /**
    * Handle submitting the currency manager form.
    */
-  static #handleFormSubmission(this: Award, event: Event | SubmitEvent, form: HTMLFormElement, formData: FormDataExtended): Promise<void>
+  static #handleFormSubmission(this: Award, event: Event | SubmitEvent, form: HTMLFormElement, formData: foundry.applications.ux.FormDataExtended): Promise<void>
 
   /* -------------------------------------------- */
   /*  Currency Operations                         */
