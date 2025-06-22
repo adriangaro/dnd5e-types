@@ -96,6 +96,10 @@ declare global {
       interface DefaultAdvancementTypes {
         HitPoints: typeof HitPointsAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'HitPoints.class': true
+      }
     }
   }
 }

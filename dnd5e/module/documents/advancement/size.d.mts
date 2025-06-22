@@ -40,6 +40,11 @@ declare global {
       interface DefaultAdvancementTypes {
         Size: typeof SizeAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'Size.race': true
+      }
     }
   }
 }
+

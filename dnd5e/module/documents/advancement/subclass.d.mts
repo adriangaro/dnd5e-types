@@ -34,6 +34,10 @@ declare global {
       interface DefaultAdvancementTypes {
         Subclass: typeof SubclassAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'Subclass.class': true
+      }
     }
   }
 }

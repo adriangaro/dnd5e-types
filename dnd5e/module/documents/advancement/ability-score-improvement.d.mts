@@ -67,6 +67,13 @@ declare global {
       interface DefaultAdvancementTypes {
         AbilityScoreImprovement: typeof AbilityScoreImprovementAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'AbilityScoreImprovement.background': true
+        'AbilityScoreImprovement.class': true
+        'AbilityScoreImprovement.race': true
+        'AbilityScoreImprovement.feat': true
+      }
     }
   }
 }

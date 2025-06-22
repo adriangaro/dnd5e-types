@@ -76,6 +76,13 @@ declare global {
       interface DefaultAdvancementTypes {
         ItemGrant: typeof ItemGrantAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'ItemGrant.background': true
+        'ItemGrant.class': true
+        'ItemGrant.race': true
+        'ItemGrant.subclass': true
+      }
     }
   }
 }
