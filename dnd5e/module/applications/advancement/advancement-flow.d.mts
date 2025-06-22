@@ -5,14 +5,14 @@
 declare class AdvancementFlow<
   Document extends dnd5e.documents.advancement.Advancement.Any,
 > extends FormApplication<
-  Item.Implementation,
+  Document['item'],
   FormApplication.Options
 > {
-  item: Item.Implementation
+  item: Document['item']
   _advancementId: string
   level: number
   retainedData: object | null
-  constructor(item: Item.Implementation, advancementId: string, level: number, options?: FormApplication.Options)
+  constructor(item: Document['item'], advancementId: string, level: number, options?: FormApplication.Options)
 
   /* -------------------------------------------- */
 

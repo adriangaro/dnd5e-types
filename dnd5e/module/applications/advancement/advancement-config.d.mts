@@ -26,7 +26,7 @@ export default class AdvancementConfig<
   /**
    * Parent item to which this advancement belongs.
    */
-  item: Item.Implementation;
+  item: Document['item'];
 
   /* -------------------------------------------- */
 
@@ -58,7 +58,7 @@ export default class AdvancementConfig<
    * Handle deleting an existing Item entry from the Advancement.
    * @protected
    */
-  _onItemDelete(event: Event): Promise<Item.Implementation>
+  _onItemDelete(event: Event): Promise<void>
 
   /* -------------------------------------------- */
 
