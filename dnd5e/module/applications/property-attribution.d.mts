@@ -26,7 +26,7 @@ declare class PropertyAttribution extends Application5e<{
   }[],
   total: number
 }, {
-
+  title: string
 }, {
   title: string
 }> {
