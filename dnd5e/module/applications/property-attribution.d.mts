@@ -28,7 +28,7 @@ declare class PropertyAttribution extends Application5e<{
 }, {
 
 }, {
-
+  title: string
 }> {
   attributions: {
     value: number,
