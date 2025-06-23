@@ -56,7 +56,6 @@ declare namespace CompendiumBrowser {
    */
   interface RangeFilterConfig {
     keyPath: string;
-    choices: Record<string, string>;
     min?: number;
     max?: number;
     [key: string]: any; // Allow other properties
@@ -67,7 +66,6 @@ declare namespace CompendiumBrowser {
    */
   interface BooleanFilterConfig {
     keyPath: string;
-    choices: Record<string, string>;
     [key: string]: any; // Allow other properties
   }
 
