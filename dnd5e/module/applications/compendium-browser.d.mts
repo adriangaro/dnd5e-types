@@ -145,6 +145,7 @@ declare class CompendiumBrowser extends Application5e<
       types: boolean
       documentClass: boolean
     }
+    showTypes: boolean
     types: CompendiumBrowser.TabDescriptor5e['types']
     additional: {
       key: string
