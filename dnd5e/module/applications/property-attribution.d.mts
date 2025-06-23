@@ -40,7 +40,7 @@ declare class PropertyAttribution extends Application5e<{
     object: foundry.abstract.Document.Any, 
     attributions: PropertyAttribution['attributions'], 
     property: string, 
-    options?: PropertyAttribution['__Configuration']
+    options?: fvttUtils.DeepPartial<PropertyAttribution['__Configuration']>
   )
 
   /* -------------------------------------------- */
