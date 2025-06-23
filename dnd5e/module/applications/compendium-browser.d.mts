@@ -132,7 +132,28 @@ declare namespace CompendiumBrowser {
  */
 // @ts-expect-error
 declare class CompendiumBrowser extends Application5e<
-  {},
+  {
+    filters: CompendiumBrowser.Filters
+    filterDefinitions: Map<string, CompendiumBrowser.FilterDefinitionEntry>
+    displaySelection: boolean
+    invalid: string
+    summary: string
+    showModeToggle: boolean
+    isAdvanced: boolean 
+    isLocked: {
+      filters: boolean
+      types: boolean
+      documentClass: boolean
+    }
+    types: CompendiumBrowser.TabDescriptor5e['types']
+    additional: {
+      key: string
+      sort: number
+      value?: any
+      locked?: boolean
+    }[]
+    tabs: CompendiumBrowser.TabDescriptor5e[]
+  },
   {
     filters: {
       locked: CompendiumBrowser.Filters;
