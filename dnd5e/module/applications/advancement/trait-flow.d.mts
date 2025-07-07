@@ -1,6 +1,6 @@
 import AdvancementFlow from "./advancement-flow.mjs";
 import * as Trait from "../../documents/actor/trait.mjs";
-import type TraitAdvancement from "@dnd5e/module/documents/advancement/trait.mjs";
+import type TraitAdvancement from "#dnd5e/module/documents/advancement/trait.mjs";
 
 /**
  * Inline application that presents the player with a trait choices.

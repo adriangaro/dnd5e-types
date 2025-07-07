@@ -1,4 +1,4 @@
-import type AdvancementDataField from "@dnd5e/module/data/fields/advancement-data-field.mjs";
+import type AdvancementDataField from "#dnd5e/module/data/fields/advancement-data-field.mjs";
 import AdvancementConfig from "../../applications/advancement/advancement-config-v2.mjs";
 import AdvancementFlow from "../../applications/advancement/advancement-flow.mjs";
 import BaseAdvancement from "../../data/advancement/base-advancement.mjs";

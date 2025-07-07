@@ -1,4 +1,4 @@
-import type BaseActivityData from "@dnd5e/module/data/activity/base-activity.mjs";
+import type BaseActivityData from "#dnd5e/module/data/activity/base-activity.mjs";
 import PseudoDocumentSheet from "../api/pseudo-document-sheet.mjs";
 
 /**

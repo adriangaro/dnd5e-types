@@ -1,4 +1,4 @@
-import type ItemChoiceAdvancement from "@dnd5e/module/documents/advancement/item-choice.mjs";
+import type ItemChoiceAdvancement from "#dnd5e/module/documents/advancement/item-choice.mjs";
 import AdvancementConfig from "./advancement-config-v2.mjs";
 
 /**

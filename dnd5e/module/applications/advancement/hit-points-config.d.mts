@@ -1,4 +1,4 @@
-import type HitPointsAdvancement from "@dnd5e/module/documents/advancement/hit-points.mjs";
+import type HitPointsAdvancement from "#dnd5e/module/documents/advancement/hit-points.mjs";
 import AdvancementConfig from "./advancement-config-v2.mjs";
 
 /**

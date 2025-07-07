@@ -1,4 +1,4 @@
-import type { SelectChoices } from "@dnd5e/module/documents/_module.mjs";
+import type { SelectChoices } from "#dnd5e/module/documents/_module.mjs";
 import TraitsConfig from "./traits-config.mjs";
 
 /**

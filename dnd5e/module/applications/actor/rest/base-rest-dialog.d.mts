@@ -1,5 +1,5 @@
 import Dialog5e from "../../api/dialog.mjs";
-import type { Actor5e } from "@dnd5e/module/documents/_module.mjs";
+import type { Actor5e } from "#dnd5e/module/documents/_module.mjs";
 
 /**
  * Dialog with shared resting functionality.

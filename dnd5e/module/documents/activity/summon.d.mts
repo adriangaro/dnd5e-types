@@ -1,4 +1,4 @@
-import type TokenPlacement from "@dnd5e/module/canvas/token-placement.mjs";
+import type TokenPlacement from "#dnd5e/module/canvas/token-placement.mjs";
 import SummonActivityData from "../../data/activity/summon-data.mjs";
 import ActivityMixin from "./mixin.mjs";
 

@@ -1,6 +1,6 @@
 import ItemGrantConfigurationData from "../../data/advancement/item-grant.mjs";
 import Advancement from "./advancement.mjs";
-import type AdvancementDataField from "@dnd5e/module/data/fields/advancement-data-field.mjs";
+import type AdvancementDataField from "#dnd5e/module/data/fields/advancement-data-field.mjs";
 
 /**
  * Advancement that automatically grants one or more items to the player. Presents the player with the option of

@@ -1,4 +1,4 @@
-import type ActivityMixin from "@dnd5e/module/documents/activity/mixin.mjs"
+import type ActivityMixin from "#dnd5e/module/documents/activity/mixin.mjs"
 import type { ItemDataModel } from "../abstract.mjs"
 import type BaseActivityData from "../activity/base-activity.mjs"
 

@@ -1,4 +1,4 @@
-import type SummonActivity from "@dnd5e/module/documents/activity/summon.mjs";
+import type SummonActivity from "#dnd5e/module/documents/activity/summon.mjs";
 import type { CreateInputFunction } from "../fields.d.mts";
 import ActivityUsageDialog from "./activity-usage-dialog.mjs";
 

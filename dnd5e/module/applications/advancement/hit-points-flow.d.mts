@@ -1,5 +1,5 @@
 import AdvancementFlow from "./advancement-flow.mjs";
-import type HitPointsAdvancement from "@dnd5e/module/documents/advancement/hit-points.mjs";
+import type HitPointsAdvancement from "#dnd5e/module/documents/advancement/hit-points.mjs";
 
 /**
  * Inline application that presents hit points selection upon level up.

@@ -1,4 +1,4 @@
-import type { DropEffectValue } from "@dnd5e/module/drag-drop.mjs";
+import type { DropEffectValue } from "#dnd5e/module/drag-drop.mjs";
 
 // Define DropEffectValue based on standard Drag and Drop API and potential custom values
 

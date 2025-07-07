@@ -1,6 +1,6 @@
 import ActorSheet5eNPC from "./npc-sheet.mjs";
 import ActorSheetV2Mixin from "./sheet-v2-mixin.mjs";
-import type { Actor5e } from "@dnd5e/module/documents/_module.mjs";
+import type { Actor5e } from "#dnd5e/module/documents/_module.mjs";
 
 /**
  * An Actor sheet for NPCs.

@@ -1,5 +1,5 @@
 import AdvancementFlow from "./advancement-flow.mjs";
-import type ItemGrantAdvancement from "@dnd5e/module/documents/advancement/item-grant.mjs";
+import type ItemGrantAdvancement from "#dnd5e/module/documents/advancement/item-grant.mjs";
 
 
 /**

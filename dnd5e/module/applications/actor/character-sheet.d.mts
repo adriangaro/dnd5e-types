@@ -1,4 +1,4 @@
-import type { Actor5e } from "@dnd5e/module/documents/_module.mjs";
+import type { Actor5e } from "#dnd5e/module/documents/_module.mjs";
 import ActorSheet5e from "./base-sheet.mjs";
 
 /**

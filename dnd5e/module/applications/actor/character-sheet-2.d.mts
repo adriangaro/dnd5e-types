@@ -1,4 +1,4 @@
-import type { Actor5e } from "@dnd5e/module/documents/_module.mjs";
+import type { Actor5e } from "#dnd5e/module/documents/_module.mjs";
 import CharacterData from "../../data/actor/character.mjs";
 import * as Trait from "../../documents/actor/trait.mjs";
 import { formatNumber } from "../../utils.mjs";

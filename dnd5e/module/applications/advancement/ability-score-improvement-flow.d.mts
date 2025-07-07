@@ -1,5 +1,5 @@
 import AdvancementFlow from "./advancement-flow.mjs";
-import type AbilityScoreImprovementAdvancement from "@dnd5e/module/documents/advancement/ability-score-improvement.mjs";
+import type AbilityScoreImprovementAdvancement from "#dnd5e/module/documents/advancement/ability-score-improvement.mjs";
 
 
 /**
