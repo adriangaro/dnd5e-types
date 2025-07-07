@@ -10,9 +10,6 @@
   "scripts": {
     "copy-dnd5e": "npx copyfiles --all --up 2 ./node_modules/dnd5e/**/* ./dnd5e/ "
   },
-  "exports": {
-    ".": { "types": "./dnd5e/*" }
-  },
   "imports": {
     "#dnd5e/*": { "import": "./dnd5e/*" }
   },
