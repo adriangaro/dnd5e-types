@@ -1,6 +1,6 @@
 import AdvancementConfig from "./advancement-config-v2.mjs";
 import { TYPES } from "../../data/advancement/scale-value.mjs";
-import type ScaleValueAdvancement from "@dnd5e/module/documents/advancement/scale-value.mjs";
+import type ScaleValueAdvancement from "#dnd5e/module/documents/advancement/scale-value.mjs";
 
 /**
  * Configuration application for scale values.

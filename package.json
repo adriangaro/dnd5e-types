@@ -17,5 +17,12 @@
       "from": "4.3.x",
       "to": "release-5.0.4"
     }
-  }
+  },
+  "exports": {
+    ".": { "types": "./dnd5e/*" }
+  },
+  "imports": {
+    "#dnd5e/*": { "import": "./dnd5e/*" }
+  },
+  "rootDir": "."
 }

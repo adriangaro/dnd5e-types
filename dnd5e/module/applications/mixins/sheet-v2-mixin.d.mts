@@ -1,7 +1,7 @@
 
 // Import the mixin type and DropEffectValue
 import type DragDropApplicationMixin from "./drag-drop-mixin.mjs"; // Adjust path as needed
-import type { DropEffectValue } from "@dnd5e/module/drag-drop.mjs"; // Adjust path as needed
+import type { DropEffectValue } from "#dnd5e/module/drag-drop.mjs"; // Adjust path as needed
 
 /**
  * Describes a single tab within the sheet.

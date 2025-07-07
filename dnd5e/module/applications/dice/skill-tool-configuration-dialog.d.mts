@@ -1,7 +1,7 @@
-import type D20Roll from "@dnd5e/module/dice/d20-roll.mjs";
+import type D20Roll from "#dnd5e/module/dice/d20-roll.mjs";
 import D20RollConfigurationDialog from "./d20-configuration-dialog.mjs";
 import type RollConfigurationDialog from "./roll-configuration-dialog.d.mts";
-import type BasicRoll from "@dnd5e/module/dice/basic-roll.mjs";
+import type BasicRoll from "#dnd5e/module/dice/basic-roll.mjs";
 
 /**
  * Extended roll configuration dialog that allows selecting abilities.

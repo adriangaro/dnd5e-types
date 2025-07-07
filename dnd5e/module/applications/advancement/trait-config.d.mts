@@ -1,6 +1,6 @@
 import AdvancementConfig from "./advancement-config-v2.mjs";
 import * as Trait from "../../documents/actor/trait.mjs";
-import type TraitAdvancement from "@dnd5e/module/documents/advancement/trait.mjs";
+import type TraitAdvancement from "#dnd5e/module/documents/advancement/trait.mjs";
 /**
  * Configuration application for traits.
  */

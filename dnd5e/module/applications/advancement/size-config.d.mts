@@ -1,4 +1,4 @@
-import type SizeAdvancement from "@dnd5e/module/documents/advancement/size.mjs";
+import type SizeAdvancement from "#dnd5e/module/documents/advancement/size.mjs";
 import { filteredKeys } from "../../utils.mjs";
 import AdvancementConfig from "./advancement-config-v2.mjs";
 

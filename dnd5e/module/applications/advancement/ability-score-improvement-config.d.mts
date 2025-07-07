@@ -1,4 +1,4 @@
-import type AbilityScoreImprovementAdvancement from "@dnd5e/module/documents/advancement/ability-score-improvement.mjs";
+import type AbilityScoreImprovementAdvancement from "#dnd5e/module/documents/advancement/ability-score-improvement.mjs";
 import AdvancementConfig from "./advancement-config-v2.mjs";
 /**
  * Configuration application for ability score improvements.

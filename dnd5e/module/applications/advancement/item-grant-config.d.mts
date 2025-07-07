@@ -1,4 +1,4 @@
-import type ItemGrantAdvancement from "@dnd5e/module/documents/advancement/item-grant.mjs";
+import type ItemGrantAdvancement from "#dnd5e/module/documents/advancement/item-grant.mjs";
 import AdvancementConfig from "./advancement-config-v2.mjs";
 
 /**

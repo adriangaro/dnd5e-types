@@ -1,4 +1,4 @@
-import type Proficiency from "@dnd5e/module/documents/actor/proficiency.mjs";
+import type Proficiency from "#dnd5e/module/documents/actor/proficiency.mjs";
 import type { ActorDataModel } from "../../abstract.d.mts";
 import FormulaField from "../../fields/formula-field.mjs";
 import MappingField from "../../fields/mapping-field.mjs";

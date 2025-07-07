@@ -1,4 +1,4 @@
-import type SubclassAdvancement from "@dnd5e/module/documents/advancement/subclass.mjs";
+import type SubclassAdvancement from "#dnd5e/module/documents/advancement/subclass.mjs";
 import AdvancementFlow from "./advancement-flow.mjs";
 
 /**

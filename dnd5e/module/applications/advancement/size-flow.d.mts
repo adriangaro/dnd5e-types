@@ -1,4 +1,4 @@
-import type SizeAdvancement from "@dnd5e/module/documents/advancement/size.mjs";
+import type SizeAdvancement from "#dnd5e/module/documents/advancement/size.mjs";
 import AdvancementFlow from "./advancement-flow.mjs";
 
 /**

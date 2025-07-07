@@ -38,7 +38,7 @@ import { default as _registry } from "./module/registry.mjs";
 
 import * as _fvttUtils from "fvtt-types/utils";
 
-import "@dnd5e/module/types/_module.mjs";
+import "#dnd5e/module/types/_module.mjs";
 
 declare global {
   export import fvttUtils = _fvttUtils;

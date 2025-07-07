@@ -1,4 +1,4 @@
-import type { Actor5e } from "@dnd5e/module/documents/_module.mjs";
+import type { Actor5e } from "#dnd5e/module/documents/_module.mjs";
 import { formatNumber } from "../../utils.mjs";
 import ChatTrayElement from "./chat-tray-element.mjs";
 import TargetedApplicationMixin from "./targeted-application-mixin.mjs";

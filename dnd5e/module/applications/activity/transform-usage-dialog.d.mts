@@ -1,4 +1,4 @@
-import type TransformActivity from "@dnd5e/module/documents/activity/transform.mjs";
+import type TransformActivity from "#dnd5e/module/documents/activity/transform.mjs";
 import ActivityUsageDialog from "./activity-usage-dialog.mjs";
 
 /**

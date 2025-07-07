@@ -1,10 +1,10 @@
-import type TransformationSetting from "@dnd5e/module/data/settings/transformation-setting.mjs";
+import type TransformationSetting from "#dnd5e/module/data/settings/transformation-setting.mjs";
 import SkillToolRollConfigurationDialog from "../../applications/dice/skill-tool-configuration-dialog.mjs";
 import { type AttributionDescription } from "../../applications/property-attribution.mjs";
 import SystemDocumentMixin from "../mixins/document.mjs";
 import SelectChoices from "./select-choices.mjs";
-import type { CreatureTemplate } from "@dnd5e/module/data/actor/_module.mjs";
-import type CreatureTypeField from "@dnd5e/module/data/shared/creature-type-field.mjs";
+import type { CreatureTemplate } from "#dnd5e/module/data/actor/_module.mjs";
+import type CreatureTypeField from "#dnd5e/module/data/shared/creature-type-field.mjs";
 
 
 /**
