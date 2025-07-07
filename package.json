@@ -2,9 +2,6 @@
   "devDependencies": {
     "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main"
   },
-  "overrides": {
-    "@types/earcut": "^3.0.0"
-  },
   "scripts": {
     "dnd5e:setup": "bash scripts/setup-dnd5e-source.sh",
     "dnd5e:cleanup": "bash scripts/cleanup-dnd5e-source.sh",
@@ -19,7 +16,9 @@
     }
   },
   "imports": {
-    "#dnd5e/*": { "import": "./dnd5e/*" }
+    "#dnd5e/*": {
+      "import": "./dnd5e/*"
+    }
   },
   "rootDir": "."
 }

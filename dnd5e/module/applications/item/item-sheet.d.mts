@@ -5,7 +5,7 @@ import PrimarySheetMixin from "../api/primary-sheet-mixin.mjs";
  * Base item sheet built on ApplicationV2.
  */
 declare class ItemSheet5e<
-  Item extends Item.Implementation = Item.Implementation,
+  Item extends ItemSheet5e.ValidDocument = ItemSheet5e.ValidDocument,
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
@@ -297,12 +297,14 @@ declare class AnyItemSheet5e extends ItemSheet5e<any, any, any> {
 }
 
 declare namespace ItemSheet5e {  
+  type ValidDocument = Extract<Item.Known, { system: any }>
+
   interface Any extends AnyItemSheet5e {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyItemSheet5e> {}
 
   type MakeRenderContext<
-  Ctx extends fvttUtils.AnyObject = {}, 
-  Item extends Item.Implementation = Item.Implementation
+    Ctx extends fvttUtils.AnyObject = {}, 
+    Item extends ValidDocument = ValidDocument
   > = dnd5e.types.DeepMerge<
     {
       // Core item data
@@ -310,7 +312,7 @@ declare namespace ItemSheet5e {
       actor: Actor.Implementation | null;
       system: Item['system'];
       fields: dnd5e.types.GetTypeFromPath<Item, 'system.schema.fields'>;
-      source: Item['system']['_source'] | Item['system'];
+      source: Item['system']['_source']
       labels: Item['labels'];
       user: User.Implementation;
       

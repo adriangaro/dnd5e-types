@@ -654,7 +654,7 @@ declare namespace BaseActorSheet {
       rollableClass: string;
       sidebarCollapsed: boolean;
       system: any;
-      user: User | undefined;
+      user: User.Implementation | undefined;
       warnings: any[];
       source: any;
       config: any;

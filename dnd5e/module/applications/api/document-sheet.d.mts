@@ -48,7 +48,7 @@ declare namespace DocumentSheet5e {
   type MakeRenderContext<
     Ctx extends fvttUtils.AnyObject = {}
   > = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
-    ApplicationV2Mixin.RenderOptions,
+    ApplicationV2Mixin.RenderContext,
     Ctx
   >>
   type RenderContext = DocumentSheet5e['__RenderContext']

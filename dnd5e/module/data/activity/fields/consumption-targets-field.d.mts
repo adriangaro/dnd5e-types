@@ -351,11 +351,7 @@ export class ConsumptionTargetData extends foundry.abstract.DataModel<{
 }
 
 declare class ConsumptionTargetsField<
-  const Options extends ConsumptionTargetsField.AnyOptions = ConsumptionTargetsField.DefaultOptions<
-    ConsumptionTargetsField.AssignmentElementType<
-      EmbeddedDataField5e<typeof ConsumptionTargetData>
-    >
-  >,
+  const Options extends ConsumptionTargetsField.AnyOptions = ConsumptionTargetsField.DefaultOptions,
 > extends foundry.data.fields.ArrayField<
   EmbeddedDataField5e<typeof ConsumptionTargetData>,
   Options

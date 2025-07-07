@@ -379,7 +379,7 @@ declare class Item5e<
    */
   getChatData(htmlOptions: Partial<TextEditor.EnrichmentOptions>): {
     description: string,
-    properties: any[]
+    properties: string[]
   }
 
   /* -------------------------------------------- */
@@ -714,7 +714,7 @@ declare class Item5e<
    * @returns {Promise<Item5e|null>}
    */
   static createDialog(
-    data?: foundry.abstract.Document.CreateDialogData<Item.CreateData>, 
+    data?: Item.CreateDialogData, 
     context?: foundry.abstract.Document.CreateDialogContext<"Item", Item.Parent>
   ): Promise<Item.Stored | null | undefined>
 }
@@ -843,4 +843,3 @@ declare module 'fvtt-types/configuration' {
   }
 }
 
-type d = Parameters<Item5e<'consumable'>['createEmbeddedDocuments']>[0]

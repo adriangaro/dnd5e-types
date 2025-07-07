@@ -1,3 +1,5 @@
+import type InventoryElement from "../components/inventory.d.mts";
+import type { ListControlConfiguration } from "../components/item-list-controls.d.mts";
 import type ItemSheet5e from "./item-sheet.d.mts";
 
 /**
@@ -8,7 +10,7 @@ declare class ContainerSheet<
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
 > extends ItemSheet5e<
-  Item.Implementation,
+  ContainerSheet.ValidDocument,
   ContainerSheet.MakeRenderContext<RenderContext>,
   ContainerSheet.MakeConfiguration<Configuration>,
   ContainerSheet.MakeRenderOptions<RenderOptions>
@@ -104,6 +106,7 @@ declare class AnyContainerSheet extends ContainerSheet<any, any, any> {
 }
 
 declare namespace ContainerSheet {
+  type ValidDocument = Item.OfType<'container'>
   interface Any extends AnyContainerSheet {}
   interface AnyConstructor extends fvttUtils.Identity<typeof AnyContainerSheet> {}
 
@@ -115,16 +118,13 @@ declare namespace ContainerSheet {
         totalWeight: number;
         isExpanded: boolean;
         isStack: boolean;
-        expanded: any;
+        expanded: ReturnType<Item.Implementation['getChatData']>;
         groups: { contents: string; type: string };
         dataset: { groupContents: string; groupType: string };
-        capacity?: {
-          value: number;
-          max: number;
-          maxLabel: string | number;
-          pct: number;
+        capacity?: dnd5e.dataModels.item.ContainerData.ItemCapacityDescriptor & {
+          maxLabel: string | number
         };
-        columns?: string[];
+        columns?: InventoryElement.InventoryColumnDescriptor[];
         clickAction?: string;
       }>;
       isContainer: boolean;
@@ -135,10 +135,11 @@ declare namespace ContainerSheet {
         maxLabel: string | number;
         pct: number;
       };
-      inventory: any[];
-      listControls: any;
+      inventory: InventoryElement.InventorySectionDescriptor[];
+      listControls: ListControlConfiguration;
       showCurrency: boolean;
-      config: any; // TODO: Remove when actors convert to AppV2
+       // TODO: Remove when actors convert to AppV2
+      config: ItemSheet5e.RenderContext['CONFIG'];
     },
     Ctx
   >;
