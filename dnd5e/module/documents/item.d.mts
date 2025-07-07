@@ -875,7 +875,7 @@ declare class Item5e<
    * @returns {Promise<Item5e|null>}
    */
   static createDialog(
-    data?: foundry.abstract.Document.CreateDialogData<Item.CreateData>, 
+    data?: Item.CreateDialogData, 
     context?: foundry.abstract.Document.CreateDialogContext<"Item", Item.Parent>
   ): Promise<Item.Stored | null | undefined>
 }

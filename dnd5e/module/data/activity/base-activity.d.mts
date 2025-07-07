@@ -81,7 +81,7 @@ declare class BaseActivityData<
           >
           effects: foundry.data.fields.ArrayField<
             AppliedEffectField,
-            foundry.data.fields.ArrayField.DefaultOptions<AppliedEffectField>,
+            foundry.data.fields.ArrayField.DefaultOptions,
             foundry.data.fields.ArrayField.AssignmentElementType<AppliedEffectField>,
             foundry.data.fields.ArrayField.InitializedElementType<AppliedEffectField> & {
               _index: number

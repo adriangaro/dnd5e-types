@@ -34,8 +34,8 @@ export class ItemChoiceValueData extends foundry.abstract.DataModel<
     added: MappingField<MappingField<foundry.data.fields.StringField>>,
     replaced: MappingField<foundry.data.fields.SchemaField<{
       level: foundry.data.fields.NumberField<{ integer: true, min: 0 }>,
-      original: foundry.data.fields.ForeignDocumentField<typeof foundry.documents.BaseItem, { idOnly: true }>,
-      replacement: foundry.data.fields.ForeignDocumentField<typeof foundry.documents.BaseItem, { idOnly: true }>
+      original: foundry.data.fields.ForeignDocumentField<Item.ImplementationClass, { idOnly: true }>,
+      replacement: foundry.data.fields.ForeignDocumentField<Item.ImplementationClass, { idOnly: true }>
     }>>
   },
   null

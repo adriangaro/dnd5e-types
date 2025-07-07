@@ -3,7 +3,7 @@
  */
 declare class ActivationsField extends foundry.data.fields.SetField<
   foundry.data.fields.StringField,
-  foundry.data.fields.SetField.DefaultOptions<foundry.data.fields.ArrayField.AssignmentElementType<foundry.data.fields.StringField>>
+  foundry.data.fields.SetField.DefaultOptions
 > {
   constructor()
   /* -------------------------------------------- */
