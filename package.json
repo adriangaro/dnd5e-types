@@ -18,9 +18,6 @@
       "to": "release-5.0.4"
     }
   },
-  "exports": {
-    ".": { "types": "./dnd5e/*" }
-  },
   "imports": {
     "#dnd5e/*": { "import": "./dnd5e/*" }
   },
