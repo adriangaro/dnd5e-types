@@ -49,7 +49,6 @@ declare namespace CompendiumBrowser {
     choices: Record<string, string>;
     blank?: boolean;
     multiple?: boolean;
-    [key: string]: any; // Allow other properties
   }
 
   /**
@@ -74,13 +73,13 @@ declare namespace CompendiumBrowser {
   /**
    * Definition object for an additional filter control in the Compendium Browser UI.
    */
-  interface FilterDefinitionEntry {
+  interface FilterDefinitionEntry<T extends "boolean" | "range" | "set" = "boolean" | "range" | "set"> {
     /** Localizable label for the filter. */
     label: string;
     /** Type of filter control to display. */
-    type: "boolean" | "range" | "set";
+    type: T;
     /** Type-specific configuration data for the filter control. */
-    config: SetFilterConfig | RangeFilterConfig | BooleanFilterConfig | object; // More specific types based on 'type'
+    config: T extends "boolean" ? BooleanFilterConfig : T extends "range" ? RangeFilterConfig : SetFilterConfig; // More specific types based on 'type'
     /** Optional method that can be called to create FilterDescription objects based on the filter's value. */
     createFilter?: FilterCreateFilters;
   }
@@ -132,7 +131,29 @@ declare namespace CompendiumBrowser {
  */
 // @ts-expect-error
 declare class CompendiumBrowser extends Application5e<
-  {},
+  {
+    filters: CompendiumBrowser.Filters
+    filterDefinitions: Map<string, CompendiumBrowser.FilterDefinitionEntry>
+    displaySelection: boolean
+    invalid: string
+    summary: string
+    showModeToggle: boolean
+    isAdvanced: boolean 
+    isLocked: {
+      filters: boolean
+      types: boolean
+      documentClass: boolean
+    }
+    showTypes: boolean
+    types: CompendiumBrowser.TabDescriptor5e['types']
+    additional: {
+      key: string
+      sort: number
+      value?: any
+      locked?: boolean
+    }[]
+    tabs: CompendiumBrowser.TabDescriptor5e[]
+  },
   {
     filters: {
       locked: CompendiumBrowser.Filters;

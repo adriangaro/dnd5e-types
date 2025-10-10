@@ -23,6 +23,7 @@ declare class Advancement<
   ConfigurationData,
   ValueData
 > {
+  get item(): Type extends dnd5e.types.Advancement.TypeKey ? Item.OfType<dnd5e.types.Advancement.ValidItemTypes<Type>> : never
   apps: Record<string, foundry.applications.api.ApplicationV2>
 
   /* -------------------------------------------- */

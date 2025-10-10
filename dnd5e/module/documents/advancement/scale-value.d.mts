@@ -63,6 +63,13 @@ declare global {
       interface DefaultAdvancementTypes {
         ScaleValue: typeof ScaleValueAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'ScaleValue.background': true
+        'ScaleValue.class': true
+        'ScaleValue.race': true
+        'ScaleValue.subclass': true
+      }
     }
   }
 }

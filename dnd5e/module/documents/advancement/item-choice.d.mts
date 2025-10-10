@@ -50,6 +50,13 @@ declare global {
       interface DefaultAdvancementTypes {
         ItemChoice: typeof ItemChoiceAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'ItemChoice.background': true
+        'ItemChoice.class': true
+        'ItemChoice.race': true
+        'ItemChoice.subclass': true
+      }
     }
   }
 }

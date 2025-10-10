@@ -61,6 +61,28 @@ declare global {
       type Implementation<T extends TypeKey = TypeKey> = AdvancementInstances[T]
       type ImplementationClass<T extends TypeKey = TypeKey> = Types[T]
 
+
+      interface DefaultValidItemTypes extends Record<string, boolean | never> {
+
+      }
+
+      interface OverrideValidItemTypes extends Record<string, boolean | never> {}
+
+      type ValidItemTypesMap = dnd5e.types.MergeOverrideDefinition<
+        DefaultValidItemTypes,
+        OverrideValidItemTypes
+      >;
+
+      type ValidItemTypes<T extends TypeKey> = {
+        [K in keyof ValidItemTypesMap]: K extends `${T}.${infer S}` 
+          ? ValidItemTypesMap[K] extends never 
+            ? never 
+            : S extends Item.SubType
+              ? S
+              : never
+          : never
+      }[keyof ValidItemTypesMap]
+
       /**
        * Configuration information for advancement types.
        */
@@ -72,7 +94,7 @@ declare global {
         /**
          * What item types this advancement can be used with.
          */
-        validItemTypes: Set<Item.SubType>
+        validItemTypes: Set<ValidItemTypes<T>>
         /**
          * Should this advancement type be hidden in the selection dialog?
          */

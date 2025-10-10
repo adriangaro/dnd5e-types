@@ -81,6 +81,13 @@ declare global {
       interface DefaultAdvancementTypes {
         Trait: typeof TraitAdvancement
       }
+
+      interface DefaultValidItemTypes {
+        'Trait.background': true
+        'Trait.class': true
+        'Trait.race': true
+        'Trait.subclass': true
+      }
     }
   }
 }
