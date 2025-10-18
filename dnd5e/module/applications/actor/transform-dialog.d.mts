@@ -184,9 +184,9 @@ declare namespace TransformDialog {
   >;
 
   // Type aliases for convenience
-  type RenderContext = TransformDialog['__RenderContext'];
-  type Configuration = TransformDialog['__Configuration'];
-  type RenderOptions = TransformDialog['__RenderOptions'];
+  interface RenderContext extends dnd5e.types.PrettifyType<TransformDialog['__RenderContext']> {}
+  interface Configuration extends dnd5e.types.PrettifyType<TransformDialog['__Configuration']> {}
+  interface RenderOptions extends dnd5e.types.PrettifyType<TransformDialog['__RenderOptions']> {}
 }
 
 export default TransformDialog; 

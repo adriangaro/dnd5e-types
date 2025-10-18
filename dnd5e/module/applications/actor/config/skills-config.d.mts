@@ -38,7 +38,7 @@ declare namespace SkillsConfig {
     },
     Ctx
   >;
-  type RenderContext = SkillsConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<SkillsConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -48,7 +48,7 @@ declare namespace SkillsConfig {
     },
     Cfg
   >;
-  type Configuration = SkillsConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<SkillsConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -58,7 +58,7 @@ declare namespace SkillsConfig {
     },
     Opt
   >;
-  type RenderOptions = SkillsConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<SkillsConfig['__RenderOptions']> {}
 }
 
 export default SkillsConfig;

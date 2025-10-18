@@ -117,7 +117,7 @@ declare namespace BaseProficiencyConfig {
     },
     Ctx
   >
-  type RenderContext = BaseProficiencyConfig['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<BaseProficiencyConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -127,7 +127,7 @@ declare namespace BaseProficiencyConfig {
     },
     Cfg
   >
-  type Configuration = BaseProficiencyConfig['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<BaseProficiencyConfig['__Configuration']> {}
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
@@ -136,7 +136,7 @@ declare namespace BaseProficiencyConfig {
     },
     Opt
   >
-  type RenderOptions = BaseProficiencyConfig['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<BaseProficiencyConfig['__RenderOptions']> {}
 
 }
 

@@ -150,9 +150,9 @@ declare namespace NPCActorSheet {
   >;
 
   // Type aliases for convenience
-  type RenderContext = NPCActorSheet['__RenderContext'];
-  type Configuration = NPCActorSheet['__Configuration'];
-  type RenderOptions = NPCActorSheet['__RenderOptions'];
+  interface RenderContext extends dnd5e.types.PrettifyType<NPCActorSheet['__RenderContext']> {}
+  interface Configuration extends dnd5e.types.PrettifyType<NPCActorSheet['__Configuration']> {}
+  interface RenderOptions extends dnd5e.types.PrettifyType<NPCActorSheet['__RenderOptions']> {}
 }
 
 export default NPCActorSheet; 

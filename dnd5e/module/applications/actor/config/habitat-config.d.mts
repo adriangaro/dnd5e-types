@@ -50,7 +50,7 @@ declare namespace HabitatConfig {
     },
     Ctx
   >;
-  type RenderContext = HabitatConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<HabitatConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -60,7 +60,7 @@ declare namespace HabitatConfig {
     },
     Cfg
   >;
-  type Configuration = HabitatConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<HabitatConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -70,7 +70,7 @@ declare namespace HabitatConfig {
     },
     Opt
   >;
-  type RenderOptions = HabitatConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<HabitatConfig['__RenderOptions']> {}
 }
 
 export default HabitatConfig;

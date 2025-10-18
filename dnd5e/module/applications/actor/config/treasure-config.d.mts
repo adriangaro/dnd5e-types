@@ -26,7 +26,7 @@ declare namespace TreasureConfig {
     },
     Ctx
   >;
-  type RenderContext = TreasureConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<TreasureConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -36,7 +36,7 @@ declare namespace TreasureConfig {
     },
     Cfg
   >;
-  type Configuration = TreasureConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<TreasureConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -46,7 +46,7 @@ declare namespace TreasureConfig {
     },
     Opt
   >;
-  type RenderOptions = TreasureConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<TreasureConfig['__RenderOptions']> {}
 }
 
 export default TreasureConfig;

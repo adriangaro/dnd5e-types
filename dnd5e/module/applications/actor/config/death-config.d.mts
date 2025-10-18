@@ -40,7 +40,7 @@ declare namespace DeathConfig {
     },
     Ctx
   >;
-  type RenderContext = DeathConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<DeathConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -50,7 +50,7 @@ declare namespace DeathConfig {
     },
     Cfg
   >;
-  type Configuration = DeathConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<DeathConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -60,7 +60,7 @@ declare namespace DeathConfig {
     },
     Opt
   >;
-  type RenderOptions = DeathConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<DeathConfig['__RenderOptions']> {}
 }
 
 export default DeathConfig;

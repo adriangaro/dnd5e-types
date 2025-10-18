@@ -143,19 +143,19 @@ declare namespace ContainerSheet {
     },
     Ctx
   >;
-  type RenderContext = ContainerSheet['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<ContainerSheet['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {},
     Cfg
   >;
-  type Configuration = ContainerSheet['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<ContainerSheet['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {},
     Opt
   >;
-  type RenderOptions = ContainerSheet['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<ContainerSheet['__RenderOptions']> {}
 }
 
 export default ContainerSheet;

@@ -43,7 +43,7 @@ declare namespace ArmorClassConfig {
     },
     Ctx
   >
-  type RenderContext = ArmorClassConfig['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<ArmorClassConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -53,7 +53,7 @@ declare namespace ArmorClassConfig {
     },
     Cfg
   >
-  type Configuration = ArmorClassConfig['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<ArmorClassConfig['__Configuration']> {}
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
@@ -62,7 +62,7 @@ declare namespace ArmorClassConfig {
     },
     Opt
   >
-  type RenderOptions = ArmorClassConfig['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<ArmorClassConfig['__RenderOptions']> {}
 
 }
 

@@ -25,7 +25,7 @@ declare namespace BaseConfigSheet{
     },
     Ctx
   >
-  type RenderContext = BaseConfigSheet['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<BaseConfigSheet['__RenderContext']> {}
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
@@ -34,7 +34,7 @@ declare namespace BaseConfigSheet{
     },
     Cfg
   >
-  type Configuration = BaseConfigSheet['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<BaseConfigSheet['__Configuration']> {}
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
@@ -43,7 +43,7 @@ declare namespace BaseConfigSheet{
     },
     Opt
   >
-  type RenderOptions = BaseConfigSheet['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<BaseConfigSheet['__RenderOptions']> {}
 }
 
 export default BaseConfigSheet

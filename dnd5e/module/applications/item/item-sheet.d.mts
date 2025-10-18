@@ -414,7 +414,7 @@ declare namespace ItemSheet5e {
     },
     Ctx
   >;
-  type RenderContext = ItemSheet5e['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<ItemSheet5e['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -422,7 +422,7 @@ declare namespace ItemSheet5e {
     },
     Cfg
   >;
-  type Configuration = ItemSheet5e['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<ItemSheet5e['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -430,7 +430,7 @@ declare namespace ItemSheet5e {
     },
     Opt
   >;
-  type RenderOptions = ItemSheet5e['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<ItemSheet5e['__RenderOptions']> {}
 }
 
 export default ItemSheet5e; 

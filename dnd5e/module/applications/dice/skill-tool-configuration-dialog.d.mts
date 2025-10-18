@@ -32,7 +32,7 @@ declare namespace SkillToolRollConfigurationDialog {
     },
     Ctx
   >
-  type RenderContext = SkillToolRollConfigurationDialog['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<SkillToolRollConfigurationDialog['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -40,7 +40,7 @@ declare namespace SkillToolRollConfigurationDialog {
     },
     Cfg
   >
-  type Configuration = SkillToolRollConfigurationDialog['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<SkillToolRollConfigurationDialog['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -48,7 +48,7 @@ declare namespace SkillToolRollConfigurationDialog {
     },
     Opt
   >
-  type RenderOptions = SkillToolRollConfigurationDialog['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<SkillToolRollConfigurationDialog['__RenderOptions']> {}
 
   interface RollProcessConfiguration extends D20Roll.ProcessConfiguration {
     ability?: dnd5e.types.Ability.TypeKey,

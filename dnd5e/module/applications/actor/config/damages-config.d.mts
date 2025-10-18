@@ -41,7 +41,7 @@ declare namespace DamagesConfig {
     },
     Ctx
   >;
-  type RenderContext = DamagesConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<DamagesConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -51,7 +51,7 @@ declare namespace DamagesConfig {
     },
     Cfg
   >;
-  type Configuration = DamagesConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<DamagesConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {},
@@ -62,7 +62,7 @@ declare namespace DamagesConfig {
     },
     Opt
   >;
-  type RenderOptions = DamagesConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<DamagesConfig['__RenderOptions']> {}
 }
 
 export default DamagesConfig;

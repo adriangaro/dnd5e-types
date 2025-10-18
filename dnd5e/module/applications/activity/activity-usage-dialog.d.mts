@@ -210,7 +210,7 @@ declare namespace ActivityUsageDialog {
     },
     Ctx
   >
-  type RenderContext = ActivityUsageDialog<any>['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<ActivityUsageDialog<any>['__RenderContext']> {}
   type MakeConfiguration<
     Document extends dnd5e.types.Activity.Implementation,
     Cfg extends fvttUtils.AnyObject = {}
@@ -221,14 +221,14 @@ declare namespace ActivityUsageDialog {
     },
     Cfg
   >
-  type Configuration = ActivityUsageDialog<any>['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<ActivityUsageDialog<any>['__Configuration']> {}
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Opt
   >
-  type RenderOptions = ActivityUsageDialog<any>['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<ActivityUsageDialog<any>['__RenderOptions']> {}
 }
 
 export default ActivityUsageDialog

@@ -77,7 +77,7 @@ declare namespace BaseRestDialog {
     },
     Ctx
   >;
-  type RenderContext = BaseRestDialog['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<BaseRestDialog['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -87,7 +87,7 @@ declare namespace BaseRestDialog {
     },
     Cfg
   >;
-  type Configuration = BaseRestDialog['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<BaseRestDialog['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -97,7 +97,7 @@ declare namespace BaseRestDialog {
     },
     Opt
   >;
-  type RenderOptions = BaseRestDialog['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<BaseRestDialog['__RenderOptions']> {}
 }
 
 export default BaseRestDialog;

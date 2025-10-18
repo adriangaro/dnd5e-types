@@ -70,7 +70,7 @@ declare namespace SourceConfig {
     },
     Ctx
   >;
-  type RenderContext = SourceConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<SourceConfig['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -78,13 +78,13 @@ declare namespace SourceConfig {
     },
     Cfg
   >;
-  type Configuration = SourceConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<SourceConfig['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {},
     Opt
   >;
-  type RenderOptions = SourceConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<SourceConfig['__RenderOptions']> {}
 }
 
 export default SourceConfig;

@@ -53,7 +53,7 @@ declare namespace HitDiceConfig {
     },
     Ctx
   >;
-  type RenderContext = HitDiceConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<HitDiceConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -63,7 +63,7 @@ declare namespace HitDiceConfig {
     },
     Cfg
   >;
-  type Configuration = HitDiceConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<HitDiceConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -73,7 +73,7 @@ declare namespace HitDiceConfig {
     },
     Opt
   >;
-  type RenderOptions = HitDiceConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<HitDiceConfig['__RenderOptions']> {}
 }
 
 export default HitDiceConfig;

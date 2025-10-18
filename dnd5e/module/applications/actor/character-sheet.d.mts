@@ -386,9 +386,9 @@ declare namespace CharacterActorSheet {
   >;
 
   // Type aliases for convenience
-  type RenderContext = CharacterActorSheet['__RenderContext'];
-  type Configuration = CharacterActorSheet['__Configuration'];
-  type RenderOptions = CharacterActorSheet['__RenderOptions'];
+  interface RenderContext extends dnd5e.types.PrettifyType<CharacterActorSheet['__RenderContext']> {}
+  interface Configuration extends dnd5e.types.PrettifyType<CharacterActorSheet['__Configuration']> {}
+  interface RenderOptions extends dnd5e.types.PrettifyType<CharacterActorSheet['__RenderOptions']> {}
 
   // Additional types specific to character sheet
   interface ActorFavorite {

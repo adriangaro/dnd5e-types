@@ -51,7 +51,7 @@ declare namespace DocumentSheet5e {
     ApplicationV2Mixin.RenderContext,
     Ctx
   >>
-  type RenderContext = DocumentSheet5e['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<DocumentSheet5e['__RenderContext']> {}
   type MakeConfiguration<
     Document extends foundry.abstract.Document.Any = foundry.abstract.Document.Any,
     Cfg extends fvttUtils.AnyObject = {}
@@ -62,7 +62,7 @@ declare namespace DocumentSheet5e {
     >,
     Cfg
   >> & foundry.applications.api.DocumentSheetV2.Configuration<Document>
-  type Configuration = DocumentSheet5e['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<DocumentSheet5e['__Configuration']> {}
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
   > = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
@@ -72,5 +72,5 @@ declare namespace DocumentSheet5e {
     >,
     Opt
   >> & foundry.applications.api.DocumentSheetV2.RenderOptions
-  type RenderOptions = DocumentSheet5e['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<DocumentSheet5e['__RenderOptions']> {}
 }

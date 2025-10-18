@@ -30,7 +30,7 @@ declare namespace Application5e {
     ApplicationV2Mixin.RenderContext,
     Ctx
   >>
-  type RenderContext = Application5e['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<Application5e['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
@@ -39,7 +39,7 @@ declare namespace Application5e {
     >,
     Cfg
   >> & foundry.applications.api.ApplicationV2.Configuration
-  type Configuration = Application5e['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<Application5e['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.EnsureAnyIfNever<dnd5e.types.DeepMerge<
     dnd5e.types.DeepMerge<
@@ -48,7 +48,7 @@ declare namespace Application5e {
     >,
     Opt
   >> & foundry.applications.api.ApplicationV2.RenderOptions
-  type RenderOptions = Application5e['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<Application5e['__RenderOptions']> {}
 
   type FieldsConfig = {
     field: foundry.data.fields.DataField.Any,

@@ -33,7 +33,7 @@ declare namespace SpellSlotsConfig {
     },
     Ctx
   >;
-  type RenderContext = SpellSlotsConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<SpellSlotsConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -43,7 +43,7 @@ declare namespace SpellSlotsConfig {
     },
     Cfg
   >;
-  type Configuration = SpellSlotsConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<SpellSlotsConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -53,7 +53,7 @@ declare namespace SpellSlotsConfig {
     },
     Opt
   >;
-  type RenderOptions = SpellSlotsConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<SpellSlotsConfig['__RenderOptions']> {}
 }
 
 export default SpellSlotsConfig;

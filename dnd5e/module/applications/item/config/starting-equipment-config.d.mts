@@ -93,7 +93,7 @@ declare namespace StartingEquipmentConfig {
     },
     Ctx
   >;
-  type RenderContext = StartingEquipmentConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<StartingEquipmentConfig['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -101,7 +101,7 @@ declare namespace StartingEquipmentConfig {
     },
     Cfg
   >;
-  type Configuration = StartingEquipmentConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<StartingEquipmentConfig['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -109,7 +109,7 @@ declare namespace StartingEquipmentConfig {
     },
     Opt
   >;
-  type RenderOptions = StartingEquipmentConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<StartingEquipmentConfig['__RenderOptions']> {}
 }
 
 export default StartingEquipmentConfig;

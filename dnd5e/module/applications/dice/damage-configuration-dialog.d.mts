@@ -41,7 +41,7 @@ declare namespace DamageRollConfigurationDialog {
     },
     Ctx
   >
-  type RenderContext = DamageRollConfigurationDialog['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<DamageRollConfigurationDialog['__RenderContext']> {}
 
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
@@ -50,7 +50,7 @@ declare namespace DamageRollConfigurationDialog {
     },
     Cfg
   >
-  type Configuration = DamageRollConfigurationDialog['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<DamageRollConfigurationDialog['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -58,5 +58,5 @@ declare namespace DamageRollConfigurationDialog {
     },
     Opt
   >
-  type RenderOptions = DamageRollConfigurationDialog['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<DamageRollConfigurationDialog['__RenderOptions']> {}
 }

@@ -22,7 +22,7 @@ declare namespace LongRestDialog {
     },
     Ctx
   >;
-  type RenderContext = LongRestDialog['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<LongRestDialog['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -32,7 +32,7 @@ declare namespace LongRestDialog {
     },
     Cfg
   >;
-  type Configuration = LongRestDialog['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<LongRestDialog['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -42,7 +42,7 @@ declare namespace LongRestDialog {
     },
     Opt
   >;
-  type RenderOptions = LongRestDialog['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<LongRestDialog['__RenderOptions']> {}
 }
 
 export default LongRestDialog;

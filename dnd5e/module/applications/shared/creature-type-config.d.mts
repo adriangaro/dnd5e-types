@@ -45,7 +45,7 @@ declare namespace CreatureTypeConfig {
     }
   >
 
-  type RenderContext = CreatureTypeConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<CreatureTypeConfig['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     Cfg,
@@ -54,7 +54,7 @@ declare namespace CreatureTypeConfig {
     }
   >
 
-  type Configuration = CreatureTypeConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<CreatureTypeConfig['__Configuration']> {}
 
   type MakeRenderOptions<Opts extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     Opts,
@@ -63,7 +63,7 @@ declare namespace CreatureTypeConfig {
     }
   >
 
-  type RenderOptions = CreatureTypeConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<CreatureTypeConfig['__RenderOptions']> {}
 
 }
 

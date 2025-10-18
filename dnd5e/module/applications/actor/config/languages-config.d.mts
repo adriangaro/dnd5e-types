@@ -36,7 +36,7 @@ declare namespace LanguagesConfig {
     },
     Ctx
   >;
-  type RenderContext = LanguagesConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<LanguagesConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -46,7 +46,7 @@ declare namespace LanguagesConfig {
     },
     Cfg
   >;
-  type Configuration = LanguagesConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<LanguagesConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -56,7 +56,7 @@ declare namespace LanguagesConfig {
     },
     Opt
   >;
-  type RenderOptions = LanguagesConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<LanguagesConfig['__RenderOptions']> {}
 }
 
 export default LanguagesConfig;

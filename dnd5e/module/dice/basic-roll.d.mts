@@ -271,7 +271,7 @@ declare namespace BasicRoll {
         Cfg
       >
     >;
-  type Configuration = fvttUtils.PrettifyType<BasicRoll["__Configuration"]>;
+  interface Configuration extends dnd5e.types.PrettifyType<BasicRoll["__Configuration"]> {}
 
   type MakeProcessConfiguration<
     PrcCfg extends fvttUtils.AnyObject = {},
@@ -304,9 +304,7 @@ declare namespace BasicRoll {
       PrcCfg
     >
   >;
-  type ProcessConfiguration = fvttUtils.PrettifyType<
-    BasicRoll["__ProcessConfiguration"]
-  >;
+  interface ProcessConfiguration extends dnd5e.types.PrettifyType<BasicRoll["__ProcessConfiguration"]> {}
 
   /**
    * Options allowed on a basic roll.
@@ -331,9 +329,7 @@ declare namespace BasicRoll {
         DlgCfg
       >
     >;
-  type DialogConfiguration = fvttUtils.PrettifyType<
-    BasicRoll["__DialogConfiguration"]
-  >;
+  interface DialogConfiguration extends dnd5e.types.PrettifyType<BasicRoll["__DialogConfiguration"]> {}
 
   type MakeDialogAppConfig<DialogClass extends fvttUtils.AnyConstructor> = {
     /** Alternate configuration application to use. */
@@ -376,8 +372,6 @@ declare namespace BasicRoll {
         MsgCfg
       >
     >;
-  type MessageConfiguration = fvttUtils.PrettifyType<
-    BasicRoll["__MessageConfiguration"]
-  >;
+  interface MessageConfiguration extends dnd5e.types.PrettifyType<BasicRoll["__MessageConfiguration"]> {}
 }
 export default BasicRoll;

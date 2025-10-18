@@ -41,7 +41,7 @@ declare namespace ToolsConfig {
     },
     Ctx
   >;
-  type RenderContext = ToolsConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<ToolsConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -51,7 +51,7 @@ declare namespace ToolsConfig {
     },
     Cfg
   >;
-  type Configuration = ToolsConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<ToolsConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -61,7 +61,7 @@ declare namespace ToolsConfig {
     },
     Opt
   >;
-  type RenderOptions = ToolsConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<ToolsConfig['__RenderOptions']> {}
 }
 
 export default ToolsConfig;

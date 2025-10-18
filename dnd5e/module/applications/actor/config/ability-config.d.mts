@@ -29,7 +29,7 @@ declare namespace AbilityConfig {
     },
     Ctx
   >
-  type RenderContext = AbilityConfig['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<AbilityConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -39,7 +39,7 @@ declare namespace AbilityConfig {
     },
     Cfg
   >
-  type Configuration = AbilityConfig['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<AbilityConfig['__Configuration']> {}
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
@@ -48,7 +48,7 @@ declare namespace AbilityConfig {
     },
     Opt
   >
-  type RenderOptions = AbilityConfig['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<AbilityConfig['__RenderOptions']> {}
 
 }
 

@@ -179,13 +179,13 @@ declare namespace RollConfigurationDialog {
     },
     Ctx
   >
-  type RenderContext = RollConfigurationDialog['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<RollConfigurationDialog['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     fvttUtils.InterfaceToObject<RollConfigurationDialog.BasicRollConfigurationDialogOptions>,
    Cfg 
   >
-  type Configuration = RollConfigurationDialog['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<RollConfigurationDialog['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -193,7 +193,7 @@ declare namespace RollConfigurationDialog {
     },
     Opt  
   >
-  type RenderOptions =  RollConfigurationDialog['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<RollConfigurationDialog['__RenderOptions']> {}
 
   /**
  * Callback to handle additional build configuration.

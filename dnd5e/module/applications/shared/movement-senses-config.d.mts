@@ -72,7 +72,7 @@ declare namespace MovementSensesConfig {
     }
   >
 
-  type RenderContext = MovementSensesConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<MovementSensesConfig['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     Cfg,
@@ -81,7 +81,7 @@ declare namespace MovementSensesConfig {
     }
   >
 
-  type Configuration = MovementSensesConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<MovementSensesConfig['__Configuration']> {}
 
   type MakeRenderOptions<Opts extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     Opts,
@@ -90,7 +90,7 @@ declare namespace MovementSensesConfig {
     }
   >
 
-  type RenderOptions = MovementSensesConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<MovementSensesConfig['__RenderOptions']> {}
 }
 
 export default MovementSensesConfig;

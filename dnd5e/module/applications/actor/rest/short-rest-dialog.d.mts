@@ -48,7 +48,7 @@ declare namespace ShortRestDialog {
     },
     Ctx
   >;
-  type RenderContext = ShortRestDialog['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<ShortRestDialog['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -58,7 +58,7 @@ declare namespace ShortRestDialog {
     },
     Cfg
   >;
-  type Configuration = ShortRestDialog['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<ShortRestDialog['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -68,7 +68,7 @@ declare namespace ShortRestDialog {
     },
     Opt
   >;
-  type RenderOptions = ShortRestDialog['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<ShortRestDialog['__RenderOptions']> {}
 }
 
 export default ShortRestDialog;

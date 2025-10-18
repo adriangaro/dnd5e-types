@@ -57,7 +57,7 @@ declare namespace HitPointsConfig {
     },
     Ctx
   >;
-  type RenderContext = HitPointsConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<HitPointsConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -67,7 +67,7 @@ declare namespace HitPointsConfig {
     },
     Cfg
   >;
-  type Configuration = HitPointsConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<HitPointsConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -77,7 +77,7 @@ declare namespace HitPointsConfig {
     },
     Opt
   >;
-  type RenderOptions = HitPointsConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<HitPointsConfig['__RenderOptions']> {}
 }
 
 export default HitPointsConfig;

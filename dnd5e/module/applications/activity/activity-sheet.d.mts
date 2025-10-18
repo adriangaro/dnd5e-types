@@ -258,21 +258,21 @@ declare namespace ActivitySheet {
     },
     Ctx
   >
-  type RenderContext = ActivitySheet<any>['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<ActivitySheet<any>['__RenderContext']> {}
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Cfg
   >
-  type Configuration = ActivitySheet<any>['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<ActivitySheet<any>['__Configuration']> {}
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Opt
   >
-  type RenderOptions = ActivitySheet<any>['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<ActivitySheet<any>['__RenderOptions']> {}
 }
 
 export default ActivitySheet

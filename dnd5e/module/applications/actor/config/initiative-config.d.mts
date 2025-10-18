@@ -53,7 +53,7 @@ declare namespace InitiativeConfig {
     },
     Ctx
   >;
-  type RenderContext = InitiativeConfig['__RenderContext'];
+  interface RenderContext extends dnd5e.types.PrettifyType<InitiativeConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -63,7 +63,7 @@ declare namespace InitiativeConfig {
     },
     Cfg
   >;
-  type Configuration = InitiativeConfig['__Configuration'];
+  interface Configuration extends dnd5e.types.PrettifyType<InitiativeConfig['__Configuration']> {}
 
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
@@ -73,7 +73,7 @@ declare namespace InitiativeConfig {
     },
     Opt
   >;
-  type RenderOptions = InitiativeConfig['__RenderOptions'];
+  interface RenderOptions extends dnd5e.types.PrettifyType<InitiativeConfig['__RenderOptions']> {}
 }
 
 export default InitiativeConfig;

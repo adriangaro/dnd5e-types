@@ -111,7 +111,7 @@ declare namespace PseudoDocumentSheet {
     },
     Ctx
   >
-  type RenderContext = PseudoDocumentSheet<any>['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<PseudoDocumentSheet<any>['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -134,14 +134,14 @@ declare namespace PseudoDocumentSheet {
     },
     Cfg
   >
-  type Configuration = PseudoDocumentSheet<any>['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<PseudoDocumentSheet<any>['__Configuration']> {}
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
 
     },
     Opt
   >
-  type RenderOptions = PseudoDocumentSheet<any>['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<PseudoDocumentSheet<any>['__RenderOptions']> {}
 }
 
 export default PseudoDocumentSheet

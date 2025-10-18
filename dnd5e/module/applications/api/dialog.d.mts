@@ -56,7 +56,7 @@ declare namespace Dialog5e {
     },
     Ctx
   >
-  type RenderContext = Dialog5e['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<Dialog5e['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -70,7 +70,7 @@ declare namespace Dialog5e {
     },
     Cfg
   >
-  type Configuration = Dialog5e['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<Dialog5e['__Configuration']> {}
   
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -84,7 +84,7 @@ declare namespace Dialog5e {
     },
     Opt
   >
-  type RenderOptions = Dialog5e['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<Dialog5e['__RenderOptions']> {}
 }
 
 export default Dialog5e

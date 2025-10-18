@@ -104,7 +104,7 @@ declare namespace TraitsConfig {
     },
     Ctx
   >
-  type RenderContext = TraitsConfig['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<TraitsConfig['__RenderContext']> {}
 
   type MakeConfiguration<
     Cfg extends fvttUtils.AnyObject = {}
@@ -114,7 +114,7 @@ declare namespace TraitsConfig {
     },
     Cfg
   >
-  type Configuration = TraitsConfig['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<TraitsConfig['__Configuration']> {}
   type MakeRenderOptions<
     Opt extends fvttUtils.AnyObject = {}
   > = dnd5e.types.DeepMerge<
@@ -123,7 +123,7 @@ declare namespace TraitsConfig {
     },
     Opt
   >
-  type RenderOptions = TraitsConfig['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<TraitsConfig['__RenderOptions']> {}
 
 }
 

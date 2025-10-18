@@ -26,7 +26,7 @@ declare namespace AttackRollConfigurationDialog {
     },
     Ctx
   >
-  type RenderContext = AttackRollConfigurationDialog['__RenderContext']
+  interface RenderContext extends dnd5e.types.PrettifyType<AttackRollConfigurationDialog['__RenderContext']> {}
 
   type MakeConfiguration<Cfg extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -45,7 +45,7 @@ declare namespace AttackRollConfigurationDialog {
     },
     Cfg
   >
-  type Configuration = AttackRollConfigurationDialog['__Configuration']
+  interface Configuration extends dnd5e.types.PrettifyType<AttackRollConfigurationDialog['__Configuration']> {}
 
   type MakeRenderOptions<Opt extends fvttUtils.AnyObject = {}> = dnd5e.types.DeepMerge<
     {
@@ -53,7 +53,7 @@ declare namespace AttackRollConfigurationDialog {
     },
     Opt
   >
-  type RenderOptions = AttackRollConfigurationDialog['__RenderOptions']
+  interface RenderOptions extends dnd5e.types.PrettifyType<AttackRollConfigurationDialog['__RenderOptions']> {}
 }
 
 export default AttackRollConfigurationDialog
