@@ -4,7 +4,7 @@ import RollConfigurationDialog from "./roll-configuration-dialog.mjs";
  * Dialog for configuring damage rolls.
  *
  */
-export default class DamageRollConfigurationDialog<
+declare class DamageRollConfigurationDialog<
   RenderContext extends fvttUtils.AnyObject = {},
   Configuration extends fvttUtils.AnyObject = {},
   RenderOptions extends fvttUtils.AnyObject = {},
@@ -60,3 +60,5 @@ declare namespace DamageRollConfigurationDialog {
   >
   interface RenderOptions extends dnd5e.types.PrettifyType<DamageRollConfigurationDialog['__RenderOptions']> {}
 }
+
+export default DamageRollConfigurationDialog
