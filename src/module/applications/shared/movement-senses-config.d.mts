@@ -40,6 +40,8 @@ declare namespace MovementSensesConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends Omit<BaseConfigSheet.RenderContext<Document>, "fields"> {
+    // `data`/`fields` are read from a runtime-chosen `this.keyPath` (movement | senses | travel),
+    // so they stay loose — no single static type is faithful here (cf. `PathValue`-typed configs).
     data: object;
     fields?: Record<string, foundry.data.fields.DataField.Any>;
     extras?: { field: foundry.data.fields.DataField.Any; value: unknown; localize: true; options?: ({ value: string; label: string } | { rule: true })[] }[];

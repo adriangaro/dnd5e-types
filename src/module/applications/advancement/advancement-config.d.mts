@@ -24,7 +24,7 @@ declare class AdvancementConfig<
     appId: string;
     CONFIG: object;
     src: object;
-    source: object;
+    source: Document["_source"];
     default: { title: string; icon: string; hint: string };
     levels: Record<number, number | string>;
     classRestrictionOptions: { value: "" | "primary" | "secondary"; label: string }[];

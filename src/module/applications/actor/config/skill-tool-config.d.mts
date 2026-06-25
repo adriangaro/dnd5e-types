@@ -24,7 +24,7 @@ declare namespace SkillToolConfig {
     proficiencyOptions: foundry.applications.fields.FormSelectOption[];
     section: string;
     global?: {
-      data: object;
+      data: dnd5e.types.PathValue<Document, "system._source.bonuses.abilities">;
       fields: foundry.data.fields.DataSchema;
       skill: boolean;
     };

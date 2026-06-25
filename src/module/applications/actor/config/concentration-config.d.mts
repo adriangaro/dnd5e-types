@@ -18,11 +18,11 @@ declare namespace ConcentrationConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
-    data: object;
+    data: dnd5e.types.PathValue<Document, "system._source.attributes.concentration">;
     fields: foundry.data.fields.DataSchema;
     abilityOptions: foundry.applications.fields.FormSelectOption[];
     global?: {
-      data: object;
+      data: dnd5e.types.PathValue<Document, "system._source.bonuses.abilities">;
       fields: foundry.data.fields.DataSchema;
     };
   }

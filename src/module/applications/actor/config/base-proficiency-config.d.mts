@@ -32,12 +32,14 @@ declare namespace BaseProficiencyConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
+    // `data` is the proficiency slice at a runtime-chosen keyPath (`${keyPath}.${options.key}`),
+    // so it stays `object` — no single static type is faithful. `global` is the fixed bonuses slice.
     data: object;
     fields: foundry.data.fields.DataSchema;
     label: string;
     prefix: string;
     global?: {
-      data: object;
+      data: dnd5e.types.PathValue<Document, "system._source.bonuses.abilities">;
       fields: foundry.data.fields.DataSchema;
     };
   }

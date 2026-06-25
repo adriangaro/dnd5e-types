@@ -20,10 +20,10 @@ declare namespace DeathConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
-    data: object;
+    data: dnd5e.types.PathValue<Document, "system._source.attributes.death">;
     fields: foundry.data.fields.DataSchema;
     global?: {
-      data: object;
+      data: dnd5e.types.PathValue<Document, "system._source.bonuses.abilities">;
       fields: foundry.data.fields.DataSchema;
     };
   }

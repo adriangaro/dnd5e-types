@@ -47,6 +47,8 @@ declare namespace TraitsConfig {
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends Omit<BaseConfigSheet.RenderContext<Document>, "fields"> {
     keyPath: string;
+    // `data` is read from the runtime `keyPath` (which trait: di/dr/dv/ci/languages/…), so it stays
+    // loose — no single static type is faithful (cf. `PathValue`-typed fixed-slice configs).
     data: object;
     checkbox: foundry.data.fields.BooleanField;
     choices: SelectChoices & { OTHER?: { label: string; children: SelectChoices; otherGroup: boolean } };

@@ -43,9 +43,9 @@ declare namespace ArmorClassConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
-    data: object;
+    data: dnd5e.types.PathValue<Document, "system.attributes.ac">;
     fields: foundry.data.fields.DataSchema;
-    source: object;
+    source: dnd5e.types.SourceOf<dnd5e.types.Actor.Attributes.ArmorClassSchema>;
     ability?: { label: string; value: number };
     calculations?: Array<{
       anchor: string;

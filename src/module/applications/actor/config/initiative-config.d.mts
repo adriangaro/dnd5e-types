@@ -21,7 +21,7 @@ declare namespace InitiativeConfig {
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
     abilityOptions: foundry.applications.fields.FormSelectOption[];
-    data: object;
+    data: dnd5e.types.PathValue<Document, "_source.system.attributes.init">;
     fields: foundry.data.fields.DataSchema;
     ability: {
       label: string;
