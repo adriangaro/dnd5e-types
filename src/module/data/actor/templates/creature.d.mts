@@ -183,7 +183,7 @@ export declare class CreatureTemplate<
     options?: {
       skillData?: dnd5e.types.Actor.Creature.SkillData;
       rollData?: dnd5e.types.documents.ActorRollData;
-      originalSkills?: object;
+      originalSkills?: Record<string, dnd5e.types.Actor.Creature.SkillData>;
       globalBonuses?: object;
       globalCheckBonus?: number;
       globalSkillBonus?: number;

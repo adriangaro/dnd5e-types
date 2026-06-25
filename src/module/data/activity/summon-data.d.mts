@@ -79,7 +79,7 @@ declare class BaseSummonActivityData extends BaseActivityData<dnd5e.types.Activi
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  get ability(): string | null;
+  get ability(): dnd5e.types.Ability.TypeKey | null;
 
   /* -------------------------------------------- */
 

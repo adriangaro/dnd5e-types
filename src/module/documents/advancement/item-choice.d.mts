@@ -33,7 +33,7 @@ declare class ItemChoiceAdvancement extends ItemChoiceAdvancement_base {
    */
   _validateItemType(
     item: Item.Implementation,
-    config?: { type?: string | false; restriction?: object; strict?: boolean },
+    config?: { type?: globalThis.Item.SubType | false; restriction?: object; strict?: boolean },
   ): boolean;
 
   /**

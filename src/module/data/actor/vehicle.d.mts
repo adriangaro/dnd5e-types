@@ -83,13 +83,13 @@ declare global {
         capacity: foundry.data.fields.SchemaField<{
           cargo: foundry.data.fields.SchemaField<{
             value: foundry.data.fields.NumberField<{ min: 0 }>;
-            units: foundry.data.fields.StringField<{ required: true; blank: false }>;
+            units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.WeightUnit.TypeKey, { required: true; blank: false }>;
           }>;
           creature: foundry.data.fields.StringField<{ required: true }>;
         }>;
         price: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.NumberField<{ initial: null; min: 0 }>;
-          denomination: foundry.data.fields.StringField<{ required: true; blank: false }>;
+          denomination: dnd5e.types.fields.RestrictedStringField<dnd5e.types.Currency.TypeKey, { required: true; blank: false }>;
         }>;
         quality: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.NumberField<{ required: true; nullable: false; integer: true; min: -10; max: 10; initial: 4 }>;
@@ -115,11 +115,11 @@ declare global {
         }>;
         keel: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.NumberField<{ min: 0 }>;
-          units: foundry.data.fields.StringField<{ required: true; blank: false }>;
+          units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.MovementUnit.TypeKey, { required: true; blank: false }>;
         }>;
         beam: foundry.data.fields.SchemaField<{
           value: foundry.data.fields.NumberField<{ min: 0 }>;
-          units: foundry.data.fields.StringField<{ required: true; blank: false }>;
+          units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.MovementUnit.TypeKey, { required: true; blank: false }>;
         }>;
         dimensions: foundry.data.fields.StringField<{ required: true }>;
       }

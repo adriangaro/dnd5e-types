@@ -98,7 +98,7 @@ declare class BaseActivityData<
   /**
    * The primary ability for this activity that will be available as `@mod` in roll data.
    */
-  get ability(): string | null;
+  get ability(): dnd5e.types.Ability.TypeKey | null;
 
   /**
    * Helper property to translate this activity type into the old `actionType`.
@@ -315,7 +315,7 @@ declare class BaseActivityData<
    * @protected
    */
   protected _processDamagePart(
-    damage: object,
+    damage: dnd5e.types.data.shared.DamageData,
     rollConfig: Partial<dnd5e.types.Dice.DamageRollProcessConfiguration>,
     rollData: dnd5e.types.documents.ActivityRollData,
     index?: number,

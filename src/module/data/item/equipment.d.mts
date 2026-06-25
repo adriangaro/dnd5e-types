@@ -16,6 +16,7 @@ import type ItemTypeTemplate from "./templates/item-type.mjs";
 import type PhysicalItemTemplate from "./templates/physical-item.mjs";
 import type EquippableItemTemplate from "./templates/equippable-item.mjs";
 import type MountableTemplate from "./templates/mountable.mjs";
+import type InventoryElement from "../../applications/components/inventory.mjs";
 
 declare global {
   namespace dnd5e.types.Item.Equipment {
@@ -101,7 +102,7 @@ declare class EquipmentData extends EquipmentData_base {
   static override defineSchema(): EquipmentData.Schema;
 
   /** Default configuration for this item type's inventory section. */
-  static get inventorySection(): Record<string, unknown>;
+  static get inventorySection(): InventoryElement.InventorySectionDescriptor;
 
   /** Properties displayed in chat. */
   get chatProperties(): string[];

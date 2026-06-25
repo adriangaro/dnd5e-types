@@ -6,8 +6,8 @@ declare global {
   namespace dnd5e.types.data.advancement {
       interface AbilityScoreImprovementAdvancementConfigurationData {
       cap: number; // Maximum number of points that can be assigned to a single score.
-      fixed: Record<string, number>; // Number of points automatically assigned to a certain score.
-      locked: Set<string>; // Abilities that cannot be changed by this advancement.
+      fixed: Partial<Record<dnd5e.types.Ability.TypeKey, number>>; // Number of points automatically assigned to a certain score.
+      locked: Set<dnd5e.types.Ability.TypeKey>; // Abilities that cannot be changed by this advancement.
       max: number; // Override for the maximum ability score.
       points: number; // Number of points that can be assigned to any score.
       recommendation: string; // Epic Boon feat recommended by this class.
@@ -15,7 +15,7 @@ declare global {
 
       interface AbilityScoreImprovementAdvancementValueData {
       type: "asi" | "feat"; // When on a class, whether the player chose ASI or a Feat.
-      assignments: Record<string, number>; // Points assigned to individual scores.
+      assignments: Partial<Record<dnd5e.types.Ability.TypeKey, number>>; // Points assigned to individual scores.
       feat: Record<string, string>; // Feat that was selected.
       }
 

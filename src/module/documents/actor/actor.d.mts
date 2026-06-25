@@ -146,8 +146,8 @@ declare class Actor5e<out SubType extends Actor.SubType = Actor.SubType> extends
   _buildSkillToolConfig(
     type: "skill" | "tool",
     hostActor: Actor.Implementation | null,
-    process: object,
-    config: object,
+    process: dnd5e.types.Dice.D20RollProcessConfiguration,
+    config: dnd5e.types.Dice.D20RollConfiguration,
     formData?: object | null,
     index?: number,
   ): void;
@@ -184,7 +184,7 @@ declare class Actor5e<out SubType extends Actor.SubType = Actor.SubType> extends
   /** Get an un-evaluated D20Roll instance used to roll initiative for this Actor. */
   getInitiativeRoll(options?: Partial<dnd5e.types.Dice.InitiativeRollOptions>): import("../../dice/d20-roll.mjs").default | null;
   /** Get the roll configuration used to roll initiative for this Actor. */
-  getInitiativeRollConfig(options?: Partial<dnd5e.types.Dice.InitiativeRollOptions>): object | null;
+  getInitiativeRollConfig(options?: Partial<dnd5e.types.Dice.InitiativeRollOptions>): dnd5e.types.Dice.D20RollConfiguration | null;
   /** Roll initiative with a dialog providing an opportunity to elect advantage or other bonuses. */
   rollInitiativeDialog(
     rollOptions?: Partial<dnd5e.types.Dice.InitiativeRollOptions>,

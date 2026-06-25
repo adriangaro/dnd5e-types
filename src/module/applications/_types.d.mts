@@ -5,7 +5,7 @@
 declare global {
   namespace dnd5e.types.applications {
       interface AwardOptions {
-      currency: Record<string, number>|null; // Amount of each currency to award.
+      currency: Partial<Record<dnd5e.types.Currency.TypeKey, number>>|null; // Amount of each currency to award.
       each: boolean; // Distribute full award to each destination, rather than dividing it among the destinations.
       savedDestinations: Set<string>; // Set of IDs for previously selected destinations.
       xp: number|null; // Amount of experience points to award.

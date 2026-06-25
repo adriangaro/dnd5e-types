@@ -76,7 +76,7 @@ declare namespace Bastion {
   /** Result of advancing a single facility by one bastion turn. */
   interface TurnResult {
     /** The order that was completed, if any. */
-    order?: string;
+    order?: dnd5e.types.Facility.Order.TypeKey;
     /** Gold generated during the turn. */
     gold?: number;
     /** Items produced during the turn. */

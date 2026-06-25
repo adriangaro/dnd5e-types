@@ -79,7 +79,7 @@ export declare class CommonTemplate<
    */
   prepareAbilities(options?: {
     rollData?: dnd5e.types.documents.ActorRollData;
-    originalSaves?: Record<string, dnd5e.types.Actor.Common.AbilityData>;
+    originalSaves?: Partial<Record<dnd5e.types.Ability.TypeKey, dnd5e.types.Actor.Common.AbilityData>>;
   }): void;
 
   /**

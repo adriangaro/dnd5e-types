@@ -132,9 +132,9 @@ declare global {
       interface CraftingConfiguration {
       consumable: CraftingCostsMultiplier; // Discounts for crafting a magical consumable.
       exceptions: Record<string, CraftingCosts>; // Crafting costs for items that are exception to the general crafting rules, by identifier.
-      magic: Record<string, CraftingCosts>; // Magic item crafting costs by rarity.
+      magic: Partial<Record<dnd5e.types.ItemRarity.TypeKey, CraftingCosts>>; // Magic item crafting costs by rarity.
       mundane: CraftingCostsMultiplier; // Multipliers for crafting mundane items.
-      scrolls: Record<number, CraftingCosts>; // Crafting costs for spell scrolls by level.
+      scrolls: Partial<Record<dnd5e.types.SpellLevel.TypeKey, CraftingCosts>>; // Crafting costs for spell scrolls by level.
       }
 
       interface CraftingCostsMultiplier {
