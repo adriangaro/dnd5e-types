@@ -90,6 +90,16 @@ declare global {
     /** Constructor / `.create()` input shape of a schema (nullish keys auto-optional). */
     type CreateOf<Schema extends foundry.data.fields.DataSchema> =
       foundry.data.fields.SchemaField.CreateData<Schema>;
+
+    /**
+     * The type reached by walking dotted object path `P` within `T` (e.g.
+     * `PathValue<Actor.Implementation, "system.attributes.hp">`). Distributes over unions and
+     * resolves to `never` when a segment is absent. Object keys only — array/tuple index segments
+     * are not resolved (config render-context paths never need them).
+     */
+    type PathValue<T, P extends string> = P extends `${infer Key}.${infer Rest}`
+      ? PathValue<fvttUtils.GetKey<T, Key>, Rest>
+      : fvttUtils.GetKey<T, P>;
   }
 }
 

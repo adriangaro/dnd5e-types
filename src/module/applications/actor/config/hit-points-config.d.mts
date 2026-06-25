@@ -20,9 +20,11 @@ declare namespace HitPointsConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
-    data: object;
-    fields: foundry.data.fields.DataSchema;
-    source: object;
+    // The `{ fields, source, data }` subset this sheet edits (`system.attributes.hp`): `fields` is the
+    // schema map, `source` its `_source` shape, `data` the live post-derivation slice.
+    fields: dnd5e.types.Actor.Attributes.HitPointsSchema;
+    source: dnd5e.types.SourceOf<dnd5e.types.Actor.Attributes.HitPointsSchema>;
+    data: dnd5e.types.PathValue<Document, "system.attributes.hp">;
     ability?: { mod: number; name: string };
     classes: { id: string; anchor: string; name: string; total: number }[];
     effects: {

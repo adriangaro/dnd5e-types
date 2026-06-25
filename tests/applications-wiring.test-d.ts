@@ -46,15 +46,20 @@ declare class MyAttackSheet extends AttackSheet<dnd5e.types.Activity.Instance, M
   type _same = Expect<Extends<CharacterActorSheet, dnd5e.applications.actor.CharacterActorSheet>>;
 }
 
-// --- Config-sheet `fields` context member is a DataSchema, not bare `object` -----
-//     (a downstream config that narrows `fields` to its OWN precise schema field-set — as
-//      lewd-handbook's StaminaPointsConfig does — must still satisfy the base member.)
+// --- Config-sheet `{ fields, source, data }` subset is strongly typed from its schema -----
+//     hit-points-config edits `system.attributes.hp`: `fields` is the HitPoints schema map,
+//     `source` its `_source` shape, `data` the live post-derivation slice (via PathValue).
+//     This is the pattern a downstream config (e.g. lewd-handbook's StaminaPointsConfig) follows.
 {
   type Ctx = HitPointsConfig.RenderContext;
-  type _fieldsIsSchema = Expect<Extends<Ctx["fields"], foundry.data.fields.DataSchema>>;
-  // `context.fields.X` resolves to a DataField (enables `context.fields.bonuses`, `p in context.fields`).
-  type _indexable = Expect<Extends<Ctx["fields"][string], foundry.data.fields.DataField.Any>>;
-  // a precise field-set narrows cleanly onto the base member (override-safe).
-  type PreciseFields = { max: foundry.data.fields.NumberField; value: foundry.data.fields.NumberField };
-  type _narrowable = Expect<Extends<PreciseFields, Ctx["fields"]>>;
+  // `fields` is the concrete schema map → indexable to real DataFields (`context.fields.max`, etc.)
+  type _fieldsIsSchema = Expect<Extends<Ctx["fields"], dnd5e.types.Actor.Attributes.HitPointsSchema>>;
+  type _fieldsKey = Expect<Extends<Ctx["fields"]["max"], foundry.data.fields.DataField.Any>>;
+  // `source` is the schema's `_source` shape → `context.source.value` is a number, not `unknown`
+  type _sourceVal = Expect<Extends<Ctx["source"], dnd5e.types.SourceOf<dnd5e.types.Actor.Attributes.HitPointsSchema>>>;
+  // `source.value` is the schema's number field — `value` exists as a key (not an opaque `object`)
+  type _sourceHasValue = Expect<Extends<"value", keyof Ctx["source"]>>;
+  // `data` is resolved from the live document slice (PathValue), carrying derived hp props
+  type _dataValue = Expect<Extends<Ctx["data"], dnd5e.types.PathValue<Actor.Implementation, "system.attributes.hp">>>;
+  type _pathWorks = Expect<Extends<dnd5e.types.PathValue<{ a: { b: { c: number } } }, "a.b.c">, number>>;
 }
