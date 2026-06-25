@@ -31,6 +31,16 @@ type VehicleSys = Actor.OfType<"vehicle">["system"];
   type _vehicleSize = Expect<Equal<VehicleSys["traits"]["size"], dnd5e.types.ActorSize.TypeKey>>;
   type _npcPrice = Expect<Equal<NPCSys["attributes"]["price"]["denomination"], dnd5e.types.Currency.TypeKey>>;
   type _npcTreasure = Expect<Extends<NPCSys["details"]["treasure"]["value"], ReadonlySet<dnd5e.types.Treasure.TypeKey>>>;
+  // vehicle unit/denomination fields tightened from bare StringField → domain key unions
+  type _vehCargoUnits = Expect<Equal<VehicleSys["attributes"]["capacity"]["cargo"]["units"], dnd5e.types.WeightUnit.TypeKey>>;
+  type _vehWeightUnits = Expect<Equal<VehicleSys["traits"]["weight"]["units"], dnd5e.types.WeightUnit.TypeKey>>;
+  type _vehKeelUnits = Expect<Equal<VehicleSys["traits"]["keel"]["units"], dnd5e.types.MovementUnit.TypeKey>>;
+  type _vehBeamUnits = Expect<Equal<VehicleSys["traits"]["beam"]["units"], dnd5e.types.MovementUnit.TypeKey>>;
+  type _vehPriceDenom = Expect<Equal<VehicleSys["attributes"]["price"]["denomination"], dnd5e.types.Currency.TypeKey>>;
+  // damage-trait `bypasses` tightened from SetField<StringField> → item-property keys
+  type DIBypass = NPCSys["traits"]["di"]["bypasses"] extends ReadonlySet<infer E> ? E : never;
+  type _bypassStrict = Expect<Equal<Extends<"not-a-property", DIBypass>, false>>; // arbitrary string rejected
+  type _bypassKeys = Expect<Extends<dnd5e.types.ItemProperty.TypeKey, DIBypass>>; // real property keys flow in
 }
 
 /* ---- the new Spellcasting.Progression domain: members + expandability ---- */
