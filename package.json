@@ -1,0 +1,51 @@
+{
+  "name": "@adriangaro/dnd5e-types",
+  "version": "0.0.0",
+  "description": "TypeScript types for the FoundryVTT dnd5e system (v6 / Foundry v14), layered on foundry-vtt-types. Expandable via declaration merging.",
+  "type": "module",
+  "types": "./src/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.mts"
+    }
+  },
+  "files": [
+    "src",
+    "tsconfig.base.json"
+  ],
+  "imports": {
+    "#dnd5e/*": "./src/*"
+  },
+  "scripts": {
+    "typecheck": "tsgo",
+    "typecheck:tsc": "tsc",
+    "test": "vitest --run --typecheck",
+    "test:watch": "vitest --typecheck",
+    "dnd5e:setup": "bash scripts/setup-dnd5e-source.sh",
+    "dnd5e:cleanup": "bash scripts/cleanup-dnd5e-source.sh",
+    "dnd5e:diff": "bash scripts/generate-diff.sh",
+    "gate": "bash scripts/gate.sh",
+    "gate:quick": "bash scripts/gate.sh --quick"
+  },
+  "dnd5e": {
+    "currentVersion": "release-6.0.0",
+    "diff": {
+      "from": "release-5.0.4",
+      "to": "release-6.0.0"
+    }
+  },
+  "peerDependencies": {
+    "fvtt-types": "*"
+  },
+  "peerDependenciesMeta": {
+    "fvtt-types": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "@typescript/native-preview": "*",
+    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#44e83112274f477f4f7f4bb9288fd52d2bd64027",
+    "typescript": "^6.0.0",
+    "vitest": "^3.0.0"
+  }
+}

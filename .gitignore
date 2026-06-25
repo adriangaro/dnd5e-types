@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.repos/
+
+# Colocated dnd5e .mjs source (sparse-checked-out at author time, never published)
+src/**/*.mjs
+src/**/*.js
+
+# Research clones (analysis inputs, not part of the package)
+_research/
+
+.DS_Store
