@@ -1,7 +1,7 @@
 /** Inline application that presents the player with a choice between ability score improvement and taking a feat. */
 
 import AdvancementFlow from "./advancement-flow-v2.mjs";
-import AbilityScoreImprovementAdvancement from "../../../documents/advancement/ability-score-improvement.mjs";
+import AbilityScoreImprovementAdvancement from "../../documents/advancement/ability-score-improvement.mjs";
 
 declare class AbilityScoreImprovementFlow<
   RenderContext extends object = AbilityScoreImprovementFlow.RenderContext,

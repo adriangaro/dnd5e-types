@@ -4,7 +4,7 @@
  */
 
 import type { Expect, Equal, Extends } from "./_assert.ts";
-import type ItemGrantAdvancement from "#dnd5e/documents/advancement/item-grant.mjs";
+import type ItemGrantAdvancement from "#dnd5e/module/documents/advancement/item-grant.mjs";
 
 /* ---- Built-in subtype registered + discriminated ---- */
 {

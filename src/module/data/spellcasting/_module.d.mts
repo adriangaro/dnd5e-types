@@ -10,14 +10,14 @@
 
 declare global {
   namespace dnd5e.dataModels.spellcasting {
-    const SpellcastingModel: typeof import("../spellcasting/spellcasting-model.mjs").SpellcastingModel;
-    type SpellcastingModel = import("../spellcasting/spellcasting-model.mjs").SpellcastingModel;
-    const SlotSpellcasting: typeof import("../spellcasting/spellcasting-model.mjs").SlotSpellcasting;
-    type SlotSpellcasting = import("../spellcasting/spellcasting-model.mjs").SlotSpellcasting;
-    const SingleLevelSpellcasting: typeof import("../spellcasting/spellcasting-model.mjs").SingleLevelSpellcasting;
-    type SingleLevelSpellcasting = import("../spellcasting/spellcasting-model.mjs").SingleLevelSpellcasting;
-    const MultiLevelSpellcasting: typeof import("../spellcasting/spellcasting-model.mjs").MultiLevelSpellcasting;
-    type MultiLevelSpellcasting = import("../spellcasting/spellcasting-model.mjs").MultiLevelSpellcasting;
+    const SpellcastingModel: typeof import("./spellcasting-model.mjs").SpellcastingModel;
+    type SpellcastingModel = import("./spellcasting-model.mjs").SpellcastingModel;
+    const SlotSpellcasting: typeof import("./spellcasting-model.mjs").SlotSpellcasting;
+    type SlotSpellcasting = import("./spellcasting-model.mjs").SlotSpellcasting;
+    const SingleLevelSpellcasting: typeof import("./spellcasting-model.mjs").SingleLevelSpellcasting;
+    type SingleLevelSpellcasting = import("./spellcasting-model.mjs").SingleLevelSpellcasting;
+    const MultiLevelSpellcasting: typeof import("./spellcasting-model.mjs").MultiLevelSpellcasting;
+    type MultiLevelSpellcasting = import("./spellcasting-model.mjs").MultiLevelSpellcasting;
   }
 }
 

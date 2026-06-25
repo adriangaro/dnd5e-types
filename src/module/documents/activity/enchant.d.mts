@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseEnchantActivityData)`, registered as the `"enchant"` type.
  */
 
-import type BaseEnchantActivityData from "../../module/data/activity/enchant-data.mjs";
+import type BaseEnchantActivityData from "../../data/activity/enchant-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const EnchantActivity_base: ReturnType<typeof ActivityMixin<typeof BaseEnchantActivityData>>;

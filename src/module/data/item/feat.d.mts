@@ -5,7 +5,7 @@
  * fields (prerequisites, enchant, cover, etc.). Follows the canonical item pattern (see loot.d.mts).
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "./../abstract/system-data-model.mjs";
+import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "../abstract/system-data-model.mjs";
 import type ActivitiesTemplate from "./templates/activities.mjs";
 import type AdvancementTemplate from "./templates/advancement.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";

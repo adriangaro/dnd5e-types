@@ -8,7 +8,7 @@
  */
 
 import type { Expect, Equal, Extends } from "./_assert.ts";
-import type SubclassAdvancement from "#dnd5e/documents/advancement/subclass.mjs";
+import type SubclassAdvancement from "#dnd5e/module/documents/advancement/subclass.mjs";
 
 /* ---- a module WIDENS the built-in Subclass advancement to also allow a custom item subtype ---- */
 declare global {

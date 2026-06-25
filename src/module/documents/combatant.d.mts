@@ -18,7 +18,7 @@ declare class Combatant5e extends Combatant {
   createTurnMessage(data?: {
     deltas?: dnd5e.types.fields.ActorDeltasField.ActorDeltasData;
     periods?: string[];
-    rolls?: import("../module/dice/basic-roll.mjs").default[];
+    rolls?: import("../dice/basic-roll.mjs").default[];
   }): Promise<ChatMessage.Implementation | undefined>;
 
   /**
@@ -77,7 +77,7 @@ declare namespace Combatant5e {
     /** Updates applied to items on the actor. */
     item: object[];
     /** Any recovery rolls performed. */
-    rolls: import("../module/dice/basic-roll.mjs").default[];
+    rolls: import("../dice/basic-roll.mjs").default[];
   }
 }
 

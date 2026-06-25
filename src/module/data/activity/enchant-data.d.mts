@@ -49,7 +49,7 @@ declare class BaseEnchantActivityData extends BaseActivityData<dnd5e.types.Activ
   /**
    * Enchantments that have been applied by this activity.
    */
-  get appliedEnchantments(): import("../../../documents/active-effect.mjs").default[];
+  get appliedEnchantments(): import("../../documents/active-effect.mjs").default[];
 
   /**
    * Enchantments that can be applied based on spell/character/class level.

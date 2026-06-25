@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseSummonActivityData)`, registered as the `"summon"` type.
  */
 
-import type BaseSummonActivityData from "../../module/data/activity/summon-data.mjs";
+import type BaseSummonActivityData from "../../data/activity/summon-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const SummonActivity_base: ReturnType<typeof ActivityMixin<typeof BaseSummonActivityData>>;

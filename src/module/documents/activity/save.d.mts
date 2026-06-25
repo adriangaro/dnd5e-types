@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseSaveActivityData)`, registered as the `"save"` type.
  */
 
-import type BaseSaveActivityData from "../../module/data/activity/save-data.mjs";
+import type BaseSaveActivityData from "../../data/activity/save-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const SaveActivity_base: ReturnType<typeof ActivityMixin<typeof BaseSaveActivityData>>;
@@ -19,7 +19,7 @@ declare class SaveActivity extends SaveActivity_base {
     config?: dnd5e.types.Dice.DamageRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration
-  ): Promise<import("../../module/dice/damage-roll.mjs").default[] | void>;
+  ): Promise<import("../../dice/damage-roll.mjs").default[] | void>;
 
   /** @override */
   protected _usageChatButtons(

@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseForwardActivityData)`, registered as the `"forward"` type.
  */
 
-import type BaseForwardActivityData from "../../module/data/activity/forward-data.mjs";
+import type BaseForwardActivityData from "../../data/activity/forward-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const ForwardActivity_base: ReturnType<typeof ActivityMixin<typeof BaseForwardActivityData>>;

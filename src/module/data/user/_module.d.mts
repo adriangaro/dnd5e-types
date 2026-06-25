@@ -7,8 +7,8 @@
 
 declare global {
   namespace dnd5e.dataModels.user {
-    const UserSystemFlags: typeof import("../user/user-system-flags.mjs").default;
-    type UserSystemFlags = import("../user/user-system-flags.mjs").default;
+    const UserSystemFlags: typeof import("./user-system-flags.mjs").default;
+    type UserSystemFlags = import("./user-system-flags.mjs").default;
   }
 }
 

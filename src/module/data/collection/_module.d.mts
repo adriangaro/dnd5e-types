@@ -7,11 +7,11 @@
 
 declare global {
   namespace dnd5e.dataModels.collection {
-    const Actors5e: typeof import("../collection/actors-collection.mjs").default;
-    type Actors5e = import("../collection/actors-collection.mjs").default;
+    const Actors5e: typeof import("./actors-collection.mjs").default;
+    type Actors5e = import("./actors-collection.mjs").default;
 
-    const Items5e: typeof import("../collection/items-collection.mjs").default;
-    type Items5e = import("../collection/items-collection.mjs").default;
+    const Items5e: typeof import("./items-collection.mjs").default;
+    type Items5e = import("./items-collection.mjs").default;
   }
 }
 

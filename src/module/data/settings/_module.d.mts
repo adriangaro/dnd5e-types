@@ -9,20 +9,20 @@
 
 declare global {
   namespace dnd5e.dataModels.settings {
-    const BastionSetting: typeof import("../settings/bastion-setting.mjs").default;
-    type BastionSetting = import("../settings/bastion-setting.mjs").default;
+    const BastionSetting: typeof import("./bastion-setting.mjs").default;
+    type BastionSetting = import("./bastion-setting.mjs").default;
 
-    const CalendarConfigSetting: typeof import("../settings/calendar-setting.mjs").CalendarConfigSetting;
-    type CalendarConfigSetting = import("../settings/calendar-setting.mjs").CalendarConfigSetting;
+    const CalendarConfigSetting: typeof import("./calendar-setting.mjs").CalendarConfigSetting;
+    type CalendarConfigSetting = import("./calendar-setting.mjs").CalendarConfigSetting;
 
-    const CalendarPreferencesSetting: typeof import("../settings/calendar-setting.mjs").CalendarPreferencesSetting;
-    type CalendarPreferencesSetting = import("../settings/calendar-setting.mjs").CalendarPreferencesSetting;
+    const CalendarPreferencesSetting: typeof import("./calendar-setting.mjs").CalendarPreferencesSetting;
+    type CalendarPreferencesSetting = import("./calendar-setting.mjs").CalendarPreferencesSetting;
 
-    const PrimaryPartySetting: typeof import("../settings/primary-party-setting.mjs").default;
-    type PrimaryPartySetting = import("../settings/primary-party-setting.mjs").default;
+    const PrimaryPartySetting: typeof import("./primary-party-setting.mjs").default;
+    type PrimaryPartySetting = import("./primary-party-setting.mjs").default;
 
-    const TransformationSetting: typeof import("../settings/transformation-setting.mjs").default;
-    type TransformationSetting = import("../settings/transformation-setting.mjs").default;
+    const TransformationSetting: typeof import("./transformation-setting.mjs").default;
+    type TransformationSetting = import("./transformation-setting.mjs").default;
   }
 }
 

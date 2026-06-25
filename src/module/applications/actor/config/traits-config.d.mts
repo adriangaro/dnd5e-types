@@ -1,6 +1,6 @@
 /** Base application for selecting an actor's proficiencies. */
 
-import SelectChoices from "../../../../documents/actor/select-choices.mjs";
+import SelectChoices from "../../../documents/actor/select-choices.mjs";
 import BaseConfigSheet from "../api/base-config-sheet.mjs";
 
 declare class TraitsConfig<

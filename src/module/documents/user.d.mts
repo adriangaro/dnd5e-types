@@ -17,7 +17,7 @@ declare const User5e_base: ReturnType<typeof SystemFlagsMixin<typeof User>>;
 
 declare class User5e extends User5e_base {
   /** The `DataModel` definition for this User's `flags.dnd5e` system flags. */
-  get _systemFlagsDataModel(): typeof import("../module/data/user/user-system-flags.mjs").default;
+  get _systemFlagsDataModel(): typeof import("../data/user/user-system-flags.mjs").default;
 }
 
 interface User5e {}

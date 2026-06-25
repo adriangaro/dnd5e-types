@@ -18,75 +18,75 @@
 
 declare global {
   namespace dnd5e.dataModels.advancement {
-    const BaseAdvancement: typeof import("../advancement/base-advancement.mjs").default;
-    type BaseAdvancement = import("../advancement/base-advancement.mjs").default;
+    const BaseAdvancement: typeof import("./base-advancement.mjs").default;
+    type BaseAdvancement = import("./base-advancement.mjs").default;
 
-    const SpellConfigurationData: typeof import("../advancement/spell-config.mjs").default;
-    type SpellConfigurationData = import("../advancement/spell-config.mjs").default;
+    const SpellConfigurationData: typeof import("./spell-config.mjs").default;
+    type SpellConfigurationData = import("./spell-config.mjs").default;
 
-    const ItemGrantConfigurationData: typeof import("../advancement/item-grant-data.mjs").BaseItemGrantConfigData;
-    type ItemGrantConfigurationData = import("../advancement/item-grant-data.mjs").BaseItemGrantConfigData;
+    const ItemGrantConfigurationData: typeof import("./item-grant-data.mjs").BaseItemGrantConfigData;
+    type ItemGrantConfigurationData = import("./item-grant-data.mjs").BaseItemGrantConfigData;
 
-    const AbilityScoreImprovementConfigurationData: typeof import("../advancement/ability-score-improvement-data.mjs").BaseAbilityScoreImprovementConfigData;
-    type AbilityScoreImprovementConfigurationData = import("../advancement/ability-score-improvement-data.mjs").BaseAbilityScoreImprovementConfigData;
+    const AbilityScoreImprovementConfigurationData: typeof import("./ability-score-improvement-data.mjs").BaseAbilityScoreImprovementConfigData;
+    type AbilityScoreImprovementConfigurationData = import("./ability-score-improvement-data.mjs").BaseAbilityScoreImprovementConfigData;
 
-    const AbilityScoreImprovementValueData: typeof import("../advancement/ability-score-improvement-data.mjs").BaseAbilityScoreImprovementValueData;
-    type AbilityScoreImprovementValueData = import("../advancement/ability-score-improvement-data.mjs").BaseAbilityScoreImprovementValueData;
+    const AbilityScoreImprovementValueData: typeof import("./ability-score-improvement-data.mjs").BaseAbilityScoreImprovementValueData;
+    type AbilityScoreImprovementValueData = import("./ability-score-improvement-data.mjs").BaseAbilityScoreImprovementValueData;
 
-    const ItemChoiceConfigurationData: typeof import("../advancement/item-choice-data.mjs").BaseItemChoiceConfigData;
-    type ItemChoiceConfigurationData = import("../advancement/item-choice-data.mjs").BaseItemChoiceConfigData;
+    const ItemChoiceConfigurationData: typeof import("./item-choice-data.mjs").BaseItemChoiceConfigData;
+    type ItemChoiceConfigurationData = import("./item-choice-data.mjs").BaseItemChoiceConfigData;
 
-    const ItemChoiceValueData: typeof import("../advancement/item-choice-data.mjs").BaseItemChoiceValueData;
-    type ItemChoiceValueData = import("../advancement/item-choice-data.mjs").BaseItemChoiceValueData;
+    const ItemChoiceValueData: typeof import("./item-choice-data.mjs").BaseItemChoiceValueData;
+    type ItemChoiceValueData = import("./item-choice-data.mjs").BaseItemChoiceValueData;
 
-    const ModifyItemConfigurationData: typeof import("../advancement/modify-item-data.mjs").BaseModifyItemConfigData;
-    type ModifyItemConfigurationData = import("../advancement/modify-item-data.mjs").BaseModifyItemConfigData;
+    const ModifyItemConfigurationData: typeof import("./modify-item-data.mjs").BaseModifyItemConfigData;
+    type ModifyItemConfigurationData = import("./modify-item-data.mjs").BaseModifyItemConfigData;
 
-    const ModifyItemValueData: typeof import("../advancement/modify-item-data.mjs").BaseModifyItemValueData;
-    type ModifyItemValueData = import("../advancement/modify-item-data.mjs").BaseModifyItemValueData;
+    const ModifyItemValueData: typeof import("./modify-item-data.mjs").BaseModifyItemValueData;
+    type ModifyItemValueData = import("./modify-item-data.mjs").BaseModifyItemValueData;
 
-    const SizeConfigurationData: typeof import("../advancement/size-data.mjs").BaseSizeConfigData;
-    type SizeConfigurationData = import("../advancement/size-data.mjs").BaseSizeConfigData;
+    const SizeConfigurationData: typeof import("./size-data.mjs").BaseSizeConfigData;
+    type SizeConfigurationData = import("./size-data.mjs").BaseSizeConfigData;
 
-    const SizeValueData: typeof import("../advancement/size-data.mjs").BaseSizeValueData;
-    type SizeValueData = import("../advancement/size-data.mjs").BaseSizeValueData;
+    const SizeValueData: typeof import("./size-data.mjs").BaseSizeValueData;
+    type SizeValueData = import("./size-data.mjs").BaseSizeValueData;
 
-    const TraitConfigurationData: typeof import("../advancement/trait-data.mjs").BaseTraitConfigData;
-    type TraitConfigurationData = import("../advancement/trait-data.mjs").BaseTraitConfigData;
+    const TraitConfigurationData: typeof import("./trait-data.mjs").BaseTraitConfigData;
+    type TraitConfigurationData = import("./trait-data.mjs").BaseTraitConfigData;
 
-    const TraitValueData: typeof import("../advancement/trait-data.mjs").BaseTraitValueData;
-    type TraitValueData = import("../advancement/trait-data.mjs").BaseTraitValueData;
+    const TraitValueData: typeof import("./trait-data.mjs").BaseTraitValueData;
+    type TraitValueData = import("./trait-data.mjs").BaseTraitValueData;
 
-    const SubclassValueData: typeof import("../advancement/subclass-data.mjs").SubclassValueData;
-    type SubclassValueData = import("../advancement/subclass-data.mjs").SubclassValueData;
+    const SubclassValueData: typeof import("./subclass-data.mjs").SubclassValueData;
+    type SubclassValueData = import("./subclass-data.mjs").SubclassValueData;
 
     namespace scaleValue {
-      const ScaleValueConfigurationData: typeof import("../advancement/scale-value-data.mjs").BaseScaleValueConfigData;
-      type ScaleValueConfigurationData = import("../advancement/scale-value-data.mjs").BaseScaleValueConfigData;
+      const ScaleValueConfigurationData: typeof import("./scale-value-data.mjs").BaseScaleValueConfigData;
+      type ScaleValueConfigurationData = import("./scale-value-data.mjs").BaseScaleValueConfigData;
 
-      const ScaleValueEntryField: typeof import("../advancement/scale-value-data.mjs").ScaleValueEntryField;
-      type ScaleValueEntryField = import("../advancement/scale-value-data.mjs").ScaleValueEntryField;
+      const ScaleValueEntryField: typeof import("./scale-value-data.mjs").ScaleValueEntryField;
+      type ScaleValueEntryField = import("./scale-value-data.mjs").ScaleValueEntryField;
 
-      const ScaleValueType: typeof import("../advancement/scale-value-data.mjs").ScaleValueType;
-      type ScaleValueType = import("../advancement/scale-value-data.mjs").ScaleValueType;
+      const ScaleValueType: typeof import("./scale-value-data.mjs").ScaleValueType;
+      type ScaleValueType = import("./scale-value-data.mjs").ScaleValueType;
 
-      const ScaleValueTypeNumber: typeof import("../advancement/scale-value-data.mjs").ScaleValueTypeNumber;
-      type ScaleValueTypeNumber = import("../advancement/scale-value-data.mjs").ScaleValueTypeNumber;
+      const ScaleValueTypeNumber: typeof import("./scale-value-data.mjs").ScaleValueTypeNumber;
+      type ScaleValueTypeNumber = import("./scale-value-data.mjs").ScaleValueTypeNumber;
 
-      const ScaleValueTypeCR: typeof import("../advancement/scale-value-data.mjs").ScaleValueTypeCR;
-      type ScaleValueTypeCR = import("../advancement/scale-value-data.mjs").ScaleValueTypeCR;
+      const ScaleValueTypeCR: typeof import("./scale-value-data.mjs").ScaleValueTypeCR;
+      type ScaleValueTypeCR = import("./scale-value-data.mjs").ScaleValueTypeCR;
 
-      const ScaleValueTypeDice: typeof import("../advancement/scale-value-data.mjs").ScaleValueTypeDice;
-      type ScaleValueTypeDice = import("../advancement/scale-value-data.mjs").ScaleValueTypeDice;
+      const ScaleValueTypeDice: typeof import("./scale-value-data.mjs").ScaleValueTypeDice;
+      type ScaleValueTypeDice = import("./scale-value-data.mjs").ScaleValueTypeDice;
 
-      const ScaleValueTypeDistance: typeof import("../advancement/scale-value-data.mjs").ScaleValueTypeDistance;
-      type ScaleValueTypeDistance = import("../advancement/scale-value-data.mjs").ScaleValueTypeDistance;
+      const ScaleValueTypeDistance: typeof import("./scale-value-data.mjs").ScaleValueTypeDistance;
+      type ScaleValueTypeDistance = import("./scale-value-data.mjs").ScaleValueTypeDistance;
 
-      const ScaleValueTypeUsage: typeof import("../advancement/scale-value-data.mjs").ScaleValueTypeUsage;
-      type ScaleValueTypeUsage = import("../advancement/scale-value-data.mjs").ScaleValueTypeUsage;
+      const ScaleValueTypeUsage: typeof import("./scale-value-data.mjs").ScaleValueTypeUsage;
+      type ScaleValueTypeUsage = import("./scale-value-data.mjs").ScaleValueTypeUsage;
 
-      const TYPES: typeof import("../advancement/scale-value-data.mjs").TYPES;
-      type TYPES = typeof import("../advancement/scale-value-data.mjs").TYPES;
+      const TYPES: typeof import("./scale-value-data.mjs").TYPES;
+      type TYPES = typeof import("./scale-value-data.mjs").TYPES;
     }
   }
 }

@@ -3,7 +3,7 @@
  * All shared instance/static behavior lives in {@link AdvancementBehavior} (in mixin.d.mts).
  */
 
-import type BaseAdvancementData from "../../module/data/advancement/base-advancement.mjs";
+import type BaseAdvancementData from "../../data/advancement/base-advancement.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const Advancement_base: ReturnType<typeof AdvancementMixin<typeof BaseAdvancementData>>;

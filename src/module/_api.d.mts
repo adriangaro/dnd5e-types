@@ -18,7 +18,7 @@ declare global {
     const settings: Record<string, unknown>;
 
     /** The singleton `Bastion` instance (assigned at `init`, `game.dnd5e.bastion = new documents.Bastion()`). */
-    const bastion: import("../documents/actor/bastion.mjs").default;
+    const bastion: import("./documents/actor/bastion.mjs").default;
 
     /** The singleton `Tooltips5e` instance (assigned at `init`, `game.dnd5e.tooltips = new Tooltips5e()`). */
     const tooltips: import("./tooltips.mjs").default;
@@ -54,32 +54,32 @@ declare global {
 
     /** Document subclasses (`module/documents`). */
     namespace documents {
-      const ActiveEffect5e: typeof import("../documents/active-effect.mjs").default;
-      const Actor5e: typeof import("../documents/actor.mjs").default;
-      const Adventure5e: typeof import("../documents/adventure.mjs").default;
-      const ChatMessage5e: typeof import("../documents/chat-message.mjs").default;
-      const Combat5e: typeof import("../documents/combat.mjs").default;
-      const Combatant5e: typeof import("../documents/combatant.mjs").default;
-      const CombatantGroup5e: typeof import("../documents/combatant-group.mjs").default;
-      const Item5e: typeof import("../documents/item.mjs").default;
-      const JournalEntryPage5e: typeof import("../documents/journal-entry-page.mjs").default;
-      const TokenDocument5e: typeof import("../documents/token.mjs").default;
-      const User5e: typeof import("../documents/user.mjs").default;
-      const Bastion: typeof import("../documents/actor/bastion.mjs").default;
-      const HitDice: typeof import("../documents/actor/hit-dice.mjs").default;
-      const Proficiency: typeof import("../documents/actor/proficiency.mjs").default;
-      const SelectChoices: typeof import("../documents/actor/select-choices.mjs").default;
-      const Scaling: typeof import("../documents/scaling.mjs").default;
+      const ActiveEffect5e: typeof import("./documents/active-effect.mjs").default;
+      const Actor5e: typeof import("./documents/actor/actor.mjs").default;
+      const Adventure5e: typeof import("./documents/adventure.mjs").default;
+      const ChatMessage5e: typeof import("./documents/chat-message.mjs").default;
+      const Combat5e: typeof import("./documents/combat.mjs").default;
+      const Combatant5e: typeof import("./documents/combatant.mjs").default;
+      const CombatantGroup5e: typeof import("./documents/combatant-group.mjs").default;
+      const Item5e: typeof import("./documents/item.mjs").default;
+      const JournalEntryPage5e: typeof import("./documents/journal-entry-page.mjs").default;
+      const TokenDocument5e: typeof import("./documents/token.mjs").default;
+      const User5e: typeof import("./documents/user.mjs").default;
+      const Bastion: typeof import("./documents/actor/bastion.mjs").default;
+      const HitDice: typeof import("./documents/actor/hit-dice.mjs").default;
+      const Proficiency: typeof import("./documents/actor/proficiency.mjs").default;
+      const SelectChoices: typeof import("./documents/actor/select-choices.mjs").default;
+      const Scaling: typeof import("./documents/scaling.mjs").default;
       // activity / advancement sub-namespaces are filled strictly by src/module/_api/documents-*.d.mts.
-      const Trait: typeof import("../documents/actor/trait.mjs");
+      const Trait: typeof import("./documents/actor/trait.mjs");
       /** Document mixins (`module/documents/mixins/_module.mjs`). */
       namespace mixins {
-        const DependentDocumentMixin: typeof import("../documents/mixins/dependent.mjs").default;
-        const SystemDocumentMixin: typeof import("../documents/mixins/document.mjs").default;
-        const SystemFlagsMixin: typeof import("../documents/mixins/flags.mjs").default;
+        const DependentDocumentMixin: typeof import("./documents/mixins/dependent.mjs").default;
+        const SystemDocumentMixin: typeof import("./documents/mixins/document.mjs").default;
+        const SystemFlagsMixin: typeof import("./documents/mixins/flags.mjs").default;
       }
       /** Hotbar macro helpers (`module/documents/macro.mjs`). */
-      const macro: typeof import("../documents/macro.mjs");
+      const macro: typeof import("./documents/macro.mjs");
     }
 
     /** Custom text enrichers (`module/enrichers`). */

@@ -2,7 +2,7 @@
  * Advancement that handles player size.
  */
 
-import type BaseSizeAdvancementData from "../../module/data/advancement/size-data.mjs";
+import type BaseSizeAdvancementData from "../../data/advancement/size-data.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const SizeAdvancement_base: ReturnType<typeof AdvancementMixin<typeof BaseSizeAdvancementData>>;

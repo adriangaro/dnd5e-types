@@ -1,7 +1,7 @@
 /** Configuration application for actor's damage resistances, immunities, and vulnerabilities. */
 
 import { FormulaField } from "../../../data/fields/formula-field.mjs";
-import SelectChoices from "../../../../documents/actor/select-choices.mjs";
+import SelectChoices from "../../../documents/actor/select-choices.mjs";
 import TraitsConfig from "./traits-config.mjs";
 import type { CreateInputFunction } from "../../fields.mjs";
 

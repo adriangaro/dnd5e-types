@@ -1,7 +1,7 @@
 /** Application for browsing, filtering, and searching for content between multiple compendiums. */
 
 import type * as Filter from "../filter.mjs";
-import type SelectChoices from "../../documents/actor/select-choices.mjs";
+import type SelectChoices from "../documents/actor/select-choices.mjs";
 import Application5e from "./api/application.mjs";
 
 declare class CompendiumBrowser<

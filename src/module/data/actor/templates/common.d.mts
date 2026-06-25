@@ -9,7 +9,7 @@
 
 import { ActorDataModel } from "../../abstract/system-data-model.mjs";
 import { CurrencyTemplate } from "./_fields.mjs";
-import type Proficiency from "../../../../documents/actor/proficiency.mjs";
+import type Proficiency from "../../../documents/actor/proficiency.mjs";
 
 declare global {
   namespace dnd5e.types.Actor.Common {

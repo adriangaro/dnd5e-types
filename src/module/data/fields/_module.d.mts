@@ -12,44 +12,44 @@
 
 declare global {
   namespace dnd5e.dataModels.fields {
-    const ActivitiesField: typeof import("../fields/activities-field.mjs").ActivitiesField;
-    type ActivitiesField = import("../fields/activities-field.mjs").ActivitiesField;
+    const ActivitiesField: typeof import("./activities-field.mjs").ActivitiesField;
+    type ActivitiesField = import("./activities-field.mjs").ActivitiesField;
 
-    const ActivityField: typeof import("../fields/activities-field.mjs").ActivityField;
-    type ActivityField = import("../fields/activities-field.mjs").ActivityField;
+    const ActivityField: typeof import("./activities-field.mjs").ActivityField;
+    type ActivityField = import("./activities-field.mjs").ActivityField;
 
-    const ActivityCollection: typeof import("../fields/activities-field.mjs").ActivityCollection;
-    type ActivityCollection = import("../fields/activities-field.mjs").ActivityCollection;
+    const ActivityCollection: typeof import("./activities-field.mjs").ActivityCollection;
+    type ActivityCollection = import("./activities-field.mjs").ActivityCollection;
 
-    const AdvancementCollectionField: typeof import("../fields/advancement-collection-field.mjs").AdvancementCollectionField;
-    type AdvancementCollectionField = import("../fields/advancement-collection-field.mjs").AdvancementCollectionField;
+    const AdvancementCollectionField: typeof import("./advancement-collection-field.mjs").AdvancementCollectionField;
+    type AdvancementCollectionField = import("./advancement-collection-field.mjs").AdvancementCollectionField;
 
-    const AdvancementDataField: typeof import("../fields/advancement-data-field.mjs").default;
-    type AdvancementDataField = import("../fields/advancement-data-field.mjs").default;
+    const AdvancementDataField: typeof import("./advancement-data-field.mjs").default;
+    type AdvancementDataField = import("./advancement-data-field.mjs").default;
 
-    const AdvancementField: typeof import("../fields/advancement-field.mjs").default;
-    type AdvancementField = import("../fields/advancement-field.mjs").default;
+    const AdvancementField: typeof import("./advancement-field.mjs").default;
+    type AdvancementField = import("./advancement-field.mjs").default;
 
-    const AdvantageModeField: typeof import("../fields/advantage-mode-field.mjs").default;
-    type AdvantageModeField = import("../fields/advantage-mode-field.mjs").default;
+    const AdvantageModeField: typeof import("./advantage-mode-field.mjs").default;
+    type AdvantageModeField = import("./advantage-mode-field.mjs").default;
 
-    const LocalDocumentField: typeof import("../fields/local-document-field.mjs").default;
+    const LocalDocumentField: typeof import("./local-document-field.mjs").default;
     type LocalDocumentField<Concrete extends foundry.abstract.Document.Any = foundry.abstract.Document.Any> =
-      import("../fields/local-document-field.mjs").default<Concrete>;
+      import("./local-document-field.mjs").default<Concrete>;
 
-    const FormulaField: typeof import("../fields/formula-field.mjs").FormulaField;
-    type FormulaField = import("../fields/formula-field.mjs").FormulaField;
+    const FormulaField: typeof import("./formula-field.mjs").FormulaField;
+    type FormulaField = import("./formula-field.mjs").FormulaField;
 
-    const IdentifierField: typeof import("../fields/identifier-field.mjs").IdentifierField;
-    type IdentifierField = import("../fields/identifier-field.mjs").IdentifierField;
+    const IdentifierField: typeof import("./identifier-field.mjs").IdentifierField;
+    type IdentifierField = import("./identifier-field.mjs").IdentifierField;
 
-    const MappingField: typeof import("../fields/mapping-field.mjs").MappingField;
+    const MappingField: typeof import("./mapping-field.mjs").MappingField;
     // `MappingField`'s `Element` type param has no default, so the instance type is threaded.
     type MappingField<
       Element extends foundry.data.fields.DataField.Any,
       Keys extends string = string,
       Options extends foundry.data.fields.DataField.Options<fvttUtils.AnyObject> = dnd5e.types.fields.MappingField.DefaultOptions,
-    > = import("../fields/mapping-field.mjs").MappingField<Element, Keys, Options>;
+    > = import("./mapping-field.mjs").MappingField<Element, Keys, Options>;
   }
 }
 

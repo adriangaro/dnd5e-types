@@ -13,17 +13,17 @@
  */
 
 import type {} from "fvtt-types/configuration";
-import type Item5e from "../documents/item.mjs";
-import type Actor5e from "../documents/actor.mjs";
-import type ActiveEffect5e from "../documents/active-effect.mjs";
-import type JournalEntryPage5e from "../documents/journal-entry-page.mjs";
-import type ChatMessage5e from "../documents/chat-message.mjs";
-import type Combat5e from "../documents/combat.mjs";
-import type Combatant5e from "../documents/combatant.mjs";
-import type CombatantGroup5e from "../documents/combatant-group.mjs";
-import type TokenDocument5e from "../documents/token.mjs";
-import type User5e from "../documents/user.mjs";
-import type Adventure5e from "../documents/adventure.mjs";
+import type Item5e from "../module/documents/item.mjs";
+import type Actor5e from "../module/documents/actor/actor.mjs";
+import type ActiveEffect5e from "../module/documents/active-effect.mjs";
+import type JournalEntryPage5e from "../module/documents/journal-entry-page.mjs";
+import type ChatMessage5e from "../module/documents/chat-message.mjs";
+import type Combat5e from "../module/documents/combat.mjs";
+import type Combatant5e from "../module/documents/combatant.mjs";
+import type CombatantGroup5e from "../module/documents/combatant-group.mjs";
+import type TokenDocument5e from "../module/documents/token.mjs";
+import type User5e from "../module/documents/user.mjs";
+import type Adventure5e from "../module/documents/adventure.mjs";
 
 declare module "fvtt-types/configuration" {
   interface DocumentClassConfig {

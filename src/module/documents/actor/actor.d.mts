@@ -14,7 +14,7 @@
  * (`object`/`unknown`/`Record<string, unknown>`) and tightened as those modules land.
  */
 
-import type SystemDocumentMixin from "./mixins/document.mjs";
+import type SystemDocumentMixin from "../mixins/document.mjs";
 
 declare const Actor5e_base: ReturnType<typeof SystemDocumentMixin<typeof Actor>>;
 
@@ -135,13 +135,13 @@ declare class Actor5e<out SubType extends Actor.SubType = Actor.SubType> extends
     config?: dnd5e.types.Dice.SkillToolRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.SkillToolRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/d20-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/d20-roll.mjs").default[] | null>;
   /** Roll an ability check with a tool. */
   rollToolCheck(
     config?: dnd5e.types.Dice.SkillToolRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.SkillToolRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/d20-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/d20-roll.mjs").default[] | null>;
   /** Configure a roll config for each roll performed as part of the skill or tool check process. */
   _buildSkillToolConfig(
     type: "skill" | "tool",
@@ -162,27 +162,27 @@ declare class Actor5e<out SubType extends Actor.SubType = Actor.SubType> extends
     config?: dnd5e.types.Dice.AbilityRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/d20-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/d20-roll.mjs").default[] | null>;
   /** Roll a Saving Throw. */
   rollSavingThrow(
     config?: dnd5e.types.Dice.AbilityRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/d20-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/d20-roll.mjs").default[] | null>;
   /** Perform a death saving throw. */
   rollDeathSave(
     config?: dnd5e.types.Dice.D20RollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/d20-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/d20-roll.mjs").default[] | null>;
   /** Perform a saving throw to maintain concentration. */
   rollConcentration(
     config?: dnd5e.types.Dice.AbilityRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/d20-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/d20-roll.mjs").default[] | null>;
   /** Get an un-evaluated D20Roll instance used to roll initiative for this Actor. */
-  getInitiativeRoll(options?: Partial<dnd5e.types.Dice.InitiativeRollOptions>): import("../module/dice/d20-roll.mjs").default | null;
+  getInitiativeRoll(options?: Partial<dnd5e.types.Dice.InitiativeRollOptions>): import("../../dice/d20-roll.mjs").default | null;
   /** Get the roll configuration used to roll initiative for this Actor. */
   getInitiativeRollConfig(options?: Partial<dnd5e.types.Dice.InitiativeRollOptions>): object | null;
   /** Roll initiative with a dialog providing an opportunity to elect advantage or other bonuses. */
@@ -197,7 +197,7 @@ declare class Actor5e<out SubType extends Actor.SubType = Actor.SubType> extends
     config?: dnd5e.types.Dice.HitDieRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/basic-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/basic-roll.mjs").default[] | null>;
   /** Roll hit points for a specific class as part of a level-up workflow. */
   rollClassHitPoints(item: globalThis.Item.OfType<"class">, options?: { chatMessage?: boolean }): Promise<Roll>;
   /** Roll hit points for an NPC based on the HP formula. */

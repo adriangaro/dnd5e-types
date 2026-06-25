@@ -5,8 +5,8 @@
  */
 
 import type { Expect, Equal, Extends } from "./_assert.ts";
-import type UtilityActivity from "#dnd5e/documents/activity/utility.mjs";
-import type SaveActivity from "#dnd5e/documents/activity/save.mjs";
+import type UtilityActivity from "#dnd5e/module/documents/activity/utility.mjs";
+import type SaveActivity from "#dnd5e/module/documents/activity/save.mjs";
 
 /* ---- Built-in subtypes registered + discriminated ---- */
 {

@@ -8,8 +8,8 @@
 
 import type { Expect, Equal, Extends } from "./_assert.ts";
 import type CharacterData from "#dnd5e/module/data/actor/character.mjs";
-import type Proficiency from "#dnd5e/documents/actor/proficiency.mjs";
-import type HitDice from "#dnd5e/documents/actor/hit-dice.mjs";
+import type Proficiency from "#dnd5e/module/documents/actor/proficiency.mjs";
+import type HitDice from "#dnd5e/module/documents/actor/hit-dice.mjs";
 
 /** The fully initialized + derived system instance (what `actor.system` is). */
 type Sys = CharacterData;

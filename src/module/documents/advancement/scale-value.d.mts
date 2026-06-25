@@ -1,5 +1,5 @@
-import type BaseScaleValueAdvancementData from "../../module/data/advancement/scale-value-data.mjs";
-import type { ScaleValueType } from "../../module/data/advancement/scale-value-data.mjs";
+import type BaseScaleValueAdvancementData from "../../data/advancement/scale-value-data.mjs";
+import type { ScaleValueType } from "../../data/advancement/scale-value-data.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const ScaleValueAdvancement_base: ReturnType<typeof AdvancementMixin<typeof BaseScaleValueAdvancementData>>;

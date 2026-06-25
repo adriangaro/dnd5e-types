@@ -5,7 +5,7 @@
 
 import { CommonTemplate } from "./common.mjs";
 import type { ActorDataModel } from "../../abstract/system-data-model.mjs";
-import type Proficiency from "../../../../documents/actor/proficiency.mjs";
+import type Proficiency from "../../../documents/actor/proficiency.mjs";
 
 declare global {
   namespace dnd5e.types.Actor.Creature {

@@ -1,6 +1,6 @@
 /** Configuration application for actor's skills. */
 
-import SelectChoices from "../../../../documents/actor/select-choices.mjs";
+import SelectChoices from "../../../documents/actor/select-choices.mjs";
 import TraitsConfig from "./traits-config.mjs";
 
 declare class SkillsConfig<

@@ -13,7 +13,7 @@
  * trivial `string`/`number | null` and are mirrored for callers.
  */
 
-import type Scaling from "../../../documents/scaling.mjs";
+import type Scaling from "../../documents/scaling.mjs";
 
 declare global {
   namespace dnd5e.types.fields {

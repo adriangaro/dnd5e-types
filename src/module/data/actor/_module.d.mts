@@ -18,63 +18,63 @@
 declare global {
   namespace dnd5e.dataModels.actor {
     // Concrete actor data models (data/actor/*.mjs).
-    const CharacterData: typeof import("../actor/character.mjs").default;
-    type CharacterData = import("../actor/character.mjs").default;
+    const CharacterData: typeof import("./character.mjs").default;
+    type CharacterData = import("./character.mjs").default;
 
-    const EncounterData: typeof import("../actor/encounter.mjs").default;
-    type EncounterData = import("../actor/encounter.mjs").default;
+    const EncounterData: typeof import("./encounter.mjs").default;
+    type EncounterData = import("./encounter.mjs").default;
 
-    const GroupData: typeof import("../actor/group.mjs").default;
-    type GroupData = import("../actor/group.mjs").default;
+    const GroupData: typeof import("./group.mjs").default;
+    type GroupData = import("./group.mjs").default;
 
-    const NPCData: typeof import("../actor/npc.mjs").default;
-    type NPCData = import("../actor/npc.mjs").default;
+    const NPCData: typeof import("./npc.mjs").default;
+    type NPCData = import("./npc.mjs").default;
 
-    const VehicleData: typeof import("../actor/vehicle.mjs").default;
-    type VehicleData = import("../actor/vehicle.mjs").default;
+    const VehicleData: typeof import("./vehicle.mjs").default;
+    type VehicleData = import("./vehicle.mjs").default;
 
     // Config map (actor type key → constructor).
     const config: {
-      character: typeof import("../actor/character.mjs").default;
-      encounter: typeof import("../actor/encounter.mjs").default;
-      group: typeof import("../actor/group.mjs").default;
-      npc: typeof import("../actor/npc.mjs").default;
-      vehicle: typeof import("../actor/vehicle.mjs").default;
+      character: typeof import("./character.mjs").default;
+      encounter: typeof import("./encounter.mjs").default;
+      group: typeof import("./group.mjs").default;
+      npc: typeof import("./npc.mjs").default;
+      vehicle: typeof import("./vehicle.mjs").default;
     };
 
     // Custom actor fields (data/actor/fields/*.mjs).
-    const ACFormulasField: typeof import("../actor/fields/ac-formulas-field.mjs").default;
-    type ACFormulasField = import("../actor/fields/ac-formulas-field.mjs").default;
+    const ACFormulasField: typeof import("./fields/ac-formulas-field.mjs").default;
+    type ACFormulasField = import("./fields/ac-formulas-field.mjs").default;
 
-    const DamageTraitField: typeof import("../actor/fields/damage-trait-field.mjs").default;
-    type DamageTraitField = import("../actor/fields/damage-trait-field.mjs").default;
+    const DamageTraitField: typeof import("./fields/damage-trait-field.mjs").default;
+    type DamageTraitField = import("./fields/damage-trait-field.mjs").default;
 
-    const SimpleTraitField: typeof import("../actor/fields/simple-trait-field.mjs").default;
-    type SimpleTraitField = import("../actor/fields/simple-trait-field.mjs").default;
+    const SimpleTraitField: typeof import("./fields/simple-trait-field.mjs").default;
+    type SimpleTraitField = import("./fields/simple-trait-field.mjs").default;
 
-    const TravelField: typeof import("../actor/fields/travel-field.mjs").default;
-    type TravelField = import("../actor/fields/travel-field.mjs").default;
+    const TravelField: typeof import("./fields/travel-field.mjs").default;
+    type TravelField = import("./fields/travel-field.mjs").default;
 
     // System flags model (data/actor/group-system-flags.mjs).
-    const GroupSystemFlags: typeof import("../actor/group-system-flags.mjs").default;
-    type GroupSystemFlags = import("../actor/group-system-flags.mjs").default;
+    const GroupSystemFlags: typeof import("./group-system-flags.mjs").default;
+    type GroupSystemFlags = import("./group-system-flags.mjs").default;
 
     // Shared actor field bundles (data/actor/templates/_fields.mjs).
-    const AttributesFields: typeof import("../actor/templates/_fields.mjs").AttributesFields;
-    type AttributesFields = import("../actor/templates/_fields.mjs").AttributesFields;
+    const AttributesFields: typeof import("./templates/_fields.mjs").AttributesFields;
+    type AttributesFields = import("./templates/_fields.mjs").AttributesFields;
 
-    const DetailsFields: typeof import("../actor/templates/_fields.mjs").DetailsField;
-    type DetailsFields = import("../actor/templates/_fields.mjs").DetailsField;
+    const DetailsFields: typeof import("./templates/_fields.mjs").DetailsField;
+    type DetailsFields = import("./templates/_fields.mjs").DetailsField;
 
-    const TraitsFields: typeof import("../actor/templates/_fields.mjs").TraitsField;
-    type TraitsFields = import("../actor/templates/_fields.mjs").TraitsField;
+    const TraitsFields: typeof import("./templates/_fields.mjs").TraitsField;
+    type TraitsFields = import("./templates/_fields.mjs").TraitsField;
 
     // Actor data templates.
-    const CommonTemplate: typeof import("../actor/templates/common.mjs").CommonTemplate;
-    type CommonTemplate = import("../actor/templates/common.mjs").CommonTemplate;
+    const CommonTemplate: typeof import("./templates/common.mjs").CommonTemplate;
+    type CommonTemplate = import("./templates/common.mjs").CommonTemplate;
 
-    const CreatureTemplate: typeof import("../actor/templates/creature.mjs").CreatureTemplate;
-    type CreatureTemplate = import("../actor/templates/creature.mjs").CreatureTemplate;
+    const CreatureTemplate: typeof import("./templates/creature.mjs").CreatureTemplate;
+    type CreatureTemplate = import("./templates/creature.mjs").CreatureTemplate;
   }
 }
 

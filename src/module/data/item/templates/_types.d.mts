@@ -67,7 +67,7 @@ declare global {
       }
 
       interface StartingEquipmentTemplateData {
-      startingEquipment: import("../../../../module/data/item/templates/starting-equipment.mjs").EquipmentEntryData[]; // Different equipment entries that will be granted.
+      startingEquipment: import("./starting-equipment.mjs").EquipmentEntryData[]; // Different equipment entries that will be granted.
       wealth: string; // Formula used to determine starting wealth.
       }
 

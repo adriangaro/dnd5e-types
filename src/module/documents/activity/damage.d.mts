@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseDamageActivityData)`, registered as the `"damage"` type.
  */
 
-import type BaseDamageActivityData from "../../module/data/activity/damage-data.mjs";
+import type BaseDamageActivityData from "../../data/activity/damage-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const DamageActivity_base: ReturnType<typeof ActivityMixin<typeof BaseDamageActivityData>>;

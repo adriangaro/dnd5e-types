@@ -13,8 +13,8 @@
  */
 
 import { CreatureTemplate } from "./templates/creature.mjs";
-import type Proficiency from "../../../documents/actor/proficiency.mjs";
-import type HitDice from "../../../documents/actor/hit-dice.mjs";
+import type Proficiency from "../../documents/actor/proficiency.mjs";
+import type HitDice from "../../documents/actor/hit-dice.mjs";
 
 declare global {
   namespace dnd5e.types.Actor.NPC {

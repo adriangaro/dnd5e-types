@@ -147,7 +147,7 @@ declare class Item5e<out SubType extends Item.SubType = Item.SubType> extends It
     config?: dnd5e.types.Dice.SkillToolRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.SkillToolRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration,
-  ): Promise<import("../module/dice/d20-roll.mjs").default[] | null | undefined>;
+  ): Promise<import("../dice/d20-roll.mjs").default[] | null | undefined>;
   /** Roll data for dice commands against this Item. */
   getRollData(options?: { deterministic?: boolean }): Item5e.RollData<this>;
 
@@ -158,7 +158,7 @@ declare class Item5e<out SubType extends Item.SubType = Item.SubType> extends It
     type: dnd5e.types.Activity.TypeKey,
     data?: object,
     options?: { renderSheet?: boolean },
-  ): Promise<import("../module/applications/activity/activity-sheet.mjs").default | null | undefined>;
+  ): Promise<import("../applications/activity/activity-sheet.mjs").default | null | undefined>;
   /** Update an activity belonging to this item. */
   updateActivity(id: string, updates: object): Promise<this>;
   /** Remove an activity from this item. */

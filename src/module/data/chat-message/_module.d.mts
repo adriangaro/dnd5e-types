@@ -9,48 +9,48 @@
 
 declare global {
   namespace dnd5e.dataModels.chatMessage {
-    const BastionAttackMessageData: typeof import("../chat-message/bastion-attack-message-data.mjs").default;
-    type BastionAttackMessageData = import("../chat-message/bastion-attack-message-data.mjs").default;
+    const BastionAttackMessageData: typeof import("./bastion-attack-message-data.mjs").default;
+    type BastionAttackMessageData = import("./bastion-attack-message-data.mjs").default;
 
-    const BastionTurnMessageData: typeof import("../chat-message/bastion-turn-message-data.mjs").default;
-    type BastionTurnMessageData = import("../chat-message/bastion-turn-message-data.mjs").default;
+    const BastionTurnMessageData: typeof import("./bastion-turn-message-data.mjs").default;
+    type BastionTurnMessageData = import("./bastion-turn-message-data.mjs").default;
 
-    const RequestMessageData: typeof import("../chat-message/request-message-data.mjs").default;
-    type RequestMessageData = import("../chat-message/request-message-data.mjs").default;
+    const RequestMessageData: typeof import("./request-message-data.mjs").default;
+    type RequestMessageData = import("./request-message-data.mjs").default;
 
-    const RestMessageData: typeof import("../chat-message/rest-message-data.mjs").default;
-    type RestMessageData = import("../chat-message/rest-message-data.mjs").default;
+    const RestMessageData: typeof import("./rest-message-data.mjs").default;
+    type RestMessageData = import("./rest-message-data.mjs").default;
 
-    const TimePassedMessageData: typeof import("../chat-message/time-passed-message-data.mjs").default;
-    type TimePassedMessageData = import("../chat-message/time-passed-message-data.mjs").default;
+    const TimePassedMessageData: typeof import("./time-passed-message-data.mjs").default;
+    type TimePassedMessageData = import("./time-passed-message-data.mjs").default;
 
-    const TurnMessageData: typeof import("../chat-message/turn-message-data.mjs").default;
-    type TurnMessageData = import("../chat-message/turn-message-data.mjs").default;
+    const TurnMessageData: typeof import("./turn-message-data.mjs").default;
+    type TurnMessageData = import("./turn-message-data.mjs").default;
 
-    const UsageMessageData: typeof import("../chat-message/usage-message-data.mjs").default;
-    type UsageMessageData = import("../chat-message/usage-message-data.mjs").default;
+    const UsageMessageData: typeof import("./usage-message-data.mjs").default;
+    type UsageMessageData = import("./usage-message-data.mjs").default;
 
     // Config map (message type key → constructor).
     const config: {
-      bastionAttack: typeof import("../chat-message/bastion-attack-message-data.mjs").default;
-      bastionTurn: typeof import("../chat-message/bastion-turn-message-data.mjs").default;
-      request: typeof import("../chat-message/request-message-data.mjs").default;
-      rest: typeof import("../chat-message/rest-message-data.mjs").default;
-      timePassed: typeof import("../chat-message/time-passed-message-data.mjs").default;
-      turn: typeof import("../chat-message/turn-message-data.mjs").default;
-      usage: typeof import("../chat-message/usage-message-data.mjs").default;
+      bastionAttack: typeof import("./bastion-attack-message-data.mjs").default;
+      bastionTurn: typeof import("./bastion-turn-message-data.mjs").default;
+      request: typeof import("./request-message-data.mjs").default;
+      rest: typeof import("./rest-message-data.mjs").default;
+      timePassed: typeof import("./time-passed-message-data.mjs").default;
+      turn: typeof import("./turn-message-data.mjs").default;
+      usage: typeof import("./usage-message-data.mjs").default;
     };
 
     // Chat-message custom fields (data/chat-message/fields/_module.mjs).
     namespace fields {
-      const ActivationsField: typeof import("../chat-message/fields/activations-field.mjs").default;
-      type ActivationsField = import("../chat-message/fields/activations-field.mjs").default;
+      const ActivationsField: typeof import("./fields/activations-field.mjs").default;
+      type ActivationsField = import("./fields/activations-field.mjs").default;
 
-      const ActorDeltasField: typeof import("../chat-message/fields/deltas-field.mjs").ActorDeltasField;
-      type ActorDeltasField = import("../chat-message/fields/deltas-field.mjs").ActorDeltasField;
+      const ActorDeltasField: typeof import("./fields/deltas-field.mjs").ActorDeltasField;
+      type ActorDeltasField = import("./fields/deltas-field.mjs").ActorDeltasField;
 
-      const IndividualDeltaField: typeof import("../chat-message/fields/deltas-field.mjs").IndividualDeltaField;
-      type IndividualDeltaField = import("../chat-message/fields/deltas-field.mjs").IndividualDeltaField;
+      const IndividualDeltaField: typeof import("./fields/deltas-field.mjs").IndividualDeltaField;
+      type IndividualDeltaField = import("./fields/deltas-field.mjs").IndividualDeltaField;
     }
   }
 }

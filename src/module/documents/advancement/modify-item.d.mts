@@ -1,4 +1,4 @@
-import type BaseModifyItemAdvancementData from "../../module/data/advancement/modify-item-data.mjs";
+import type BaseModifyItemAdvancementData from "../../data/advancement/modify-item-data.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const ModifyItemAdvancement_base: ReturnType<typeof AdvancementMixin<typeof BaseModifyItemAdvancementData>>;

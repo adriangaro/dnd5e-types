@@ -17,7 +17,7 @@ declare global {
       }
 
       interface CombatRecoveryResults extends dnd5e.types.data.chatMessage.fields.ActorUpdatesDescription {
-      rolls: import("../module/dice/basic-roll.mjs").default[]; // Any recovery rolls performed.
+      rolls: import("../dice/basic-roll.mjs").default[]; // Any recovery rolls performed.
       }
 
       /** Description of a source of damage. */
@@ -74,7 +74,7 @@ declare global {
       interface RestConfiguration {
       type: "short" | "long" | string; // Type of rest to perform (a `CONFIG.DND5E.restTypes` id; core ids are "short" | "long").
       dialog: boolean; // Present a dialog window which allows for rolling hit dice as part of the rest and selecting whether a new day has occurred.
-      dialogClass?: typeof import("../module/applications/actor/rest/base-rest-dialog.mjs").default; // A class for the dialog window.
+      dialogClass?: typeof import("../applications/actor/rest/base-rest-dialog.mjs").default; // A class for the dialog window.
       chat: boolean; // Should a chat message be created to summarize the results of the rest?
       duration: number; // Amount of time passed during the rest in minutes.
       newDay: boolean; // Does this rest carry over to a new day?

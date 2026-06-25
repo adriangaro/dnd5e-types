@@ -5,7 +5,7 @@
  * StartingEquipment templates via `ItemDataModel.mixin(...)`; carries no own schema fields.
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "./../abstract/system-data-model.mjs";
+import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "../abstract/system-data-model.mjs";
 import type AdvancementTemplate from "./templates/advancement.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 import type StartingEquipmentTemplate from "./templates/starting-equipment.mjs";

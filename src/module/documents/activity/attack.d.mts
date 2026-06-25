@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseAttackActivityData)`, registered as the `"attack"` type.
  */
 
-import type BaseAttackActivityData from "../../module/data/activity/attack-data.mjs";
+import type BaseAttackActivityData from "../../data/activity/attack-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const AttackActivity_base: ReturnType<typeof ActivityMixin<typeof BaseAttackActivityData>>;
@@ -31,7 +31,7 @@ declare class AttackActivity extends AttackActivity_base {
     config?: dnd5e.types.Dice.AttackRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.AttackRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration
-  ): Promise<import("../../module/dice/d20-roll.mjs").default[] | null>;
+  ): Promise<import("../../dice/d20-roll.mjs").default[] | null>;
 }
 
 declare global {

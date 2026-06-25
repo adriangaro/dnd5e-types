@@ -6,7 +6,7 @@
  * properties, and (forced-to-1) quantity fields.
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixinOmit } from "./../abstract/system-data-model.mjs";
+import SystemDataModel, { ItemDataModel, ItemDataModelMixinOmit } from "../abstract/system-data-model.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 import type IdentifiableTemplate from "./templates/identifiable.mjs";
 import type PhysicalItemTemplate from "./templates/physical-item.mjs";

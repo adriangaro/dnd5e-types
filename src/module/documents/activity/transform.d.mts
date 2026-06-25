@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseTransformActivityData)`, registered as the `"transform"` type.
  */
 
-import type BaseTransformActivityData from "../../module/data/activity/transform-data.mjs";
+import type BaseTransformActivityData from "../../data/activity/transform-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const TransformActivity_base: ReturnType<typeof ActivityMixin<typeof BaseTransformActivityData>>;

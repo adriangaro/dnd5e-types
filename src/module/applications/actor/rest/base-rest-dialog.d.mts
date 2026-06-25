@@ -1,7 +1,7 @@
 /** Dialog with shared resting functionality. */
 
 import Dialog5e from "../../api/dialog.mjs";
-import type HitDice from "../../../../documents/actor/hit-dice.mjs";
+import type HitDice from "../../../documents/actor/hit-dice.mjs";
 
 declare class BaseRestDialog<
   RenderContext extends object = BaseRestDialog.RenderContext,

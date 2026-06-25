@@ -2,7 +2,7 @@
  * Advancement that presents the player with the option of improving their ability scores or selecting a feat.
  */
 
-import type BaseAbilityScoreImprovementAdvancementData from "../../module/data/advancement/ability-score-improvement-data.mjs";
+import type BaseAbilityScoreImprovementAdvancementData from "../../data/advancement/ability-score-improvement-data.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const AbilityScoreImprovementAdvancement_base: ReturnType<

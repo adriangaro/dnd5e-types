@@ -1,4 +1,4 @@
-import type BaseItemGrantAdvancementData from "../../module/data/advancement/item-grant-data.mjs";
+import type BaseItemGrantAdvancementData from "../../data/advancement/item-grant-data.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const ItemGrantAdvancement_base: ReturnType<typeof AdvancementMixin<typeof BaseItemGrantAdvancementData>>;

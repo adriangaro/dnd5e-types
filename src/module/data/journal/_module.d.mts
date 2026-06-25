@@ -7,28 +7,28 @@
 
 declare global {
   namespace dnd5e.dataModels.journal {
-    const ClassJournalPageData: typeof import("../journal/class.mjs").default;
-    type ClassJournalPageData = import("../journal/class.mjs").default;
+    const ClassJournalPageData: typeof import("./class.mjs").default;
+    type ClassJournalPageData = import("./class.mjs").default;
 
-    const MapLocationJournalPageData: typeof import("../journal/map.mjs").default;
-    type MapLocationJournalPageData = import("../journal/map.mjs").default;
+    const MapLocationJournalPageData: typeof import("./map.mjs").default;
+    type MapLocationJournalPageData = import("./map.mjs").default;
 
-    const RuleJournalPageData: typeof import("../journal/rule.mjs").default;
-    type RuleJournalPageData = import("../journal/rule.mjs").default;
+    const RuleJournalPageData: typeof import("./rule.mjs").default;
+    type RuleJournalPageData = import("./rule.mjs").default;
 
-    const SpellListJournalPageData: typeof import("../journal/spells.mjs").default;
-    type SpellListJournalPageData = import("../journal/spells.mjs").default;
+    const SpellListJournalPageData: typeof import("./spells.mjs").default;
+    type SpellListJournalPageData = import("./spells.mjs").default;
 
-    const SubclassJournalPageData: typeof import("../journal/subclass.mjs").default;
-    type SubclassJournalPageData = import("../journal/subclass.mjs").default;
+    const SubclassJournalPageData: typeof import("./subclass.mjs").default;
+    type SubclassJournalPageData = import("./subclass.mjs").default;
 
     // Config map (journal page type key → constructor).
     const config: {
-      class: typeof import("../journal/class.mjs").default;
-      map: typeof import("../journal/map.mjs").default;
-      rule: typeof import("../journal/rule.mjs").default;
-      spells: typeof import("../journal/spells.mjs").default;
-      subclass: typeof import("../journal/subclass.mjs").default;
+      class: typeof import("./class.mjs").default;
+      map: typeof import("./map.mjs").default;
+      rule: typeof import("./rule.mjs").default;
+      spells: typeof import("./spells.mjs").default;
+      subclass: typeof import("./subclass.mjs").default;
     };
   }
 }

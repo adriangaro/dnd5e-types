@@ -1,6 +1,6 @@
 /** Inline application that presents the player with a trait choices. */
 
-import SelectChoices from "../../../documents/actor/select-choices.mjs";
+import SelectChoices from "../../documents/actor/select-choices.mjs";
 import AdvancementFlow from "./advancement-flow-v2.mjs";
 
 declare class TraitFlow<

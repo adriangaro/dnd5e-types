@@ -87,7 +87,7 @@ export declare class ActivityBehavior {
     config?: dnd5e.types.Dice.DamageRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration
-  ): Promise<import("../../module/dice/damage-roll.mjs").default[] | void>;
+  ): Promise<import("../../dice/damage-roll.mjs").default[] | void>;
 
   /** Prepare usage configuration with the necessary defaults. */
   protected _prepareUsageConfig(

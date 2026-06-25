@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseUtilityActivityData)`, registered as the `"utility"` type.
  */
 
-import type BaseUtilityActivityData from "../../module/data/activity/utility-data.mjs";
+import type BaseUtilityActivityData from "../../data/activity/utility-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const UtilityActivity_base: ReturnType<typeof ActivityMixin<typeof BaseUtilityActivityData>>;
@@ -17,7 +17,7 @@ declare class UtilityActivity extends UtilityActivity_base {
     config?: dnd5e.types.Dice.BasicRollProcessConfiguration,
     dialog?: dnd5e.types.Dice.BasicRollDialogConfiguration,
     message?: dnd5e.types.Dice.BasicRollMessageConfiguration
-  ): Promise<import("../../module/dice/basic-roll.mjs").default[] | void>;
+  ): Promise<import("../../dice/basic-roll.mjs").default[] | void>;
 }
 
 declare global {

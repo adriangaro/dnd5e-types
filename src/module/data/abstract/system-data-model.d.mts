@@ -202,7 +202,7 @@ export declare namespace ActorDataModel {
   }
 
   type RollData<This extends object> = fvttUtils.InterfaceToObject<
-    This & { prof: import("../../../documents/actor/proficiency.mjs").default }
+    This & { prof: import("../../documents/actor/proficiency.mjs").default }
   >;
 }
 

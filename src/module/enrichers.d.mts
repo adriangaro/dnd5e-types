@@ -470,6 +470,6 @@ export declare function createRollLabel(config: object): string;
 
 /** Attach actions to chat message for requested rolls. */
 export declare function activateChatListeners(
-  message: import("../documents/chat-message.mjs").default,
+  message: import("./documents/chat-message.mjs").default,
   element: HTMLElement
 ): void;

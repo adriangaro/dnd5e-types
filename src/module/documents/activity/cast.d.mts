@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseCastActivityData)`, registered as the `"cast"` type.
  */
 
-import type BaseCastActivityData from "../../module/data/activity/cast-data.mjs";
+import type BaseCastActivityData from "../../data/activity/cast-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const CastActivity_base: ReturnType<typeof ActivityMixin<typeof BaseCastActivityData>>;

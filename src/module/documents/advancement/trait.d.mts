@@ -3,7 +3,7 @@
  * to choose.
  */
 
-import type BaseTraitAdvancementData from "../../module/data/advancement/trait-data.mjs";
+import type BaseTraitAdvancementData from "../../data/advancement/trait-data.mjs";
 import type SelectChoices from "../actor/select-choices.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 

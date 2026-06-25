@@ -1,4 +1,4 @@
-import type BaseSubclassAdvancementData from "../../module/data/advancement/subclass-data.mjs";
+import type BaseSubclassAdvancementData from "../../data/advancement/subclass-data.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const SubclassAdvancement_base: ReturnType<typeof AdvancementMixin<typeof BaseSubclassAdvancementData>>;

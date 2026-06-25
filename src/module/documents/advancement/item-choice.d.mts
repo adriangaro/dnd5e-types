@@ -10,7 +10,7 @@
  * bake in the `"ItemGrant"` discriminant and break `Extract`-based `OfType` resolution.
  */
 
-import type BaseItemChoiceAdvancementData from "../../module/data/advancement/item-choice-data.mjs";
+import type BaseItemChoiceAdvancementData from "../../data/advancement/item-choice-data.mjs";
 import { AdvancementMixin } from "./mixin.mjs";
 
 declare const ItemChoiceAdvancement_base: ReturnType<typeof AdvancementMixin<typeof BaseItemChoiceAdvancementData>>;

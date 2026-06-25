@@ -19,7 +19,7 @@
  */
 
 import { CommonTemplate } from "./templates/common.mjs";
-import type Proficiency from "../../../documents/actor/proficiency.mjs";
+import type Proficiency from "../../documents/actor/proficiency.mjs";
 
 declare global {
   namespace dnd5e.types.Actor.Vehicle {

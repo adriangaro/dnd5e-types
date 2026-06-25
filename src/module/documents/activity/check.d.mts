@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseCheckActivityData)`, registered as the `"check"` type.
  */
 
-import type BaseCheckActivityData from "../../module/data/activity/check-data.mjs";
+import type BaseCheckActivityData from "../../data/activity/check-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const CheckActivity_base: ReturnType<typeof ActivityMixin<typeof BaseCheckActivityData>>;

@@ -3,7 +3,7 @@
  * The document = `ActivityMixin(BaseOrderActivityData)`, registered as the `"order"` type.
  */
 
-import type BaseOrderActivityData from "../../module/data/activity/order-data.mjs";
+import type BaseOrderActivityData from "../../data/activity/order-data.mjs";
 import { ActivityMixin } from "./mixin.mjs";
 
 declare const OrderActivity_base: ReturnType<typeof ActivityMixin<typeof BaseOrderActivityData>>;
