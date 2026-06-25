@@ -21,7 +21,7 @@ declare namespace HitPointsConfig {
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
     data: object;
-    fields: object;
+    fields: foundry.data.fields.DataSchema;
     source: object;
     ability?: { mod: number; name: string };
     classes: { id: string; anchor: string; name: string; total: number }[];

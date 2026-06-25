@@ -57,7 +57,7 @@ declare namespace ArmorClassConfig {
     formulaLabel?: string;
     customFormulas?: Array<{
       source: object;
-      fields: object;
+      fields: foundry.data.fields.DataSchema;
       limitFields: Array<{
         classes: string;
         field: foundry.data.fields.StringField;

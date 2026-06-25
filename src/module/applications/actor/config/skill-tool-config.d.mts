@@ -25,7 +25,7 @@ declare namespace SkillToolConfig {
     section: string;
     global?: {
       data: object;
-      fields: object;
+      fields: foundry.data.fields.DataSchema;
       skill: boolean;
     };
   }

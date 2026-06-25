@@ -33,12 +33,12 @@ declare namespace BaseProficiencyConfig {
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends BaseConfigSheet.RenderContext<Document> {
     data: object;
-    fields: object;
+    fields: foundry.data.fields.DataSchema;
     label: string;
     prefix: string;
     global?: {
       data: object;
-      fields: object;
+      fields: foundry.data.fields.DataSchema;
     };
   }
   interface Configuration<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>

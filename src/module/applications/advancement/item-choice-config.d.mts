@@ -22,7 +22,7 @@ declare namespace ItemChoiceConfig {
     extends ItemSharedConfig.RenderContext<Document> {
     items: {
       data: { sort: number; uuid: string };
-      fields: object;
+      fields: foundry.data.fields.DataSchema;
       index: ReturnType<typeof fromUuidSync>;
     }[];
     abilityOptions: { value: dnd5e.types.Ability.TypeKey; label: string }[];
