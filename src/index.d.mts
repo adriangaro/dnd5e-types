@@ -20,7 +20,7 @@ import "./types/fields.mjs";
 // --- Custom field shims -----------------------------------------------------
 import "./module/data/fields/mapping-field.mjs";
 import "./module/data/fields/formula-field.mjs";
-import "./module/data/fields/roll-config-field.mjs";
+import "./module/data/shared/roll-config-field.mjs";
 import "./module/data/fields/local-document-field.mjs";
 import "./module/data/fields/advancement-field.mjs";
 import "./module/data/fields/advancement-data-field.mjs";
@@ -224,6 +224,7 @@ import "./module/documents/_types.mjs";
 import "./module/documents/activity/_types.mjs";
 import "./module/documents/advancement/_types.mjs";
 import "./module/documents/mixins/_types.mjs";
+import "./module/documents/mixins/pseudo-document.mjs";
 import "./module/_types.mjs";
 import "./module/applications/_types.mjs";
 import "./module/applications/activity/_types.mjs";

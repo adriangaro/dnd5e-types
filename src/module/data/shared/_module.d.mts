@@ -9,7 +9,7 @@
  * declaration-merge their own members.
  *
  * A couple of source-file locations differ from the runtime layout: `RollConfigField` lives in
- * `data/fields/roll-config-field.mjs`, and `CurrencyTemplate` in `data/shared/currency.mjs`
+ * `data/shared/roll-config-field.mjs`, and `CurrencyTemplate` in `data/shared/currency.mjs`
  * (its real `SystemDataModel` mixin) — referenced wherever their value class actually lives.
  */
 
@@ -39,8 +39,8 @@ declare global {
     const RangeField: typeof import("./range-field.mjs").RangeField;
     type RangeField = import("./range-field.mjs").RangeField;
 
-    const RollConfigField: typeof import("../fields/roll-config-field.mjs").RollConfigField;
-    type RollConfigField = import("../fields/roll-config-field.mjs").RollConfigField;
+    const RollConfigField: typeof import("./roll-config-field.mjs").RollConfigField;
+    type RollConfigField = import("./roll-config-field.mjs").RollConfigField;
 
     const SensesField: typeof import("./senses-field.mjs").default;
     type SensesField = import("./senses-field.mjs").default;
