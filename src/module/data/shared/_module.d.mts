@@ -9,7 +9,7 @@
  * declaration-merge their own members.
  *
  * A couple of source-file locations differ from the runtime layout: `RollConfigField` lives in
- * `data/fields/roll-config-field.mjs`, and `CurrencyTemplate` in `data/actor/templates/_fields.mjs`
+ * `data/fields/roll-config-field.mjs`, and `CurrencyTemplate` in `data/shared/currency.mjs`
  * (its real `SystemDataModel` mixin) — referenced wherever their value class actually lives.
  */
 
@@ -21,8 +21,8 @@ declare global {
     const CreatureTypeField: typeof import("./creature-type-field.mjs").default;
     type CreatureTypeField = import("./creature-type-field.mjs").default;
 
-    const CurrencyTemplate: typeof import("../actor/templates/_fields.mjs").CurrencyTemplate;
-    type CurrencyTemplate = import("../actor/templates/_fields.mjs").CurrencyTemplate;
+    const CurrencyTemplate: typeof import("./currency.mjs").default;
+    type CurrencyTemplate = import("./currency.mjs").default;
 
     const DamageField: typeof import("./damage-field.mjs").DamageField;
     type DamageField = import("./damage-field.mjs").DamageField;

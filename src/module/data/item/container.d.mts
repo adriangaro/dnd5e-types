@@ -6,12 +6,13 @@
  * properties, and (forced-to-1) quantity fields.
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixinOmit } from "../abstract/system-data-model.mjs";
+import SystemDataModel from "../abstract/system-data-model.mjs";
+import ItemDataModel, { ItemDataModelMixinOmit } from "../abstract/item-data-model.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 import type IdentifiableTemplate from "./templates/identifiable.mjs";
 import type PhysicalItemTemplate from "./templates/physical-item.mjs";
 import type EquippableItemTemplate from "./templates/equippable-item.mjs";
-import { CurrencyTemplate } from "../actor/templates/_fields.mjs";
+import CurrencyTemplate from "../shared/currency.mjs";
 import type InventoryElement from "../../applications/components/inventory.mjs";
 
 declare global {

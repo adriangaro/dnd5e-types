@@ -6,7 +6,8 @@
  * SpellcastingField has no dedicated shim). Follows the canonical loot.d.mts structure exactly.
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "../abstract/system-data-model.mjs";
+import SystemDataModel from "../abstract/system-data-model.mjs";
+import ItemDataModel, { ItemDataModelMixin } from "../abstract/item-data-model.mjs";
 import type AdvancementTemplate from "./templates/advancement.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 

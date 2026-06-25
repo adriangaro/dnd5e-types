@@ -1,4 +1,4 @@
-import type { ActorDataModel } from "../../abstract/system-data-model.mjs";
+import type ActorDataModel from "../../abstract/actor-data-model.mjs";
 
 /**
  * Field for storing travel data.

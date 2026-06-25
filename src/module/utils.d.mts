@@ -3,7 +3,7 @@
  * helpers, unit conversions, ID/keybinding/localization/Handlebars utilities, and validators.
  */
 
-import type { ItemDataModel } from "./data/abstract/system-data-model.mjs";
+import type ItemDataModel from "./data/abstract/item-data-model.mjs";
 import type BaseActivityData from "./data/activity/base-activity.mjs";
 
 /* -------------------------------------------- */

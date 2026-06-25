@@ -8,7 +8,7 @@
  * narrowed/extended `Fields` set as the type argument.
  */
 
-import { ItemDataModel } from "../../abstract/system-data-model.mjs";
+import ItemDataModel from "../../abstract/item-data-model.mjs";
 
 declare global {
   namespace dnd5e.types.fields {

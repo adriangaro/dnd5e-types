@@ -272,6 +272,8 @@ import "./module/dice/simplify-roll-formula.mjs";
 
 // --- Abstract data-model spine ----------------------------------------------
 import "./module/data/abstract/system-data-model.mjs";
+import "./module/data/abstract/actor-data-model.mjs";
+import "./module/data/abstract/item-data-model.mjs";
 import "./module/data/abstract/sparse-data-model.mjs";
 import "./module/data/abstract/chat-message-data-model.mjs";
 import "./module/data/abstract/active-effect-data-model.mjs";
@@ -337,7 +339,10 @@ import "./module/applications/api/pseudo-document-sheet.mjs";
 import "./module/applications/api/primary-sheet-mixin.mjs";
 
 // --- Actor data models ------------------------------------------------------
-import "./module/data/actor/templates/_fields.mjs";
+import "./module/data/actor/templates/attributes.mjs";
+import "./module/data/actor/templates/details.mjs";
+import "./module/data/actor/templates/traits.mjs";
+import "./module/data/shared/currency.mjs";
 import "./module/data/actor/templates/common.mjs";
 import "./module/data/actor/templates/creature.mjs";
 import "./module/data/actor/templates/group.mjs";

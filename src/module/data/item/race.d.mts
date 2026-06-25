@@ -5,7 +5,8 @@
  * its own movement / senses / creature-type fields. Follows the canonical loot.d.mts pattern.
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "../abstract/system-data-model.mjs";
+import SystemDataModel from "../abstract/system-data-model.mjs";
+import ItemDataModel, { ItemDataModelMixin } from "../abstract/item-data-model.mjs";
 import type AdvancementTemplate from "./templates/advancement.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 

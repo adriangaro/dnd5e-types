@@ -8,7 +8,7 @@
  * runtime names `DetailsFields`/`TraitsFields`).
  *
  * Layout note: the per-bundle `templates/{attributes,details,traits}.mjs` split is not mirrored —
- * the shared field bundles live as named exports of `data/actor/templates/_fields.mjs`
+ * the shared field bundles live in `data/actor/templates/{attributes,details,traits}.mjs`
  * (`AttributesFields`, `DetailsField`, `TraitsField`). The custom actor fields each live in their own
  * module mirroring the runtime `data/actor/fields/*` layout (`ACFormulasField`, `SimpleTraitField`,
  * `DamageTraitField`, `TravelField`). `CommonTemplate`/`CreatureTemplate` are named exports of their
@@ -59,15 +59,15 @@ declare global {
     const GroupSystemFlags: typeof import("./group-system-flags.mjs").default;
     type GroupSystemFlags = import("./group-system-flags.mjs").default;
 
-    // Shared actor field bundles (data/actor/templates/_fields.mjs).
-    const AttributesFields: typeof import("./templates/_fields.mjs").AttributesFields;
-    type AttributesFields = import("./templates/_fields.mjs").AttributesFields;
+    // Shared actor field bundles (data/actor/templates/{attributes,details,traits}.mjs).
+    const AttributesFields: typeof import("./templates/attributes.mjs").default;
+    type AttributesFields = import("./templates/attributes.mjs").default;
 
-    const DetailsFields: typeof import("./templates/_fields.mjs").DetailsField;
-    type DetailsFields = import("./templates/_fields.mjs").DetailsField;
+    const DetailsFields: typeof import("./templates/details.mjs").default;
+    type DetailsFields = import("./templates/details.mjs").default;
 
-    const TraitsFields: typeof import("./templates/_fields.mjs").TraitsField;
-    type TraitsFields = import("./templates/_fields.mjs").TraitsField;
+    const TraitsFields: typeof import("./templates/traits.mjs").default;
+    type TraitsFields = import("./templates/traits.mjs").default;
 
     // Actor data templates.
     const CommonTemplate: typeof import("./templates/common.mjs").CommonTemplate;

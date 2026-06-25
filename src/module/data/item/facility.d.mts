@@ -9,7 +9,8 @@
  * of derived values surfaced via the `Derived` overlay.
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "../abstract/system-data-model.mjs";
+import SystemDataModel from "../abstract/system-data-model.mjs";
+import ItemDataModel, { ItemDataModelMixin } from "../abstract/item-data-model.mjs";
 import type ActivitiesTemplate from "./templates/activities.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 

@@ -1,16 +1,14 @@
 /**
- * Shared actor field bundles for dnd5e's `AttributesFields` / `DetailsField` /
- * `TraitsField` static getters and the `CurrencyTemplate` mixin.
+ * Shared `AttributesFields` bundle for dnd5e actor attribute schemas.
  *
- * Each runtime `static get common()/creature()/…` returns an object of DataField instances that
- * the models spread into their `SchemaField`s. We mirror that exactly: the getter's TYPE is a
- * named schema interface (a record of field types) under `dnd5e.types.Actor.*`, and models
- * compose those interfaces via `dnd5e.types.MergeSchemas`. Patching a bundle interface (Seam A/D)
- * therefore propagates to every model that spreads it — same propagation as the runtime.
+ * Each runtime `static get armorClass()/hitPoints()/common()/creature()` returns an object of
+ * DataField instances that the models spread into their `SchemaField`s. We mirror that exactly: the
+ * getter's TYPE is a named schema interface (a record of field types) under
+ * `dnd5e.types.Actor.Attributes`, and models compose those interfaces via `dnd5e.types.MergeSchemas`.
+ * Patching a bundle interface (Seam A/D) therefore propagates to every model that spreads it.
  */
 
-import type SystemDataModel from "../../abstract/system-data-model.mjs";
-import type { ActorDataModel } from "../../abstract/system-data-model.mjs";
+import type ActorDataModel from "../../abstract/actor-data-model.mjs";
 
 declare global {
   namespace dnd5e.types.Actor.Attributes {
@@ -89,75 +87,10 @@ declare global {
       }>;
     }
   }
-
-  namespace dnd5e.types.Actor.Details {
-    /** details.mjs — `static get common()`. */
-    interface CommonSchema extends foundry.data.fields.DataSchema {
-      biography: foundry.data.fields.SchemaField<{
-        value: foundry.data.fields.HTMLField;
-        public: foundry.data.fields.HTMLField;
-      }>;
-    }
-
-    /** details.mjs — `static get creature()`. */
-    interface CreatureSchema extends foundry.data.fields.DataSchema {
-      alignment: foundry.data.fields.StringField<{ required: true }>;
-      ideal: foundry.data.fields.StringField<{ required: true }>;
-      // runtime: `persisted: false` (computed in prepareBaseData, always a number after prep).
-      level: foundry.data.fields.NumberField<{ required: true; nullable: false; integer: true; min: 0; initial: 0 }>;
-      bond: foundry.data.fields.StringField<{ required: true }>;
-      flaw: foundry.data.fields.StringField<{ required: true }>;
-      race: dnd5e.types.fields.LocalDocumentField<globalThis.Item.Implementation>;
-    }
-  }
-
-  namespace dnd5e.types.Actor.Traits {
-    /** traits.mjs — `static get common()`. */
-    interface CommonSchema extends foundry.data.fields.DataSchema {
-      size: dnd5e.types.fields.RestrictedStringField<dnd5e.types.ActorSize.TypeKey, { required: true; blank: false; initial: "med" }>;
-      di: dnd5e.types.fields.DamageTraitField<dnd5e.types.Damage.TypeKey>;
-      dr: dnd5e.types.fields.DamageTraitField<dnd5e.types.Damage.TypeKey>;
-      dv: dnd5e.types.fields.DamageTraitField<dnd5e.types.Damage.TypeKey>;
-      dm: foundry.data.fields.SchemaField<{
-        amount: dnd5e.types.fields.MappingField<
-          dnd5e.types.fields.FormulaField<{ deterministic: true }>,
-          dnd5e.types.Damage.TypeKey
-        >;
-        bypasses: foundry.data.fields.SetField<foundry.data.fields.StringField>;
-      }>;
-      ci: dnd5e.types.fields.SimpleTraitField<{}, dnd5e.types.Condition.TypeKey>;
-    }
-
-    /** traits.mjs — `static get creature()`. */
-    interface CreatureSchema extends foundry.data.fields.DataSchema {
-      languages: dnd5e.types.fields.SimpleTraitField<
-        {
-          communication: dnd5e.types.fields.MappingField<
-            foundry.data.fields.SchemaField<{
-              units: dnd5e.types.fields.RestrictedStringField<dnd5e.types.MovementUnit.TypeKey | "", { required: true; blank: true }>;
-              value: foundry.data.fields.NumberField<{ required: true; min: 0 }>;
-            }>,
-            dnd5e.types.Language.CommunicationTypeKey
-          >;
-        },
-        dnd5e.types.Language.TypeKey
-      >;
-    }
-  }
-
-  namespace dnd5e.types.Actor {
-    /** currency.mjs — the currency map. */
-    interface CurrencySchema extends foundry.data.fields.DataSchema {
-      currency: dnd5e.types.fields.MappingField<
-        foundry.data.fields.NumberField<{ required: true; nullable: false; min: 0; initial: 0 }>,
-        dnd5e.types.Currency.TypeKey
-      >;
-    }
-  }
 }
 
 /** attributes.mjs — bundle getters spread into the actor attribute schemas + prepare helpers. */
-export declare class AttributesFields {
+declare class AttributesFields {
   static get armorClass(): dnd5e.types.Actor.Attributes.ArmorClassSchema;
   static get hitPoints(): dnd5e.types.Actor.Attributes.HitPointsSchema;
   static get common(): dnd5e.types.Actor.Attributes.CommonSchema;
@@ -274,47 +207,4 @@ export declare class AttributesFields {
   static onUpdateHP(this: ActorDataModel.Any, changed: object, options: object, userId: string): Promise<void>;
 }
 
-/** details.mjs — bundle getters. */
-export declare class DetailsField {
-  static get common(): dnd5e.types.Actor.Details.CommonSchema;
-  static get creature(): dnd5e.types.Actor.Details.CreatureSchema;
-}
-
-/** traits.mjs — bundle getters. */
-export declare class TraitsField {
-  static get common(): dnd5e.types.Actor.Traits.CommonSchema;
-  static get creature(): dnd5e.types.Actor.Traits.CreatureSchema;
-
-  // prepare* statics (called via .call(this, …) from the subtype prepare methods).
-  /**
-   * Prepare the language labels.
-   * @this {CharacterData|NPCData}
-   */
-  static prepareLanguages(this: ActorDataModel.Any): void;
-  /**
-   * Prepare condition immunities & petrified condition and handle "All Damage" value.
-   * @this {CharacterData|NPCData|VehicleData}
-   */
-  static prepareResistImmune(this: ActorDataModel.Any): void;
-
-  // Socket event handlers.
-  /**
-   * Update the prototype token size for newly created actors.
-   * @this {CharacterData|NPCData|VehicleData}
-   * @param data     The initial data object provided to the document creation request.
-   * @param options  Additional options which modify the creation request.
-   */
-  static preCreateSize(this: ActorDataModel.Any, data: object, options: object): Promise<void>;
-  /**
-   * Update the prototype token size when the actor size is changed.
-   * @this {CharacterData|NPCData|VehicleData}
-   * @param changes  The candidate changes to the Document.
-   * @param options  Additional options which modify the update request.
-   */
-  static preUpdateSize(this: ActorDataModel.Any, changes: object, options: object): Promise<void>;
-}
-
-/** currency.mjs — the real `CurrencyTemplate` mixin model. */
-export declare class CurrencyTemplate extends SystemDataModel<dnd5e.types.Actor.CurrencySchema> {
-  static override defineSchema(): dnd5e.types.Actor.CurrencySchema;
-}
+export default AttributesFields;

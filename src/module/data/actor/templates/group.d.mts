@@ -8,8 +8,8 @@
  * shared parent of the concrete `group` and `encounter` actor subtypes.
  */
 
-import { ActorDataModel } from "../../abstract/system-data-model.mjs";
-import { CurrencyTemplate } from "./_fields.mjs";
+import ActorDataModel from "../../abstract/actor-data-model.mjs";
+import CurrencyTemplate from "../../shared/currency.mjs";
 
 declare global {
   namespace dnd5e.types.Actor.Group {

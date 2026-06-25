@@ -7,8 +7,8 @@
  * runtime composes it.
  */
 
-import { ActorDataModel } from "../../abstract/system-data-model.mjs";
-import { CurrencyTemplate } from "./_fields.mjs";
+import ActorDataModel from "../../abstract/actor-data-model.mjs";
+import CurrencyTemplate from "../../shared/currency.mjs";
 import type Proficiency from "../../../documents/actor/proficiency.mjs";
 
 declare global {

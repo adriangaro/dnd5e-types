@@ -9,7 +9,7 @@
  */
 
 import type BasicRoll from "../../dice/basic-roll.mjs";
-import type { ItemDataModel } from "../abstract/system-data-model.mjs";
+import type ItemDataModel from "../abstract/item-data-model.mjs";
 import type BaseActivityData from "../activity/base-activity.mjs";
 
 declare global {

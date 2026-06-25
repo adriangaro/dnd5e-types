@@ -8,7 +8,8 @@
  * additional values (tier, hit-dice maxima, spellcasting derived stats), folded via `OverrideDerived`.
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "../abstract/system-data-model.mjs";
+import SystemDataModel from "../abstract/system-data-model.mjs";
+import ItemDataModel, { ItemDataModelMixin } from "../abstract/item-data-model.mjs";
 import type AdvancementTemplate from "./templates/advancement.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 import type StartingEquipmentTemplate from "./templates/starting-equipment.mjs";

@@ -9,7 +9,8 @@
  *  - Seam-C registration on `dnd5e.types.DataModelConfig.Item` (read by the funnel).
  */
 
-import SystemDataModel, { ItemDataModel, ItemDataModelMixin } from "../abstract/system-data-model.mjs";
+import SystemDataModel from "../abstract/system-data-model.mjs";
+import ItemDataModel, { ItemDataModelMixin } from "../abstract/item-data-model.mjs";
 import type ItemDescriptionTemplate from "./templates/item-description.mjs";
 import type IdentifiableTemplate from "./templates/identifiable.mjs";
 import type ItemTypeTemplate from "./templates/item-type.mjs";
