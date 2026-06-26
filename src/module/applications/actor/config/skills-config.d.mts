@@ -18,6 +18,9 @@ declare namespace SkillsConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends TraitsConfig.RenderContext<Document> {
+    // `trait: "skills"` is pinned (actorKeyPath → system.skills). `Extract<…, object>` keeps the
+    // override assignable to base `data: object` under the generic `Document` constraint.
+    data: Extract<dnd5e.types.PathValue<Document, "system._source.skills">, object>;
     skills: SelectChoices;
     rows: number;
   }

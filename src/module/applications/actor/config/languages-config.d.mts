@@ -18,6 +18,10 @@ declare namespace LanguagesConfig {
 
   interface RenderContext<Document extends foundry.abstract.Document.Any = globalThis.Actor.Implementation>
     extends TraitsConfig.RenderContext<Document> {
+    // `trait: "languages"` is pinned, so the edited slice is statically known.
+    // `Extract<…, object>` keeps the override assignable to the base's `data: object` under the
+    // generic `Document` constraint (where `PathValue` widens to `unknown`); concrete docs get the slice.
+    data: Extract<dnd5e.types.PathValue<Document, "system._source.traits.languages">, object>;
     communication: {
       label: string;
       unitOptions: foundry.applications.fields.FormSelectOption[];

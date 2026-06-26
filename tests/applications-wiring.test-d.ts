@@ -10,6 +10,7 @@ import type { Expect, Extends } from "./_assert.ts";
 import CharacterActorSheet from "#dnd5e/module/applications/actor/character-sheet.mjs";
 import AttackSheet from "#dnd5e/module/applications/activity/attack-sheet.mjs";
 import HitPointsConfig from "#dnd5e/module/applications/actor/config/hit-points-config.mjs";
+import LanguagesConfig from "#dnd5e/module/applications/actor/config/languages-config.mjs";
 
 // --- API namespace exposes classes as values (constructors) --------------------
 {
@@ -62,4 +63,13 @@ declare class MyAttackSheet extends AttackSheet<dnd5e.types.Activity.Instance, M
   // `data` is resolved from the live document slice (PathValue), carrying derived hp props
   type _dataValue = Expect<Extends<Ctx["data"], dnd5e.types.PathValue<Actor.Implementation, "system.attributes.hp">>>;
   type _pathWorks = Expect<Extends<dnd5e.types.PathValue<{ a: { b: { c: number } } }, "a.b.c">, number>>;
+}
+
+// A trait subclass that PINS its trait via DEFAULT_OPTIONS (LanguagesConfig → "languages") narrows the
+// inherited `data: object` to the statically-known source slice, so `context.data.value`/`.custom` are real.
+{
+  type Ctx = LanguagesConfig.RenderContext;
+  type _dataIsObject = Expect<Extends<Ctx["data"], object>>;
+  type _dataHasValue = Expect<Extends<"value", keyof Ctx["data"]>>;
+  type _dataHasCustom = Expect<Extends<"custom", keyof Ctx["data"]>>;
 }
